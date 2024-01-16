@@ -1,0 +1,55 @@
+.aside {
+	margin: 0;
+	padding: 0;
+}
+
+.navtab {
+	margin: 0;
+	padding: 0;
+}
+
+.list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	max-width: 184px;
+	width: 100%;
+}
+.item {
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+	padding: 10px 12px;
+	align-items: center;
+}
+
+.item:focus {
+	align-items: center;
+	align-self: stretch;
+	border-radius: 10px;
+	background: var(--bg, #f2f3f5);
+}
+.item:hover {
+	align-items: center;
+	align-self: stretch;
+	border-radius: 10px;
+	background: var(--bg, #f2f3f5);
+}
+.item:active {
+	align-items: center;
+	align-self: stretch;
+	border-radius: 10px;
+	background: var(--bg, #f2f3f5);
+}
+.link {
+	text-decoration: none;
+}
+
+.icon {
+	margin: 0;
+	padding: 0;
+	width: 24px;
+	height: 24px;
+}
