@@ -18,61 +18,79 @@ function NavBar() {
 					<li className={styles.item}>
 						<a className={styles.link} href="#">
 							<ArrowLeftMediumMIcon
-								className={styles.icon}
+								className={styles.icon_back}
+								fill="currentColor"
 							></ArrowLeftMediumMIcon>
-							Назад
+							<span>Назад</span>
 						</a>
 					</li>
 					<li className={styles.item}>
-						<TwoUsersMIcon className={styles.icon}></TwoUsersMIcon>
 						<a className={styles.link} href="#">
-							Моя команда
+							<TwoUsersMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></TwoUsersMIcon>
+							<span>Моя команда</span>
 						</a>
 					</li>
 					<li className={styles.item}>
-						<BriefcaseMIcon className={styles.icon}></BriefcaseMIcon>
 						<a className={styles.link} href="#">
+							<BriefcaseMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></BriefcaseMIcon>
 							Подбор
 						</a>
 					</li>
 					<li className={styles.item}>
-						<SquareAcademicCapMIcon
-							className={styles.icon}
-						></SquareAcademicCapMIcon>
 						<a className={styles.link} href="#">
+							<SquareAcademicCapMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></SquareAcademicCapMIcon>
 							Обучение
 						</a>
 					</li>
 					<li className={styles.item}>
-						<HourglassMIcon className={styles.icon}></HourglassMIcon>
 						<a className={styles.link} href="#">
+							<HourglassMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></HourglassMIcon>
 							Адаптация
 						</a>
 					</li>
 					<li className={styles.item}>
-						<UsdMIcon className={styles.icon}></UsdMIcon>
 						<a className={styles.link} href="#">
+							<UsdMIcon fill="currentColor" className={styles.icon}></UsdMIcon>
 							Премии и доход
 						</a>
 					</li>
 					<li className={styles.item}>
-						<WalletMIcon className={styles.icon}></WalletMIcon>
 						<a className={styles.link} href="#">
+							<WalletMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></WalletMIcon>
 							Лимиты и ставки
 						</a>
 					</li>
 					<li className={styles.item}>
-						<NavigationMarketplaceMIcon
-							className={styles.icon}
-						></NavigationMarketplaceMIcon>
 						<a className={styles.link} href="#">
+							<NavigationMarketplaceMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></NavigationMarketplaceMIcon>
 							Дашборды
 						</a>
 					</li>
 
 					<li className={styles.item}>
-						<RocketMIcon className={styles.icon}></RocketMIcon>
 						<a className={styles.link} href="#">
+							<RocketMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></RocketMIcon>
 							План развития
 						</a>
 					</li>

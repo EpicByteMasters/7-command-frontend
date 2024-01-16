@@ -18,13 +18,32 @@
 	flex-direction: column;
 	max-width: 184px;
 	width: 100%;
+	.item:first-of-type {
+		background: #fff;
+	}
+	.link:first-of-type {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 }
+
 .item {
 	display: flex;
 	flex-direction: row;
 	gap: 8px;
 	padding: 10px 12px;
 	align-items: center;
+}
+
+.item:first-of-type {
+	margin: 0 0 44px 0;
+	padding: 0;
+	.link {
+		font-size: 16px;
+		width: 100px;
+	}
+	background: #fff;
 }
 
 .item:focus {
@@ -51,6 +70,7 @@
 	text-decoration: none;
 	display: block;
 	cursor: pointer;
+	width: 184px;
 }
 
 .icon {
@@ -58,4 +78,16 @@
 	padding: 0;
 	width: 24px;
 	height: 24px;
+	color: #0e0e0e;
+}
+
+.icon_back {
+	display: flex;
+	max-width: 16px;
+	max-height: 16px;
+	padding: 8px;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--3xl, 40px);
+	background: var(--bg, #f2f3f5);
 }
