@@ -1,3 +1,5 @@
+@use '../../shared/modules/mixins/mixins.scss';
+
 .aside {
 	margin: 0;
 	padding: 0;
@@ -43,8 +45,12 @@
 	border-radius: 10px;
 	background: var(--bg, #f2f3f5);
 }
+
 .link {
+	@include mixins.button_xxs;
 	text-decoration: none;
+	display: block;
+	cursor: pointer;
 }
 
 .icon {

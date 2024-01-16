@@ -8,12 +8,21 @@ import { HourglassMIcon } from '@alfalab/icons-glyph/HourglassMIcon';
 import { WalletMIcon } from '@alfalab/icons-glyph/WalletMIcon';
 import { NavigationMarketplaceMIcon } from '@alfalab/icons-glyph/NavigationMarketplaceMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
+import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 
 function NavBar() {
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
+					<li className={styles.item}>
+						<a className={styles.link} href="#">
+							<ArrowLeftMediumMIcon
+								className={styles.icon}
+							></ArrowLeftMediumMIcon>
+							Назад
+						</a>
+					</li>
 					<li className={styles.item}>
 						<TwoUsersMIcon className={styles.icon}></TwoUsersMIcon>
 						<a className={styles.link} href="#">
