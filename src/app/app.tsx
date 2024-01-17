@@ -5,12 +5,13 @@ import styles from './app.module.scss';
 
 function App() {
 	return (
-		<>
+		<div className={styles.container__main}>
 			<Header />
-			<div className={styles.main}>Hello I'm App</div>
-			<Routing />
-			<NavBar></NavBar>
-		</>
+			<div className={styles.container}>
+				<NavBar />
+				<Routing />
+			</div>
+		</div>
 	);
 }
 
