@@ -14,13 +14,8 @@
 
 ### Стек
 
-<img src="https://img.shields.io/badge/TypeScript-%23404d59.svg?style=for-the-badge&logo=typescript&logoColor=blue" alt="TypeScript Badge" />
-<img src="https://img.shields.io/badge/react-%23404d59.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" />
-<img src="https://img.shields.io/badge/html5-%23404d59.svg?style=for-the-badge&logo=html5&logoColor=orange" alt="HTML5 Badge" />
-<img src="https://img.shields.io/badge/SASS-%23404d59.svg?style=for-the-badge&logo=Sass&logoColor=hotpink" alt="SASS Badge" />
-<img src="https://img.shields.io/badge/Redux-%23404d59.svg?style=for-the-badge&logo=Redux&logoColor=violet" alt="Redux Badge" />
-<img src="https://img.shields.io/badge/javascript-%23404d59.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript Badge" />
-  
+<img src="https://img.shields.io/badge/TypeScript-%23404d59.svg?style=for-the-badge&logo=typescript&logoColor=blue" alt="TypeScript Badge" /> <img src="https://img.shields.io/badge/react-%23404d59.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" /> <img src="https://img.shields.io/badge/html5-%23404d59.svg?style=for-the-badge&logo=html5&logoColor=orange" alt="HTML5 Badge" /> <img src="https://img.shields.io/badge/SASS-%23404d59.svg?style=for-the-badge&logo=Sass&logoColor=hotpink" alt="SASS Badge" /> <img src="https://img.shields.io/badge/Redux-%23404d59.svg?style=for-the-badge&logo=Redux&logoColor=violet" alt="Redux Badge" /> <img src="https://img.shields.io/badge/javascript-%23404d59.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript Badge" />
+
 ### План развития приложения
 
 [- в разработке -]
@@ -33,7 +28,7 @@
 
 - `npm run build` - сборка приложения для диплоя;
 
-# Руководство ипользования
+# Руководство иcпользования
 
 [- в разработке -]
 
