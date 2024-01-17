@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# О проекте
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Проект представляет собой MVP-версию раздела корпоративного портала, который предлагает функционал для индивидуального плана развития сотрудника (ИПР).
 
-## Available Scripts
+### Роли
 
-In the project directory, you can run:
+- Руководитель
+- Сотрудник
+- Ментор\*
 
-### `npm start`
+### Функционал
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[- в разработке -]
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Стек
 
-### `npm test`
+<img src="https://img.shields.io/badge/TypeScript-%23404d59.svg?style=for-the-badge&logo=typescript&logoColor=blue" alt="TypeScript Badge" />
+<img src="https://img.shields.io/badge/react-%23404d59.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" />
+<img src="https://img.shields.io/badge/html5-%23404d59.svg?style=for-the-badge&logo=html5&logoColor=orange" alt="HTML5 Badge" />
+<img src="https://img.shields.io/badge/SASS-%23404d59.svg?style=for-the-badge&logo=Sass&logoColor=hotpink" alt="SASS Badge" />
+<img src="https://img.shields.io/badge/Redux-%23404d59.svg?style=for-the-badge&logo=Redux&logoColor=violet" alt="Redux Badge" />
+<img src="https://img.shields.io/badge/javascript-%23404d59.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript Badge" />
+  
+### План развития приложения
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[- в разработке -]
 
-### `npm run build`
+# Установка
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `npm install` - установка npm-пакетов зависимостей;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `npm start` - локальный запуск приложения на порте `http://localhost:3000`;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `npm run build` - сборка приложения для диплоя;
 
-### `npm run eject`
+# Руководство ипользования
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[- в разработке -]
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Разработка и дебаггинг
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Чтобы исправить ошибку или улучшить существующий модуль, выполните следующие действия:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Форкнуть репо
+- Создайте новую ветку `git checkout -b improve-feature`
+- Внесите соответствующие изменения в файлы
+- Добавьте изменения, чтобы отразить внесенные изменения.
+- Зафиксируйте изменения `git commit -am 'Improve feature`
+- Запушите на ветку `git push origin improve-feature`
+- Создать a `Pull Request`
 
-## Learn More
+# Тесты
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+[- в разработке -]
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Лицензия
+
+Ознакомьтесь с [Лицензией](/LICENCE.md) (MIT).
