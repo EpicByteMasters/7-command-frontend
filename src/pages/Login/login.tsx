@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from './login.module.scss';
 import Header from '../../components/Header/header';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { users } from '../../shared/utils/users';
 
 function Login() {
