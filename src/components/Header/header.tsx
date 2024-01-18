@@ -43,6 +43,7 @@ function Header({ error }: HeaderProps) {
 			</div>
 			<div className={styles.container}>
 				<Input
+					colors="default"
 					placeholder="Поиск"
 					className={styles.input}
 					leftAddons={<MagnifierMIcon color="#898889" />}
