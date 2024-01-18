@@ -1,6 +1,6 @@
 {
-	"homepage": "http://alfa-hackathon-7.github.io/alfa-hackathon-7-frontend",
-	"name": "alfa-hackathon-7-frontend",
+	"homepage": "http://epicbytemasters.github.io/7-command-frontend/",
+	"name": "7-frontend",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
