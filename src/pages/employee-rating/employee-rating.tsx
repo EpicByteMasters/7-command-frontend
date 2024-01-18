@@ -82,6 +82,7 @@ export const EmployeeRatingPage = () => {
 							maxLength={96}
 							showCounter={true}
 							onChange={handleCommentChange}
+							allowOverflow={false}
 						/>
 					</div>
 				</div>
