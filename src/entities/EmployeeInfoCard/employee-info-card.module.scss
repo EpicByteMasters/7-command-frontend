@@ -1,0 +1,33 @@
+.employee__card {
+	display: flex;
+	gap: 8px;
+}
+
+.employee__data {
+	display: flex;
+	flex-direction: column;
+}
+
+.employee__name {
+	overflow: hidden;
+	color: var(--in_progress_text, #2a77ef);
+	text-overflow: ellipsis;
+
+	/* text */
+	font-family: 'Inter';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+}
+
+.employee__position {
+	color: var(--on_approval_text, #70707a);
+
+	/* files */
+	font-family: 'Inter';
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px; /* 123.077% */
+}
