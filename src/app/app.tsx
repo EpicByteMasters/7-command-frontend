@@ -7,11 +7,11 @@ function App() {
 	return (
 		<div className={styles.container__main}>
 			<Routes>
-				<Route path="/alfa-hackathon-7-frontend" element={<Login />} />
-				<Route path="/alfa-hackathon-7-frontend/head" element={<></>} />
-				<Route path="/alfa-hackathon-7-frontend/employee" element={<></>} />
+				<Route path="/7-command-frontend" element={<Login />} />
+				<Route path="/7-command-frontend/head" element={<></>} />
+				<Route path="/7-command-frontend/employee" element={<></>} />
 				<Route
-					path="/alfa-hackathon-7-frontend/mentor"
+					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}
 				/>
 				<Route path="/*" element={<></>} />
