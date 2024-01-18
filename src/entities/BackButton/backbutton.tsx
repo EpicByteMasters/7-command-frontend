@@ -16,7 +16,7 @@ function BackButton() {
 							onClick={() => navigate(-1)}
 						>
 							<ArrowLeftMediumMIcon
-								className={styles.icon_back}
+								className={styles.iconBack}
 								fill="currentColor"
 							></ArrowLeftMediumMIcon>
 							<span></span>

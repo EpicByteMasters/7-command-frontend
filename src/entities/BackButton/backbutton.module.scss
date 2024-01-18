@@ -81,7 +81,7 @@
 	color: #0e0e0e;
 }
 
-.icon_back {
+.iconBack {
 	display: flex;
 	max-width: 16px;
 	max-height: 16px;
@@ -92,12 +92,12 @@
 	background: var(--bg, #f2f3f5);
 }
 
-.icon_back:hover {
+.iconBack:hover {
 	border-radius: var(--3xl, 40px);
 	background: var(--on_approval_bg, #e7e7ea);
 }
 
-.icon_back:active {
+.iconBack:active {
 	border-radius: var(--3xl, 40px);
 	background: var(--secondary_hover, #dcdde1);
 }

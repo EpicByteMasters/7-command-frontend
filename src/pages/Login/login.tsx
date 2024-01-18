@@ -15,7 +15,7 @@ function Login() {
 						return (
 							<li className={styles.item} key={user.name}>
 								<img src={user.pic} className={styles.img} alt="аватар" />
-								<div className={styles.text_wrapper}>
+								<div className={styles.textWrapper}>
 									<h3 className={styles.title}>{user.userName}</h3>
 									<p className={styles.paragraph}>{user.position}</p>
 								</div>
