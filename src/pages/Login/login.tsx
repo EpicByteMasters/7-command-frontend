@@ -10,7 +10,7 @@ function Login() {
 			<Header></Header>
 			<div className={styles.wrapper}>
 				<ul className={styles.list}>
-					<h6 className={styles.header}>Сотрудник</h6>
+					<h3 className={styles.header}>Сотрудник</h3>
 
 					{users.map((user: any, key: any) => {
 						return (
