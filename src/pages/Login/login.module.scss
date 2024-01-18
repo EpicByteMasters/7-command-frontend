@@ -84,3 +84,16 @@
 	border: 1px solid var(--black, #0e0e0e);
 	background: var(--white, #fff);
 }
+
+.link:hover {
+	border: 1px solid var(--black, #0e0e0e);
+	background: var(--bg, #f2f3f5);
+}
+.link:active {
+	border: 1px solid var(--black, #0e0e0e);
+	background: var(--tertiary_pressed, #eeeef0);
+}
+.link:focus {
+	border: 1px solid var(--black, #0e0e0e);
+	background: var(--tertiary_pressed, #eeeef0);
+}

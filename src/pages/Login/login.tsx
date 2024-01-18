@@ -20,9 +20,9 @@ function Login() {
 									<h3 className={styles.title}>{user.userName}</h3>
 									<p className={styles.paragraph}>{user.position}</p>
 								</div>
-								<NavLink to={user.link} className={styles.link} replace>
+								<Link to={user.link} className={styles.link} replace>
 									Войти
-								</NavLink>
+								</Link>
 							</li>
 						);
 					})}
