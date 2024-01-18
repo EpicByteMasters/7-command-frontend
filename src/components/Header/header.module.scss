@@ -1,4 +1,5 @@
 .header {
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -6,48 +7,68 @@
 	padding: 24px 0px;
 }
 
-.header__container {
+.input {
+	display: flex;
+	height: 40px;
+	gap: 12px;
+	border-radius: 8px;
+	width: 176px;
+	margin: 0 16px 0 0;
+	padding: 0;
+}
+
+.icon {
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-.header__logo {
+.logo {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	gap: 12px;
 }
 
-.header__logoImage {
+.logoImage {
 	width: 40px;
 	height: 40px;
 }
 
-.header__logoTitle {
+.logoTitle {
+	font-family: 'Styrene UI';
+	font-weight: 500;
 	margin: 0;
 	padding: 0;
 	font-size: 20px;
 	font-style: normal;
-	font-weight: 500;
+
 	margin-right: 39px;
 }
 
-.header__navigation {
+.navigation {
 	display: flex;
 	gap: 40px;
 }
 
-.header__navItem {
+.navItem {
+	font-family: 'Inter';
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: 24px;
 	text-decoration: none;
 	color: #0e0e0e;
+	cursor: pointer;
 }
 
-.header__avatar {
+.avatar {
 	margin-left: 16px;
 	width: 40px;
 	height: 40px;

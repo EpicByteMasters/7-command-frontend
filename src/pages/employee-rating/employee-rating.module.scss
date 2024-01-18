@@ -1,0 +1,126 @@
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.wrapper {
+	flex-grow: 1;
+}
+
+.employee__wrapper {
+	padding-bottom: 30px;
+	padding-top: 14px;
+}
+.employee__card {
+	display: flex;
+	gap: 8px;
+}
+
+.employee__data {
+	display: flex;
+	flex-direction: column;
+}
+
+.employee__name {
+	overflow: hidden;
+	color: var(--in_progress_text, #2a77ef);
+	text-overflow: ellipsis;
+
+	/* text */
+	font-family: 'Inter';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+}
+
+.employee__position {
+	color: var(--on_approval_text, #70707a);
+
+	/* files */
+	font-family: 'Inter';
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px; /* 123.077% */
+}
+
+.btn__container {
+	display: flex;
+	gap: 20px;
+	padding-bottom: 48px;
+}
+
+.form__wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	padding: 28px;
+	border-radius: var(--xs, 8px);
+	background: var(--white, #fff);
+	box-shadow:
+		0px 0px 1px 0px rgba(0, 0, 0, 0.16),
+		0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.title {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 38px;
+	line-height: normal;
+	font-style: normal;
+}
+.subtitle {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 28px;
+	font-style: normal;
+	padding-bottom: 28px;
+}
+
+.rating__wrapper {
+	display: flex;
+	flex-direction: column;
+	max-width: fit-content;
+}
+
+.rating {
+	padding-bottom: 12px;
+	display: flex;
+	gap: 4px;
+}
+.rating__span {
+	color: var(--black, #0e0e0e);
+
+	/* text */
+	font-family: 'Inter';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	display: flex;
+	justify-content: space-between;
+}
+
+.rating__btn {
+	border-radius: 8px;
+	border: 1px solid var(--black, #0e0e0e);
+	background: var(--white, #fff);
+	width: 32px;
+	height: 32px;
+	color: black;
+	text-align: center;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rating__btn.clicked {
+	background-color: black;
+	color: white;
+}
