@@ -6,16 +6,18 @@ $baseColorGrey: #70707a;
 
 // Status colors
 
-$satatusCompletedTxt: #0a9336;
-$satatusCompletedBg: #d1f1d7;
-$satatusWarningTxt: #ea8314;
-$satatusWarningBg: #fde6c8;
-$satatusInProgressTxt: #2a77ef;
-$satatusInProgressBg: #d8eaff;
-$satatusOnApprovalTxt: #2a77ef;
-$satatusOnApprovalBg: #d8eaff;
-$satatusDraftTxt: #7865e6;
-$satatusDraftBg: #e3e7ff;
+$statusCompletedTxt: #0a9336;
+$statusCompletedBg: #d1f1d7;
+$statusWarningTxt: #ea8314;
+$statusWarningBg: #fde6c8;
+$statusInProgressTxt: #2a77ef;
+$statusInProgressBg: #d8eaff;
+$statusOnApprovalTxt: #2a77ef;
+$statusOnApprovalBg: #d8eaff;
+$statusDraftTxt: #7865e6;
+$statusDraftBg: #e3e7ff;
+$statusNotComplitedTxt: #ec2e13;
+$statusNotComplitedBg: #ffdfdf;
 
 // Button colors
 
@@ -24,8 +26,10 @@ $buttonPrimaryPressed: #2f2f32;
 $buttonSecondaryHover: #dcdde1;
 $buttonSecondaryPressed: #d2d3d9;
 $buttonTertiaryPressed: #eeeef0;
+$buttonBgAttention: #ffdfdf;
 
 // Additional
 $additionalBg: #f2f3f5;
 $additionalLockedTxt: #989aa3;
 $additionalProgressGreen: #08c44d;
+$additionalTable: #e7e7ea;
