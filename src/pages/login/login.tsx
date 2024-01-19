@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../components/Header/header';
-import users from '../../shared/utils/users.js';
 
 interface User {
 	pic: string;
