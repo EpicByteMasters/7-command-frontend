@@ -39,9 +39,16 @@
 }
 .blockTitle {
 	@include mixins.title_h2;
-	margin: 48px 0 28px 0;
-	padding: 0;
+	margin: 0;
+	padding: 48px 0 28px 0;
 }
 .formBlock {
 	@include mixins.form;
+	display: flex;
+	flex-direction: row;
+}
+
+.inputGoal {
+	max-width: 500px;
+	width: 100%;
 }

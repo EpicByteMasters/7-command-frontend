@@ -5,10 +5,9 @@ import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { MyPlan } from '../pages/my-plan/my-plan';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 import users from '../shared/utils/users';
-import { MainPage } from '../pages/main-page/main-page';
 import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
-
 import { testData } from '../shared/utils/test-users';
+import { LeaderTasks } from '../pages/leader-tasks/leader-tasks';
 
 function App() {
 	return (
@@ -17,7 +16,7 @@ function App() {
 				<Route path="/7-command-frontend" element={<Login users={users} />} />
 				<Route
 					path="/7-command-frontend/head"
-					element={<MainPage></MainPage>}
+					element={<LeaderTasks></LeaderTasks>}
 				/>
 				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
 				<Route
