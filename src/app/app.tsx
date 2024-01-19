@@ -8,11 +8,7 @@ function App() {
 	return (
 		<div className={styles.container__main}>
 			<Routes>
-<<<<<<< HEAD
 				<Route path="/7-command-frontend" element={<Login users={users} />} />
-=======
-				<Route path="/7-command-frontend" element={<Login />} />
->>>>>>> develop
 				<Route path="/7-command-frontend/head" element={<></>} />
 				<Route path="/7-command-frontend/employee" element={<></>} />
 				<Route
