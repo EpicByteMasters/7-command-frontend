@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from '../pages/Login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { MyPlan } from '../pages/MyPlan/myPlan';
+import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 
 function App() {
 	return (
@@ -11,6 +12,10 @@ function App() {
 				<Route path="/7-command-frontend" element={<Login />} />
 				<Route path="/7-command-frontend/head" element={<></>} />
 				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
+				<Route
+					path="/7-command-frontend/head-plans"
+					element={<EmployeePlan />}
+				/>
 				<Route
 					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}

@@ -1,0 +1,58 @@
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.wrapper {
+	flex-grow: 1;
+}
+
+.employee__wrapper {
+	padding-bottom: 30px;
+	padding-top: 14px;
+}
+.employee__card {
+	display: flex;
+	gap: 8px;
+}
+
+.employee__data {
+	display: flex;
+	flex-direction: column;
+}
+
+.employee__name {
+	overflow: hidden;
+	color: var(--in_progress_text, #2a77ef);
+	text-overflow: ellipsis;
+	font-family: 'Inter';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.employee__position {
+	color: var(--on_approval_text, #70707a);
+	font-family: 'Inter';
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.title {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 38px;
+	line-height: normal;
+}
+
+.subtitle {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 28px;
+	padding-bottom: 28px;
+}
