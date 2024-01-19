@@ -7,21 +7,21 @@
 	flex-grow: 1;
 }
 
-.employee__wrapper {
+.employeeWrapper {
 	padding-bottom: 30px;
 	padding-top: 14px;
 }
-.employee__card {
+.employeeCard {
 	display: flex;
 	gap: 8px;
 }
 
-.employee__data {
+.employeeData {
 	display: flex;
 	flex-direction: column;
 }
 
-.employee__name {
+.employeeName {
 	overflow: hidden;
 	color: var(--in_progress_text, #2a77ef);
 	text-overflow: ellipsis;
@@ -31,7 +31,7 @@
 	line-height: 20px;
 }
 
-.employee__position {
+.employeePosition {
 	color: var(--on_approval_text, #70707a);
 	font-family: 'Inter';
 	font-size: 13px;
@@ -55,4 +55,14 @@
 	padding: 0;
 	font-size: 28px;
 	padding-bottom: 28px;
+}
+
+.button {
+	margin: 0 0 28px;
+	font-family: 'Inter';
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
 }

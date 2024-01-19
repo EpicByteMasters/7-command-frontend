@@ -3,6 +3,7 @@ import Header from '../../components/Header/header';
 import NavBar from '../../entities/NavBar/navbar';
 import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/Plan/plan';
+import { Button } from '@alfalab/core-components/button';
 
 export const EmployeePlan = () => {
 	return (
@@ -12,19 +13,22 @@ export const EmployeePlan = () => {
 				<NavBar />
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
-					<div className={styles.employee__wrapper}>
-						<div className={styles.employee__card}>
+					<div className={styles.employeeWrapper}>
+						<div className={styles.employeeCard}>
 							<img src={avatar} alt="аватар" className={styles.avatar} />
-							<div className={styles.employee__data}>
-								<span className={styles.employee__name}>
+							<div className={styles.employeeData}>
+								<span className={styles.employeeName}>
 									Константинов Константин Игоревич
 								</span>
-								<span className={styles.employee__position}>
+								<span className={styles.employeePosition}>
 									Фронтенд-разработчик
 								</span>
 							</div>
 						</div>
 					</div>
+					<Button view="primary" size="m" className={styles.button}>
+						Создать новый план развития
+					</Button>
 					<Plan />
 				</div>
 			</div>
