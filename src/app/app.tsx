@@ -6,7 +6,6 @@ import { MyPlan } from '../pages/MyPlan/myPlan';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 import users from '../shared/utils/users';
 import { MainPage } from '../pages/main-page/main-page';
-import { LeaderTasks } from '../pages/leader-tasks/leader-tasks';
 
 function App() {
 	return (
