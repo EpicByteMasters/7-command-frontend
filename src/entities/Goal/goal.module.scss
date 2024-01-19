@@ -1,0 +1,42 @@
+.goal {
+	cursor: pointer;
+}
+
+.itemsList {
+	cursor: pointer;
+	box-sizing: border-box;
+	display: flex;
+	list-style: none;
+	gap: 24px;
+	height: 72px;
+	align-items: center;
+	height: 90px;
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid var(--secondary_pressed, #d2d3d9);
+	opacity: 0.5;
+}
+
+.active {
+	opacity: 1;
+}
+
+.item {
+	font-family: 'Inter';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+	width: 184px;
+	color: var(--black, #0e0e0e);
+	padding: 0;
+	margin: 0;
+}
+
+.progressBar {
+	color: var(--black, #0e0e0e);
+	font-family: 'Styrene UI';
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 16px;
+	text-transform: uppercase;
+}

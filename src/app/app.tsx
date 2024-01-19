@@ -2,7 +2,7 @@ import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
 import Login from '../pages/Login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
-import MyPlans from '../components/MyPlans/myPlan';
+import { MyPlan } from '../pages/MyPlan/myPlan';
 
 function App() {
 	return (
@@ -10,7 +10,7 @@ function App() {
 			<Routes>
 				<Route path="/7-command-frontend" element={<Login />} />
 				<Route path="/7-command-frontend/head" element={<></>} />
-				<Route path="/7-command-frontend/employee" element={<MyPlans />} />
+				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
 				<Route
 					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}
