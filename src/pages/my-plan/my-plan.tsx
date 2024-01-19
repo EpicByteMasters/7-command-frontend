@@ -1,8 +1,8 @@
-import styles from './myPlan.module.scss';
+import styles from './my-plan.module.scss';
 import Header from '../../components/Header/header';
 import BackButton from '../../entities/backbutton/backbutton';
-import { Goal } from '../../entities/Goal/goal';
-import { Parameters } from '../../entities/Parameters/parameters';
+import { Goal } from '../../entities/goal-component/goal';
+import { Parameters } from '../../entities/parameters-component/parameters';
 
 export const MyPlan = () => {
 	return (

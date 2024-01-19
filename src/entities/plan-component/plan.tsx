@@ -1,6 +1,6 @@
 import styles from './plan.module.scss';
-import { Parameters } from '../Parameters/parameters';
-import { Goal } from '../Goal/goal';
+import { Parameters } from '../parameters-component/parameters';
+import { Goal } from '../goal-component/goal';
 
 export const Plan = () => {
 	return (
