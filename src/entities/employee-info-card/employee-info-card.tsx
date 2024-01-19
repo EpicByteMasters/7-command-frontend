@@ -12,11 +12,11 @@ export const EmployeeInfoCard: React.FC<EmployeeInfoCardProps> = ({
 	avatar,
 }) => {
 	return (
-		<div className={styles.employee__card}>
+		<div className={styles.employeeCard}>
 			<img src={avatar} alt="аватар" className={styles.avatar} />
-			<div className={styles.employee__data}>
-				<span className={styles.employee__name}>{name}</span>
-				<span className={styles.employee__position}>{position}</span>
+			<div className={styles.employeeData}>
+				<span className={styles.employeeName}>{name}</span>
+				<span className={styles.employeePosition}>{position}</span>
 			</div>
 		</div>
 	);

@@ -6,7 +6,7 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
 import Header from '../../components/Header/header';
 import NavBar from '../../entities/NavBar/navbar';
-import { EmployeeInfoCard } from '../../entities/EmployeeInfoCard/employee-info-card';
+import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 
 import avatar from '../../images/avatar.png';
 
@@ -37,14 +37,14 @@ export const EmployeeRatingPage = () => {
 				<NavBar />
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
-					<div className={styles.employee__wrapper}>
+					<div className={styles.employeeWrapper}>
 						<EmployeeInfoCard
 							name="Константинов Константин Игоревич"
 							position="Фронтенд-разработчик"
 							avatar={avatar}
 						/>
 					</div>
-					<div className={styles.btn__container}>
+					<div className={styles.btnContainer}>
 						<PickerButton
 							options={options}
 							view="secondary"
@@ -55,14 +55,14 @@ export const EmployeeRatingPage = () => {
 						</Button>
 					</div>
 					<h3 className={styles.subtitle}>Оценка выполнения</h3>
-					<div className={styles.form__wrapper}>
-						<div className={styles.rating__wrapper}>
+					<div className={styles.formWrapper}>
+						<div className={styles.ratingWrapper}>
 							<div className={styles.rating}>
 								{Array.from({ length: 10 }, (_, index) => (
 									<div
 										key={index + 1}
 										onClick={() => handleRatingClick(index + 1)}
-										className={`${styles.rating__btn} ${
+										className={`${styles.ratingBtn} ${
 											selectedRating >= index + 1 ? styles.clicked : ''
 										}`}
 									>
@@ -70,7 +70,7 @@ export const EmployeeRatingPage = () => {
 									</div>
 								))}
 							</div>
-							<div className={styles.rating__span}>
+							<div className={styles.ratingSpan}>
 								<span>Есть над чем работать</span>
 								<span>Молодец!</span>
 							</div>

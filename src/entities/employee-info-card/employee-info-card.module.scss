@@ -1,14 +1,14 @@
-.employee__card {
+.employeeCard {
 	display: flex;
 	gap: 8px;
 }
 
-.employee__data {
+.employeeData {
 	display: flex;
 	flex-direction: column;
 }
 
-.employee__name {
+.employeeName {
 	overflow: hidden;
 	color: var(--in_progress_text, #2a77ef);
 	text-overflow: ellipsis;
@@ -21,7 +21,7 @@
 	line-height: 20px; /* 142.857% */
 }
 
-.employee__position {
+.employeePosition {
 	color: var(--on_approval_text, #70707a);
 
 	/* files */
