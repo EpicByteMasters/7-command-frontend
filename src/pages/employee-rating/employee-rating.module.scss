@@ -1,3 +1,5 @@
+@import './../../styles/variables.scss';
+
 .container {
 	display: flex;
 	gap: 24px;
@@ -23,8 +25,8 @@
 	flex-direction: column;
 	gap: 28px;
 	padding: 28px;
-	border-radius: var(--xs, 8px);
-	background: var(--white, #fff);
+	border-radius: 8px;
+	background: $baseColorWhite;
 	box-shadow:
 		0px 0px 1px 0px rgba(0, 0, 0, 0.16),
 		0px 4px 8px 0px rgba(0, 0, 0, 0.16);
@@ -37,7 +39,6 @@
 	padding: 0;
 	font-size: 38px;
 	line-height: normal;
-	font-style: normal;
 }
 .subtitle {
 	font-family: 'Styrene UI';
@@ -45,7 +46,6 @@
 	margin: 0;
 	padding: 0;
 	font-size: 28px;
-	font-style: normal;
 	padding-bottom: 28px;
 }
 
@@ -61,25 +61,22 @@
 	gap: 4px;
 }
 .ratingSpan {
-	color: var(--black, #0e0e0e);
-
-	/* text */
+	color: $baseColorBlack;
 	font-family: 'Inter';
 	font-size: 14px;
-	font-style: normal;
 	font-weight: 400;
-	line-height: 20px; /* 142.857% */
+	line-height: 1.4;
 	display: flex;
 	justify-content: space-between;
 }
 
 .ratingBtn {
 	border-radius: 8px;
-	border: 1px solid var(--black, #0e0e0e);
-	background: var(--white, #fff);
+	border: 1px solid $baseColorBlack;
+	background: $baseColorWhite;
 	width: 32px;
 	height: 32px;
-	color: black;
+	color: baseColorBlack;
 	text-align: center;
 	cursor: pointer;
 	display: flex;
@@ -88,6 +85,6 @@
 }
 
 .ratingBtn.clicked {
-	background-color: black;
-	color: white;
+	background-color: $baseColorBlack;
+	color: $baseColorWhite;
 }
