@@ -15,8 +15,6 @@ interface LoginProps {
 	users: User[];
 }
 
-console.log(users);
-
 export const Login: FC<LoginProps> = ({ users }) => {
 	return (
 		<div className={styles.container}>
