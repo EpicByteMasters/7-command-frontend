@@ -3,9 +3,10 @@ import { Button } from '@alfalab/core-components/button';
 import { PickerButton } from '@alfalab/core-components/picker-button';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
-import avatar from '../../images/avatar.png';
 import Header from '../../components/Header/header';
-import NavBar from '../../entities/navbar/navbar';
+import NavBar from '../../entities/NavBar/navbar';
+import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
+import avatar from '../../images/avatar.png';
 
 export const EmployeeRatingPage = () => {
 	const options = [{ key: 'Выполнен' }, { key: 'Не выполнен' }];
@@ -34,21 +35,14 @@ export const EmployeeRatingPage = () => {
 				<NavBar />
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
-					<div className={styles.employee__wrapper}>
-						<div className={styles.employee__card}>
-							<img src={avatar} alt="аватар" className={styles.avatar} />
-							<div className={styles.employee__data}>
-								<span className={styles.employee__name}>
-									Константинов Константин Игоревич
-								</span>
-								<span className={styles.employee__position}>
-									Фронтенд-разработчик
-								</span>
-							</div>
-						</div>
+					<div className={styles.employeeWrapper}>
+						<EmployeeInfoCard
+							name="Константинов Константин Игоревич"
+							position="Фронтенд-разработчик"
+							avatar={avatar}
+						/>
 					</div>
-
-					<div className={styles.btn__container}>
+					<div className={styles.btnContainer}>
 						<PickerButton
 							options={options}
 							view="secondary"
@@ -59,14 +53,14 @@ export const EmployeeRatingPage = () => {
 						</Button>
 					</div>
 					<h3 className={styles.subtitle}>Оценка выполнения</h3>
-					<div className={styles.form__wrapper}>
-						<div className={styles.rating__wrapper}>
+					<div className={styles.formWrapper}>
+						<div className={styles.ratingWrapper}>
 							<div className={styles.rating}>
 								{Array.from({ length: 10 }, (_, index) => (
 									<div
 										key={index + 1}
 										onClick={() => handleRatingClick(index + 1)}
-										className={`${styles.rating__btn} ${
+										className={`${styles.ratingBtn} ${
 											selectedRating >= index + 1 ? styles.clicked : ''
 										}`}
 									>
@@ -74,7 +68,7 @@ export const EmployeeRatingPage = () => {
 									</div>
 								))}
 							</div>
-							<div className={styles.rating__span}>
+							<div className={styles.ratingSpan}>
 								<span>Есть над чем работать</span>
 								<span>Молодец!</span>
 							</div>
@@ -86,6 +80,7 @@ export const EmployeeRatingPage = () => {
 							maxLength={96}
 							showCounter={true}
 							onChange={handleCommentChange}
+							allowOverflow={false}
 						/>
 					</div>
 				</div>
