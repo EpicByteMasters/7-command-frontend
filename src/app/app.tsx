@@ -1,6 +1,6 @@
 import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
-import { Login } from '../pages/Login/login';
+import { Login } from '../pages/login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { MyPlan } from '../pages/MyPlan/myPlan';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
