@@ -1,6 +1,6 @@
 import styles from './myPlan.module.scss';
 import Header from '../../components/Header/header';
-import BackButton from '../../entities/BackButton/backbutton';
+import BackButton from '../../entities/backbutton/backbutton';
 import { Goal } from '../../entities/Goal/goal';
 import { Parameters } from '../../entities/Parameters/parameters';
 

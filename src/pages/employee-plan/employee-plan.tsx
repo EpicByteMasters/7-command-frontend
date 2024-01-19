@@ -1,6 +1,6 @@
 import styles from './employee-plan.module.scss';
 import Header from '../../components/Header/header';
-import NavBar from '../../entities/NavBar/navbar';
+import NavBar from '../../entities/navbar/navbar';
 import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/Plan/plan';
 import { Button } from '@alfalab/core-components/button';
