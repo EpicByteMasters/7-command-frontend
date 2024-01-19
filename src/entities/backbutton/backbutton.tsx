@@ -13,7 +13,7 @@ function BackButton() {
 					<li className={styles.item}>
 						<button className={styles.link} onClick={goBack}>
 							<ArrowLeftMediumMIcon
-								className={styles.icon_back}
+								className={styles.iconBack}
 								fill="currentColor"
 							></ArrowLeftMediumMIcon>
 							<span>Назад</span>

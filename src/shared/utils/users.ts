@@ -5,7 +5,14 @@ import employee2 from '../../images/avatars/avatar_employee2.png';
 import mentor1 from '../../images/avatars/avatar_mentor1.png';
 import mentor2 from '../../images/avatars/avatar_mentor2.png';
 
-export const users: any = [
+interface User {
+	userName: string;
+	position: string;
+	pic: string;
+	link: string;
+}
+
+const users: User[] = [
 	{
 		userName: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
@@ -43,3 +50,5 @@ export const users: any = [
 		link: '/7-command-frontend/mentor',
 	},
 ];
+
+export default users;
