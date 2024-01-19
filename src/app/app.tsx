@@ -4,6 +4,9 @@ import { Login } from '../pages/login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import users from '../shared/utils/users';
 import { MainPage } from '../pages/main-page/main-page';
+import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
+
+import { testData } from '../shared/utils/test-users';
 
 function App() {
 	return (
@@ -18,6 +21,10 @@ function App() {
 				<Route
 					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}
+				/>
+				<Route
+					path="/7-command-frontend/head-employees-list"
+					element={<LeaderEmployeesList data={testData} />}
 				/>
 				<Route path="/*" element={<></>} />
 			</Routes>
