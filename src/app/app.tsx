@@ -1,7 +1,8 @@
 import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
-import { Login } from '../pages/login/login';
+import { Login } from '../pages/Login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
+import { MyPlan } from '../pages/MyPlan/myPlan';
 import users from '../shared/utils/users';
 import { MainPage } from '../pages/main-page/main-page';
 
@@ -14,7 +15,7 @@ function App() {
 					path="/7-command-frontend/head"
 					element={<MainPage></MainPage>}
 				/>
-				<Route path="/7-command-frontend/employee" element={<></>} />
+				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
 				<Route
 					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}
