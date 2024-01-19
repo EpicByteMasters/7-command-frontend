@@ -1,5 +1,5 @@
 import styles from './navbar.module.scss';
-import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { UsdMIcon } from '@alfalab/icons-glyph/UsdMIcon';
 import { BriefcaseMIcon } from '@alfalab/icons-glyph/BriefcaseMIcon';
@@ -11,88 +11,94 @@ import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 
 function NavBar() {
+	const navigate = useNavigate();
+
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink
+							className={styles.link}
+							to="#"
+							onClick={() => navigate(-1)}
+						>
 							<ArrowLeftMediumMIcon
-								className={styles.icon_back}
+								className={styles.iconBack}
 								fill="currentColor"
 							></ArrowLeftMediumMIcon>
 							<span>Назад</span>
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<TwoUsersMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></TwoUsersMIcon>
 							<span>Моя команда</span>
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<BriefcaseMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></BriefcaseMIcon>
 							Подбор
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<SquareAcademicCapMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></SquareAcademicCapMIcon>
 							Обучение
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<HourglassMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></HourglassMIcon>
 							Адаптация
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<UsdMIcon fill="currentColor" className={styles.icon}></UsdMIcon>
 							Премии и доход
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<WalletMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></WalletMIcon>
 							Лимиты и ставки
-						</a>
+						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<NavigationMarketplaceMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></NavigationMarketplaceMIcon>
 							Дашборды
-						</a>
+						</NavLink>
 					</li>
 
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink className={styles.link} to="#">
 							<RocketMIcon
 								fill="currentColor"
 								className={styles.icon}
 							></RocketMIcon>
 							План развития
-						</a>
+						</NavLink>
 					</li>
 				</ul>
 			</nav>

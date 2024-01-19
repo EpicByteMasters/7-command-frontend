@@ -1,20 +1,26 @@
 import styles from './backbutton.module.scss';
-import React from 'react';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function BackButton() {
+	const navigate = useNavigate();
+
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>
 				<div className={styles.list}>
 					<li className={styles.item}>
-						<a className={styles.link} href="#">
+						<NavLink
+							className={styles.link}
+							to="#"
+							onClick={() => navigate(-1)}
+						>
 							<ArrowLeftMediumMIcon
-								className={styles.icon_back}
+								className={styles.iconBack}
 								fill="currentColor"
 							></ArrowLeftMediumMIcon>
-							<span>Назад</span>
-						</a>
+							<span></span>
+						</NavLink>
 					</li>
 				</div>
 			</nav>
