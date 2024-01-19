@@ -1,0 +1,106 @@
+@use '../../shared/modules/mixins/mixins.scss';
+
+.aside {
+	margin: 0;
+	padding: 0;
+}
+
+.navtab {
+	margin: 0;
+	padding: 0;
+}
+
+.list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	max-width: 184px;
+	width: 100%;
+	.item:first-of-type {
+		background: #fff;
+	}
+	.link:first-of-type {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+}
+
+.item {
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+	padding: 10px 12px;
+	align-items: center;
+	border-radius: 10px;
+}
+
+.item:first-of-type {
+	margin: 0 0 44px 0;
+	padding: 0;
+	.link {
+		font-size: 16px;
+		width: 100px;
+	}
+	background: #fff;
+}
+
+.item:last-of-type {
+	background: var(--on_approval_bg, #e7e7ea);
+}
+.item:focus {
+	align-items: center;
+	align-self: stretch;
+	border-radius: 10px;
+	background: var(--on_approval_bg, #e7e7ea);
+}
+.item:hover {
+	align-items: center;
+	align-self: stretch;
+	border-radius: 10px;
+	background: var(--on_approval_bg, #e7e7ea);
+}
+.item:active {
+	align-items: center;
+	align-self: stretch;
+	background: var(--on_approval_bg, #e7e7ea);
+}
+
+.link {
+	@include mixins.button_xxs;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	width: 184px;
+}
+
+.icon {
+	margin: 0;
+	padding: 0;
+	width: 24px;
+	height: 24px;
+	color: #0e0e0e;
+}
+
+.iconBack {
+	display: flex;
+	max-width: 16px;
+	max-height: 16px;
+	padding: 8px;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--3xl, 40px);
+	background: var(--bg, #f2f3f5);
+}
+
+.iconBack:hover {
+	border-radius: var(--3xl, 40px);
+	background: var(--on_approval_bg, #e7e7ea);
+}
+
+.iconBack:active {
+	border-radius: var(--3xl, 40px);
+	background: var(--secondary_hover, #dcdde1);
+}
