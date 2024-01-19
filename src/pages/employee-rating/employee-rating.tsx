@@ -5,7 +5,7 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
 import avatar from '../../images/avatar.png';
 import Header from '../../components/Header/header';
-import NavBar from '../../entities/NavBar/navbar';
+import NavBar from '../../entities/navbar/navbar';
 
 export const EmployeeRatingPage = () => {
 	const options = [{ key: 'Выполнен' }, { key: 'Не выполнен' }];
