@@ -1,9 +1,23 @@
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../components/Header/header';
-import { Link } from 'react-router-dom';
-import { users } from '../../shared/utils/users';
+import users from '../../shared/utils/users.js';
 
-function Login() {
+interface User {
+	pic: string;
+	userName: string;
+	position: string;
+	link: string;
+}
+
+interface LoginProps {
+	users: User[];
+}
+
+console.log(users);
+
+export const Login: FC<LoginProps> = ({ users }) => {
 	return (
 		<div className={styles.container}>
 			<Header></Header>
@@ -11,9 +25,9 @@ function Login() {
 				<ul className={styles.list}>
 					<h3 className={styles.header}>Сотрудник</h3>
 
-					{users.map((user: any, key: any) => {
+					{users.map((user: User, key: number) => {
 						return (
-							<li className={styles.item} key={user.name}>
+							<li className={styles.item} key={user.userName}>
 								<img src={user.pic} className={styles.img} alt="аватар" />
 								<div className={styles.textWrapper}>
 									<h3 className={styles.title}>{user.userName}</h3>
@@ -29,6 +43,4 @@ function Login() {
 			</div>
 		</div>
 	);
-}
-
-export default Login;
+};
