@@ -13,7 +13,7 @@ interface OptionShape {
 }
 
 export const LeaderTasks: FC = () => {
-	const options: OptionShape[] = [
+	const optionsGoal: OptionShape[] = [
 		{ key: 'Карьерный рост' },
 		{ key: 'Повышение грейда' },
 		{ key: 'Соответствие занимаемой должности' },
@@ -23,31 +23,64 @@ export const LeaderTasks: FC = () => {
 		{ key: 'Смена команды' },
 		{ key: 'Получение нового опыта' },
 	];
+
+	const optionsRole: OptionShape[] = [
+		{ key: 'Продакт-менеджер' },
+		{ key: 'Проджект-менеджер' },
+		{ key: 'Бизнес-аналитик' },
+		{ key: 'Системный аналитик' },
+		{ key: 'Дизайнер' },
+		{ key: 'QA-инженер' },
+		{ key: 'Фронтенд-разработчик' },
+		{ key: 'Бэкенд-разработчик' },
+		{ key: 'Мобильный разработчик' },
+		{ key: 'DevOps-инженер' },
+		{ key: 'Системный администратор' },
+		{ key: 'Дата-аналитик' },
+		{ key: 'Дата-сайентист' },
+		{ key: 'Руководитель' },
+		{ key: 'HR' },
+		{ key: 'Другое' },
+	];
+
 	const [shownChevron, setShownChevron] = useState<boolean>(true);
 	const [valueGoal, setValueGoal] = useState<string>('');
+	const [valueRole, setValueRole] = useState<string>('');
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
 
-	const handleInput = (
+	const handleInputGoal = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
 		setValueGoal(value);
 	};
+	const handleInputRole = (
+		event: ChangeEvent<HTMLInputElement> | null,
+		{ value }: { value: string }
+	) => {
+		setValueRole(value);
+	};
 
-	console.log(valueGoal);
-
-	const handleChange = ({ selected }: { selected: OptionShape | null }) => {
+	const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
 		setValueGoal(selected ? selected.key : '');
+	};
+	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
+		setValueRole(selected ? selected.key : '');
 	};
 
 	const getFilteredOptions = (): OptionShape[] => {
-		return options.some(({ key }) => key === valueGoal)
-			? options
-			: options.filter((option) => matchOption(option, valueGoal));
+		return optionsGoal.some(({ key }) => key === valueGoal)
+			? optionsGoal
+			: optionsGoal.filter((option) => matchOption(option, valueGoal));
 	};
 
+	const getFilteredRoles = (): OptionShape[] => {
+		return optionsRole.some(({ key }) => key === valueGoal)
+			? optionsRole
+			: optionsRole.filter((option) => matchOption(option, valueRole));
+	};
 	return (
 		<>
 			<Header />
@@ -95,8 +128,8 @@ export const LeaderTasks: FC = () => {
 									options={getFilteredOptions()}
 									label="Цель *"
 									placeholder="Начните вводить название"
-									onChange={handleChange}
-									onInput={handleInput}
+									onChange={handleChangeGoal}
+									onInput={handleInputGoal}
 									Arrow={shownChevron ? Arrow : undefined}
 									value={valueGoal}
 									allowUnselect={true}
@@ -108,18 +141,18 @@ export const LeaderTasks: FC = () => {
 								></InputAutocomplete>
 								<InputAutocomplete
 									block={true}
-									className="inputGoal"
+									className="inputRole"
 									size="s"
-									options={getFilteredOptions()}
-									label="Цель *"
+									options={getFilteredRoles()}
+									label="Специализация *"
 									placeholder="Начните вводить название"
-									onChange={handleChange}
-									onInput={handleInput}
+									onChange={handleChangeRole}
+									onInput={handleInputRole}
 									Arrow={shownChevron ? Arrow : undefined}
-									value={valueGoal}
+									value={valueRole}
 									allowUnselect={true}
 									inputProps={{
-										onClear: () => setValueGoal(''),
+										onClear: () => setValueRole(''),
 										clear: true,
 									}}
 								></InputAutocomplete>
