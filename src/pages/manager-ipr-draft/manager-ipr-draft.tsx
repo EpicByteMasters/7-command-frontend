@@ -10,7 +10,10 @@ import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import { Calendar } from '@alfalab/core-components/calendar';
+import {
+	CalendarDesktop,
+	CalendarDesktopProps,
+} from '@alfalab/core-components/calendar/desktop';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
@@ -38,7 +41,6 @@ export const ManagerIprDraft = ({
 		{ key: 'Смена команды' },
 		{ key: 'Получение нового опыта' },
 	];
-
 	const optionsRole: OptionShape[] = [
 		{ key: 'Продакт-менеджер' },
 		{ key: 'Проджект-менеджер' },
@@ -116,17 +118,20 @@ export const ManagerIprDraft = ({
 
 	const [multiple, setMultiple] = useState<boolean>(true);
 	const [shownChevron, setShownChevron] = useState<boolean>(true);
+
 	const [valueGoal, setValueGoal] = useState<string>('');
 	const [valueRole, setValueRole] = useState<string>('');
 	const [valueMentor, setValueMentor] = useState<string>('');
-	const [valueCompetence, setValueCompetence] = useState<string>(''); // Схлопывание пробелов
-	const [valueStartDate, setStartDate] = useState<string>(''); // Схлопывание пробелов
-	const [valueEndDate, setEndDate] = useState<string>(''); // Схлопывание пробелов
+	const [valueCompetence, setValueCompetence] = useState<string>('');
+
+	const [valueStartDate, setStartDate] = useState<string>('');
+	const [valueEndDate, setEndDate] = useState<string>('');
+
 	const [picker, setPicker] = useState<boolean>(true);
-	const [picker2, setPicker2] = useState<boolean>(true);
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
+
 	// Обработка импутов
 	const handleInputGoal = (
 		event: ChangeEvent<HTMLInputElement> | null,
@@ -165,10 +170,10 @@ export const ManagerIprDraft = ({
 		setValueMentor(selected ? selected.key : '');
 	};
 
-	const handleChangeStartDate = (_: any, { value }: { value: string }) => {
+	const handleChangeStartDate = (event: any, { value }: { value: string }) => {
 		setStartDate(value);
 	};
-	const handleChangeEndDate = (_: any, { value }: { value: string }) => {
+	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
 	};
 	// Обработка фильтры поиска значения
@@ -212,28 +217,28 @@ export const ManagerIprDraft = ({
 	// console.log(selectedOptions, 'selected-options');
 	// console.log(selected, 'selected');
 
-	const handleChangeCompetence = ({
-		selected,
-		selectedMultiple,
-	}: {
-		selected: OptionShape[] | null;
-		selectedMultiple: OptionShape[] | null;
-	}): void => {
-		if (multiple) {
-			const value = selectedMultiple.length
-				? selectedMultiple.map((option) => option.key).join(', ') + ', '
-				: '';
-			setValueCompetence(value);
-
-			return;
-		}
-		setValueCompetence(selected ? selected.key : '');
-	};
+	// const handleChangeCompetence = ({
+	// 	selected,
+	// 	selectedMultiple,
+	// }: {
+	// 	selected: OptionShape[] | null;
+	// 	selectedMultiple: OptionShape[] | null;
+	// }): void => {
+	// if (multiple) {
+	// 	const value = selectedMultiple.length
+	// 		? selectedMultiple.map((option) => option.key).join(', ') + ', '
+	// 		: '';
+	// 	setValueCompetence(value);
+	// 	return;
+	// }
+	// setValueCompetence(selected ? selected.key : '');
+	// };
 
 	const getFilteredOptionsCompetence = (): OptionShape[] => {
 		if (multiple) {
-			return inputValues.length === selected.length
-				? optionsCompetence
+			return inputValues.length
+				? // === selected.length
+					optionsCompetence
 				: optionsCompetence.filter((option) => {
 						return (
 							selectedOptions.includes(option) ||
@@ -330,7 +335,7 @@ export const ManagerIprDraft = ({
 										multiple={multiple}
 										allowUnselect={true}
 										closeOnSelect={true}
-										onChange={handleChangeCompetence}
+										// onChange={handleChangeCompetence}
 										onInput={handleInputCompetence}
 										options={getFilteredOptionsCompetence()}
 										Arrow={shownChevron ? Arrow : undefined}
@@ -389,13 +394,13 @@ export const ManagerIprDraft = ({
 									<div style={{ width: 222 }}>
 										<UniversalDateInput
 											block={true}
-											view="date-time"
+											view="date"
 											label="Дата создания"
 											size="s"
 											value={valueStartDate}
 											onChange={handleChangeStartDate}
-											picker={picker}
-											Calendar={Calendar}
+											picker={true}
+											Calendar={CalendarDesktop}
 											calendarProps={{
 												selectorView: 'month-only',
 											}}
@@ -409,13 +414,13 @@ export const ManagerIprDraft = ({
 									<div style={{ width: 222 }}>
 										<UniversalDateInput
 											block={true}
-											view="date-time"
+											view="date"
 											label="Дата завершения"
 											size="s"
 											value={valueEndDate}
 											onChange={handleChangeEndDate}
-											picker={picker2}
-											Calendar={Calendar}
+											picker={true}
+											Calendar={CalendarDesktop}
 											calendarProps={{
 												selectorView: 'month-only',
 											}}
