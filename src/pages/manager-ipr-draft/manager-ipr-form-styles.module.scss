@@ -59,8 +59,12 @@
 		display: flex;
 		align-items: center;
 		align-content: center;
-		gap: 8px var(--xs, 8px);
+		gap: 8px;
 		align-self: stretch;
 		flex-wrap: wrap;
 	}
+}
+
+.textClass {
+	height: 91px;
 }

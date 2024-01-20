@@ -1,6 +1,6 @@
 import React, { FC, ChangeEvent, useState } from 'react';
 import styles from './manager-ipr-draft.module.scss';
-import styles2 from './leader-tasks.module.scss';
+import styles2 from './manager-ipr-form-styles.module.scss';
 import Header from '../../components/Header/header';
 import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
@@ -10,8 +10,11 @@ import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import avatar from '../../images/avatars/avatar_head-of-dept.png';
+import { Calendar } from '@alfalab/core-components/calendar';
+import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
+import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
+import avatar from '../../images/avatars/avatar_head-of-dept.png';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -117,6 +120,10 @@ export const ManagerIprDraft = ({
 	const [valueRole, setValueRole] = useState<string>('');
 	const [valueMentor, setValueMentor] = useState<string>('');
 	const [valueCompetence, setValueCompetence] = useState<string>(''); // Схлопывание пробелов
+	const [valueStartDate, setStartDate] = useState<string>(''); // Схлопывание пробелов
+	const [valueEndDate, setEndDate] = useState<string>(''); // Схлопывание пробелов
+	const [picker, setPicker] = useState<boolean>(true);
+	const [picker2, setPicker2] = useState<boolean>(true);
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
@@ -158,6 +165,12 @@ export const ManagerIprDraft = ({
 		setValueMentor(selected ? selected.key : '');
 	};
 
+	const handleChangeStartDate = (_: any, { value }: { value: string }) => {
+		setStartDate(value);
+	};
+	const handleChangeEndDate = (_: any, { value }: { value: string }) => {
+		setEndDate(value);
+	};
 	// Обработка фильтры поиска значения
 
 	const getFilteredGoals = (): OptionShape[] => {
@@ -328,7 +341,7 @@ export const ManagerIprDraft = ({
 										}}
 										showEmptyOptionsList={true}
 										className="inputCompetence"
-										size="m"
+										size="s"
 										label="Компетенция *"
 										placeholder="Начните вводить название"
 									></InputAutocomplete>
@@ -351,25 +364,102 @@ export const ManagerIprDraft = ({
 										);
 									})}
 								</div>
-								<div style={{ width: 468 }}>
-									<InputAutocomplete
-										block={true}
-										closeOnSelect={true}
-										className="inputMentor"
-										size="s"
-										options={getFilteredMentor()}
-										label="Ментор"
-										placeholder="Начните вводить название"
-										onChange={handleChangeMentor}
-										onInput={handleInputMentor}
-										Arrow={shownChevron ? Arrow : undefined}
-										value={valueMentor}
-										allowUnselect={true}
-										inputProps={{
-											onClear: () => setValueMentor(''),
-											clear: true,
+								<div className={styles2.formRow}>
+									<div style={{ width: 468 }}>
+										<InputAutocomplete
+											block={true}
+											closeOnSelect={true}
+											className="inputMentor"
+											size="s"
+											options={getFilteredMentor()}
+											label="Ментор"
+											placeholder="Начните вводить название"
+											onChange={handleChangeMentor}
+											onInput={handleInputMentor}
+											Arrow={shownChevron ? Arrow : undefined}
+											value={valueMentor}
+											allowUnselect={true}
+											inputProps={{
+												onClear: () => setValueMentor(''),
+												clear: true,
+											}}
+										></InputAutocomplete>
+									</div>
+
+									<div style={{ width: 222 }}>
+										<UniversalDateInput
+											block={true}
+											view="date-time"
+											label="Дата создания"
+											size="s"
+											value={valueStartDate}
+											onChange={handleChangeStartDate}
+											picker={picker}
+											Calendar={Calendar}
+											calendarProps={{
+												selectorView: 'month-only',
+											}}
+											clear={true}
+											onClear={(e) => {
+												e.stopPropagation();
+												setStartDate('');
+											}}
+										/>
+									</div>
+									<div style={{ width: 222 }}>
+										<UniversalDateInput
+											block={true}
+											view="date-time"
+											label="Дата завершения"
+											size="s"
+											value={valueEndDate}
+											onChange={handleChangeEndDate}
+											picker={picker2}
+											Calendar={Calendar}
+											calendarProps={{
+												selectorView: 'month-only',
+											}}
+											clear={true}
+											onClear={(e) => {
+												e.stopPropagation();
+												setEndDate('');
+											}}
+										/>
+									</div>
+									<div
+										style={{
+											width: 960,
 										}}
-									></InputAutocomplete>
+									>
+										<Textarea
+											fieldClassName={styles2.textClass}
+											maxHeight={91}
+											label="Описание"
+											labelView="inner"
+											size="m"
+											block={true}
+											maxLength={96}
+											showCounter={true}
+											autosize={true}
+										/>
+									</div>
+									<div
+										style={{
+											width: 960,
+										}}
+									>
+										<Textarea
+											fieldClassName={styles2.textClass}
+											maxHeight={91}
+											label="Комментарий (виден только вам)"
+											labelView="inner"
+											size="m"
+											block={true}
+											maxLength={96}
+											showCounter={true}
+											autosize={true}
+										/>
+									</div>
 								</div>
 							</div>
 						</fieldset>

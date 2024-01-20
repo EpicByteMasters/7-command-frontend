@@ -8,6 +8,7 @@ import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-emplo
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { ManagerIprDraft } from '../pages/manager-ipr-draft/manager-ipr-draft';
+import { MainPage } from '../pages/main-page/main-page';
 
 function App() {
 	return (
@@ -16,6 +17,12 @@ function App() {
 				<Route path="/7-command-frontend" element={<Login users={users} />} />
 				<Route
 					path="/7-command-frontend/head"
+					element={<MainPage></MainPage>}
+				/>
+				<Route path="/7-command-frontend/employee" element={<EmployeePlan />} />
+				<Route path="/7-command-frontend/head-plans" element={<MyPlan />} />
+				<Route
+					path="/7-command-frontend/head-ipr-draft"
 					element={
 						<ManagerIprDraft
 							statusColor="purple"
@@ -23,12 +30,6 @@ function App() {
 						></ManagerIprDraft>
 					}
 				/>
-				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
-				<Route
-					path="/7-command-frontend/head-plans"
-					element={<EmployeePlan />}
-				/>
-				<Route path="/7-command-frontend/head-ipr-draft" element={<></>} />
 				<Route
 					path="/7-command-frontend/mentor"
 					element={<EmployeeRatingPage />}
