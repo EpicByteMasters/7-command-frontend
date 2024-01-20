@@ -26,51 +26,6 @@
 	gap: 24px;
 }
 
-.dataItem {
-	min-width: 496px;
-	border-radius: 12px;
-	background-color: $additionalBg;
-	padding: 24px 44px 24px 24px;
-}
-
-.dataTitle {
-	color: $baseColorBlack;
-	font-family: 'Inter';
-	font-size: 14px;
-	font-weight: 700;
-	line-height: normal;
-	letter-spacing: 0.14px;
-}
-
-.dataList {
-	display: grid;
-	grid-template-columns: repeat(3, auto);
-	padding-top: 16px;
-}
-
-.dataNumber {
-	color: $baseColorBlack;
-	font-family: 'Styrene UI';
-	font-size: 20px;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: 0.4px;
-}
-
-.dataText {
-	color: $baseColorMetallic;
-	font-family: 'Inter';
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1;
-}
-
-.dataElement {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
-
 .searchInputWrapper {
 	padding-bottom: 28px;
 }
@@ -79,6 +34,16 @@
 	display: flex;
 	gap: 16px;
 	padding-bottom: 32px;
+}
+
+.sortBtn {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.sortIcon {
+	cursor: pointer;
 }
 
 .tableHeader {
@@ -94,6 +59,7 @@
 	list-style-type: none;
 	border-top: 1px solid #e7e7ea;
 }
+
 .tableRaw {
 	display: grid;
 	grid-template-columns: 288px 184px 80px 80px 110px 112px 24px;
