@@ -1,0 +1,45 @@
+@use '../../shared/modules/mixins/mixins.scss';
+
+.iprDraft {
+	width: 1010px;
+}
+
+.title {
+	@include mixins.title_h1;
+	padding: 0;
+	margin: 0 0 12px;
+}
+
+.subtitle {
+	@include mixins.title_h2;
+}
+
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.titleWrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.employeeWrapper {
+	margin-bottom: 28px;
+}
+
+.buttonsWrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 0 0 48px;
+}
+
+.buttonSave {
+	margin-right: 24px;
+}
+
+.buttonSend {
+	margin-right: 20px;
+}
