@@ -45,10 +45,22 @@
 .formBlock {
 	@include mixins.form;
 	display: flex;
-	flex-direction: row;
-}
+	flex-direction: column;
+	gap: 24px;
 
-.inputGoal {
-	max-width: 500px;
-	width: 100%;
+	.formRow {
+		display: flex;
+		flex-direction: row;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+
+	.formRowTag {
+		display: flex;
+		align-items: center;
+		align-content: center;
+		gap: 8px var(--xs, 8px);
+		align-self: stretch;
+		flex-wrap: wrap;
+	}
 }
