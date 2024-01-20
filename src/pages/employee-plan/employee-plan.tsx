@@ -4,6 +4,7 @@ import NavBar from '../../entities/navbar/navbar';
 import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/plan-component/plan';
 import { Button } from '@alfalab/core-components/button';
+import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 
 export const EmployeePlan = () => {
 	return (
@@ -14,17 +15,11 @@ export const EmployeePlan = () => {
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
 					<div className={styles.employeeWrapper}>
-						<div className={styles.employeeCard}>
-							<img src={avatar} alt="аватар" className={styles.avatar} />
-							<div className={styles.employeeData}>
-								<span className={styles.employeeName}>
-									Константинов Константин Игоревич
-								</span>
-								<span className={styles.employeePosition}>
-									Фронтенд-разработчик
-								</span>
-							</div>
-						</div>
+						<EmployeeInfoCard
+							name="Константинов Константин Игоревич"
+							position="Фронтенд-разработчик"
+							avatar={avatar}
+						/>
 					</div>
 					<Button view="primary" size="m" className={styles.button}>
 						Создать новый план развития
