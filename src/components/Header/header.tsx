@@ -46,7 +46,7 @@ function Header({ error }: HeaderProps) {
 					size="s"
 					colors="default"
 					placeholder="Поиск"
-					fieldClassName={styles.input}
+					className={styles.input}
 					leftAddons={<MagnifierMIcon color="#898889" />}
 					error={error}
 					value={searchValue}
