@@ -4,10 +4,11 @@ import { Login } from '../pages/login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { MyPlan } from '../pages/my-plan/my-plan';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
-import users from '../shared/utils/users';
 import { MainPage } from '../pages/main-page/main-page';
+import { ManagerIprDraft } from '../pages/manager-ipr-draft/manager-ipr-draft';
 import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
 
+import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 
 function App() {
@@ -23,6 +24,12 @@ function App() {
 				<Route
 					path="/7-command-frontend/head-plans"
 					element={<EmployeePlan />}
+				/>
+				<Route
+					path="/7-command-frontend/head-ipr-draft"
+					element={
+						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
+					}
 				/>
 				<Route
 					path="/7-command-frontend/mentor"

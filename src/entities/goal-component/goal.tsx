@@ -3,7 +3,7 @@ import { Status } from '@alfalab/core-components/status';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Button } from '@alfalab/core-components/button';
 
-interface GoalProps {
+export interface GoalProps {
 	goal: string;
 	dateStart: string;
 	dateEnd: string;
