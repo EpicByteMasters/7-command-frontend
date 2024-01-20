@@ -43,9 +43,10 @@ function Header({ error }: HeaderProps) {
 			</div>
 			<div className={styles.container}>
 				<Input
+					size="s"
 					colors="default"
 					placeholder="Поиск"
-					className={styles.input}
+					fieldClassName={styles.input}
 					leftAddons={<MagnifierMIcon color="#898889" />}
 					error={error}
 					value={searchValue}
