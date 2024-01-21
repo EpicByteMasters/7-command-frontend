@@ -16,28 +16,53 @@ interface LoginProps {
 
 export const Login: FC<LoginProps> = ({ users }) => {
 	return (
-		<div className={styles.container}>
-			<Header></Header>
-			<div className={styles.wrapper}>
-				<ul className={styles.list}>
-					<h3 className={styles.header}>Сотрудник</h3>
+		<>
+			<main>
+				<div className={styles.container}>
+					<Header></Header>
+					<div className={styles.wrapper}>
+						<ul className={styles.list}>
+							<h3 className={styles.header}>Сотрудник</h3>
 
-					{users.map((user: User, key: number) => {
-						return (
-							<li className={styles.item} key={user.userName}>
-								<img src={user.pic} className={styles.img} alt="аватар" />
-								<div className={styles.textWrapper}>
-									<h3 className={styles.title}>{user.userName}</h3>
-									<p className={styles.paragraph}>{user.position}</p>
-								</div>
-								<Link to={user.link} className={styles.link} replace>
-									Войти
-								</Link>
-							</li>
-						);
-					})}
-				</ul>
-			</div>
-		</div>
+							{users.map((user: User, key: number) => {
+								return (
+									<li className={styles.item} key={user.userName}>
+										<img src={user.pic} className={styles.img} alt="аватар" />
+										<div className={styles.textWrapper}>
+											<h3 className={styles.title}>{user.userName}</h3>
+											<p className={styles.paragraph}>{user.position}</p>
+										</div>
+										<Link to={user.link} className={styles.link} replace></Link>
+									</li>
+								);
+							})}
+						</ul>
+					</div>
+				</div>
+			</main>
+			<footer style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+				<Link className={styles.paragraph} to="/7-command-frontend/head">
+					Выход
+				</Link>
+				<Link className={styles.paragraph} to="/7-command-frontend/myteam/iprs">
+					Список сотрудников для руководителя
+				</Link>
+				<Link
+					className={styles.paragraph}
+					to="/7-command-frontend/myteam/iprs/ipr/1"
+				>
+					Создание черновика
+				</Link>
+				<Link
+					className={styles.paragraph}
+					to="/7-command-frontend/myteam/iprs/history/1"
+				>
+					История ИПР от лица руководителя
+				</Link>
+				<Link className={styles.paragraph} to="/7-command-frontend/iprs">
+					История ИПРов от лица сотрудника
+				</Link>
+			</footer>
+		</>
 	);
 };
