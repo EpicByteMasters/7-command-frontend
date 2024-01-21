@@ -1,4 +1,6 @@
 import { useState, ChangeEvent } from 'react';
+import { Link } from 'react-router-dom';
+
 import styles from './header.module.scss';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { Input } from '@alfalab/core-components/input';
@@ -26,7 +28,9 @@ function Header({ error }: HeaderProps) {
 		<header className={styles.header}>
 			<div className={styles.container}>
 				<div className={styles.logo}>
-					<img src={logo} className={styles.logoImage} alt="alfa-logo" />
+					<Link to="/main">
+						<img src={logo} className={styles.logoImage} alt="alfa-logo" />
+					</Link>
 					<h1 className={styles.logoTitle}>Alfa People</h1>
 				</div>
 				<nav className={styles.navigation}>
@@ -56,7 +60,9 @@ function Header({ error }: HeaderProps) {
 				<Circle backgroundColor="#F2F3F5" size={40}>
 					<BellMIcon fill="#0E0E0E" className={styles.icon} />
 				</Circle>
-				<img src={avatar} alt="аватар" className={styles.avatar} />
+				<Link to="/">
+					<img src={avatar} alt="аватар" className={styles.avatar} />
+				</Link>
 			</div>
 		</header>
 	);

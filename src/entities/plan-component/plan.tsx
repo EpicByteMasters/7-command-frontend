@@ -70,7 +70,7 @@ export const Plan: React.FC = () => {
 		},
 	];
 	return (
-		<Table className={styles.table}>
+		<Table className={styles.table} wrapper={false}>
 			<Table.THead>
 				<Table.THeadCell title="Цель">Цель</Table.THeadCell>
 				<Table.THeadCell title="Начало">Начало</Table.THeadCell>
@@ -92,17 +92,13 @@ export const Plan: React.FC = () => {
 						active,
 					}) => {
 						const progressPercentage = `${progress}%`;
+						const rowStyle = `${styles.row} ${active ? styles.active : ''}`;
 
 						return (
-							<Table.TRow className={styles.row} key={id}>
+							<Table.TRow className={rowStyle} key={id}>
 								<Table.TCell>{goal}</Table.TCell>
 								<Table.TCell>{dateStart}</Table.TCell>
 								<Table.TCell>{dateEnd}</Table.TCell>
-								<Table.TCell>
-									<Status view="soft" color={statusColor}>
-										{statusText}
-									</Status>
-								</Table.TCell>
 								<Table.TCell>
 									<CircularProgressBar
 										value={progress}
@@ -111,6 +107,11 @@ export const Plan: React.FC = () => {
 										contentColor="primary"
 										className={styles.progressBar}
 									/>
+								</Table.TCell>
+								<Table.TCell>
+									<Status view="soft" color={statusColor}>
+										{statusText}
+									</Status>
 								</Table.TCell>
 								<Table.TCell>
 									<Button disabled={!active} view="tertiary" size="s">
