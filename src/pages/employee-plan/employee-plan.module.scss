@@ -1,0 +1,68 @@
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.wrapper {
+	flex-grow: 1;
+}
+
+.employeeWrapper {
+	padding-bottom: 30px;
+	padding-top: 14px;
+}
+.employeeCard {
+	display: flex;
+	gap: 8px;
+}
+
+.employeeData {
+	display: flex;
+	flex-direction: column;
+}
+
+.employeeName {
+	overflow: hidden;
+	color: var(--in_progress_text, #2a77ef);
+	text-overflow: ellipsis;
+	font-family: 'Inter';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.employeePosition {
+	color: var(--on_approval_text, #70707a);
+	font-family: 'Inter';
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.title {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 38px;
+	line-height: normal;
+}
+
+.subtitle {
+	font-family: 'Styrene UI';
+	font-weight: 500;
+	margin: 0;
+	padding: 0;
+	font-size: 28px;
+	padding-bottom: 28px;
+}
+
+.button {
+	margin: 0 0 28px;
+	font-family: 'Inter';
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+}

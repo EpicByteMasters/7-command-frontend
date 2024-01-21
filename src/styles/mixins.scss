@@ -1,0 +1,147 @@
+@mixin title_h1($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	font-feature-settings: 'salt' on;
+	/* h1 */
+	font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 38px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	letter-spacing: 1.14px;
+}
+
+@mixin title_h2($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* h2 */
+	font-family: 'Styrene UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 28px; /* 116.667% */
+}
+
+@mixin logo($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	font-feature-settings: 'salt' on;
+	/* logo*/
+	font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	letter-spacing: 0.4px;
+}
+
+@mixin button_txt($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* button */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px; /* 150% */
+}
+
+@mixin input_txt($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+
+	/* input */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 125% */
+}
+
+@mixin header_h3($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	font-feature-settings: 'salt' on;
+	/* h3 */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	letter-spacing: 0.14px;
+}
+
+@mixin button_xxs($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	font-feature-settings: 'salt' on;
+	/* btn_xxs */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px; /* 142.857% */
+}
+
+@mixin text($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* text */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+}
+
+@mixin input_name($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* input_name */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px; /* 114.286% */
+}
+
+@mixin files($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* files */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px; /* 123.077% */
+}
+
+@mixin columns($baseColorBlack: #0e0e0e) {
+	color: var(--black, $baseColorBlack);
+	/* columns */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 15px;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+}
+
+@mixin status {
+	color: var(--black, #0e0e0e);
+
+	/* status */
+	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 20px; /* 181.818% */
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+@mixin form {
+	display: flex;
+	width: 960px;
+	padding: 28px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 28px;
+	border-radius: var(--xs, 8px);
+	background: var(--white, #fff);
+	/* tab_shadow */
+	box-shadow:
+		0px 0px 1px 0px rgba(0, 0, 0, 0.16),
+		0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+}

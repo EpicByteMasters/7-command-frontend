@@ -1,0 +1,84 @@
+@use '../../styles/mixins.scss';
+
+.container {
+	margin: 0 auto;
+	padding: 24px 28px;
+}
+
+.wrapper {
+	margin: 180px auto 693px auto;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.header {
+	@include mixins.columns;
+	margin: 32px auto 25px auto;
+	padding: 0;
+	max-width: 1016px;
+	width: 100%;
+}
+
+.item {
+	margin: 0 auto;
+	padding: 23px 88px 23px 0;
+	display: flex;
+	flex-direction: row;
+	max-width: 928px;
+	width: 100%;
+	border-top: 1px solid var(--on_approval_bg, #e7e7ea);
+	align-items: center;
+
+	.text_wrapper {
+		margin-left: 16px;
+	}
+}
+.img {
+	margin: 0;
+	padding: 0;
+	width: 40px;
+	height: 40px;
+}
+.textWrapper {
+	margin: 0 0 0 16px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.title {
+	@include mixins.text;
+
+	margin: 0;
+	padding: 0;
+	max-width: 220px;
+	width: 100%;
+}
+
+.paragraph {
+	@include mixins.text;
+
+	margin: 0;
+	padding: 0;
+	color: var(--metallic, #898889);
+}
+.link {
+	@include mixins.button_xxs;
+
+	margin: 0 0 0 auto;
+	padding: 0;
+	text-decoration: none;
+	display: flex;
+	height: 32px;
+	padding: 0px 15px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 6px;
+}
