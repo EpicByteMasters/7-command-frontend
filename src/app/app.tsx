@@ -15,30 +15,21 @@ function App() {
 	return (
 		<div className={styles.container__main}>
 			<Routes>
-				<Route path="/7-command-frontend" element={<Login users={users} />} />
+				<Route path="/" element={<Login users={users} />} />
+				<Route path="/main" element={<MainPage></MainPage>} />
 				<Route
-					path="/7-command-frontend/head"
-					element={<MainPage></MainPage>}
-				/>
-				<Route path="/7-command-frontend/employee" element={<MyPlan />} />
-				<Route
-					path="/7-command-frontend/head-plans"
-					element={<EmployeePlan />}
+					path="/myteam/iprs"
+					element={<LeaderEmployeesList data={testData} />}
 				/>
 				<Route
-					path="/7-command-frontend/head-ipr-draft"
+					path="/myteam/iprs/ipr/1"
 					element={
 						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
 					}
 				/>
-				<Route
-					path="/7-command-frontend/mentor"
-					element={<EmployeeRatingPage />}
-				/>
-				<Route
-					path="/7-command-frontend/head-employees-list"
-					element={<LeaderEmployeesList data={testData} />}
-				/>
+				<Route path="/iprs" element={<MyPlan />} />
+				<Route path="/myteam/iprs/history/1" element={<EmployeePlan />} />
+				<Route path="/iprs/rating" element={<EmployeeRatingPage />} />
 				<Route path="/*" element={<></>} />
 			</Routes>
 		</div>

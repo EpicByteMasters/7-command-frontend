@@ -1,5 +1,8 @@
 @use '../../shared/modules/mixins/mixins.scss';
 
+.page {
+	max-height: 120vh;
+}
 .container {
 	margin: 0 auto;
 	padding: 24px 28px;
