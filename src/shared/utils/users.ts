@@ -17,37 +17,37 @@ const users: User[] = [
 		userName: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
 		pic: head1,
-		link: '/head',
+		link: '/7-command-frontend/head',
 	},
 	{
 		userName: 'Иванов Пётр Александрович',
 		position: 'Руководитель 2',
 		pic: head2,
-		link: '/head',
+		link: '/7-command-frontend/head',
 	},
 	{
 		userName: 'Кириллов Константин Соломонович',
 		position: 'Сотрудник 1',
 		pic: employee1,
-		link: '/employee',
+		link: '/7-command-frontend/employee',
 	},
 	{
 		userName: 'Евсеев Антон Иванович',
 		position: 'Сотрудник 2',
 		pic: employee2,
-		link: '/employee',
+		link: '/7-command-frontend/employee',
 	},
 	{
 		userName: 'Чаевская Евгения Владимировна',
 		position: 'Ментор 1',
 		pic: mentor1,
-		link: '/mentor',
+		link: '/7-command-frontend/mentor',
 	},
 	{
 		userName: 'Куприна Валентина Ивановна',
 		position: 'Ментор 2',
 		pic: mentor2,
-		link: '/mentor',
+		link: '/7-command-frontend/mentor',
 	},
 ];
 
