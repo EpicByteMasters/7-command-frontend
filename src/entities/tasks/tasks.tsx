@@ -4,6 +4,7 @@ import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+import { Textarea } from '@alfalab/core-components/textarea';
 
 interface TaskProps {
 	id: number;
@@ -57,27 +58,32 @@ const tasksData: TaskProps[] = [
 	},
 ];
 
-export const Task: React.FC = () => {
+export const Tasks: React.FC = () => {
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
 				{tasksData.map(
 					({ id, title, deadline, statusColor, statusText, closeButton }) => (
-						<Table.TRow className={styles.row} key={id}>
-							<Table.TCell className={styles.cellWithIcon}>
-								{closeButton && <CrossCircleMIcon color="#70707A" />}
-								{title}
-							</Table.TCell>
-							<Table.TCell>{deadline}</Table.TCell>
-							<Table.TCell>
-								<Status view="soft" color={statusColor}>
-									{statusText}
-								</Status>
-							</Table.TCell>
-							<Table.TCell>
-								<ChevronDownMIcon />
-							</Table.TCell>
-						</Table.TRow>
+						<>
+							<Table.TRow className={styles.row} key={id}>
+								<Table.TCell className={styles.cellWithIcon}>
+									{closeButton && <CrossCircleMIcon color="#70707A" />}
+									{title}
+								</Table.TCell>
+								<Table.TCell>{deadline}</Table.TCell>
+								<Table.TCell>
+									<Status view="soft" color={statusColor}>
+										{statusText}
+									</Status>
+								</Table.TCell>
+								<Table.TCell>
+									<ChevronDownMIcon />
+								</Table.TCell>
+							</Table.TRow>
+							<div className={styles.openTask}>
+								<Textarea />
+							</div>
+						</>
 					)
 				)}
 			</Table.TBody>

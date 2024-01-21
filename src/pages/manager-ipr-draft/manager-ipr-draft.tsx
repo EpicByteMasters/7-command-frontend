@@ -7,6 +7,7 @@ import avatar from '../../images/avatar.png';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
+import { Tasks } from '../../entities/tasks/tasks';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -46,6 +47,7 @@ export const ManagerIprDraft = ({
 						<TrashCanMIcon color="#EC2E13" />
 					</div>
 					<h2 className={styles.subtitle}>Общее описание</h2>
+					<Tasks />
 				</div>
 			</div>
 		</>

@@ -7,3 +7,9 @@
 	align-items: center;
 	gap: 12px;
 }
+
+.openTask {
+	width: 952px;
+	padding: 28px;
+	border: 1px dashed var(--in_progress_text, #2a77ef);
+}
