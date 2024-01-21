@@ -18,7 +18,7 @@ interface LoginProps {
 export const Login: FC<LoginProps> = ({ users }) => {
 	return (
 		<>
-			<main>
+			<main className={styles.page}>
 				<div className={styles.container}>
 					<Header></Header>
 					<div className={styles.wrapper}>
@@ -54,15 +54,13 @@ export const Login: FC<LoginProps> = ({ users }) => {
 			<footer
 				style={{
 					display: 'flex',
-					flexDirection: 'row',
+					flexDirection: 'column',
 					gap: '10px',
 					margin: '0 auto',
 					justifyContent: 'center',
+					paddingBottom: '50px',
 				}}
 			>
-				<Link className={styles.paragraph} to="/head">
-					Выход
-				</Link>
 				<Link className={styles.paragraph} to="/myteam/iprs">
 					Список сотрудников для руководителя
 				</Link>
@@ -74,6 +72,9 @@ export const Login: FC<LoginProps> = ({ users }) => {
 				</Link>
 				<Link className={styles.paragraph} to="/iprs">
 					История ИПРов от лица сотрудника
+				</Link>
+				<Link className={styles.paragraph} to="/iprs/rating">
+					Страница оценки рейтинга (План развития сотрудника)
 				</Link>
 			</footer>
 		</>
