@@ -40,26 +40,28 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					</div>
 				</div>
 			</main>
-			<footer style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-				<Link className={styles.paragraph} to="/7-command-frontend/head">
+			<footer
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					gap: '10px',
+					margin: '0 auto',
+					justifyContent: 'center',
+				}}
+			>
+				<Link className={styles.paragraph} to="/head">
 					Выход
 				</Link>
-				<Link className={styles.paragraph} to="/7-command-frontend/myteam/iprs">
+				<Link className={styles.paragraph} to="/myteam/iprs">
 					Список сотрудников для руководителя
 				</Link>
-				<Link
-					className={styles.paragraph}
-					to="/7-command-frontend/myteam/iprs/ipr/1"
-				>
+				<Link className={styles.paragraph} to="/myteam/iprs/ipr/1">
 					Создание черновика
 				</Link>
-				<Link
-					className={styles.paragraph}
-					to="/7-command-frontend/myteam/iprs/history/1"
-				>
+				<Link className={styles.paragraph} to="/myteam/iprs/history/1">
 					История ИПР от лица руководителя
 				</Link>
-				<Link className={styles.paragraph} to="/7-command-frontend/iprs">
+				<Link className={styles.paragraph} to="/iprs">
 					История ИПРов от лица сотрудника
 				</Link>
 			</footer>
