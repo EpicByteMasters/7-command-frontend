@@ -13,7 +13,6 @@ interface PlanProps {
 	progress: number;
 	statusText: string;
 	statusColor: 'green' | 'orange' | 'red' | 'blue';
-	active: boolean;
 }
 
 export const Plan: React.FC = () => {
@@ -26,7 +25,6 @@ export const Plan: React.FC = () => {
 			progress: 0,
 			statusText: 'в работе',
 			statusColor: 'blue',
-			active: true,
 		},
 		{
 			id: 2,
@@ -36,7 +34,6 @@ export const Plan: React.FC = () => {
 			progress: 40,
 			statusText: 'отменен',
 			statusColor: 'orange',
-			active: false,
 		},
 		{
 			id: 3,
@@ -46,7 +43,6 @@ export const Plan: React.FC = () => {
 			progress: 40,
 			statusText: 'не выполнен',
 			statusColor: 'red',
-			active: false,
 		},
 		{
 			id: 4,
@@ -56,7 +52,6 @@ export const Plan: React.FC = () => {
 			progress: 90,
 			statusText: 'выполнен',
 			statusColor: 'green',
-			active: false,
 		},
 		{
 			id: 5,
@@ -66,7 +61,6 @@ export const Plan: React.FC = () => {
 			progress: 100,
 			statusText: 'выполнен',
 			statusColor: 'green',
-			active: false,
 		},
 	];
 	return (
@@ -89,13 +83,11 @@ export const Plan: React.FC = () => {
 						statusColor,
 						statusText,
 						progress,
-						active,
 					}) => {
 						const progressPercentage = `${progress}%`;
-						const rowStyle = `${styles.row} ${active ? styles.active : ''}`;
 
 						return (
-							<Table.TRow className={rowStyle} key={id}>
+							<Table.TRow className={styles.row} key={id}>
 								<Table.TCell>{goal}</Table.TCell>
 								<Table.TCell>{dateStart}</Table.TCell>
 								<Table.TCell>{dateEnd}</Table.TCell>
@@ -114,7 +106,7 @@ export const Plan: React.FC = () => {
 									</Status>
 								</Table.TCell>
 								<Table.TCell>
-									<Button disabled={!active} view="tertiary" size="s">
+									<Button view="tertiary" size="s">
 										Открыть
 									</Button>
 								</Table.TCell>
