@@ -5,6 +5,7 @@ import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { Textarea } from '@alfalab/core-components/textarea';
+import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 
 interface TaskProps {
 	id: number;
@@ -82,6 +83,26 @@ export const Tasks: React.FC = () => {
 							</Table.TRow>
 							<div className={styles.openTask}>
 								<Textarea />
+								<UniversalDateInput
+									block={true}
+									view="date"
+									label="Дата"
+									labelView="outer"
+									size="m"
+									// value={value}
+									// onChange={handleChange}
+									// disableUserInput={disableUserInput}
+									// picker={radioSelected !== 'none'}
+									// Calendar={Calendar}
+									// calendarProps={{
+									// 	selectorView: radioSelected,
+									// }}
+									// clear={true}
+									// onClear={(e) => {
+									// 	e.stopPropagation();
+									// 	setValue('');
+									// }}
+								/>
 							</div>
 						</>
 					)
