@@ -8,10 +8,7 @@ export const NavBarMini1 = () => {
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<NavLink
-							className={styles.link}
-							to="/7-command-frontend/head-employees-list"
-						>
+						<NavLink className={styles.link} to="/myteam/iprs">
 							<TwoUsersMIcon
 								fill="currentColor"
 								className={styles.icon}

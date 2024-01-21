@@ -9,6 +9,10 @@ import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
+import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
+import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
+import { PageTitle } from '../../shared/page-title/page-title';
+import { useState } from 'react';
 
 interface EmployeeGoalPlan {
 	name: string;
@@ -27,9 +31,52 @@ interface TableProps {
 	data: EmployeeGoalPlan[];
 }
 
+const structureData = {
+	title: 'Вся структура',
+	items: [
+		{ subtitle: 'Штатная численность', number: 30 },
+		{ subtitle: 'Сотрудники', number: 25 },
+		{ subtitle: 'Вакансии', number: 5 },
+	],
+};
+
+const successData = {
+	title: 'Успешность планов развития',
+	items: [
+		{ subtitle: 'Создано', number: 30 },
+		{ subtitle: 'Закрыто', number: 25 },
+		{ subtitle: 'В работе', number: 5 },
+	],
+};
+
+const sortData = (
+	data: EmployeeGoalPlan[],
+	sortBy: keyof EmployeeGoalPlan,
+	sortOrder: 'asc' | 'desc'
+) => {
+	return [...data].sort((a, b) => {
+		if (sortBy === 'date') {
+			const dateA = new Date(a[sortBy]).getTime();
+			const dateB = new Date(b[sortBy]).getTime();
+			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+		} else {
+			return sortOrder === 'asc'
+				? a[sortBy] > b[sortBy]
+					? 1
+					: -1
+				: a[sortBy] < b[sortBy]
+					? 1
+					: -1;
+		}
+	});
+};
+
 export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 	const contentLabel1 = <span>Цель</span>;
 	const contentLabel2 = <span>Статус</span>;
+
+	const [sortedData, setSortedData] = useState(data);
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
 	const columns: TableColumn[] = [
 		{ label: 'Сотрудник', key: 'name' },
@@ -56,48 +103,26 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 		}
 	};
 
+	const handleSort = (sortBy: keyof EmployeeGoalPlan) => {
+		console.log('sorting');
+
+		const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+		setSortOrder(newSortOrder);
+
+		const sorted = sortData(sortedData, sortBy, newSortOrder);
+		setSortedData(sorted);
+	};
+
 	return (
 		<>
 			<Header />
 			<div className={styles.container}>
 				<NavBar />
 				<div className={styles.wrapper}>
-					<h2 className={styles.title}>План развития</h2>
+					<PageTitle title="План развития"></PageTitle>
 					<div className={styles.dataWrapper}>
-						<div className={styles.dataItem}>
-							<h3 className={styles.dataTitle}>Вся структура</h3>
-							<div className={styles.dataList}>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>Штатная численность</span>
-									<span className={styles.dataNumber}>30</span>
-								</div>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>Сотрудники</span>
-									<span className={styles.dataNumber}>25</span>
-								</div>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>Вакансии</span>
-									<span className={styles.dataNumber}>5</span>
-								</div>
-							</div>
-						</div>
-						<div className={styles.dataItem}>
-							<h3 className={styles.dataTitle}>Успешность планов развития</h3>
-							<div className={styles.dataList}>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>Создано</span>
-									<span className={styles.dataNumber}>30</span>
-								</div>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>Закрыто</span>
-									<span className={styles.dataNumber}>25</span>
-								</div>
-								<div className={styles.dataElement}>
-									<span className={styles.dataText}>В работе</span>
-									<span className={styles.dataNumber}>5</span>
-								</div>
-							</div>
-						</div>
+						<LeadInfoBlock data={structureData} />
+						<LeadInfoBlock data={successData} />
 					</div>
 					<div className={styles.searchInputWrapper}>
 						<InputDesktop />
@@ -110,12 +135,25 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 						<div className={styles.tableHeader}>
 							{columns.map((column) => (
 								<div key={column.key} className={styles.tableHeaderCell}>
-									{column.label}
+									<span
+										onClick={() => handleSort(column.key)}
+										className={styles.sortBtn}
+									>
+										{column.label}
+										{column.key === 'name' ||
+										column.key === 'date' ||
+										column.key === 'status' ? (
+											<ListDefaultSIcon
+												className={styles.sortIcon}
+												direction={sortOrder === 'asc' ? 'up' : 'down'}
+											/>
+										) : null}
+									</span>
 								</div>
 							))}
 						</div>
 						<ul className={styles.tableRaws}>
-							{data.map((row, index) => (
+							{sortedData.map((row, index) => (
 								<li key={index} className={styles.tableRaw}>
 									{columns.map((column) => (
 										<div key={column.key} className={styles.tableCell}>
