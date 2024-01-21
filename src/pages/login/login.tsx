@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../components/Header/header';
+import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 
 interface User {
 	pic: string;
@@ -32,7 +33,17 @@ export const Login: FC<LoginProps> = ({ users }) => {
 											<h3 className={styles.title}>{user.userName}</h3>
 											<p className={styles.paragraph}>{user.position}</p>
 										</div>
-										<Link to={user.link} className={styles.link} replace></Link>
+
+										<div className={styles.link}>
+											<ButtonDesktop
+												view="tertiary"
+												shape="rectangular"
+												size="xxs"
+												href={user.link}
+											>
+												Вход
+											</ButtonDesktop>
+										</div>
 									</li>
 								);
 							})}
