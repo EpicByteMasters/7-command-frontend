@@ -7,6 +7,7 @@ import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
 import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
+import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
@@ -28,23 +29,24 @@ function Header({ error }: HeaderProps) {
 	// Modal
 
 	const navigate = useNavigate();
-	const [open, setOpen] = useState(false);
 	const [logOut, setLogOut] = useState(false);
+	const [exitBtnOpen, setExitBtnOpen] = useState(false);
 
-	const handleOpen = () => setOpen(true);
-
-	const handleClose = () => setOpen(false);
-
-	const handleLogIn = () => {
-		setOpen(false);
-		setLogOut(false);
+	const handleOpen = () => {
+		setExitBtnOpen(!exitBtnOpen);
 	};
-
-	const handleLogOut = () => {
-		navigate('/main', { replace: true });
-		setOpen(false);
-		setLogOut(true);
-	};
+	// const [open, setOpen] = useState(false);
+	// const handleOpen = () => setOpen(true);
+	// const handleClose = () => setOpen(false);
+	// const handleLogIn = () => {
+	// 	setOpen(false);
+	// 	setLogOut(false);
+	// };
+	// const handleLogOut = () => {
+	// 	navigate('/main', { replace: true });
+	// 	setOpen(false);
+	// 	setLogOut(true);
+	// };
 
 	return (
 		<header className={styles.header}>
@@ -96,36 +98,55 @@ function Header({ error }: HeaderProps) {
 					</Link>
 				)}
 
-				{open ? (
-					<ModalDesktop open={open} onClose={handleClose} size={'s'}>
-						<ModalDesktop.Header
-							hasCloser={true}
-							sticky={true}
-							title={'Демо-выход'}
-						/>
-
-						<ModalDesktop.Content>
-							<p>Вы действительно хотите выйти из своего аккаунта?</p>
-						</ModalDesktop.Content>
-						<ModalDesktop.Footer sticky={true}>
-							<ModalDesktop.Controls
-								primary={
-									<Button view="primary" size="s" onClick={handleLogOut}>
-										Да
-									</Button>
-								}
-								secondary={
-									<Button view="secondary" size="s" onClick={handleLogIn}>
-										Нет
-									</Button>
-								}
-							/>
-						</ModalDesktop.Footer>
-					</ModalDesktop>
-				) : (
-					''
-				)}
+				{
+					// open ?
+					// <ModalDesktop open={open} onClose={handleClose} size={'s'}>
+					// 	<ModalDesktop.Header
+					// 		hasCloser={true}
+					// 		sticky={true}
+					// 		title={'Демо-выход'}
+					// 	/>
+					// 	<ModalDesktop.Content>
+					// 		<p>Вы действительно хотите выйти из своего аккаунта?</p>
+					// 	</ModalDesktop.Content>
+					// 	<ModalDesktop.Footer sticky={true}>
+					// 		<ModalDesktop.Controls
+					// 			primary={
+					// 				<Button view="primary" size="s" onClick={handleLogOut}>
+					// 					Да
+					// 				</Button>
+					// 			}
+					// 			secondary={
+					// 				<Button view="secondary" size="s" onClick={handleLogIn}>
+					// 					Нет
+					// 				</Button>
+					// 			}
+					// 		/>
+					// 	</ModalDesktop.Footer>
+					// </ModalDesktop>
+					// ) : (
+					// 	''
+					// )
+				}
+				<button onClick={handleOpen} className={styles.dotsActionBtn}>
+					<MoreMIcon className={styles.dotsActionBtn} />
+				</button>
 			</div>
+			{exitBtnOpen ? (
+				<Button
+					view={'tertiary'}
+					size={'xs'}
+					style={{
+						position: 'absolute',
+						top: '70px',
+						right: '0px',
+					}}
+				>
+					Демо-выход
+				</Button>
+			) : (
+				''
+			)}
 		</header>
 	);
 }
