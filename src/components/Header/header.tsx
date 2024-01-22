@@ -1,12 +1,12 @@
-import { useState, ChangeEvent, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, ChangeEvent } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './header.module.scss';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { Input } from '@alfalab/core-components/input';
 import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
-import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
+import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
@@ -21,29 +21,14 @@ function Header({ error }: HeaderProps) {
 		setSearchValue(e.target.value);
 	};
 
-	// const stylesWrapper = {
-	// 	backgroundColor: '#F2F3F5',
-	// };
-
-	// Modal
-
 	const navigate = useNavigate();
-	const [open, setOpen] = useState(false);
+	let location = useLocation();
+
 	const [logOut, setLogOut] = useState(false);
+	const [exitBtnOpen, setExitBtnOpen] = useState(false);
 
-	const handleOpen = () => setOpen(true);
-
-	const handleClose = () => setOpen(false);
-
-	const handleLogIn = () => {
-		setOpen(false);
-		setLogOut(false);
-	};
-
-	const handleLogOut = () => {
-		navigate('/main', { replace: true });
-		setOpen(false);
-		setLogOut(true);
+	const handleOpen = () => {
+		setExitBtnOpen(!exitBtnOpen);
 	};
 
 	return (
@@ -83,49 +68,67 @@ function Header({ error }: HeaderProps) {
 					<BellMIcon fill="#0E0E0E" className={styles.icon} />
 				</Circle>
 
-				{logOut ? (
+				{location.pathname === '/' ? (
 					''
 				) : (
-					<Link to="/">
-						<img
-							onClick={handleOpen}
-							src={avatar}
-							alt="аватар"
-							className={styles.avatar}
-						/>
-					</Link>
+					<img
+						onClick={handleOpen}
+						src={avatar}
+						alt="аватар"
+						className={styles.avatar}
+					/>
 				)}
 
-				{open ? (
-					<ModalDesktop open={open} onClose={handleClose} size={'s'}>
-						<ModalDesktop.Header
-							hasCloser={true}
-							sticky={true}
-							title={'Демо-выход'}
-						/>
-
-						<ModalDesktop.Content>
-							<p>Вы действительно хотите выйти из своего аккаунта?</p>
-						</ModalDesktop.Content>
-						<ModalDesktop.Footer sticky={true}>
-							<ModalDesktop.Controls
-								primary={
-									<Button view="primary" size="s" onClick={handleLogOut}>
-										Да
-									</Button>
-								}
-								secondary={
-									<Button view="secondary" size="s" onClick={handleLogIn}>
-										Нет
-									</Button>
-								}
-							/>
-						</ModalDesktop.Footer>
-					</ModalDesktop>
-				) : (
-					''
-				)}
+				{
+					// open ?
+					// <ModalDesktop open={open} onClose={handleClose} size={'s'}>
+					// 	<ModalDesktop.Header
+					// 		hasCloser={true}
+					// 		sticky={true}
+					// 		title={'Демо-выход'}
+					// 	/>
+					// 	<ModalDesktop.Content>
+					// 		<p>Вы действительно хотите выйти из своего аккаунта?</p>
+					// 	</ModalDesktop.Content>
+					// 	<ModalDesktop.Footer sticky={true}>
+					// 		<ModalDesktop.Controls
+					// 			primary={
+					// 				<Button view="primary" size="s" onClick={handleLogOut}>
+					// 					Да
+					// 				</Button>
+					// 			}
+					// 			secondary={
+					// 				<Button view="secondary" size="s" onClick={handleLogIn}>
+					// 					Нет
+					// 				</Button>
+					// 			}
+					// 		/>
+					// 	</ModalDesktop.Footer>
+					// </ModalDesktop>
+					// ) : (
+					// 	''
+					// )
+				}
+				<button onClick={handleOpen} className={styles.dotsActionBtn}>
+					<MoreMIcon className={styles.dotsActionBtn} />
+				</button>
 			</div>
+			{exitBtnOpen ? (
+				<Button
+					onClick={() => navigate('/')}
+					view={'tertiary'}
+					size={'xxs'}
+					style={{
+						position: 'absolute',
+						top: '70px',
+						right: '0px',
+					}}
+				>
+					Демо-выход
+				</Button>
+			) : (
+				''
+			)}
 		</header>
 	);
 }

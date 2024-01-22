@@ -11,10 +11,7 @@ import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import {
-	CalendarDesktop,
-	CalendarDesktopProps,
-} from '@alfalab/core-components/calendar/desktop';
+import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
@@ -118,18 +115,15 @@ export const ManagerIprDraft = ({
 		{ key: 'Сидорова Наталья Дмитриевна' },
 	];
 
-	const [multiple, setMultiple] = useState<boolean>(true);
-	const [shownChevron, setShownChevron] = useState<boolean>(true);
+	const [multiple, setMultiple] = useState(true);
+	const [shownChevron, setShownChevron] = useState(true);
 
 	const [valueGoal, setValueGoal] = useState<string>('');
 	const [valueRole, setValueRole] = useState<string>('');
 	const [valueMentor, setValueMentor] = useState<string>('');
 	const [valueCompetence, setValueCompetence] = useState<string>('');
-
 	const [valueStartDate, setStartDate] = useState<string>('');
 	const [valueEndDate, setEndDate] = useState<string>('');
-
-	const [picker, setPicker] = useState<boolean>(true);
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
@@ -206,7 +200,6 @@ export const ManagerIprDraft = ({
 	};
 	// Работает
 	const inputValues: string[] = valueCompetence.replace(/ /g, '').split(',');
-
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
 	);
@@ -215,38 +208,37 @@ export const ManagerIprDraft = ({
 		? selectedOptions.map((option) => option.key)
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
-	// console.log(inputValues, 'input-values');
-	// console.log(selectedOptions, 'selected-options');
-	// console.log(selected, 'selected');
+	const tagValues = valueCompetence.trim().split(',');
 
-	// const handleChangeCompetence = ({
-	// 	selected,
-	// 	selectedMultiple,
-	// }: {
-	// 	selected: OptionShape[] | null;
-	// 	selectedMultiple: OptionShape[] | null;
-	// }): void => {
-	// 	if (multiple) {
-	// 		const value = selectedMultiple.length
-	// 			? selectedMultiple.map((option) => option.key).join(', ') + ', '
-	// 			: '';
-	// 		setValueCompetence(value);
-	// 		return;
-	// 	}
-	// 	setValueCompetence(selected ? selected.key : '');
-	// };
+	// console.log(inputValues, 'input-values');
+	// console.log(tagValues, 'tag');
+	// console.log(valueCompetence, 'competence');
+
+	const handleChangeCompetence = ({
+		selected,
+		selectedMultiple,
+	}: {
+		selected: OptionShape | null;
+		selectedMultiple: OptionShape[] | null;
+	}): void => {
+		if (multiple) {
+			const value = selectedMultiple?.length
+				? selectedMultiple.map((option) => option.key).join(', ') + ', '
+				: '';
+			setValueCompetence(value);
+			return;
+		}
+		setValueCompetence(selected ? selected.key : '');
+	};
 
 	const getFilteredOptionsCompetence = (): OptionShape[] => {
 		if (multiple) {
-			return inputValues.length
-				? // === selected.length
-					optionsCompetence
-				: optionsCompetence.filter((option) => {
-						return (
-							selectedOptions.includes(option) ||
-							matchOption(option, inputValues[inputValues.length - 1])
-						);
-					});
+			return optionsCompetence.filter((option) => {
+				return (
+					selectedOptions.includes(option) ||
+					matchOption(option, inputValues[inputValues.length - 1])
+				);
+			});
 		}
 
 		return optionsCompetence.some(({ key }) => key === valueCompetence)
@@ -291,6 +283,7 @@ export const ManagerIprDraft = ({
 								<div className={styles2.formRow}>
 									<div style={{ width: 468 }}>
 										<InputAutocomplete
+											name={'goal'}
 											block={true}
 											closeOnSelect={true}
 											className="inputGoal"
@@ -312,6 +305,7 @@ export const ManagerIprDraft = ({
 									</div>
 									<div style={{ width: 468 }}>
 										<InputAutocomplete
+											name={'role'}
 											block={true}
 											closeOnSelect={true}
 											className="inputRole"
@@ -333,50 +327,57 @@ export const ManagerIprDraft = ({
 								</div>
 								<div style={{ width: 960 }}>
 									<InputAutocomplete
+										name={'competence'}
+										value={valueCompetence}
 										block={true}
 										multiple={multiple}
 										allowUnselect={true}
 										closeOnSelect={true}
-										// onChange={handleChangeCompetence}
+										onChange={handleChangeCompetence}
 										onInput={handleInputCompetence}
 										options={getFilteredOptionsCompetence()}
 										Arrow={shownChevron ? Arrow : undefined}
-										value={valueCompetence}
 										inputProps={{
 											onClear: () => setValueCompetence(''),
 											clear: true,
 										}}
 										showEmptyOptionsList={true}
-										className="inputCompetence"
+										className={styles.inputCompetence}
 										size="s"
 										label="Компетенция *"
 										placeholder="Начните вводить название"
 									></InputAutocomplete>
 								</div>
 								<div className={styles2.formRowTag}>
-									{inputValues.map((value: string) => {
-										return (
-											<div style={{ maxWidth: '319' }}>
-												<FilterTag
-													showClear={true}
-													size="xxs"
-													shape="rounded"
-													view="filled"
-													checked={true}
-													onClear={() => setValueCompetence('')}
-												>
-													{value}
-												</FilterTag>
-											</div>
-										);
-									})}
+									{valueCompetence.length > 0
+										? tagValues.map((value: string, key: number) => {
+												return (
+													<div
+														key={value.length + 1}
+														style={{ maxWidth: '319' }}
+													>
+														<FilterTag
+															showClear={true}
+															size="xxs"
+															shape="rounded"
+															view="filled"
+															checked={true}
+															onClear={() => setValueCompetence('')}
+														>
+															{value}
+														</FilterTag>
+													</div>
+												);
+											})
+										: ''}
 								</div>
 								<div className={styles2.formRow}>
 									<div style={{ width: 468 }}>
 										<InputAutocomplete
+											name={'mentor'}
 											block={true}
 											closeOnSelect={true}
-											className="inputMentor"
+											className={styles.inputMentor}
 											size="s"
 											options={getFilteredMentor()}
 											label="Ментор"
@@ -474,7 +475,6 @@ export const ManagerIprDraft = ({
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 							<Tasks />
-							<div className={styles2.formBlock}></div>
 						</fieldset>
 
 						<ButtonDesktop

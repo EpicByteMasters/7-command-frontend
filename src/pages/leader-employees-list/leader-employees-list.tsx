@@ -13,7 +13,6 @@ import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Footer } from '../../entities/footer/footer';
 
 interface EmployeeGoalPlan {

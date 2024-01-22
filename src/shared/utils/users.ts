@@ -17,13 +17,13 @@ const users: User[] = [
 		userName: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
 		pic: head1,
-		link: '/main',
+		link: '/myteam/iprs',
 	},
 	{
 		userName: 'Иванов Пётр Александрович',
 		position: 'Руководитель 2',
 		pic: head2,
-		link: '/main',
+		link: '/myteam/iprs',
 	},
 	{
 		userName: 'Кириллов Константин Соломонович',
