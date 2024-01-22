@@ -123,7 +123,7 @@ export const ManagerIprDraft = ({
 	const [valueMentor, setValueMentor] = useState<string>('');
 	const [valueCompetence, setValueCompetence] = useState<string>('');
 	const [valueStartDate, setStartDate] = useState<string>('');
-	const [valueEndDate, setEndDate] = useState<string>('');
+	const [valueEndDate, setEndDate] = useState('');
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
@@ -209,10 +209,6 @@ export const ManagerIprDraft = ({
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
 	const tagValues = valueCompetence.trim().split(',');
-
-	// console.log(inputValues, 'input-values');
-	// console.log(tagValues, 'tag');
-	// console.log(valueCompetence, 'competence');
 
 	const handleChangeCompetence = ({
 		selected,
