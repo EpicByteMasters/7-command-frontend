@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './plan.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from '@alfalab/core-components/table';
