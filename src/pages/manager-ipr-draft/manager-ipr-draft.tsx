@@ -9,15 +9,9 @@ import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import {
-	InputAutocomplete,
-	InputAutocompleteProps,
-} from '@alfalab/core-components/input-autocomplete';
+import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import {
-	CalendarDesktop,
-	CalendarDesktopProps,
-} from '@alfalab/core-components/calendar/desktop';
+import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';

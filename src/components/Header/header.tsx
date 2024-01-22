@@ -1,11 +1,10 @@
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './header.module.scss';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { Input } from '@alfalab/core-components/input';
 import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
-// import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
@@ -22,7 +21,6 @@ function Header({ error }: HeaderProps) {
 		setSearchValue(e.target.value);
 	};
 
-	// Modal
 	const navigate = useNavigate();
 	let location = useLocation();
 
@@ -32,18 +30,6 @@ function Header({ error }: HeaderProps) {
 	const handleOpen = () => {
 		setExitBtnOpen(!exitBtnOpen);
 	};
-	// const [open, setOpen] = useState(false);
-	// const handleOpen = () => setOpen(true);
-	// const handleClose = () => setOpen(false);
-	// const handleLogIn = () => {
-	// 	setOpen(false);
-	// 	setLogOut(false);
-	// };
-	// const handleLogOut = () => {
-	// 	navigate('/main', { replace: true });
-	// 	setOpen(false);
-	// 	setLogOut(true);
-	// };
 
 	return (
 		<header className={styles.header}>
@@ -131,7 +117,7 @@ function Header({ error }: HeaderProps) {
 				<Button
 					onClick={() => navigate('/')}
 					view={'tertiary'}
-					size={'xs'}
+					size={'xxs'}
 					style={{
 						position: 'absolute',
 						top: '70px',
