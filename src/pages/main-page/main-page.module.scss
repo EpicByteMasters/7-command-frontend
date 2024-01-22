@@ -1,21 +1,22 @@
 @use '../../shared/modules/mixins/mixins.scss';
 
 .main {
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
-	width: 1016px;
+	width: 1224px;
 }
 
 .container {
+	margin: 0 auto;
 	margin-top: 72px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	width: 1280px;
+	max-width: 1224px;
+	width: 100%;
 	overflow: hidden;
 }
 .img {
-	padding-left: 50px;
 	overflow: hidden;
 }
 

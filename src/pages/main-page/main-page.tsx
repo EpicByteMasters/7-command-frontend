@@ -15,7 +15,12 @@ export const MainPage = () => {
 			<main className={styles.main}>
 				<div className={styles.container}>
 					{role ? <NavBarMini1 /> : <NavBarMini2 />}
-					<img src={layout} alt="layout" className="img"></img>
+					<img
+						style={{ maxWidth: '800px', width: '100%', padding: '0 40px' }}
+						src={layout}
+						alt="заглушка"
+						className="img"
+					></img>
 				</div>
 			</main>
 			<Footer></Footer>
