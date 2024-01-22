@@ -4,7 +4,10 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { setActiveGoalId, selectActiveGoalId } from '../../reducers/goalSlice';
+import {
+	setActiveGoalId,
+	selectActiveGoalId,
+} from '../../store/reducers/goalSlice';
 
 interface PlanProps {
 	isEmployee?: boolean;

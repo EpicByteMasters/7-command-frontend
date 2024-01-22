@@ -105,12 +105,10 @@ export const Tasks: React.FC = () => {
 								<div className={styles.openedTask}>
 									<Textarea
 										fieldClassName={styles.text}
-										maxHeight={91}
-										label="Описание"
+										label="Название*"
 										labelView="inner"
 										size="m"
 										block={true}
-										// maxLength={96}
 										showCounter={true}
 										autosize={true}
 									/>
@@ -132,6 +130,23 @@ export const Tasks: React.FC = () => {
 												e.stopPropagation();
 												setEndDate('');
 											}}
+										/>
+									</div>
+									<div
+										style={{
+											width: 960,
+										}}
+									>
+										<Textarea
+											fieldClassName={styles.textClass}
+											maxHeight={91}
+											label="Описание"
+											labelView="inner"
+											size="m"
+											block={true}
+											maxLength={96}
+											showCounter={true}
+											autosize={true}
 										/>
 									</div>
 								</div>

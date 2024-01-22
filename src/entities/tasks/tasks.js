@@ -88,7 +88,16 @@ export const Tasks = () => {
 										<Collapse expanded={expandedTasks[id]}>
 											<div className={styles.openedTask}>
 												<div className={styles.wrapper}>
-													<Textarea />
+													<Textarea
+														fieldClassName={styles.goalName}
+														maxHeight={56}
+														label="Название*"
+														labelView="ouiter"
+														size="m"
+														block={true}
+														showCounter={true}
+														autosize={true}
+													/>
 													<UniversalDateInput
 														block={true}
 														view="date"
