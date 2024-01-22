@@ -1,3 +1,5 @@
+@use '../../styles/mixins.scss';
+
 @import './../../styles/variables.scss';
 
 .container {
@@ -135,4 +137,12 @@
 	background: transparent;
 	width: fit-content;
 	cursor: pointer;
+}
+
+.paragraph {
+	@include mixins.text;
+
+	margin: 0;
+	padding: 0;
+	color: var(--metallic, #898889);
 }

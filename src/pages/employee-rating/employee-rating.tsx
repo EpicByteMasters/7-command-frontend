@@ -7,6 +7,7 @@ import Header from '../../components/Header/header';
 import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';
+import { Footer } from '../../entities/footer/footer';
 
 export const EmployeeRatingPage = () => {
 	const options = [{ key: 'Выполнен' }, { key: 'Не выполнен' }];
@@ -85,6 +86,7 @@ export const EmployeeRatingPage = () => {
 					</div>
 				</div>
 			</div>
+			<Footer></Footer>
 		</>
 	);
 };

@@ -44,3 +44,11 @@
 .buttonSend {
 	margin-right: 20px;
 }
+
+.paragraph {
+	@include mixins.text;
+
+	margin: 0;
+	padding: 0;
+	color: var(--metallic, #898889);
+}

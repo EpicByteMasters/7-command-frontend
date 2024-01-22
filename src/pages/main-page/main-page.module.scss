@@ -1,3 +1,5 @@
+@use '../../shared/modules/mixins/mixins.scss';
+
 .main {
 	margin: 0;
 	padding: 0;
@@ -15,4 +17,12 @@
 .img {
 	padding-left: 50px;
 	overflow: hidden;
+}
+
+.paragraph {
+	@include mixins.text;
+
+	margin: 0;
+	padding: 0;
+	color: var(--metallic, #898889);
 }

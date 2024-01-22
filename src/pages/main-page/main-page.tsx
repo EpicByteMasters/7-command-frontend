@@ -4,6 +4,7 @@ import Header from '../../components/Header/header';
 import { NavBarMini1 } from '../../entities/navbar-mini-1/navbar-mini1';
 import { NavBarMini2 } from '../../entities/navbar-mini-2/navbar-mini2';
 import layout from '../../images/alfa-layout.png';
+import { Footer } from '../../entities/footer/footer';
 
 export const MainPage = () => {
 	const [role, setRole] = useState<boolean>(true);
@@ -17,6 +18,7 @@ export const MainPage = () => {
 					<img src={layout} alt="layout" className="img"></img>
 				</div>
 			</main>
+			<Footer></Footer>
 		</>
 	);
 };
