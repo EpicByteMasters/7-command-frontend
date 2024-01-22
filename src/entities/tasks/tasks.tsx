@@ -103,25 +103,37 @@ export const Tasks: React.FC = () => {
 							</>
 							<Collapse expanded={expandedTasks[id]}>
 								<div className={styles.openedTask}>
-									<Textarea />
-									<UniversalDateInput
-										block={true}
-										view="date"
-										label="Дата завершения"
+									<Textarea
+										fieldClassName={styles.text}
+										maxHeight={91}
+										label="Описание"
+										labelView="inner"
 										size="m"
-										value={valueEndDate}
-										onChange={handleChangeEndDate}
-										picker={true}
-										Calendar={CalendarDesktop}
-										calendarProps={{
-											selectorView: 'month-only',
-										}}
-										clear={true}
-										onClear={(e) => {
-											e.stopPropagation();
-											setEndDate('');
-										}}
+										block={true}
+										// maxLength={96}
+										showCounter={true}
+										autosize={true}
 									/>
+									<div style={{ width: 300 }}>
+										<UniversalDateInput
+											block={true}
+											view="date"
+											label="Дата завершения"
+											size="s"
+											value={valueEndDate}
+											onChange={handleChangeEndDate}
+											picker={true}
+											Calendar={CalendarDesktop}
+											calendarProps={{
+												selectorView: 'month-only',
+											}}
+											clear={true}
+											onClear={(e) => {
+												e.stopPropagation();
+												setEndDate('');
+											}}
+										/>
+									</div>
 								</div>
 							</Collapse>
 						</>

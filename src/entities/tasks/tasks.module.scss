@@ -1,6 +1,5 @@
 .table {
 	box-sizing: border-box;
-	width: 1016x;
 	font-family: 'Inter';
 }
 
@@ -14,4 +13,14 @@
 	padding: 28px;
 	border: 1px dashed var(--in_progress_text, #2a77ef);
 	display: block;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+}
+
+.calendar {
+	width: 298px;
 }
