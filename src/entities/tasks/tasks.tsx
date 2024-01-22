@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import styles from './tasks.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
@@ -6,6 +6,7 @@ import { Status } from '@alfalab/core-components/status';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
+import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 
 interface TaskProps {
 	id: number;
@@ -22,6 +23,7 @@ interface TaskProps {
 		| 'purple'
 		| undefined;
 	closeButton?: boolean | undefined;
+	dateValue?: string;
 }
 
 const tasksData: TaskProps[] = [
@@ -60,6 +62,11 @@ const tasksData: TaskProps[] = [
 ];
 
 export const Tasks: React.FC = () => {
+	const [valueEndDate, setEndDate] = useState<string>('');
+	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
+		setEndDate(value);
+	};
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -81,33 +88,31 @@ export const Tasks: React.FC = () => {
 									<ChevronDownMIcon />
 								</Table.TCell>
 							</Table.TRow>
-							<div className={styles.openTask}>
-								<Textarea />
-								<UniversalDateInput
-									block={true}
-									view="date"
-									label="Дата"
-									labelView="outer"
-									size="m"
-									// value={value}
-									// onChange={handleChange}
-									// disableUserInput={disableUserInput}
-									// picker={radioSelected !== 'none'}
-									// Calendar={Calendar}
-									// calendarProps={{
-									// 	selectorView: radioSelected,
-									// }}
-									// clear={true}
-									// onClear={(e) => {
-									// 	e.stopPropagation();
-									// 	setValue('');
-									// }}
-								/>
-							</div>
 						</>
 					)
 				)}
 			</Table.TBody>
+			<div className={styles.openTask}>
+				<Textarea />
+				<UniversalDateInput
+					block={true}
+					view="date"
+					label="Дата завершения"
+					size="m"
+					value={valueEndDate}
+					onChange={handleChangeEndDate}
+					picker={true}
+					Calendar={CalendarDesktop}
+					calendarProps={{
+						selectorView: 'month-only',
+					}}
+					clear={true}
+					onClear={(e) => {
+						e.stopPropagation();
+						setEndDate('');
+					}}
+				/>
+			</div>
 		</Table>
 	);
 };
