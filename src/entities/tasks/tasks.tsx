@@ -7,6 +7,7 @@ import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
+import { Collapse } from '@alfalab/core-components/collapse';
 
 interface TaskProps {
 	id: number;
@@ -62,9 +63,19 @@ const tasksData: TaskProps[] = [
 ];
 
 export const Tasks: React.FC = () => {
+	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
+		{}
+	);
 	const [valueEndDate, setEndDate] = useState<string>('');
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
+	};
+
+	const chevronClick = (taskId: number) => {
+		setExpandedTasks((prevExpandedTasks) => ({
+			...prevExpandedTasks,
+			[taskId]: !prevExpandedTasks[taskId], // Инвертируем значение для конкретной задачи
+		}));
 	};
 
 	return (
@@ -73,46 +84,50 @@ export const Tasks: React.FC = () => {
 				{tasksData.map(
 					({ id, title, deadline, statusColor, statusText, closeButton }) => (
 						<>
-							<Table.TRow className={styles.row} key={id}>
-								<Table.TCell className={styles.cellWithIcon}>
-									{closeButton && <CrossCircleMIcon color="#70707A" />}
-									{title}
-								</Table.TCell>
-								<Table.TCell>{deadline}</Table.TCell>
-								<Table.TCell>
-									<Status view="soft" color={statusColor}>
-										{statusText}
-									</Status>
-								</Table.TCell>
-								<Table.TCell>
-									<ChevronDownMIcon />
-								</Table.TCell>
-							</Table.TRow>
+							<>
+								<Table.TRow className={styles.row} key={id}>
+									<Table.TCell className={styles.cellWithIcon}>
+										{closeButton && <CrossCircleMIcon color="#70707A" />}
+										{title}
+									</Table.TCell>
+									<Table.TCell>{deadline}</Table.TCell>
+									<Table.TCell>
+										<Status view="soft" color={statusColor}>
+											{statusText}
+										</Status>
+									</Table.TCell>
+									<Table.TCell>
+										<ChevronDownMIcon onClick={() => chevronClick(id)} />
+									</Table.TCell>
+								</Table.TRow>
+							</>
+							<Collapse expanded={expandedTasks[id]}>
+								<div className={styles.openedTask}>
+									<Textarea />
+									<UniversalDateInput
+										block={true}
+										view="date"
+										label="Дата завершения"
+										size="m"
+										value={valueEndDate}
+										onChange={handleChangeEndDate}
+										picker={true}
+										Calendar={CalendarDesktop}
+										calendarProps={{
+											selectorView: 'month-only',
+										}}
+										clear={true}
+										onClear={(e) => {
+											e.stopPropagation();
+											setEndDate('');
+										}}
+									/>
+								</div>
+							</Collapse>
 						</>
 					)
 				)}
 			</Table.TBody>
-			<div className={styles.openTask}>
-				<Textarea />
-				<UniversalDateInput
-					block={true}
-					view="date"
-					label="Дата завершения"
-					size="m"
-					value={valueEndDate}
-					onChange={handleChangeEndDate}
-					picker={true}
-					Calendar={CalendarDesktop}
-					calendarProps={{
-						selectorView: 'month-only',
-					}}
-					clear={true}
-					onClear={(e) => {
-						e.stopPropagation();
-						setEndDate('');
-					}}
-				/>
-			</div>
 		</Table>
 	);
 };

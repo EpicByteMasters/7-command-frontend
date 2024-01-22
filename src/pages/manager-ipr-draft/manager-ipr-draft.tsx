@@ -473,7 +473,6 @@ export const ManagerIprDraft = ({
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 							<Tasks />
-							<div className={styles2.formBlock}></div>
 						</fieldset>
 
 						<ButtonDesktop
