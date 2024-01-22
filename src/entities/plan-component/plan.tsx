@@ -7,7 +7,6 @@ import { CircularProgressBar } from '@alfalab/core-components/circular-progress-
 import { setActiveGoalId, selectActiveGoalId } from '../../reducers/goalSlice';
 
 interface PlanProps {
-	statusColor?: 'green' | 'orange' | 'red' | 'blue';
 	isEmployee?: boolean;
 }
 
