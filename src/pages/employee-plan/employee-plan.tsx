@@ -5,6 +5,7 @@ import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/plan-component/plan';
 import { Button } from '@alfalab/core-components/button';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
+import { Footer } from '../../entities/footer/footer';
 
 export const EmployeePlan = () => {
 	return (
@@ -27,6 +28,7 @@ export const EmployeePlan = () => {
 					<Plan />
 				</div>
 			</div>
+			<Footer></Footer>
 		</>
 	);
 };

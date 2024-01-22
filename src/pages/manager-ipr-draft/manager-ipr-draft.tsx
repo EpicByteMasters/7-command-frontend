@@ -1,6 +1,7 @@
-import React, { FC, ChangeEvent, useState } from 'react';
 import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
+import React, { FC, ChangeEvent, useState } from 'react';
+import { Footer } from '../../entities/footer/footer';
 import Header from '../../components/Header/header';
 import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
@@ -225,14 +226,14 @@ export const ManagerIprDraft = ({
 	// 	selected: OptionShape[] | null;
 	// 	selectedMultiple: OptionShape[] | null;
 	// }): void => {
-	// if (multiple) {
-	// 	const value = selectedMultiple.length
-	// 		? selectedMultiple.map((option) => option.key).join(', ') + ', '
-	// 		: '';
-	// 	setValueCompetence(value);
-	// 	return;
-	// }
-	// setValueCompetence(selected ? selected.key : '');
+	// 	if (multiple) {
+	// 		const value = selectedMultiple.length
+	// 			? selectedMultiple.map((option) => option.key).join(', ') + ', '
+	// 			: '';
+	// 		setValueCompetence(value);
+	// 		return;
+	// 	}
+	// 	setValueCompetence(selected ? selected.key : '');
 	// };
 
 	const getFilteredOptionsCompetence = (): OptionShape[] => {
@@ -489,6 +490,7 @@ export const ManagerIprDraft = ({
 					</form>
 				</div>
 			</div>
+			<Footer></Footer>
 		</>
 	);
 };

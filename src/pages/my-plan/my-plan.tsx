@@ -2,6 +2,7 @@ import styles from './my-plan.module.scss';
 import Header from '../../components/Header/header';
 import BackButton from '../../entities/backbutton/backbutton';
 import { Plan } from '../../entities/plan-component/plan';
+import { Footer } from '../../entities/footer/footer';
 
 export const MyPlan = () => {
 	return (
@@ -18,6 +19,7 @@ export const MyPlan = () => {
 					</div>
 				</div>
 			</section>
+			<Footer></Footer>
 		</>
 	);
 };
