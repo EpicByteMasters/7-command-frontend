@@ -1,4 +1,5 @@
 .table {
+	box-sizing: border-box;
 	font-family: 'Inter';
 }
 
@@ -8,9 +9,22 @@
 	gap: 12px;
 }
 
-.openTask {
-	width: 952px;
+.openedTask {
 	padding: 28px;
 	border: 1px dashed var(--in_progress_text, #2a77ef);
-	display: none;
+	display: block;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+}
+
+.calendar {
+	width: 298px;
+}
+
+.goalName {
+	width: 574px;
 }

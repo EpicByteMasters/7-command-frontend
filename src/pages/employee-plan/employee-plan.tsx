@@ -3,11 +3,10 @@ import Header from '../../components/Header/header';
 import NavBar from '../../entities/navbar/navbar';
 import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/plan-component/plan';
-import { Button } from '@alfalab/core-components/button';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Footer } from '../../entities/footer/footer';
 
-export const EmployeePlan = () => {
+export const EmployeePlan: React.FC = () => {
 	return (
 		<>
 			<Header />
@@ -22,9 +21,6 @@ export const EmployeePlan = () => {
 							avatar={avatar}
 						/>
 					</div>
-					<Button view="primary" size="m" className={styles.button}>
-						Создать новый план развития
-					</Button>
 					<Plan />
 				</div>
 			</div>
