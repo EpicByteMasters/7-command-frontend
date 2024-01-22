@@ -14,7 +14,7 @@ export const MyPlan = () => {
 				<div className={styles.wrapper}>
 					<h1 className={styles.title}>Мой план развития</h1>
 					<div className={styles.container}>
-						<Plan />
+						<Plan isEmployee={true} />
 					</div>
 				</div>
 			</section>

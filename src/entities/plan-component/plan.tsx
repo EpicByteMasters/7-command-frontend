@@ -7,19 +7,12 @@ import { CircularProgressBar } from '@alfalab/core-components/circular-progress-
 import { setActiveGoalId, selectActiveGoalId } from '../../reducers/goalSlice';
 
 interface PlanProps {
-	id: number;
-	goal: string;
-	dateStart: string;
-	dateEnd: string;
-	progress: number;
-	statusText: string;
-	statusColor: 'green' | 'orange' | 'red' | 'blue';
-	activeGoalId?: number;
-	setActiveGoalId?: (goalId: number) => void;
+	statusColor?: 'green' | 'orange' | 'red' | 'blue';
+	isEmployee?: boolean;
 }
 
-export const Plan: React.FC = () => {
-	const goalsData: PlanProps[] = [
+export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
+	const goalsData = [
 		{
 			id: 1,
 			goal: 'Карьерный рост',
@@ -75,7 +68,7 @@ export const Plan: React.FC = () => {
 
 	return (
 		<>
-			{activeGoalId === null && (
+			{!isEmployee && activeGoalId === null && (
 				<Button view="primary" size="m" className={styles.button}>
 					Создать новый план развития
 				</Button>
@@ -121,7 +114,20 @@ export const Plan: React.FC = () => {
 										/>
 									</Table.TCell>
 									<Table.TCell>
-										<Status view="soft" color={statusColor}>
+										<Status
+											view="soft"
+											color={
+												statusColor as
+													| 'green'
+													| 'orange'
+													| 'red'
+													| 'blue'
+													| 'grey'
+													| 'teal'
+													| 'purple'
+													| undefined
+											}
+										>
 											{statusText}
 										</Status>
 									</Table.TCell>
