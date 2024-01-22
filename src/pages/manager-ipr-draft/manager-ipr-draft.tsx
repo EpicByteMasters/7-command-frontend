@@ -191,14 +191,12 @@ export const ManagerIprDraft = ({
 			: optionsMentor.filter((option) => matchOption(option, valueMentor));
 	};
 
-	// // Competence
 	const handleInputCompetence = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
 	};
-	// Работает
 	const inputValues: string[] = valueCompetence.replace(/ /g, '').split(',');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
