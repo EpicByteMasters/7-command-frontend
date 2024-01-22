@@ -1,14 +1,15 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import userReducer, { UserState } from './userSlice'; // импорт среза пользователя
-// добавь другие срезы состояния
+import userReducer, { UserState } from './userSlice';
+import goalReducer from './goalSlice';
 
 export interface RootState {
 	user: UserState; // тип состояния пользователя
-	// добавь другие типы состояния
+	goal: ReturnType<typeof goalReducer>;
 }
 
 const rootReducer = combineReducers({
 	user: userReducer,
+	goal: goalReducer,
 	// добавь другие срезы состояния
 });
 
