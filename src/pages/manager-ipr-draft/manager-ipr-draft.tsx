@@ -356,9 +356,12 @@ export const ManagerIprDraft = ({
 								</div>
 								<div className={styles2.formRowTag}>
 									{valueCompetence.length > 0
-										? tagValues.map((value: string, key: number = 0) => {
+										? tagValues.map((value: string, key: number) => {
 												return (
-													<div key={key + 1} style={{ maxWidth: '319' }}>
+													<div
+														key={value.length + 1}
+														style={{ maxWidth: '319' }}
+													>
 														<FilterTag
 															showClear={true}
 															size="xxs"

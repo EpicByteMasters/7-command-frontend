@@ -1,11 +1,11 @@
 import { useState, ChangeEvent, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './header.module.scss';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { Input } from '@alfalab/core-components/input';
 import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
-import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
+// import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
@@ -22,13 +22,10 @@ function Header({ error }: HeaderProps) {
 		setSearchValue(e.target.value);
 	};
 
-	// const stylesWrapper = {
-	// 	backgroundColor: '#F2F3F5',
-	// };
-
 	// Modal
-
 	const navigate = useNavigate();
+	let location = useLocation();
+
 	const [logOut, setLogOut] = useState(false);
 	const [exitBtnOpen, setExitBtnOpen] = useState(false);
 
@@ -85,17 +82,15 @@ function Header({ error }: HeaderProps) {
 					<BellMIcon fill="#0E0E0E" className={styles.icon} />
 				</Circle>
 
-				{logOut ? (
+				{location.pathname === '/' ? (
 					''
 				) : (
-					<Link to="/">
-						<img
-							onClick={handleOpen}
-							src={avatar}
-							alt="аватар"
-							className={styles.avatar}
-						/>
-					</Link>
+					<img
+						onClick={handleOpen}
+						src={avatar}
+						alt="аватар"
+						className={styles.avatar}
+					/>
 				)}
 
 				{
@@ -134,6 +129,7 @@ function Header({ error }: HeaderProps) {
 			</div>
 			{exitBtnOpen ? (
 				<Button
+					onClick={() => navigate('/')}
 					view={'tertiary'}
 					size={'xs'}
 					style={{
