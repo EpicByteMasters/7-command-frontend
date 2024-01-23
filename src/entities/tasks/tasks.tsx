@@ -16,10 +16,6 @@ import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 
-interface TasksProps {
-	isEmployee: boolean;
-}
-
 interface TaskProps {
 	id: number;
 	title: string;
@@ -45,7 +41,7 @@ interface OptionShape {
 	key: string;
 }
 
-export const Tasks: React.FC = (isEmployee) => {
+export const Tasks: React.FC = () => {
 	const tasksData: TaskProps[] = [
 		{
 			id: 1,
@@ -276,49 +272,6 @@ export const Tasks: React.FC = (isEmployee) => {
 													showCounter={true}
 													autosize={true}
 												/>
-												{isEmployee && (
-													<div>
-														<div className={styles.attachWrapper}>
-															<p className={styles.attachTitle}>
-																Приклепленные файлы
-															</p>
-															<Attach
-																size="m"
-																onChange={handleChange}
-																multiple={multiple}
-																fileClassName={styles.attachButton}
-																noFileText=""
-															/>
-														</div>
-														<FileUploadItem
-															name="Название файла.pdf"
-															uploadDate="22.01.2018"
-															size={45000}
-															showDelete={true}
-														/>
-														<FileUploadItem
-															name="Название файла.pdf"
-															uploadDate="22.01.2018"
-															uploadPercent={23.5678}
-															uploadStatus="UPLOADING"
-															showDelete={true}
-														/>
-														<FileUploadItem
-															name="Название файла.jpg"
-															uploadDate="22.01.2018"
-															size={45000}
-															uploadStatus="ERROR"
-															showDelete={true}
-														/>
-														<Button
-															view="primary"
-															size="m"
-															className={styles.button}
-														>
-															Отметить выполненной
-														</Button>
-													</div>
-												)}
 											</div>
 										</Collapse>
 									</Table.TCell>
