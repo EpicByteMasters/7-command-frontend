@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './employees-list.module.scss';
 
+import { Popover } from '@alfalab/core-components/popover';
+import { Button } from '@alfalab/core-components/button';
+import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
+import { Status } from '@alfalab/core-components/status';
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
-import { Button } from '@alfalab/core-components/button';
-import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { Status } from '@alfalab/core-components/status';
 
 export interface EmployeeGoalPlan {
 	id: number;
@@ -26,10 +26,43 @@ export interface IEmployeesListProps {
 }
 
 export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
+	const [popoverVisible, setPopoverVisible] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] =
+		useState<EmployeeGoalPlan | null>(null);
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
+	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-
 	const [page, setPage] = useState<number>(0);
+
+	// 	popover
+
+	const handleMoreIconClick = (employee: EmployeeGoalPlan) => {
+		setPopoverVisible(true);
+		setSelectedEmployee(employee);
+	};
+
+	const closePopover = () => {
+		setPopoverVisible(false);
+		setSelectedEmployee(null);
+	};
+
+	const handleDeleteClick = () => {
+		if (selectedEmployee) {
+			// Определяем индекс выбранного сотрудника в массиве данных
+			const index = data.findIndex((item) => item.id === selectedEmployee.id);
+
+			if (index !== -1) {
+				// Выводим информацию в консоль
+				console.log('Deleting employee:', selectedEmployee);
+			}
+
+			// Закрываем Popover
+			closePopover();
+		}
+	};
+
+	// sorting
 
 	const handleSort = (column: string) => {
 		if (sortColumn === column) {
@@ -55,7 +88,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 			case 'отсутствует':
 				return 'grey';
 			default:
-				return 'blue'; // Цвет по умолчанию, если статус не соответствует ни одному из ожидаемых
+				return 'blue';
 		}
 	};
 
@@ -114,12 +147,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 		return 0;
 	});
 
-	//пагинация
 	const perPage = 10; // Фиксированное количество строк на странице
-	const handlePerPageChange = (value: number) => {
-		// Ничего не делаем, так как мы не разрешаем пользователю выбирать количество строк
-	};
-
 	const handlePageChange = (pageIndex: number) => setPage(pageIndex);
 	const pagesCount = Math.ceil(sortedData.length / perPage);
 	const currentPageData = sortedData.slice(
@@ -215,7 +243,23 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 										</Button>
 									</Table.TCell>
 									<Table.TCell>
-										<MoreMIcon />
+										<Button
+											view="ghost"
+											ref={buttonRef}
+											onClick={() =>
+												handleMoreIconClick({
+													id,
+													name,
+													position,
+													goal,
+													date,
+													progress,
+													status,
+												})
+											}
+										>
+											<MoreMIcon />
+										</Button>
 									</Table.TCell>
 								</Table.TRow>
 							);
@@ -223,6 +267,38 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 					)}
 				</Table.TBody>
 			</Table>
+
+			{selectedEmployee && (
+				<Popover
+					anchorElement={buttonRef.current}
+					open={popoverVisible}
+					position="bottom"
+				>
+					<div
+						style={{
+							padding: '15px',
+							width: '100px',
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '36px',
+						}}
+					>
+						<Button view="ghost" size="s" onClick={handleDeleteClick}>
+							Удалить
+						</Button>
+						<Button
+							view="ghost"
+							size="s"
+							onClick={() => {
+								closePopover();
+								console.log('History clicked');
+							}}
+						>
+							История
+						</Button>
+					</div>
+				</Popover>
+			)}
 		</>
 	);
 };
