@@ -7,54 +7,61 @@ import mentor2 from '../../images/avatars/avatar_mentor2.png';
 
 interface User {
 	id: number;
-	userName: string;
+	name: string;
 	position: string;
 	pic: string;
 	link: string;
+	role: string;
 }
 
 const users: User[] = [
 	{
 		id: 1,
-		userName: 'Хорошёва Анна Викторовна',
+		name: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
 		pic: head1,
 		link: '/myteam/iprs',
+		role: 'myteam',
 	},
 	{
 		id: 2,
-		userName: 'Иванов Пётр Александрович',
+		name: 'Иванов Пётр Александрович',
 		position: 'Руководитель 2',
 		pic: head2,
 		link: '/myteam/iprs',
+		role: 'myteam',
 	},
 	{
 		id: 3,
-		userName: 'Кириллов Константин Соломонович',
+		name: 'Кириллов Константин Соломонович',
 		position: 'Сотрудник 1',
 		pic: employee1,
 		link: '/main',
+		role: 'my',
 	},
 	{
 		id: 4,
-		userName: 'Евсеев Антон Иванович',
+		name: 'Евсеев Антон Иванович',
 		position: 'Сотрудник 2',
 		pic: employee2,
 		link: '/main',
+		role: 'my',
 	},
 	{
 		id: 5,
-		userName: 'Чаевская Евгения Владимировна',
+		name: 'Чаевская Евгения Владимировна',
 		position: 'Ментор 1',
 		pic: mentor1,
 		link: '/main',
+		role: 'mentor',
 	},
 	{
 		id: 6,
-		userName: 'Куприна Валентина Ивановна',
+		name: 'Куприна Валентина Ивановна',
 		position: 'Ментор 2',
 		pic: mentor2,
 		link: '/main',
+		role: 'mentor',
 	},
 ];
 
