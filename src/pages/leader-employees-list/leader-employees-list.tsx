@@ -3,6 +3,7 @@ import styles from './leader-employees-list.module.scss';
 import { Input } from '@alfalab/core-components/input';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
+import { Select } from '@alfalab/core-components/select';
 
 import Header from '../../components/Header/header';
 import NavBar from '../../entities/navbar/navbar';
@@ -59,6 +60,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 							className={styles.input}
 							leftAddons={<MagnifierMIcon color="#898889" />}
 							type="text"
+							block={true}
 						/>
 					</div>
 					<div className={styles.filterTagsWrapper}>
