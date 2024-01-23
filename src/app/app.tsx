@@ -10,6 +10,7 @@ import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-emplo
 
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
+import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 					}
 				/>
 				<Route path="/iprs" element={<MyPlan />} />
+				<Route path="/ipr-edit/:id" element={<IPREmployee />} />
 				<Route path="/myteam/iprs/history/1" element={<EmployeePlan />} />
 				<Route path="/iprs/rating" element={<EmployeeRatingPage />} />
 				<Route path="/*" element={<></>} />

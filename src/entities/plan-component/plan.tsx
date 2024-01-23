@@ -8,6 +8,7 @@ import {
 	setActiveGoalId,
 	selectActiveGoalId,
 } from '../../store/reducers/goalSlice';
+import { Link } from 'react-router-dom';
 
 interface PlanProps {
 	isEmployee?: boolean;
@@ -134,9 +135,11 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Button view="tertiary" size="s">
-											Открыть
-										</Button>
+										<Link to={`/ipr-edit/${id}`}>
+											<Button view="tertiary" size="s">
+												Открыть
+											</Button>
+										</Link>
 									</Table.TCell>
 								</Table.TRow>
 							);
