@@ -16,10 +16,6 @@ import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 
-interface TasksProps {
-	isEmployee: boolean;
-}
-
 interface TaskProps {
 	id: number;
 	title: string;
@@ -45,7 +41,7 @@ interface OptionShape {
 	key: string;
 }
 
-export const Tasks: React.FC = (isEmployee) => {
+export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const tasksData: TaskProps[] = [
 		{
 			id: 1,
@@ -258,7 +254,6 @@ export const Tasks: React.FC = (isEmployee) => {
 																</div>
 															))}
 													</div>
-
 													<img
 														src={linkToCourses}
 														alt="ссылка на курсы"
