@@ -325,7 +325,7 @@ export const ManagerIprDraft = ({
 										></InputAutocomplete>
 									</div>
 								</div>
-								<div style={{ width: 960 }}>
+								<div style={{ width: 720 }}>
 									<InputAutocomplete
 										name={'competence'}
 										value={valueCompetence}
