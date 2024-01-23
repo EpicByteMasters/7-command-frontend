@@ -1,0 +1,105 @@
+@use '../../shared/modules/mixins/mixins.scss';
+@import '../../styles/variables.scss';
+
+.aside {
+	margin: 0;
+	padding: 0;
+}
+
+.navtab {
+	margin: 0;
+	padding: 0;
+}
+
+.list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	max-width: 197px;
+	width: 100%;
+	.item:first-of-type {
+		background: $baseColorWhite;
+	}
+	.link:first-of-type {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.item {
+	display: flex;
+	flex-direction: row;
+	height: 40px;
+	align-items: center;
+}
+
+.item:last-of-type {
+	background: #e7e7ea;
+}
+.item:focus {
+	align-items: center;
+	align-self: stretch;
+	background: #e7e7ea;
+}
+.item:hover {
+	align-items: center;
+	align-self: stretch;
+	background: #e7e7ea;
+}
+.item:active {
+	align-items: center;
+	align-self: stretch;
+	background: #e7e7ea;
+}
+
+.link {
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	width: 197px;
+	color: $baseColorBlack;
+	font-feature-settings: 'salt' on;
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 20px;
+	letter-spacing: 0.28px;
+}
+
+.icon {
+	margin: 0;
+	padding-right: 2px;
+	width: 40px;
+	height: 40px;
+	color: $baseColorBlack;
+}
+
+.iconBack {
+	display: flex;
+	max-width: 16px;
+	max-height: 16px;
+	padding: 8px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 40px;
+	background: $additionalBg;
+}
+
+.iconBack:hover {
+	border-radius: 40px;
+	background: #e7e7ea;
+}
+
+.iconBack:active {
+	border-radius: 40px;
+	background: #dcdde1;
+}
+
+.title {
+	margin: 0 0 20px 0;
+	padding: 0;
+	@include mixins.columns;
+	color: #70707a;
+}

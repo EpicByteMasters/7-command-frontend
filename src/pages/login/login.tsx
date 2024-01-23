@@ -5,6 +5,7 @@ import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
 
 interface User {
+	id: number;
 	pic: string;
 	userName: string;
 	position: string;
@@ -27,7 +28,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 							{users.map((user: User, key: number) => {
 								return (
-									<li className={styles.item} key={user.userName}>
+									<li className={styles.item} key={user.id}>
 										<img src={user.pic} className={styles.img} alt="аватар" />
 										<div className={styles.textWrapper}>
 											<h3 className={styles.title}>{user.userName}</h3>

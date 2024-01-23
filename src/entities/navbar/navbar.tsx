@@ -1,5 +1,5 @@
 import styles from './navbar.module.scss';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { UsdMIcon } from '@alfalab/icons-glyph/UsdMIcon';
 import { BriefcaseMIcon } from '@alfalab/icons-glyph/BriefcaseMIcon';
@@ -9,9 +9,12 @@ import { WalletMIcon } from '@alfalab/icons-glyph/WalletMIcon';
 import { NavigationMarketplaceMIcon } from '@alfalab/icons-glyph/NavigationMarketplaceMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
+import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
+import roleUrl from '../../shared/utils/urls';
 
 function NavBar() {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	return (
 		<aside className={styles.aside}>
@@ -36,7 +39,7 @@ function NavBar() {
 								fill="currentColor"
 								className={styles.icon}
 							></TwoUsersMIcon>
-							<span>Моя команда</span>
+							<span>Развитие команды</span>
 						</NavLink>
 					</li>
 					<li className={styles.item}>
@@ -97,7 +100,16 @@ function NavBar() {
 								fill="currentColor"
 								className={styles.icon}
 							></RocketMIcon>
-							План развития
+							Мой план развития
+						</NavLink>
+					</li>
+					<li className={styles.item}>
+						<NavLink className={styles.link} to="#">
+							<UserStarMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></UserStarMIcon>
+							Менторство
 						</NavLink>
 					</li>
 				</ul>
