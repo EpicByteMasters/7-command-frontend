@@ -1,10 +1,5 @@
 import styles from './navbar-main.module.scss';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { UsdMIcon } from '@alfalab/icons-glyph/UsdMIcon';
-import { SquareAcademicCapMIcon } from '@alfalab/icons-glyph/SquareAcademicCapMIcon';
-import { HourglassMIcon } from '@alfalab/icons-glyph/HourglassMIcon';
-import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
-import roleUrl from '../../shared/utils/urls';
 import iconProfile from '../../images/navbar-icons-color/icon-user-account.svg';
 import iconCert from '../../images/navbar-icons-color/icon-certificate.svg';
 import iconVacation from '../../images/navbar-icons-color/icon-vacation.svg';

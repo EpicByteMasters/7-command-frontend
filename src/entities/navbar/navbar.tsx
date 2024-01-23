@@ -10,7 +10,6 @@ import { NavigationMarketplaceMIcon } from '@alfalab/icons-glyph/NavigationMarke
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
-import roleUrl from '../../shared/utils/urls';
 
 function NavBar() {
 	const navigate = useNavigate();

@@ -6,7 +6,6 @@ import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { Select } from '@alfalab/core-components/select';
 
 import Header from '../../components/Header/header';
-import NavBar from '../../entities/navbar/navbar';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Footer } from '../../entities/footer/footer';
@@ -14,6 +13,7 @@ import {
 	EmployeeGoalPlan,
 	EmployeesList,
 } from '../../entities/employees-list/employees-list';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
@@ -45,7 +45,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
 				<div className={styles.wrapper}>
 					<PageTitle title="План развития"></PageTitle>
 					<div className={styles.dataWrapper}>
