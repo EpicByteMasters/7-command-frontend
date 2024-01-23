@@ -319,7 +319,7 @@ export const ManagerIprDraft = ({
 										></InputAutocomplete>
 									</div>
 								</div>
-								<div style={{ width: 960 }}>
+								<div style={{ width: 720 }}>
 									<InputAutocomplete
 										name={'competence'}
 										value={valueCompetence}
@@ -468,7 +468,7 @@ export const ManagerIprDraft = ({
 
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
-							<Tasks />
+							<Tasks isEmployee={false} />
 						</fieldset>
 
 						<ButtonDesktop

@@ -1,5 +1,3 @@
-@use '../../styles/mixins.scss';
-
 @import './../../styles/variables.scss';
 
 .container {
@@ -11,21 +9,16 @@
 	flex-grow: 1;
 }
 
-.title {
-	font-family: 'Styrene UI';
-	font-weight: 500;
-	margin: 0;
-	padding: 0;
-	font-size: 38px;
-	line-height: normal;
-}
-
 .dataWrapper {
 	display: flex;
 	justify-content: space-between;
 	padding-bottom: 24px;
 	padding-top: 26px;
 	gap: 24px;
+}
+
+.dataWrapper > * {
+	width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
 }
 
 .searchInputWrapper {
@@ -36,113 +29,4 @@
 	display: flex;
 	gap: 16px;
 	padding-bottom: 32px;
-}
-
-.sortBtn {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-}
-
-.sortIcon {
-	cursor: pointer;
-}
-
-.tableHeader {
-	display: grid;
-	grid-template-columns: 288px 184px 80px 80px 110px 113px 24px;
-	gap: 24px;
-	padding-bottom: 20px;
-}
-
-.tableRaws {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	border-top: 1px solid #e7e7ea;
-}
-
-.tableRaw {
-	display: grid;
-	grid-template-columns: 288px 184px 80px 80px 110px 112px 24px;
-	gap: 24px;
-	border-bottom: 1px solid #e7e7ea;
-	padding-top: 24px;
-	padding-bottom: 24px;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.tableCell {
-	color: $baseColorBlack;
-	font-family: 'Inter';
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1.4;
-}
-
-.cellStatus {
-	display: flex;
-	padding: 0px 8px;
-	justify-content: center;
-	align-items: center;
-	border-radius: 4px;
-	background: $additionalTable;
-	color: $baseColorGrey;
-	font-family: 'Inter';
-	font-size: 11px;
-	font-weight: 700;
-	line-height: 20px; /* 181.818% */
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	box-sizing: border-box;
-}
-
-.cellStatusDraft {
-	color: $statusDraftTxt;
-	background: $statusDraftBg;
-}
-
-.cellStatusCanceled {
-	color: $statusWarningTxt;
-	background: $statusWarningBg;
-}
-
-.cellStatusInProgress {
-	color: $statusInProgressTxt;
-	background: $statusInProgressBg;
-}
-.cellStatusDone {
-	color: $statusCompletedTxt;
-	background: $statusCompletedBg;
-}
-
-.cellStatusNotDone {
-	color: $statusNotComplitedTxt;
-	background: $statusNotComplitedBg;
-}
-
-.cellNoData {
-	display: flex;
-	align-items: center;
-	color: $baseColorBlack;
-	font-family: 'Inter';
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 20px;
-}
-
-.dotsActionBtn {
-	border: none;
-	background: transparent;
-	width: fit-content;
-	cursor: pointer;
-}
-
-.paragraph {
-	@include mixins.text;
-
-	margin: 0;
-	padding: 0;
-	color: var(--metallic, #898889);
 }
