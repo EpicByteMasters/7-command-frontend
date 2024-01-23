@@ -19,9 +19,7 @@
 	flex-direction: column;
 	max-width: 197px;
 	width: 100%;
-	.item:first-of-type {
-		background: $baseColorWhite;
-	}
+
 	.link:first-of-type {
 		display: flex;
 		align-items: center;
@@ -35,9 +33,6 @@
 	align-items: center;
 }
 
-.item:last-of-type {
-	background: #e7e7ea;
-}
 .item:focus {
 	align-items: center;
 	align-self: stretch;
@@ -76,30 +71,9 @@
 	color: $baseColorBlack;
 }
 
-.iconBack {
-	display: flex;
-	max-width: 16px;
-	max-height: 16px;
-	padding: 8px;
-	justify-content: center;
-	align-items: center;
-	border-radius: 40px;
-	background: $additionalBg;
-}
-
-.iconBack:hover {
-	border-radius: 40px;
-	background: #e7e7ea;
-}
-
-.iconBack:active {
-	border-radius: 40px;
-	background: #dcdde1;
-}
-
 .title {
-	margin: 0 0 20px 0;
-	padding: 0;
 	@include mixins.columns;
+	margin: 0 0 20 0;
+	padding: 0;
 	color: #70707a;
 }
