@@ -1,28 +1,87 @@
 @use '../../shared/modules/mixins/mixins.scss';
 
 .main {
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
-	width: 1016px;
+	width: 1224px;
 }
 
 .container {
-	margin-top: 72px;
+	margin: 0 auto;
+	margin-top: 40px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	width: 1280px;
-	overflow: hidden;
-}
-.img {
-	padding-left: 50px;
+	max-width: 1224px;
+	width: 100%;
 	overflow: hidden;
 }
 
 .paragraph {
 	@include mixins.text;
-
 	margin: 0;
 	padding: 0;
-	color: var(--metallic, #898889);
+	color: #898889;
+}
+
+.contentWrapper {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.contentWrapper {
+	margin: 0 0 0 115px;
+	padding: 0;
+}
+
+.titleWrapper {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+}
+.title {
+	height: 40px;
+	width: 447px;
+}
+.headerWrapper {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+}
+
+.cardsWrapper {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+.news {
+	height: 300px;
+	width: 600px;
+}
+.card {
+	height: 300px;
+	margin-left: 24px;
+}
+
+.cards {
+	margin-top: 24px;
+	height: 300px;
+	width: 912px;
+}
+.buttonWrapper {
+	padding: 0;
+	margin: 44px auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.button {
+	height: 36px;
+	width: 118px;
 }

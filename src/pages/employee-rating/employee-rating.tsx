@@ -8,6 +8,7 @@ import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';
 import { Footer } from '../../entities/footer/footer';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 export const EmployeeRatingPage = () => {
 	const options = [{ key: 'Выполнен' }, { key: 'Не выполнен' }];
@@ -33,7 +34,7 @@ export const EmployeeRatingPage = () => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
 					<div className={styles.employeeWrapper}>

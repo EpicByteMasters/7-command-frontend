@@ -3,7 +3,6 @@ import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
 import { Footer } from '../../entities/footer/footer';
 import Header from '../../components/Header/header';
-import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
@@ -17,7 +16,8 @@ import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
-
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+import { Modal } from '../../entities/modal/modal';
 interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
@@ -25,11 +25,23 @@ interface ManagerIprDraftProps {
 interface OptionShape {
 	key: string;
 }
+// interface UserShapeProps {
+// 	name: string;
+// 	position: string;
+// 	avatar: string;
+// }
 
 export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
 }: ManagerIprDraftProps) => {
+	// const user = [
+	// 	{
+	// 		name: 'Сошнева Инна Павловна',
+	// 		position: 'Менеджер направления',
+	// 		avatar: avatar,
+	// 	},
+	// ];
 	const optionsGoal: OptionShape[] = [
 		{ key: 'Карьерный рост' },
 		{ key: 'Повышение грейда' },
@@ -40,6 +52,7 @@ export const ManagerIprDraft = ({
 		{ key: 'Смена команды' },
 		{ key: 'Получение нового опыта' },
 	];
+
 	const optionsRole: OptionShape[] = [
 		{ key: 'Продакт-менеджер' },
 		{ key: 'Проджект-менеджер' },
@@ -125,6 +138,11 @@ export const ManagerIprDraft = ({
 	const [valueStartDate, setStartDate] = useState<string>('');
 	const [valueEndDate, setEndDate] = useState<string>('');
 
+	const [modalOpen, setModalOpen] = useState(false);
+
+	const onModalOpen = () => {
+		setModalOpen(!modalOpen);
+	};
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
 
@@ -191,14 +209,12 @@ export const ManagerIprDraft = ({
 			: optionsMentor.filter((option) => matchOption(option, valueMentor));
 	};
 
-	// // Competence
 	const handleInputCompetence = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
 	};
-	// Работает
 	const inputValues: string[] = valueCompetence.replace(/ /g, '').split(',');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
@@ -209,10 +225,6 @@ export const ManagerIprDraft = ({
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
 	const tagValues = valueCompetence.trim().split(',');
-
-	// console.log(inputValues, 'input-values');
-	// console.log(tagValues, 'tag');
-	// console.log(valueCompetence, 'competence');
 
 	const handleChangeCompetence = ({
 		selected,
@@ -252,7 +264,15 @@ export const ManagerIprDraft = ({
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
+				{modalOpen && (
+					<Modal
+						title="Выйти без сохранения?"
+						paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
+						button1="Выйти"
+						button2="Отмена"
+					></Modal>
+				)}
 				<div className={styles.iprDraft}>
 					<div className={styles.titleWrapper}>
 						<h1 className={styles.title}>План развития сотрудника</h1>
@@ -263,7 +283,7 @@ export const ManagerIprDraft = ({
 					<div className={styles.employeeWrapper}>
 						<EmployeeInfoCard
 							name="Сошнева Инна Павловна"
-							position="Менеджер направления"
+							position="Руководитель направления"
 							avatar={avatar}
 						/>
 					</div>
@@ -274,7 +294,17 @@ export const ManagerIprDraft = ({
 						<Button view="primary" size="m" className={styles.buttonSend}>
 							Отправить в работу
 						</Button>
-						<TrashCanMIcon color="#EC2E13" />
+
+						<button
+							onClick={onModalOpen}
+							style={{
+								border: 'none',
+								backgroundColor: 'transparent',
+								cursor: 'pointer',
+							}}
+						>
+							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
+						</button>
 					</div>
 					<form className={styles2.form}>
 						<fieldset className={styles2.blockWrapper}>

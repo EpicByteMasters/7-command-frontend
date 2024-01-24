@@ -7,8 +7,19 @@ import { Button } from '@alfalab/core-components/button';
 
 interface HeaderProps {
 	error?: string;
+	title?: string;
+	paragraph?: string;
+	button1?: string;
+	button2?: string;
 }
-export const Modal = ({ error }: HeaderProps) => {
+
+export const Modal = ({
+	error,
+	title,
+	paragraph,
+	button1,
+	button2,
+}: HeaderProps) => {
 	const navigate = useNavigate();
 
 	const [open, setOpen] = useState(true);
@@ -31,24 +42,20 @@ export const Modal = ({ error }: HeaderProps) => {
 	return (
 		<>
 			<ModalDesktop open={open} onClose={handleClose} size={'s'}>
-				<ModalDesktop.Header
-					hasCloser={true}
-					sticky={true}
-					title={'Демо-выход'}
-				/>
+				<ModalDesktop.Header hasCloser={true} sticky={true} title={title} />
 				<ModalDesktop.Content>
-					<p>Вы действительно хотите выйти из своего аккаунта?</p>
+					<p>{paragraph}</p>
 				</ModalDesktop.Content>
 				<ModalDesktop.Footer sticky={true}>
 					<ModalDesktop.Controls
 						primary={
 							<Button view="primary" size="s" onClick={handleLogOut}>
-								Да
+								{button1}
 							</Button>
 						}
 						secondary={
 							<Button view="secondary" size="s" onClick={handleLogIn}>
-								Нет
+								{button2}
 							</Button>
 						}
 					/>
