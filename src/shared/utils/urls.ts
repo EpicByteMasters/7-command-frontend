@@ -1,3 +1,4 @@
+//Важно! тут не меняется URL страницы, но отображение пользователю должно меняться.
 interface roleUrlProps {
 	id: number;
 	name: string;
@@ -5,9 +6,9 @@ interface roleUrlProps {
 }
 // Руты по ролям
 export const roleUrl: roleUrlProps[] = [
-	{ id: 1, name: 'myteam', url: '/service-iprs/myteam' },
-	{ id: 2, name: 'mentor', url: '/service-iprs/mentor' },
-	{ id: 3, name: 'my', url: '/service-iprs/my' },
+	{ id: 1, name: 'myteam', url: '/service-iprs/myteam' }, // План развития сотрудников
+	{ id: 2, name: 'mentor', url: '/service-iprs/mentor' }, //Менторство сотрудников
+	{ id: 3, name: 'my', url: '/service-iprs/my' }, // Мой план развития
 ];
 
 interface myTeamUrlProps {
@@ -18,9 +19,9 @@ interface myTeamUrlProps {
 
 // Руты по которым может ходить руководитель
 export const myTeamUrl: myTeamUrlProps[] = [
-	{ id: 1, role: 'myteam', url: '/service-iprs/myteam' },
-	{ id: 2, role: 'myteam', url: '/service-iprs/myteam/history' },
-	{ id: 3, role: 'myteam', url: '/service-iprs/ipr/:id' },
+	{ id: 1, role: 'myteam', url: '/service-iprs/myteam' }, // План развития сотрудников
+	{ id: 2, role: 'myteam', url: '/service-iprs/myteam/history' }, // История ИПР сотрудника
+	{ id: 3, role: 'myteam', url: '/service-iprs/ipr/:id' }, //Просмотра ИПР // Подведение итогов ИПР //Просмотра активного ИПР
 	{ id: 4, role: 'main', url: '/' },
 ];
 
@@ -32,8 +33,8 @@ interface myUrlProps {
 
 // Руты по которым может ходить сотурдник
 export const myUrl: myUrlProps[] = [
-	{ id: 1, role: 'my', url: '/service-iprs/my' },
-	{ id: 2, role: 'my', url: '/service-iprs/ipr/:id' },
+	{ id: 1, role: 'my', url: '/service-iprs/my' }, // Мой план развития
+	{ id: 2, role: 'my', url: '/service-iprs/ipr/:id' }, // Просмотр ИПР //Просмотра активного ИПР
 	{ id: 3, role: 'main', url: '/' },
 ];
 
@@ -44,8 +45,8 @@ interface mentorUrlProps {
 }
 // Руты по которым может ходить ментор
 export const mentorUrl: mentorUrlProps[] = [
-	{ id: 1, role: 'my', url: '/service-iprs/mentor' },
-	{ id: 2, role: 'my', url: '/service-iprs/ipr/:id' },
+	{ id: 1, role: 'my', url: '/service-iprs/mentor' }, // Менторство сотрудников
+	{ id: 2, role: 'my', url: '/service-iprs/ipr/:id' }, //Просмотра активного ИПР //Подведение итогов ИПР
 	{ id: 3, role: 'main', url: '/' },
 ];
 
@@ -57,7 +58,7 @@ interface accessUrlProps {
 
 // Руты доступа
 export const accessUrl: accessUrlProps[] = [
-	{ id: 1, role: 'login', url: '/login' },
-	{ id: 2, role: 'logout', url: '/logout' },
-	{ id: 3, role: 'main', url: '/' },
+	{ id: 1, role: 'login', url: '/login' }, // Страница входа
+	{ id: 2, role: 'logout', url: '/logout' }, // Запрос выхода
+	{ id: 3, role: 'main', url: '/' }, // Главная
 ];

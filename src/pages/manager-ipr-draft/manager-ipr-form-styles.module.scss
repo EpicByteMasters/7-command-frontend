@@ -43,7 +43,7 @@
 	padding: 48px 0 28px 0;
 }
 .formBlock {
-	@include mixins.form;
+	// @include mixins.form;
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
