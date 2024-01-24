@@ -17,6 +17,7 @@ import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -246,7 +247,7 @@ export const ManagerIprDraft = ({
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
 				<div className={styles.iprDraft}>
 					<div className={styles.titleWrapper}>
 						<h1 className={styles.title}>План развития сотрудника</h1>
