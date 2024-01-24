@@ -28,23 +28,23 @@ interface ManagerIprDraftProps {
 interface OptionShape {
 	key: string;
 }
-// interface UserShapeProps {
-// 	name: string;
-// 	position: string;
-// 	avatar: string;
-// }
+interface UserShapeProps {
+	name: string;
+	position: string;
+	avatar: string;
+}
 
 export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
 }: ManagerIprDraftProps) => {
-	// const user = [
-	// 	{
-	// 		name: 'Сошнева Инна Павловна',
-	// 		position: 'Менеджер направления',
-	// 		avatar: avatar,
-	// 	},
-	// ];
+	const user = [
+		{
+			name: 'Сошнева Инна Павловна',
+			position: 'Менеджер направления',
+			avatar: avatar,
+		},
+	];
 
 	const [modalOpen, setModalOpen] = useState(false);
 

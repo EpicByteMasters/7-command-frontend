@@ -9,7 +9,6 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
-
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
 }
@@ -321,7 +320,9 @@ export const TasksOverview = ({ isExecutive }: ManagerIprDraftProps) => {
 											shape="rounded"
 											view="filled"
 											checked={true}
-											onClear={() => setValueCompetence('')}
+											onClear={() => {
+												setValueCompetence('');
+											}}
 										>
 											{value}
 										</FilterTag>

@@ -5,6 +5,7 @@ import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
+import { roleUrl } from '../../shared/utils/urls';
 
 function NavBarMini() {
 	const navigate = useNavigate();
@@ -52,11 +53,7 @@ function NavBarMini() {
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<NavLink
-							className={styles.link}
-							to="/service-iprs/myteam"
-							onClick={onGoBack}
-						>
+						<NavLink className={styles.link} to="/" onClick={onGoBack}>
 							<ArrowLeftMediumMIcon
 								className={styles.iconBack}
 								fill="currentColor"
@@ -65,7 +62,7 @@ function NavBarMini() {
 						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="#">
+						<NavLink className={styles.link} to={roleUrl[0].url}>
 							<TwoUsersMIcon
 								fill="currentColor"
 								className={styles.icon}
@@ -75,7 +72,7 @@ function NavBarMini() {
 					</li>
 
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="#">
+						<NavLink className={styles.link} to={roleUrl[1].url}>
 							<RocketMIcon
 								fill="currentColor"
 								className={styles.icon}
@@ -84,7 +81,7 @@ function NavBarMini() {
 						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="#">
+						<NavLink className={styles.link} to={roleUrl[2].url}>
 							<UserStarMIcon
 								fill="currentColor"
 								className={styles.icon}
