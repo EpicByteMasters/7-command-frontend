@@ -15,6 +15,7 @@ import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
+import { courses } from '../../shared/utils/constants';
 
 interface TaskProps {
 	id: number;
@@ -83,10 +84,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const [multiple, setMultiple] = React.useState(false);
 	const [progress, setProgress] = useState<number | undefined>(0);
 
-	const optionsCourses: OptionShape[] = [
-		{ key: 'Подготовка к IELTS' },
-		{ key: 'Профессиональный английский' },
-	];
+	const optionsCourses: OptionShape[] = courses;
 
 	const handleChangeCourse = (payload: any) => {
 		// Извлекаем значение из payload
@@ -310,7 +308,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															size="m"
 															className={styles.button}
 														>
-															Отметить выполненной
+															Отправить на проверку
 														</Button>
 													</div>
 												)}

@@ -49,6 +49,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 			closeButton: true,
 		},
 	];
+
 	const goalsData = [
 		{
 			id: 1,
@@ -103,17 +104,12 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 		dispatch(setActiveGoalId(goalId === activeGoalId ? null : goalId));
 	};
 
+	//кружочки прогресса
 	const numberOfTasks = tasksData.length;
-
-	// Calculate finishedTasks and progress
 	const finishedTasks = tasksData.filter(
 		(task) => task.statusText.toLowerCase() === 'выполнена'
 	).length;
 	const progress = (finishedTasks / numberOfTasks) * 100;
-
-	// ... (Your existing code)
-
-	// Inside your component or function
 	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
 	return (
@@ -143,8 +139,6 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 							statusText,
 							// progress,
 						}) => {
-							// const progressPercentage = `${progress}%`;
-
 							return (
 								<Table.TRow
 									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
