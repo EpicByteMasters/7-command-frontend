@@ -24,14 +24,14 @@ function App() {
 				/>
 				<Route path="/service-iprs/my" element={<></>} />
 				<Route path="/service-iprs/mentor" element={<></>} />
+
+				{/* Футер - старые роуты */}
 				<Route
 					path="/service-iprs/ipr/1"
 					element={
 						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
 					}
 				/>
-
-				{/* Футер - старые роуты */}
 				<Route path="/iprs" element={<MyPlan />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
