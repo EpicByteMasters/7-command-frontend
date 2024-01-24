@@ -1,16 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Определи тип состояния
 export interface UserState {
-	user: string; // или какой там тип данных для пользователя
+	user: string;
 }
 
-// Начальное состояние
 const initialState: UserState = {
 	user: '',
 };
 
-// Создание среза
 const userSlice = createSlice({
 	name: 'user',
 	initialState,

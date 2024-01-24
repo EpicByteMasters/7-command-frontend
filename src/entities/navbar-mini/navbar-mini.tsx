@@ -52,7 +52,11 @@ function NavBarMini() {
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="#" onClick={onGoBack}>
+						<NavLink
+							className={styles.link}
+							to="/service-iprs/myteam"
+							onClick={onGoBack}
+						>
 							<ArrowLeftMediumMIcon
 								className={styles.iconBack}
 								fill="currentColor"

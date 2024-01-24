@@ -1,5 +1,5 @@
 import styles from './my-plan.module.scss';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
 import BackButton from '../../entities/backbutton/backbutton';
 import { Plan } from '../../entities/plan-component/plan';
 import { Footer } from '../../entities/footer/footer';

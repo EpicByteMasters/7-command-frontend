@@ -1,6 +1,7 @@
 import styles from './main-page.module.scss';
 import { useState } from 'react';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
+import layout from '../../images/alfa-layout.png';
 import { Footer } from '../../entities/footer/footer';
 import NavBarMain from '../../entities/navbar-main/navbar-main';
 import layout1 from '../../images/main-layout/top.png';

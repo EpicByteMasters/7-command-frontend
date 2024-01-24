@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './login.module.scss';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
 

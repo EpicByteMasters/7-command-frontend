@@ -2,7 +2,10 @@ import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
 import { Footer } from '../../entities/footer/footer';
-import Header from '../../components/Header/header';
+
+import Header from '../../shared/header-component/header';
+import NavBar from '../../entities/navbar/navbar';
+
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';

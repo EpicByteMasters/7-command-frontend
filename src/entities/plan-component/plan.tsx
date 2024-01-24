@@ -9,65 +9,62 @@ import {
 	selectActiveGoalId,
 } from '../../store/reducers/goalSlice';
 import { Link } from 'react-router-dom';
+import { goalsData } from '../../shared/utils/constants';
 
 interface PlanProps {
 	isEmployee?: boolean;
 }
 
 export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
-	const goalsData = [
+	const tasksData = [
 		{
 			id: 1,
-			goal: 'Карьерный рост',
-			dateStart: '15.01.2024',
-			dateEnd: '25.12.2024',
-			progress: 0,
-			statusText: 'в работе',
-			statusColor: 'blue',
+			title: 'Менторинг новых сотрудников',
+			deadline: 'До 30 января',
+			statusText: 'не выполнена',
+			statusColor: 'red',
+			closeButton: false,
 		},
 		{
 			id: 2,
-			goal: 'Повышение грейда',
-			dateStart: '20.01.2023',
-			dateEnd: '20.01.2023',
-			progress: 40,
-			statusText: 'отменен',
-			statusColor: 'orange',
+			title: 'Разработка стратегии компании',
+			deadline: 'До 20 марта',
+			statusText: 'ожидает проверки',
+			statusColor: 'purple',
+			closeButton: true,
 		},
 		{
 			id: 3,
-			goal: 'Получение нового опыта',
-			dateStart: '16.01.2022',
-			dateEnd: '25.12.2022',
-			progress: 40,
-			statusText: 'не выполнен',
-			statusColor: 'red',
+			title: 'Найм сотрудников',
+			deadline: 'До 10 апреля',
+			statusText: 'выполнена',
+			statusColor: 'green',
+			closeButton: false,
 		},
 		{
 			id: 4,
-			goal: 'Смена команды',
-			dateStart: '12.01.2021',
-			dateEnd: '25.12.2021',
-			progress: 90,
-			statusText: 'выполнен',
-			statusColor: 'green',
-		},
-		{
-			id: 5,
-			goal: 'Соответствие занимаемой должности',
-			dateStart: '23.01.2020',
-			dateEnd: '25.12.2020',
-			progress: 100,
-			statusText: 'выполнен',
-			statusColor: 'green',
+			title: 'Подготовка и выступление на конференции',
+			deadline: 'До 1 июня',
+			statusText: 'отменена',
+			statusColor: 'orange',
+			closeButton: true,
 		},
 	];
+
 	const dispatch = useDispatch();
 	const activeGoalId = useSelector(selectActiveGoalId);
 
 	const handleClick = (goalId: number) => {
 		dispatch(setActiveGoalId(goalId === activeGoalId ? null : goalId));
 	};
+
+	//кружочки прогресса
+	const numberOfTasks = tasksData.length;
+	const finishedTasks = tasksData.filter(
+		(task) => task.statusText.toLowerCase() === 'выполнена'
+	).length;
+	const progress = (finishedTasks / numberOfTasks) * 100;
+	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
 	return (
 		<>
@@ -94,10 +91,8 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 							dateEnd,
 							statusColor,
 							statusText,
-							progress,
+							// progress,
 						}) => {
-							const progressPercentage = `${progress}%`;
-
 							return (
 								<Table.TRow
 									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
@@ -135,7 +130,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Link to={`/iprs/ipr/${id}`}>
+										<Link to={`/service-iprs/ipr/${id}`}>
 											<Button view="tertiary" size="s">
 												Открыть
 											</Button>

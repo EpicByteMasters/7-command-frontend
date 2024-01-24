@@ -1,5 +1,6 @@
 import styles from './employee-plan.module.scss';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
+import NavBar from '../../entities/navbar/navbar';
 import avatar from '../../images/avatar.png';
 import { Plan } from '../../entities/plan-component/plan';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';

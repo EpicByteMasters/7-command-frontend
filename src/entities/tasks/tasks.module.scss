@@ -13,6 +13,7 @@
 	padding: 28px;
 	border: 1px dashed var(--in_progress_text, #2a77ef);
 	display: block;
+	border: none;
 }
 
 .wrapper {
@@ -51,7 +52,7 @@
 }
 
 .attachButton {
-	background-color: transparent;
+	background-color: none;
 	color: #2a77ef;
 }
 
