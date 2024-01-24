@@ -14,6 +14,7 @@ import {
 	EmployeeGoalPlan,
 	EmployeesList,
 } from '../../entities/employees-list/employees-list';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
@@ -45,7 +46,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
 				<div className={styles.wrapper}>
 					<PageTitle title="План развития"></PageTitle>
 					<div className={styles.dataWrapper}>

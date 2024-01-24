@@ -176,7 +176,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Link to={`/iprs/ipr/${id}`}>
+										<Link to={`/service-iprs/ipr/${id}`}>
 											<Button view="tertiary" size="s">
 												Открыть
 											</Button>

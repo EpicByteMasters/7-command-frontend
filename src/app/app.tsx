@@ -19,7 +19,7 @@ function App() {
 				<Route path="/" element={<Login users={users} />} />
 				<Route path="/main" element={<MainPage></MainPage>} />
 				<Route
-					path="/myteam/iprs"
+					path="/service-iprs/myteam"
 					element={<LeaderEmployeesList data={testData} />}
 				/>
 				<Route
@@ -29,8 +29,8 @@ function App() {
 					}
 				/>
 				<Route path="/iprs" element={<MyPlan />} />
-				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
-				<Route path="/myteam/iprs/history/1" element={<EmployeePlan />} />
+				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
+				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
 				<Route path="/iprs/rating" element={<EmployeeRatingPage />} />
 				<Route path="/*" element={<></>} />
 			</Routes>

@@ -276,6 +276,15 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																Приклепленные файлы
 															</p>
 															<Attach
+																buttonContent="Добавить"
+																buttonProps={{
+																	style: {
+																		backgroundColor: 'transparent',
+																		color: '#2A77EF',
+																		padding: '0',
+																		margin: '0',
+																	},
+																}}
 																size="m"
 																onChange={handleChange}
 																multiple={multiple}

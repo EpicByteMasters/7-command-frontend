@@ -5,10 +5,12 @@ import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
 
 interface User {
+	id: number;
 	pic: string;
-	userName: string;
+	name: string;
 	position: string;
 	link: string;
+	role: string;
 }
 
 interface LoginProps {
@@ -16,6 +18,10 @@ interface LoginProps {
 }
 
 export const Login: FC<LoginProps> = ({ users }) => {
+	function onClick(e: any) {
+		// setCurrentUser(users.find((user) => user.role === e.currentTarget.name));
+	}
+
 	return (
 		<>
 			<main className={styles.page}>
@@ -27,10 +33,10 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 							{users.map((user: User, key: number) => {
 								return (
-									<li className={styles.item} key={user.userName}>
+									<li className={styles.item} key={user.id}>
 										<img src={user.pic} className={styles.img} alt="аватар" />
 										<div className={styles.textWrapper}>
-											<h3 className={styles.title}>{user.userName}</h3>
+											<h3 className={styles.title}>{user.name}</h3>
 											<p className={styles.paragraph}>{user.position}</p>
 										</div>
 
@@ -40,6 +46,8 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												shape="rectangular"
 												size="xxs"
 												href={user.link}
+												onClick={onClick}
+												name={user.role}
 											>
 												Вход
 											</ButtonDesktop>

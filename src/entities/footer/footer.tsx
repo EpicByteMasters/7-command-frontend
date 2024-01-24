@@ -14,13 +14,13 @@ export const Footer = () => {
 				width: '800px',
 			}}
 		>
-			<Link className={styles.paragraph} to="/myteam/iprs">
+			<Link className={styles.paragraph} to="/service-iprs/myteam">
 				Список сотрудников для руководителя
 			</Link>
 			<Link className={styles.paragraph} to="/myteam/iprs/ipr/1">
 				Создание черновика
 			</Link>
-			<Link className={styles.paragraph} to="/myteam/iprs/history/1">
+			<Link className={styles.paragraph} to="/service-iprs/myteam/history">
 				История ИПР от лица руководителя
 			</Link>
 			<Link className={styles.paragraph} to="/iprs">

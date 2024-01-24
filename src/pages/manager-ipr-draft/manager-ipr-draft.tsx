@@ -17,6 +17,7 @@ import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -123,7 +124,7 @@ export const ManagerIprDraft = ({
 	const [valueMentor, setValueMentor] = useState<string>('');
 	const [valueCompetence, setValueCompetence] = useState<string>('');
 	const [valueStartDate, setStartDate] = useState<string>('');
-	const [valueEndDate, setEndDate] = useState<string>('');
+	const [valueEndDate, setEndDate] = useState('');
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
@@ -191,14 +192,12 @@ export const ManagerIprDraft = ({
 			: optionsMentor.filter((option) => matchOption(option, valueMentor));
 	};
 
-	// // Competence
 	const handleInputCompetence = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
 	};
-	// Работает
 	const inputValues: string[] = valueCompetence.replace(/ /g, '').split(',');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
@@ -209,10 +208,6 @@ export const ManagerIprDraft = ({
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
 	const tagValues = valueCompetence.trim().split(',');
-
-	// console.log(inputValues, 'input-values');
-	// console.log(tagValues, 'tag');
-	// console.log(valueCompetence, 'competence');
 
 	const handleChangeCompetence = ({
 		selected,
@@ -252,7 +247,7 @@ export const ManagerIprDraft = ({
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBar />
+				<NavBarMini />
 				<div className={styles.iprDraft}>
 					<div className={styles.titleWrapper}>
 						<h1 className={styles.title}>План развития сотрудника</h1>

@@ -72,43 +72,13 @@ function Header({ error }: HeaderProps) {
 					''
 				) : (
 					<img
-						onClick={handleOpen}
+						// onClick={handleOpen}
 						src={avatar}
 						alt="аватар"
 						className={styles.avatar}
 					/>
 				)}
 
-				{
-					// open ?
-					// <ModalDesktop open={open} onClose={handleClose} size={'s'}>
-					// 	<ModalDesktop.Header
-					// 		hasCloser={true}
-					// 		sticky={true}
-					// 		title={'Демо-выход'}
-					// 	/>
-					// 	<ModalDesktop.Content>
-					// 		<p>Вы действительно хотите выйти из своего аккаунта?</p>
-					// 	</ModalDesktop.Content>
-					// 	<ModalDesktop.Footer sticky={true}>
-					// 		<ModalDesktop.Controls
-					// 			primary={
-					// 				<Button view="primary" size="s" onClick={handleLogOut}>
-					// 					Да
-					// 				</Button>
-					// 			}
-					// 			secondary={
-					// 				<Button view="secondary" size="s" onClick={handleLogIn}>
-					// 					Нет
-					// 				</Button>
-					// 			}
-					// 		/>
-					// 	</ModalDesktop.Footer>
-					// </ModalDesktop>
-					// ) : (
-					// 	''
-					// )
-				}
 				<button onClick={handleOpen} className={styles.dotsActionBtn}>
 					<MoreMIcon className={styles.dotsActionBtn} />
 				</button>
