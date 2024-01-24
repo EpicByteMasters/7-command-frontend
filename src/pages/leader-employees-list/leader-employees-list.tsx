@@ -5,7 +5,7 @@ import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { Select } from '@alfalab/core-components/select';
 
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
 import NavBar from '../../entities/navbar/navbar';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';

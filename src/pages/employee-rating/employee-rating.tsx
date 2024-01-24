@@ -3,7 +3,7 @@ import { Button } from '@alfalab/core-components/button';
 import { PickerButton } from '@alfalab/core-components/picker-button';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
 import NavBar from '../../entities/navbar/navbar';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';

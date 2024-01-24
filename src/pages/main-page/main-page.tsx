@@ -1,6 +1,6 @@
 import styles from './main-page.module.scss';
 import { useState } from 'react';
-import Header from '../../components/Header/header';
+import Header from '../../shared/header-component/header';
 import { NavBarMini1 } from '../../entities/navbar-mini-1/navbar-mini1';
 import { NavBarMini2 } from '../../entities/navbar-mini-2/navbar-mini2';
 import layout from '../../images/alfa-layout.png';

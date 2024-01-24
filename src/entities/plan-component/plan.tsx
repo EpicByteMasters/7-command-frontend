@@ -15,13 +15,47 @@ interface PlanProps {
 }
 
 export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
+	const tasksData = [
+		{
+			id: 1,
+			title: 'Менторинг новых сотрудников',
+			deadline: 'До 30 января',
+			statusText: 'не выполнена',
+			statusColor: 'red',
+			closeButton: false,
+		},
+		{
+			id: 2,
+			title: 'Разработка стратегии компании',
+			deadline: 'До 20 марта',
+			statusText: 'ожидает проверки',
+			statusColor: 'purple',
+			closeButton: true,
+		},
+		{
+			id: 3,
+			title: 'Найм сотрудников',
+			deadline: 'До 10 апреля',
+			statusText: 'выполнена',
+			statusColor: 'green',
+			closeButton: false,
+		},
+		{
+			id: 4,
+			title: 'Подготовка и выступление на конференции',
+			deadline: 'До 1 июня',
+			statusText: 'отменена',
+			statusColor: 'orange',
+			closeButton: true,
+		},
+	];
 	const goalsData = [
 		{
 			id: 1,
 			goal: 'Карьерный рост',
 			dateStart: '15.01.2024',
 			dateEnd: '25.12.2024',
-			progress: 0,
+			// progress: 0,
 			statusText: 'в работе',
 			statusColor: 'blue',
 		},
@@ -30,7 +64,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 			goal: 'Повышение грейда',
 			dateStart: '20.01.2023',
 			dateEnd: '20.01.2023',
-			progress: 40,
+			// progress: 40,
 			statusText: 'отменен',
 			statusColor: 'orange',
 		},
@@ -39,7 +73,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 			goal: 'Получение нового опыта',
 			dateStart: '16.01.2022',
 			dateEnd: '25.12.2022',
-			progress: 40,
+			// progress: 40,
 			statusText: 'не выполнен',
 			statusColor: 'red',
 		},
@@ -48,7 +82,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 			goal: 'Смена команды',
 			dateStart: '12.01.2021',
 			dateEnd: '25.12.2021',
-			progress: 90,
+			// progress: 90,
 			statusText: 'выполнен',
 			statusColor: 'green',
 		},
@@ -57,7 +91,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 			goal: 'Соответствие занимаемой должности',
 			dateStart: '23.01.2020',
 			dateEnd: '25.12.2020',
-			progress: 100,
+			// progress: 100,
 			statusText: 'выполнен',
 			statusColor: 'green',
 		},
@@ -68,6 +102,19 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 	const handleClick = (goalId: number) => {
 		dispatch(setActiveGoalId(goalId === activeGoalId ? null : goalId));
 	};
+
+	const numberOfTasks = tasksData.length;
+
+	// Calculate finishedTasks and progress
+	const finishedTasks = tasksData.filter(
+		(task) => task.statusText.toLowerCase() === 'выполнена'
+	).length;
+	const progress = (finishedTasks / numberOfTasks) * 100;
+
+	// ... (Your existing code)
+
+	// Inside your component or function
+	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
 	return (
 		<>
@@ -94,9 +141,9 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 							dateEnd,
 							statusColor,
 							statusText,
-							progress,
+							// progress,
 						}) => {
-							const progressPercentage = `${progress}%`;
+							// const progressPercentage = `${progress}%`;
 
 							return (
 								<Table.TRow
