@@ -1,15 +1,18 @@
 import styles from './navbar-mini.module.scss';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
-
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
 import { roleUrl } from '../../shared/utils/urls';
-
-function NavBarMini() {
-	const navigate = useNavigate();
-	const location = useLocation();
+interface ExecutiveProps {
+	isExecutive?: boolean;
+}
+export const NavBarMini: React.FC<ExecutiveProps> = ({
+	isExecutive = false,
+}) => {
+	// const navigate = useNavigate();
+	// const location = useLocation();
 
 	const onGoBack = () => {
 		// //Сотрудник
@@ -61,16 +64,19 @@ function NavBarMini() {
 							<span>Назад</span>
 						</NavLink>
 					</li>
-					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[0].url}>
-							<TwoUsersMIcon
-								fill="currentColor"
-								className={styles.icon}
-							></TwoUsersMIcon>
-							<span>Развитие команды</span>
-						</NavLink>
-					</li>
-
+					{isExecutive ? (
+						<li className={styles.item}>
+							<NavLink className={styles.link} to={roleUrl[0].url}>
+								<TwoUsersMIcon
+									fill="currentColor"
+									className={styles.icon}
+								></TwoUsersMIcon>
+								<span>Развитие команды</span>
+							</NavLink>
+						</li>
+					) : (
+						''
+					)}
 					<li className={styles.item}>
 						<NavLink className={styles.link} to={roleUrl[1].url}>
 							<RocketMIcon
@@ -80,19 +86,23 @@ function NavBarMini() {
 							Мой план развития
 						</NavLink>
 					</li>
-					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[2].url}>
-							<UserStarMIcon
-								fill="currentColor"
-								className={styles.icon}
-							></UserStarMIcon>
-							Менторство
-						</NavLink>
-					</li>
+					{isExecutive ? (
+						<li className={styles.item}>
+							<NavLink className={styles.link} to={roleUrl[2].url}>
+								<UserStarMIcon
+									fill="currentColor"
+									className={styles.icon}
+								></UserStarMIcon>
+								Менторство
+							</NavLink>
+						</li>
+					) : (
+						''
+					)}
 				</ul>
 			</nav>
 		</aside>
 	);
-}
+};
 
 export default NavBarMini;

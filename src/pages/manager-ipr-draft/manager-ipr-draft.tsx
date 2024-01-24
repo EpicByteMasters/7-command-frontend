@@ -2,20 +2,12 @@ import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
 import { Footer } from '../../entities/footer/footer';
-
 import Header from '../../shared/header-component/header';
-
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
-import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
-import { Textarea } from '@alfalab/core-components/textarea';
-import { FilterTag } from '@alfalab/core-components/filter-tag';
-import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
@@ -68,9 +60,13 @@ export const ManagerIprDraft = ({
 				<div className={styles.iprDraft}>
 					<div className={styles.titleWrapper}>
 						<h1 className={styles.title}>План развития сотрудника</h1>
-						<Status view="soft" color={statusColor}>
-							{statusText}
-						</Status>
+						{statusText === 'Черновик' ? (
+							<Status view="soft" color={statusColor}>
+								{statusText}
+							</Status>
+						) : (
+							''
+						)}
 					</div>
 					<div className={styles.employeeWrapper}>
 						<EmployeeInfoCard
@@ -98,7 +94,10 @@ export const ManagerIprDraft = ({
 						</button>
 					</div>
 					<form className={styles2.form}>
-						<TasksOverview isExecutive={false}></TasksOverview>
+						<TasksOverview
+							isExecutive={true}
+							iprStatus="черновик"
+						></TasksOverview>
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 							<Tasks isEmployee={false} />

@@ -11,12 +11,16 @@ import { UniversalDateInput } from '@alfalab/core-components/universal-date-inpu
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
+	iprStatus: string;
 }
 interface OptionShape {
 	key: string;
 }
 
-export const TasksOverview = ({ isExecutive }: ManagerIprDraftProps) => {
+export const TasksOverview = ({
+	isExecutive,
+	iprStatus,
+}: ManagerIprDraftProps) => {
 	const optionsGoal: OptionShape[] = [
 		{ key: 'Карьерный рост' },
 		{ key: 'Повышение грейда' },
@@ -353,11 +357,16 @@ export const TasksOverview = ({ isExecutive }: ManagerIprDraftProps) => {
 							}}
 							disabled={isExecutive ? false : true}
 						></InputAutocomplete>
-						<img
-							className={styles2.avatarMentor}
-							src={avatarMentor}
-							alt="avatar"
-						></img>
+
+						{!isExecutive && iprStatus === 'черновик' ? (
+							<img
+								className={styles2.avatarMentor}
+								src={avatarMentor}
+								alt="avatar"
+							></img>
+						) : (
+							''
+						)}
 					</div>
 
 					<div style={{ width: 236 }}>
