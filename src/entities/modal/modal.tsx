@@ -28,6 +28,7 @@ export const Modal = ({
 	const handleOpen = () => setOpen(true);
 
 	const handleClose = () => setOpen(false);
+
 	const handleLogIn = () => {
 		setOpen(false);
 		setLogOut(false);
