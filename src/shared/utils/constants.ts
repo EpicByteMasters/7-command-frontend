@@ -60,10 +60,9 @@ export const courses = [
 export const goalsData = [
 	{
 		id: 1,
-		goal: 'Карьерный рост',
+		goal: 'Развитие софт-скиллов',
 		dateStart: '15.01.2024',
 		dateEnd: '25.12.2024',
-		// progress: 0,
 		statusText: 'в работе',
 		statusColor: 'blue',
 	},
@@ -72,7 +71,6 @@ export const goalsData = [
 		goal: 'Повышение грейда',
 		dateStart: '20.01.2023',
 		dateEnd: '20.01.2023',
-		// progress: 40,
 		statusText: 'отменен',
 		statusColor: 'orange',
 	},
@@ -81,7 +79,6 @@ export const goalsData = [
 		goal: 'Получение нового опыта',
 		dateStart: '16.01.2022',
 		dateEnd: '25.12.2022',
-		// progress: 40,
 		statusText: 'не выполнен',
 		statusColor: 'red',
 	},
@@ -90,7 +87,6 @@ export const goalsData = [
 		goal: 'Смена команды',
 		dateStart: '12.01.2021',
 		dateEnd: '25.12.2021',
-		// progress: 90,
 		statusText: 'выполнен',
 		statusColor: 'green',
 	},
@@ -99,8 +95,86 @@ export const goalsData = [
 		goal: 'Соответствие занимаемой должности',
 		dateStart: '23.01.2020',
 		dateEnd: '25.12.2020',
-		// progress: 100,
 		statusText: 'выполнен',
 		statusColor: 'green',
+	},
+];
+
+export interface Education {
+	name: string;
+	url: string;
+	status: 'COMPLETED' | 'IN_PROGRESS' | 'NOT_STARTED';
+}
+
+export interface Task {
+	id: number;
+	name: string;
+	dateOfEnd: string;
+	description: string;
+	educations: Education[];
+	commentOfEmployee: string;
+	commentOfMentor: string;
+	files: { name: string; url: string }[];
+	status: keyof typeof statusKeyMap;
+}
+
+export interface IPRGoal {
+	id: number;
+	goal: string;
+	specialization: string;
+	competence: string[];
+	createdAt: string;
+	dateOfEnd: string;
+	mentorId: number | null;
+	description: string;
+	tasks: Task[];
+	status: keyof typeof statusKeyMap;
+}
+
+const statusKeyMap = {
+	DRAFT: 'Черновик',
+	IN_PROGRESS: 'В работе',
+	COMPLETED: 'Выполнен',
+	NOT_COMPLETED: 'Не выполнен',
+	CANCELED: 'Отменен',
+};
+
+export const employeeIPRs: IPRGoal[] = [
+	{
+		id: 1,
+		goal: 'SOFT_SKILLS',
+		specialization: 'DEVELOPER',
+		competence: ['ENGLISH'],
+		createdAt: '12.01.2024',
+		dateOfEnd: '31.12.2024',
+		mentorId: null,
+		description:
+			'Улучшить знания технического английского языка до уровня свободного чтения и подготовки документации к ПО',
+		tasks: [
+			{
+				id: 123123,
+				name: 'Изучение английского языка',
+				dateOfEnd: '31.12.2024',
+				description:
+					'Необходимо повысить уровень технического английского языка для свободного чтения и подготовки документации ПО',
+				educations: [
+					{
+						name: 'Английский язык для разработчиков (продвинутый уровень)',
+						url: 'https://alfapeople.alfabank.ru/educations/english_for_devs_advanced.mp4',
+						status: 'COMPLETED',
+					},
+				],
+				commentOfEmployee: '',
+				commentOfMentor: '',
+				files: [
+					{
+						name: 'Сертификат о прохождении курса_Английский язык для разработчиков (продвинутый уровень)_Петров П.',
+						url: 'https://user.imagestorage.ru/SertificatePetrov.img',
+					},
+				],
+				status: 'IN_PROGRESS',
+			},
+		],
+		status: 'IN_PROGRESS',
 	},
 ];
