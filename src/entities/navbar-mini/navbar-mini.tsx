@@ -24,7 +24,16 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 		if (location.pathname === '/service-iprs/my' && isEmployee) {
 			navigate('/main', { replace: true });
 		}
-		// //Руководитель
+
+		if (
+			(location.pathname === '/service-iprs/ipr/2' || '/service-iprs/ipr/1') &&
+			isExecutive
+		) {
+			navigate('/service-iprs/myteam', { replace: true });
+		}
+		if (location.pathname === '/service-iprs/ipr/3' && !isExecutive) {
+			navigate('/service-iprs/my', { replace: true });
+		}
 		// if (
 		// 	location.pathname === '/service-iprs/myteam' &&
 		// 	user.role === 'myteam'
@@ -37,15 +46,7 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 		// ) {
 		// 	navigate('/service-iprs/myteam', { replace: true });
 		// }
-		// if (
-		// 	location.pathname === '/service-iprs/ipr/:id' &&
-		// 	user.role === 'myteam'
-		// ) {
-		// 	navigate('/service-iprs/myteam', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
-		// 	navigate('/service-iprs/my', { replace: true });
-		// }
+
 		// if (location.pathname === '/service-iprs/my' && user.role === 'my') {
 		// 	navigate('/', { replace: true });
 		// }
