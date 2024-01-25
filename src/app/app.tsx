@@ -1,5 +1,9 @@
 import styles from './app.module.scss';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import * as api from '../shared/utils/api';
+import { setUser } from '../store/reducers/userSlice'; // Укажите путь соответственно
 import { Login } from '../pages/login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { MyPlan } from '../pages/my-plan/my-plan';
@@ -11,6 +15,22 @@ import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-emplo
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
+
+const dispatch = useDispatch();
+
+useEffect(() => {
+	// Получение данных о пользователе с сервера
+	const userId = 1; // Замените на фактический идентификатор пользователя или получите его динамически
+	api
+		.getUserData(userId)
+		.then((userData) => {
+			// Диспатч экшена setUser с полученными данными о пользователе
+			dispatch(setUser({ user: userData }));
+		})
+		.catch((error) => {
+			console.error('Ошибка при получении данных о пользователе:', error);
+		});
+}, [dispatch]); // Эффект запустится только при монтировании компонента
 
 function App() {
 	return (
