@@ -7,7 +7,7 @@ export const Footer = () => {
 			<Link className={styles.paragraph} to="/service-iprs/myteam">
 				Список сотрудников для руководителя
 			</Link>
-			<Link className={styles.paragraph} to="/service-iprs/ipr/1">
+			<Link className={styles.paragraph} to="/service-iprs/ipr/:id">
 				Создание черновика
 			</Link>
 			<Link className={styles.paragraph} to="/service-iprs/myteam/history">
