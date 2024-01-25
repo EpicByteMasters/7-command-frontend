@@ -9,8 +9,11 @@ import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-inf
 import avatar from '../../images/avatar.png';
 import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+interface RatingProps {
+	isExecutive?: boolean;
+}
 
-export const EmployeeRatingPage = () => {
+export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 	const options = [{ key: 'Выполнен' }, { key: 'Не выполнен' }];
 
 	const [selectedRating, setSelectedRaiting] = useState<number>(0);
@@ -34,7 +37,7 @@ export const EmployeeRatingPage = () => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini />
+				<NavBarMini isExecutive={isExecutive} />
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
 					<div className={styles.employeeWrapper}>

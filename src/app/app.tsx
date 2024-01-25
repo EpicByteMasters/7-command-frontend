@@ -119,7 +119,10 @@ function App() {
 					}
 				/>
 				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
-				<Route path="/iprs/rating" element={<EmployeeRatingPage />} />
+				<Route
+					path="/iprs/rating"
+					element={<EmployeeRatingPage isExecutive={true} />}
+				/>
 				<Route path="/*" element={<></>} />
 			</Routes>
 		</div>
