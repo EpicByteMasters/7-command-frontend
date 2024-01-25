@@ -9,7 +9,7 @@ interface ExecutiveProps {
 	isExecutive?: boolean;
 }
 export const NavBarMini: React.FC<ExecutiveProps> = ({
-	isExecutive = false,
+	isExecutive = true,
 }) => {
 	// const navigate = useNavigate();
 	// const location = useLocation();
