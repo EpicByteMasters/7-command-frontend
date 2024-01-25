@@ -24,12 +24,14 @@ export interface EmployeeGoalPlan {
 export interface IEmployeesListProps {
 	data: EmployeeGoalPlan[];
 	ipr_id: number;
+	ipr_id2: number;
 }
 
-export const EmployeesList: React.FC<IEmployeesListProps> = (
-	{ data },
-	ipr_id
-) => {
+export const EmployeesList: React.FC<IEmployeesListProps> = ({
+	data,
+	ipr_id,
+	ipr_id2,
+}) => {
 	const [popoverVisible, setPopoverVisible] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] =
 		useState<EmployeeGoalPlan | null>(null);
@@ -160,8 +162,11 @@ export const EmployeesList: React.FC<IEmployeesListProps> = (
 		(page + 1) * perPage
 	);
 
-	const onClick = () => {
+	const onClickToIpr = () => {
 		navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+	};
+	const onClickToDraft = () => {
+		navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
 	return (
@@ -247,9 +252,20 @@ export const EmployeesList: React.FC<IEmployeesListProps> = (
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Button view="tertiary" size="s" onClick={onClick}>
-											Открыть
-										</Button>
+										{status ===
+										('отсутствует' ||
+											'в работе' ||
+											'выполнен' ||
+											'не выполнен' ||
+											'отменен') ? (
+											<Button view="tertiary" size="s" onClick={onClickToDraft}>
+												Создать
+											</Button>
+										) : (
+											<Button view="tertiary" size="s" onClick={onClickToIpr}>
+												Открыть
+											</Button>
+										)}
 									</Table.TCell>
 									<Table.TCell>
 										<Button

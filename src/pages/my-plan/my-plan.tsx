@@ -5,8 +5,9 @@ import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 interface EmployeeProps {
 	isEmployee?: boolean;
+	ipr_id3?: number;
 }
-export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee }) => {
+export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee, ipr_id3 }) => {
 	return (
 		<>
 			<Header />
@@ -17,7 +18,7 @@ export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee }) => {
 				<div className={styles.wrapper}>
 					<h1 className={styles.title}>Мой план развития</h1>
 					<div className={styles.container}>
-						<Plan isEmployee={true} />
+						<Plan isEmployee={true} ipr_id3={ipr_id3} />
 					</div>
 				</div>
 			</section>

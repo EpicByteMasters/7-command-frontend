@@ -19,6 +19,7 @@ interface TableProps {
 	data: EmployeeGoalPlan[];
 	isExecutive: boolean;
 	ipr_id: number;
+	ipr_id2: number;
 }
 
 const structureData = {
@@ -43,6 +44,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 	data,
 	isExecutive,
 	ipr_id,
+	ipr_id2,
 }) => {
 	const contentLabel1 = <span>Цель</span>;
 	const contentLabel2 = <span>Статус</span>;
@@ -73,7 +75,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 						<FilterTag view="filled">{contentLabel1}</FilterTag>
 						<FilterTag view="filled">{contentLabel2}</FilterTag>
 					</div>
-					<EmployeesList data={data} ipr_id={ipr_id} />
+					<EmployeesList data={data} ipr_id={ipr_id} ipr_id2={ipr_id2} />
 				</div>
 			</div>
 			<Footer></Footer>

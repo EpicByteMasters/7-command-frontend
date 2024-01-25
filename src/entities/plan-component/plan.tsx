@@ -13,9 +13,10 @@ import { goalsData } from '../../shared/utils/constants';
 
 interface PlanProps {
 	isEmployee?: boolean;
+	ipr_id3?: number;
 }
 
-export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
+export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
 	const tasksData = [
 		{
 			id: 1,
@@ -134,7 +135,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Link to={`/service-iprs/ipr/${id}`}>
+										<Link to={`/service-iprs/ipr/${ipr_id3}`}>
 											<Button view="tertiary" size="s">
 												Открыть
 											</Button>

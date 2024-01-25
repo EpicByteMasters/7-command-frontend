@@ -118,12 +118,12 @@ export const ManagerIprDraft = ({
 					</div>
 					<form className={styles2.form}>
 						<TasksOverview
-							isExecutive={true}
+							isExecutive={isExecutive}
 							iprStatus="черновик"
 						></TasksOverview>
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
-							<Tasks isEmployee={false} />
+							<Tasks isEmployee={true} />
 						</fieldset>
 
 						<ButtonDesktop
