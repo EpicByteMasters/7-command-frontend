@@ -84,7 +84,7 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({
 						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<div className={styles.link} onClick={onNavigate}>
+						<button className={styles.link} onClick={onNavigate}>
 							<img
 								className={styles.icon}
 								id="logo"
@@ -92,7 +92,7 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({
 								alt="иконка"
 							></img>
 							План развития
-						</div>
+						</button>
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">

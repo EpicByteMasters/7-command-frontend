@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './employees-list.module.scss';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
@@ -23,9 +23,13 @@ export interface EmployeeGoalPlan {
 
 export interface IEmployeesListProps {
 	data: EmployeeGoalPlan[];
+	ipr_id: number;
 }
 
-export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
+export const EmployeesList: React.FC<IEmployeesListProps> = (
+	{ data },
+	ipr_id
+) => {
 	const [popoverVisible, setPopoverVisible] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] =
 		useState<EmployeeGoalPlan | null>(null);
@@ -34,7 +38,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 	const [page, setPage] = useState<number>(0);
-
+	const navigate = useNavigate();
+	const location = useLocation();
 	// 	popover
 
 	const handleMoreIconClick = (employee: EmployeeGoalPlan) => {
@@ -155,6 +160,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 		(page + 1) * perPage
 	);
 
+	const onClick = () => {
+		navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+	};
+
 	return (
 		<>
 			<Table
@@ -238,7 +247,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Button view="tertiary" size="s">
+										<Button view="tertiary" size="s" onClick={onClick}>
 											Открыть
 										</Button>
 									</Table.TCell>

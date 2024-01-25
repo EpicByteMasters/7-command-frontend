@@ -15,12 +15,12 @@ import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-emplo
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
-import { MyIpr } from '../pages/my-ipr/my-ipr';
 
 import { roleUrl } from '../shared/utils/urls';
 
 function App() {
 	const dispatch = useDispatch();
+	const ipr_id: number = 1;
 
 	useEffect(() => {
 		// Получение данных о пользователе с сервера
@@ -52,10 +52,10 @@ function App() {
 				<Route
 					path="/service-iprs/myteam"
 					element={
-						<ManagerIprDraft
+						<LeaderEmployeesList
 							isExecutive={true}
-							statusColor="purple"
-							statusText="Черновик"
+							data={testData}
+							ipr_id={ipr_id}
 						/>
 					}
 				/>
@@ -72,25 +72,17 @@ function App() {
 				<Route path="/service-iprs/mentor" element={<></>} />
 
 				{/* Футер - старые роуты */}
-				<Route
-					path="/service-iprs/ipr/1"
-					element={
-						<ManagerIprDraft
-							isExecutive={false}
-							statusColor="purple"
-							statusText="Черновик"
-						/>
-					}
-				/>
+
 				<Route path={roleUrl[1].url} element={<MyPlan isEmployee={true} />} />
 				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
 				<Route
 					path="/service-iprs/ipr/:id"
 					element={
 						<ManagerIprDraft
-							isExecutive={false}
-							statusColor="purple"
-							statusText="Черновик"
+							ipr_id={1}
+							isExecutive={true}
+							statusColor="green"
+							statusText="в работе"
 						/>
 					}
 				/>

@@ -1,6 +1,7 @@
 import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { Footer } from '../../entities/footer/footer';
 import Header from '../../shared/header-component/header';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
@@ -17,6 +18,7 @@ interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
 	isExecutive: boolean;
+	ipr_id: number;
 }
 interface OptionShape {
 	key: string;
@@ -31,7 +33,11 @@ export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
 	isExecutive,
+	ipr_id,
 }: ManagerIprDraftProps) => {
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	const user = [
 		{
 			name: 'Сошнева Инна Павловна',
@@ -44,6 +50,11 @@ export const ManagerIprDraft = ({
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
+	};
+	const onClick = () => {
+		// navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+
+		navigate('/iprs/rating', { replace: true });
 	};
 
 	return (
@@ -62,12 +73,10 @@ export const ManagerIprDraft = ({
 				<div className={styles.iprDraft}>
 					<div className={styles.titleWrapper}>
 						<h1 className={styles.title}>План развития сотрудника</h1>
-						{statusText === 'Черновик' ? (
+						{statusText && (
 							<Status view="soft" color={statusColor}>
 								{statusText}
 							</Status>
-						) : (
-							''
 						)}
 					</div>
 					<div className={styles.employeeWrapper}>
@@ -81,9 +90,21 @@ export const ManagerIprDraft = ({
 						<Button view="secondary" size="m" className={styles.buttonSave}>
 							Сохранить
 						</Button>
-						<Button view="primary" size="m" className={styles.buttonSend}>
-							Отправить в работу
-						</Button>
+						{statusText === 'в работе' ? (
+							<Button
+								onClick={onClick}
+								view="primary"
+								size="m"
+								className={styles.buttonSend}
+							>
+								Подвести итоги
+							</Button>
+						) : (
+							<Button view="primary" size="m" className={styles.buttonSend}>
+								Отправить в работу
+							</Button>
+						)}
+
 						<button
 							onClick={onModalOpen}
 							style={{
