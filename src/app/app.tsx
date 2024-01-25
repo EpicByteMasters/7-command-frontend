@@ -15,7 +15,7 @@ import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-emplo
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
-
+import { MyIpr } from '../pages/my-ipr/my-ipr';
 function App() {
 	const dispatch = useDispatch();
 
@@ -47,7 +47,10 @@ function App() {
 					path="/service-iprs/myteam"
 					element={<LeaderEmployeesList data={testData} />}
 				/>
-				<Route path="/service-iprs/my" element={<></>} />
+				<Route
+					path="/service-iprs/my"
+					element={<MyIpr statusText="Черновик" statusColor="purple"></MyIpr>}
+				/>
 				<Route path="/service-iprs/mentor" element={<></>} />
 
 				{/* Футер - старые роуты */}

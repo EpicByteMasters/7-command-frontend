@@ -83,3 +83,16 @@ export const logout = (): Promise<void> => {
 		.then((res) => getResponseData<void>(res))
 		.catch((error) => Promise.reject(error));
 };
+
+export const onLogin = (username: string, password: string): Promise<any> => {
+	return fetch(`${BASE_URL}api/v1/login`, {
+		method: 'POST',
+		headers,
+		body: JSON.stringify({
+			username: username,
+			password: password,
+		}),
+	})
+		.then((response: Response) => getResponseData(response))
+		.catch((error) => Promise.reject(error));
+};

@@ -95,7 +95,7 @@ export const ManagerIprDraft = ({
 					</div>
 					<form className={styles2.form}>
 						<TasksOverview
-							isExecutive={true}
+							isExecutive={false}
 							iprStatus="черновик"
 						></TasksOverview>
 						<fieldset className={styles2.blockWrapper}>

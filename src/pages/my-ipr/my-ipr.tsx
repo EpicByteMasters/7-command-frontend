@@ -1,5 +1,5 @@
-import styles from './manager-ipr-draft.module.scss';
-import styles2 from './manager-ipr-form-styles.module.scss';
+import styles from './my-ipr.module.scss';
+import styles2 from './my-ipr.module.scss';
 import { useState } from 'react';
 import { Footer } from '../../entities/footer/footer';
 import Header from '../../shared/header-component/header';
@@ -12,7 +12,6 @@ import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import NavBarMy from '../../entities/navbar-my/navbar-my';
 import { PageTitle } from '../../shared/page-title/page-title';
-import { isDraft } from '@reduxjs/toolkit';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -33,7 +32,7 @@ export const MyIpr = ({ statusText, statusColor }: ManagerIprDraftProps) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMy />
+				{/* <NavBarMy /> */}
 				{modalOpen && (
 					<Modal
 						title="Выйти без сохранения?"
