@@ -23,12 +23,46 @@ const getResponseData = <T>(res: Response): Promise<T> => {
 	return res.json();
 };
 
-export const getUserData = (): Promise<UserData[]> => {
-	return fetch(`${BASE_URL}api/v1/user/:id`, {
+export const getUserData = (id: number): Promise<UserData[]> => {
+	return fetch(`${BASE_URL}api/v1/user/${id}`, {
 		method: 'GET',
 		headers,
 	})
 		.then(getResponseData<UserData[]>)
+		.catch((error) => Promise.reject(error));
+};
+
+//тут нужен id руководеля где-то
+export const getMyTeamIprs = (): Promise<UserData[]> => {
+	return fetch(`${BASE_URL}api/v1/mentor/iprs`, {
+		method: 'GET',
+		headers,
+	})
+		.then(getResponseData<UserData[]>)
+		.catch((error) => Promise.reject(error));
+};
+
+export const createDraft = (id: number): Promise<any> => {
+	return fetch(`${BASE_URL}api/v1/mentor/iprs/ipr/create`, {
+		method: 'POST',
+		headers,
+		body: JSON.stringify({
+			employeeId: id,
+		}),
+	})
+		.then((response: Response) => getResponseData(response))
+		.catch((error) => Promise.reject(error));
+};
+
+export const deleteDraft = (id: number): Promise<any> => {
+	return fetch(`${BASE_URL}api/v1/mentor/iprs/ipr/${id}`, {
+		method: 'DELETE',
+		headers,
+		body: JSON.stringify({
+			employeeId: id,
+		}),
+	})
+		.then((response: Response) => getResponseData(response))
 		.catch((error) => Promise.reject(error));
 };
 

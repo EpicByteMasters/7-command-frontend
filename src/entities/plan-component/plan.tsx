@@ -66,9 +66,13 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 	const progress = (finishedTasks / numberOfTasks) * 100;
 	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
+	const activeTask = tasksData.find(
+		(task) => task.statusText === 'черновик' || task.statusText === 'в работе'
+	);
+	console.log(activeTask);
 	return (
 		<>
-			{!isEmployee && activeGoalId === null && (
+			{!isEmployee && activeTask === undefined && (
 				<Button view="primary" size="m" className={styles.button}>
 					Создать новый план развития
 				</Button>
