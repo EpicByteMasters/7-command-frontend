@@ -45,7 +45,10 @@ function App() {
 		<div className={styles.container__main}>
 			<Routes>
 				<Route path="/" element={<Login users={users} />} />
-				<Route path="/main" element={<MainPage></MainPage>} />
+				<Route
+					path="/main"
+					element={<MainPage isExecutive={true} isEmployee={false}></MainPage>}
+				/>
 				<Route
 					path="/service-iprs/myteam"
 					element={
@@ -64,7 +67,7 @@ function App() {
 					path="/service-iprs/my"
 					element={<MyIpr statusText="Черновик" statusColor="purple"></MyIpr>}
 				/> */}
-				<Route path={roleUrl[1].url} element={<MyPlan />} />
+				<Route path={roleUrl[1].url} element={<MyPlan isEmployee={true} />} />
 
 				<Route path="/service-iprs/mentor" element={<></>} />
 
@@ -79,7 +82,7 @@ function App() {
 						/>
 					}
 				/>
-				<Route path={roleUrl[1].url} element={<MyPlan />} />
+				<Route path={roleUrl[1].url} element={<MyPlan isEmployee={true} />} />
 				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
 				<Route
 					path="/service-iprs/ipr/:id"

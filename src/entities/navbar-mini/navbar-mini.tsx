@@ -7,19 +7,23 @@ import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
 import { roleUrl } from '../../shared/utils/urls';
 interface ExecutiveProps {
 	isExecutive?: boolean;
+	isEmployee?: boolean;
 }
-export const NavBarMini: React.FC<ExecutiveProps> = ({ isExecutive }) => {
-	// const navigate = useNavigate();
-	// const location = useLocation();
+export const NavBarMini: React.FC<ExecutiveProps> = ({
+	isExecutive,
+	isEmployee,
+}) => {
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const onGoBack = () => {
 		// //Сотрудник
-		// if (location.pathname === '/service-iprs/my' && user.role === 'my') {
-		// 	navigate('/', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
-		// 	navigate('/service-iprs/my', { replace: true });
-		// }
+		if (location.pathname === '/service-iprs/myteam' && isExecutive) {
+			navigate('/main', { replace: true });
+		}
+		if (location.pathname === '/service-iprs/my' && isEmployee) {
+			navigate('/main', { replace: true });
+		}
 		// //Руководитель
 		// if (
 		// 	location.pathname === '/service-iprs/myteam' &&
@@ -54,13 +58,13 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({ isExecutive }) => {
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="/" onClick={onGoBack}>
+						<div className={styles.link} onClick={onGoBack}>
 							<ArrowLeftMediumMIcon
 								className={styles.iconBack}
 								fill="currentColor"
 							></ArrowLeftMediumMIcon>
 							<span>Назад</span>
-						</NavLink>
+						</div>
 					</li>
 					{isExecutive ? (
 						<li className={styles.item}>

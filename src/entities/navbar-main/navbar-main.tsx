@@ -6,11 +6,54 @@ import iconVacation from '../../images/navbar-icons-color/icon-vacation.svg';
 import iconTarget from '../../images/navbar-icons-color/icon-target.svg';
 import iconRocket from '../../images/navbar-icons-color/icon-rocket.svg';
 import iconMore from '../../images/navbar-icons-color/icon-more.svg';
-
-function NavBarMain() {
+interface ExecutiveProps {
+	isExecutive: boolean;
+	isEmployee: boolean;
+}
+export const NavBarMain: React.FC<ExecutiveProps> = ({
+	isExecutive,
+	isEmployee,
+}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
+	const onNavigate = () => {
+		// //Сотрудник
+		if (location.pathname === '/main' && isExecutive) {
+			navigate('/service-iprs/myteam', { replace: true });
+		}
+		if (location.pathname === '/main' && isEmployee) {
+			navigate('/service-iprs/my', { replace: true });
+		}
+		// //Руководитель
+		// if (
+		// 	location.pathname === '/service-iprs/myteam' &&
+		// 	user.role === 'myteam'
+		// ) {
+		// 	navigate('/', { replace: true });
+		// }
+		// if (
+		// 	location.pathname === ' /service-iprs/myteam/history' &&
+		// 	user.role === 'myteam'
+		// ) {
+		// 	navigate('/service-iprs/myteam', { replace: true });
+		// }
+		// if (
+		// 	location.pathname === '/service-iprs/ipr/:id' &&
+		// 	user.role === 'myteam'
+		// ) {
+		// 	navigate('/service-iprs/myteam', { replace: true });
+		// }
+		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
+		// 	navigate('/service-iprs/my', { replace: true });
+		// }
+		// if (location.pathname === '/service-iprs/my' && user.role === 'my') {
+		// 	navigate('/', { replace: true });
+		// }
+		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
+		// 	navigate('/service-iprs/my', { replace: true });
+		// }
+	};
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>
@@ -41,7 +84,7 @@ function NavBarMain() {
 						</NavLink>
 					</li>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to="#">
+						<div className={styles.link} onClick={onNavigate}>
 							<img
 								className={styles.icon}
 								id="logo"
@@ -49,7 +92,7 @@ function NavBarMain() {
 								alt="иконка"
 							></img>
 							План развития
-						</NavLink>
+						</div>
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
@@ -61,6 +104,4 @@ function NavBarMain() {
 			</nav>
 		</aside>
 	);
-}
-
-export default NavBarMain;
+};

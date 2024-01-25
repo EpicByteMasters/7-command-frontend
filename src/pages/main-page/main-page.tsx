@@ -1,17 +1,19 @@
 import styles from './main-page.module.scss';
 import { useState } from 'react';
 import Header from '../../shared/header-component/header';
-import layout from '../../images/alfa-layout.png';
 import { Footer } from '../../entities/footer/footer';
-import NavBarMain from '../../entities/navbar-main/navbar-main';
+import { NavBarMain } from '../../entities/navbar-main/navbar-main';
 import layout1 from '../../images/main-layout/top.png';
 import layout2 from '../../images/main-layout/main-news.png';
 import layout3 from '../../images/main-layout/card.png';
 import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
-
-export const MainPage = () => {
+interface ManagerIprDraftProps {
+	isExecutive: boolean;
+	isEmployee: boolean;
+}
+export const MainPage = ({ isExecutive, isEmployee }: ManagerIprDraftProps) => {
 	const [role, setRole] = useState<boolean>(true);
 
 	return (
@@ -19,7 +21,7 @@ export const MainPage = () => {
 			{role ? <Header /> : <Header />}
 			<main className={styles.main}>
 				<div className={styles.container}>
-					<NavBarMain />
+					<NavBarMain isExecutive={isExecutive} isEmployee={isEmployee} />
 					<div className={styles.contentWrapper}>
 						<div className={styles.titleWrapper}>
 							<img src={layout1} alt="заглушка" className={styles.title}></img>
