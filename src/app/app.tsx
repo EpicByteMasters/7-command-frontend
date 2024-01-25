@@ -23,9 +23,14 @@ useEffect(() => {
 	const userId = 1; // Замените на фактический идентификатор пользователя или получите его динамически
 	api
 		.getUserData(userId)
-		.then((userData) => {
-			// Диспатч экшена setUser с полученными данными о пользователе
-			dispatch(setUser({ user: userData }));
+		.then((userDataArray) => {
+			if (userDataArray.length > 0) {
+				const userData = userDataArray[0];
+				// Диспатч экшена setUser с полученными данными о пользователе
+				dispatch(setUser({ user: userData }));
+			} else {
+				console.error('Пустой массив данных о пользователе');
+			}
 		})
 		.catch((error) => {
 			console.error('Ошибка при получении данных о пользователе:', error);
