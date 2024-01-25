@@ -12,6 +12,7 @@ import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import NavBarMy from '../../entities/navbar-my/navbar-my';
 import { PageTitle } from '../../shared/page-title/page-title';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -32,7 +33,7 @@ export const MyIpr = ({ statusText, statusColor }: ManagerIprDraftProps) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				{/* <NavBarMy /> */}
+				<NavBarMini></NavBarMini>
 				{modalOpen && (
 					<Modal
 						title="Выйти без сохранения?"

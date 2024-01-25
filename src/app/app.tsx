@@ -16,6 +16,9 @@ import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
+
+import { roleUrl } from '../shared/utils/urls';
+
 function App() {
 	const dispatch = useDispatch();
 
@@ -47,10 +50,12 @@ function App() {
 					path="/service-iprs/myteam"
 					element={<LeaderEmployeesList data={testData} />}
 				/>
-				<Route
+				{/* <Route
 					path="/service-iprs/my"
 					element={<MyIpr statusText="Черновик" statusColor="purple"></MyIpr>}
-				/>
+				/> */}
+				<Route path={roleUrl[1].url} element={<MyPlan />} />
+
 				<Route path="/service-iprs/mentor" element={<></>} />
 
 				{/* Футер - старые роуты */}
@@ -60,7 +65,7 @@ function App() {
 						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
 					}
 				/>
-				<Route path="/service-iprs/my" element={<MyPlan />} />
+				<Route path={roleUrl[1].url} element={<MyPlan />} />
 				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
 				<Route
 					path="/service-iprs/ipr/:id"
