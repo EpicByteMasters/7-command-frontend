@@ -12,6 +12,7 @@ import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import NavBarMy from '../../entities/navbar-my/navbar-my';
 import { PageTitle } from '../../shared/page-title/page-title';
+import { isDraft } from '@reduxjs/toolkit';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -61,7 +62,10 @@ export const MyIpr = ({ statusText, statusColor }: ManagerIprDraftProps) => {
 						</Button>
 					</div>
 					<form className={styles2.form}>
-						<TasksOverview isExecutive={false}></TasksOverview>
+						<TasksOverview
+							isExecutive={false}
+							iprStatus="черновик"
+						></TasksOverview>
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 							<Tasks isEmployee={true} />
