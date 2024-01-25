@@ -28,7 +28,7 @@ function App() {
 						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
 					}
 				/>
-				<Route path="/iprs" element={<MyPlan />} />
+				<Route path="/service-iprs/my" element={<MyPlan />} />
 				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
 				<Route
 					path="/service-iprs/ipr/:id"

@@ -23,7 +23,7 @@ export const Footer = () => {
 			<Link className={styles.paragraph} to="/service-iprs/myteam/history">
 				История ИПР от лица руководителя
 			</Link>
-			<Link className={styles.paragraph} to="/iprs">
+			<Link className={styles.paragraph} to="/service-iprs/my">
 				История ИПРов от лица сотрудника
 			</Link>
 			<Link className={styles.paragraph} to="/iprs/rating">
