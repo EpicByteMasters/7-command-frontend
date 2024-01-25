@@ -8,9 +8,7 @@ import { roleUrl } from '../../shared/utils/urls';
 interface ExecutiveProps {
 	isExecutive?: boolean;
 }
-export const NavBarMini: React.FC<ExecutiveProps> = ({
-	isExecutive = true,
-}) => {
+export const NavBarMini: React.FC<ExecutiveProps> = ({ isExecutive }) => {
 	// const navigate = useNavigate();
 	// const location = useLocation();
 

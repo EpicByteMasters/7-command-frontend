@@ -48,8 +48,18 @@ function App() {
 				<Route path="/main" element={<MainPage></MainPage>} />
 				<Route
 					path="/service-iprs/myteam"
-					element={<LeaderEmployeesList data={testData} />}
+					element={
+						<ManagerIprDraft
+							isExecutive={true}
+							statusColor="purple"
+							statusText="Черновик"
+						/>
+					}
 				/>
+				{/* <Route
+					path="/service-iprs/myteam"
+					element={<LeaderEmployeesList data={testData} />}
+				/> */}
 				{/* <Route
 					path="/service-iprs/my"
 					element={<MyIpr statusText="Черновик" statusColor="purple"></MyIpr>}
@@ -62,7 +72,11 @@ function App() {
 				<Route
 					path="/service-iprs/ipr/1"
 					element={
-						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
+						<ManagerIprDraft
+							isExecutive={false}
+							statusColor="purple"
+							statusText="Черновик"
+						/>
 					}
 				/>
 				<Route path={roleUrl[1].url} element={<MyPlan />} />
@@ -70,7 +84,11 @@ function App() {
 				<Route
 					path="/service-iprs/ipr/:id"
 					element={
-						<ManagerIprDraft statusColor="purple" statusText="Черновик" />
+						<ManagerIprDraft
+							isExecutive={false}
+							statusColor="purple"
+							statusText="Черновик"
+						/>
 					}
 				/>
 				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />

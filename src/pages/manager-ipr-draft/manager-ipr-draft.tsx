@@ -16,6 +16,7 @@ import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
+	isExecutive: boolean;
 }
 interface OptionShape {
 	key: string;
@@ -29,6 +30,7 @@ interface UserShapeProps {
 export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
+	isExecutive,
 }: ManagerIprDraftProps) => {
 	const user = [
 		{
@@ -48,7 +50,7 @@ export const ManagerIprDraft = ({
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini />
+				<NavBarMini isExecutive={isExecutive} />
 				{modalOpen && (
 					<Modal
 						title="Выйти без сохранения?"
@@ -95,7 +97,7 @@ export const ManagerIprDraft = ({
 					</div>
 					<form className={styles2.form}>
 						<TasksOverview
-							isExecutive={false}
+							isExecutive={true}
 							iprStatus="черновик"
 						></TasksOverview>
 						<fieldset className={styles2.blockWrapper}>
