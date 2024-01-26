@@ -7,5 +7,15 @@
 
 	margin: 0;
 	padding: 0;
-	color: var(--metallic, #898889);
+	color: #898889;
+}
+
+.footer {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 40px auto;
+	justify-content: center;
+	padding-bottom: 50px;
+	width: 800px;
 }

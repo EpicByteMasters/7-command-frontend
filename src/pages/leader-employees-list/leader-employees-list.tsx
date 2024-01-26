@@ -6,7 +6,6 @@ import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { Select } from '@alfalab/core-components/select';
 
 import Header from '../../shared/header-component/header';
-import NavBar from '../../entities/navbar/navbar';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Footer } from '../../entities/footer/footer';
@@ -18,6 +17,9 @@ import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
+	isExecutive: boolean;
+	ipr_id: number;
+	ipr_id2: number;
 }
 
 const structureData = {
@@ -38,7 +40,12 @@ const successData = {
 	],
 };
 
-export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
+export const LeaderEmployeesList: React.FC<TableProps> = ({
+	data,
+	isExecutive,
+	ipr_id,
+	ipr_id2,
+}) => {
 	const contentLabel1 = <span>Цель</span>;
 	const contentLabel2 = <span>Статус</span>;
 
@@ -46,7 +53,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini />
+				<NavBarMini isExecutive={isExecutive} />
 				<div className={styles.wrapper}>
 					<PageTitle title="План развития"></PageTitle>
 					<div className={styles.dataWrapper}>
@@ -68,7 +75,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({ data }) => {
 						<FilterTag view="filled">{contentLabel1}</FilterTag>
 						<FilterTag view="filled">{contentLabel2}</FilterTag>
 					</div>
-					<EmployeesList data={data} />
+					<EmployeesList data={data} ipr_id={ipr_id} ipr_id2={ipr_id2} />
 				</div>
 			</div>
 			<Footer></Footer>

@@ -13,9 +13,10 @@ import { goalsData } from '../../shared/utils/constants';
 
 interface PlanProps {
 	isEmployee?: boolean;
+	ipr_id3?: number;
 }
 
-export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
+export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
 	const tasksData = [
 		{
 			id: 1,
@@ -66,9 +67,13 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 	const progress = (finishedTasks / numberOfTasks) * 100;
 	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
+	const activeTask = tasksData.find(
+		(task) => task.statusText === 'черновик' || task.statusText === 'в работе'
+	);
+	console.log(activeTask);
 	return (
 		<>
-			{!isEmployee && activeGoalId === null && (
+			{!isEmployee && activeTask === undefined && (
 				<Button view="primary" size="m" className={styles.button}>
 					Создать новый план развития
 				</Button>
@@ -130,7 +135,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = false }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Link to={`/service-iprs/ipr/${id}`}>
+										<Link to={`/service-iprs/ipr/${ipr_id3}`}>
 											<Button view="tertiary" size="s">
 												Открыть
 											</Button>

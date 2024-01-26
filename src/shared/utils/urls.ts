@@ -7,8 +7,8 @@ interface roleUrlProps {
 // Руты по ролям
 export const roleUrl: roleUrlProps[] = [
 	{ id: 1, name: 'myteam', url: '/service-iprs/myteam' }, // План развития сотрудников
-	{ id: 2, name: 'mentor', url: '/service-iprs/mentor' }, //Менторство сотрудников
-	{ id: 3, name: 'my', url: '/service-iprs/my' }, // Мой план развития
+	{ id: 2, name: 'my', url: '/service-iprs/my' }, // Мой план развития
+	{ id: 3, name: 'mentor', url: '/service-iprs/mentor' }, //Менторство сотрудников
 ];
 
 interface myTeamUrlProps {

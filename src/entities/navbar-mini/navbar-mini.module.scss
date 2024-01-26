@@ -47,6 +47,9 @@
 	background: #fff;
 }
 
+.item:last-of-type {
+	pointer-events: none;
+}
 .item:focus {
 	align-items: center;
 	align-self: stretch;

@@ -7,7 +7,7 @@ import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
-
+import { accessUrl } from '../../shared/utils/urls';
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
 
@@ -35,7 +35,7 @@ function Header({ error }: HeaderProps) {
 		<header className={styles.header}>
 			<div className={styles.container}>
 				<div className={styles.logo}>
-					<Link to="/main">
+					<Link to={accessUrl[2].url}>
 						<img src={logo} className={styles.logoImage} alt="alfa-logo" />
 					</Link>
 					<h1 className={styles.logoTitle}>Alfa People</h1>
@@ -85,7 +85,7 @@ function Header({ error }: HeaderProps) {
 			</div>
 			{exitBtnOpen ? (
 				<Button
-					onClick={() => navigate('/')}
+					onClick={() => navigate(accessUrl[2].url)}
 					view={'tertiary'}
 					size={'xxs'}
 					style={{

@@ -9,7 +9,7 @@ interface User {
 	pic: string;
 	name: string;
 	position: string;
-	link: string;
+	link: {};
 	role: string;
 }
 
@@ -45,7 +45,10 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												href={user.link}
+												href={JSON.stringify(user.link).replace(
+													/[\s.,""%]/g,
+													''
+												)}
 												onClick={onClick}
 												name={user.role}
 											>

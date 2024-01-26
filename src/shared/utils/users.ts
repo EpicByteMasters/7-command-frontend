@@ -4,23 +4,22 @@ import employee1 from '../../images/avatars/avatar_employee1.png';
 import employee2 from '../../images/avatars/avatar_employee2.png';
 import mentor1 from '../../images/avatars/avatar_mentor1.png';
 import mentor2 from '../../images/avatars/avatar_mentor2.png';
-
+import { roleUrl } from './urls';
 interface User {
 	id: number;
 	name: string;
 	position: string;
 	pic: string;
-	link: string;
+	link: {};
 	role: string;
 }
-
 const users: User[] = [
 	{
 		id: 1,
 		name: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
 		pic: head1,
-		link: '/myteam/iprs',
+		link: roleUrl[0].url,
 		role: 'myteam',
 	},
 	{
@@ -28,7 +27,7 @@ const users: User[] = [
 		name: 'Иванов Пётр Александрович',
 		position: 'Руководитель 2',
 		pic: head2,
-		link: '/myteam/iprs',
+		link: roleUrl[0].url,
 		role: 'myteam',
 	},
 	{
@@ -36,7 +35,7 @@ const users: User[] = [
 		name: 'Кириллов Константин Соломонович',
 		position: 'Сотрудник 1',
 		pic: employee1,
-		link: '/main',
+		link: roleUrl[1].url,
 		role: 'my',
 	},
 	{
@@ -44,7 +43,7 @@ const users: User[] = [
 		name: 'Евсеев Антон Иванович',
 		position: 'Сотрудник 2',
 		pic: employee2,
-		link: '/main',
+		link: roleUrl[1].url,
 		role: 'my',
 	},
 	{
@@ -52,7 +51,7 @@ const users: User[] = [
 		name: 'Чаевская Евгения Владимировна',
 		position: 'Ментор 1',
 		pic: mentor1,
-		link: '/main',
+		link: roleUrl[2].url,
 		role: 'mentor',
 	},
 	{
@@ -60,7 +59,7 @@ const users: User[] = [
 		name: 'Куприна Валентина Ивановна',
 		position: 'Ментор 2',
 		pic: mentor2,
-		link: '/main',
+		link: roleUrl[2].url,
 		role: 'mentor',
 	},
 ];
