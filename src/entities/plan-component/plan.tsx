@@ -10,6 +10,7 @@ import {
 } from '../../store/reducers/goalSlice';
 import { Link } from 'react-router-dom';
 import { goalsData } from '../../shared/utils/constants';
+import { tasksData } from '../../shared/utils/constants';
 
 interface PlanProps {
 	isEmployee?: boolean;
@@ -17,41 +18,6 @@ interface PlanProps {
 }
 
 export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
-	const tasksData = [
-		{
-			id: 1,
-			title: 'Менторинг новых сотрудников',
-			deadline: 'До 30 января',
-			statusText: 'не выполнена',
-			statusColor: 'red',
-			closeButton: false,
-		},
-		{
-			id: 2,
-			title: 'Разработка стратегии компании',
-			deadline: 'До 20 марта',
-			statusText: 'ожидает проверки',
-			statusColor: 'purple',
-			closeButton: true,
-		},
-		{
-			id: 3,
-			title: 'Найм сотрудников',
-			deadline: 'До 10 апреля',
-			statusText: 'выполнена',
-			statusColor: 'green',
-			closeButton: false,
-		},
-		{
-			id: 4,
-			title: 'Подготовка и выступление на конференции',
-			deadline: 'До 1 июня',
-			statusText: 'отменена',
-			statusColor: 'orange',
-			closeButton: true,
-		},
-	];
-
 	const dispatch = useDispatch();
 	const activeGoalId = useSelector(selectActiveGoalId);
 
@@ -70,7 +36,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
 	const activeTask = tasksData.find(
 		(task) => task.statusText === 'черновик' || task.statusText === 'в работе'
 	);
-	console.log(activeTask);
+
 	return (
 		<>
 			{!isEmployee && activeTask === undefined && (
@@ -98,6 +64,18 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
 							statusText,
 							// progress,
 						}) => {
+							let iprLink;
+							if (
+								statusText === 'выполнен' ||
+								statusText === 'не выполнен' ||
+								statusText === 'отменен'
+							) {
+								iprLink = `/service-iprs/my-ipr-rating/${id}`;
+							} else {
+								iprLink = isEmployee
+									? `/service-iprs/my-ipr/${id}`
+									: `/service-iprs/ipr/${id}`;
+							}
 							return (
 								<Table.TRow
 									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
@@ -135,7 +113,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
 										</Status>
 									</Table.TCell>
 									<Table.TCell>
-										<Link to={`/service-iprs/ipr/${ipr_id3}`}>
+										<Link to={iprLink}>
 											<Button view="tertiary" size="s">
 												Открыть
 											</Button>

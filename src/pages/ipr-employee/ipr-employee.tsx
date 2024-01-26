@@ -8,79 +8,17 @@ import BackButton from '../../entities/backbutton/backbutton';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
-
-interface Task {
-	id: number;
-	goal: string;
-	deadline: string;
-	progress: number;
-	statusText: string;
-	statusColor?:
-		| 'green'
-		| 'orange'
-		| 'red'
-		| 'blue'
-		| 'grey'
-		| 'teal'
-		| 'purple'
-		| undefined;
-	closeButton?: boolean | undefined;
-}
+import { tasksData } from '../../shared/utils/constants';
 
 interface IPREmployeeProps {}
 
 export const IPREmployee: React.FC<IPREmployeeProps> = () => {
-	const tasksData: Task[] = [
-		{
-			id: 1,
-			goal: 'Карьерный рост',
-			deadline: '15.01.2024',
-			progress: 0,
-			statusText: 'в работе',
-			statusColor: 'blue',
-		},
-		{
-			id: 2,
-			goal: 'Повышение грейда',
-			deadline: '20.01.2023',
-			progress: 40,
-			statusText: 'отменен',
-			statusColor: 'orange',
-		},
-		{
-			id: 3,
-			goal: 'Получение нового опыта',
-			deadline: '16.01.2022',
-			progress: 40,
-			statusText: 'не выполнен',
-			statusColor: 'red',
-		},
-		{
-			id: 4,
-			goal: 'Смена команды',
-			deadline: '12.01.2021',
-			progress: 90,
-			statusText: 'выполнен',
-			statusColor: 'green',
-		},
-		{
-			id: 5,
-			goal: 'Соответствие занимаемой должности',
-			deadline: '23.01.2020',
-			progress: 100,
-			statusText: 'выполнен',
-			statusColor: 'green',
-		},
-	];
 	const { id } = useParams<{ id: string }>();
-
-	const selectedGoal = tasksData.find((goal) => goal.id === Number(id));
-
-	if (!selectedGoal) {
+	const task = tasksData.find((goal) => goal.id === Number(id));
+	if (!task) {
 		return <div>Ошибка не нашел Id</div>;
 	}
-
-	const { statusText, statusColor } = selectedGoal;
+	const { statusText, statusColor } = task;
 
 	return (
 		<>

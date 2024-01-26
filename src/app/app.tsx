@@ -17,6 +17,8 @@ import { testData } from '../shared/utils/test-users';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
+import { MyIpr } from '../pages/my-ipr/my-ipr';
+import { MyIprRating } from '../entities/my-ipr-rating/my-ipr-rating';
 
 function App() {
 	const dispatch = useDispatch();
@@ -25,10 +27,8 @@ function App() {
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
 
 	useEffect(() => {
-		// Получение данных о пользователе с сервера
-		const userId = 1; // Замените на фактический идентификатор пользователя или получите его динамически
 		api
-			.getUserData(userId)
+			.getUserData()
 			.then((userDataArray) => {
 				if (userDataArray.length > 0) {
 					const userData = userDataArray[0];
@@ -101,7 +101,7 @@ function App() {
 					}
 				/>
 				<Route
-					path="/service-iprs/ipr/3"
+					path="/service-iprs/ipr/:id"
 					element={
 						<ManagerIprDraft
 							ipr_id={1}
@@ -117,7 +117,12 @@ function App() {
 					path={roleUrl[1].url}
 					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
 				/>
-				<Route path="/iprs/ipr/:id" element={<IPREmployee />} />
+				<Route
+					path="/service-iprs/my-ipr-rating/:id"
+					element={<MyIprRating />}
+				/>
+				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
+				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 
 				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
 				<Route
