@@ -1,35 +1,59 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
-
-interface User {
-	id: number;
-	pic: string;
-	name: string;
-	position: string;
-	link: {};
-	role: string;
-}
+import { User } from '../../shared/utils/users';
+import { getUserData, logInUser } from '../../store/reducers/userSlice';
+import { useAppDispatch } from '../../shared/hooks/redux';
 
 interface LoginProps {
 	users: User[];
-	handleLogin: (password: string, username: string) => void;
-	password: string;
-	username: string;
 }
 
-export const Login: FC<LoginProps> = ({
-	users,
-	handleLogin,
-	password,
-	username,
-}) => {
-	function onClick(e: any) {
-		handleLogin(password, username);
-		// setCurrentUser(users.find((user) => user.role === e.currentTarget.name));
-	}
+export const Login: FC<LoginProps> = ({ users }) => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const handleLogin = async (
+		email: string,
+		password: string,
+		userLink: string
+	) => {
+		try {
+			const action = logInUser({ email, password });
+
+			const result = await dispatch(action);
+
+			console.log('result', result);
+
+			if (logInUser.rejected.match(result)) {
+				console.error('Login rejected:', result.error);
+			} else if (logInUser.fulfilled.match(result)) {
+				if (result.payload === null) {
+					const userDataResult = await dispatch(getUserData());
+					if (getUserData.fulfilled.match(userDataResult)) {
+						// Выводим данные пользователя в консоль
+						console.log('User data received:', userDataResult.payload);
+					} else {
+						// Обработка ошибки при получении данных о пользователе
+						console.error(
+							'Error during fetching user data:',
+							userDataResult.error
+						);
+					}
+					navigate(userLink); // Переход на роут пользователя
+					console.log('Login successful. Null received.');
+				}
+			} else {
+				console.error('Unexpected result during login:', result);
+			}
+		} catch (error) {
+			console.error('Error during login:', error);
+		}
+	};
 
 	return (
 		<>
@@ -54,11 +78,13 @@ export const Login: FC<LoginProps> = ({
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												href={JSON.stringify(user.link).replace(
-													/[\s.,""%]/g,
-													''
-												)}
-												onClick={onClick}
+												onClick={() =>
+													handleLogin(
+														user.email,
+														user.password,
+														JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
+													)
+												}
 												name={user.role}
 											>
 												Вход
