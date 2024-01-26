@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 
-export const BASE_URL = ''; //API link
+export const BASE_URL = 'http://213.171.6.128';
 
 export const courses = [
 	{ key: 'Подготовка к IELTS' },
@@ -57,7 +57,24 @@ export const courses = [
 	{ key: 'Голос и речь: как говорить убедительно (Самостоятельный)' },
 ];
 
-export const goalsData = [
+export interface Goal {
+	id: number;
+	goal: string;
+	dateStart: string;
+	dateEnd: string;
+	statusText: string;
+	statusColor?:
+		| 'green'
+		| 'orange'
+		| 'red'
+		| 'blue'
+		| 'grey'
+		| 'teal'
+		| 'purple'
+		| undefined;
+}
+
+export const goalsData: Goal[] = [
 	{
 		id: 1,
 		goal: 'Развитие софт-скиллов',
@@ -100,13 +117,74 @@ export const goalsData = [
 	},
 ];
 
+export interface Task {
+	id: number;
+	goal: string;
+	deadline: string;
+	progress: number;
+	statusText: string;
+	statusColor?:
+		| 'green'
+		| 'orange'
+		| 'red'
+		| 'blue'
+		| 'grey'
+		| 'teal'
+		| 'purple'
+		| undefined;
+	closeButton?: boolean | undefined;
+}
+
+export const tasksData: Task[] = [
+	{
+		id: 1,
+		goal: 'Карьерный рост',
+		deadline: '15.01.2024',
+		progress: 0,
+		statusText: 'в работе',
+		statusColor: 'blue',
+	},
+	{
+		id: 2,
+		goal: 'Повышение грейда',
+		deadline: '20.01.2023',
+		progress: 40,
+		statusText: 'отменен',
+		statusColor: 'orange',
+	},
+	{
+		id: 3,
+		goal: 'Получение нового опыта',
+		deadline: '16.01.2022',
+		progress: 40,
+		statusText: 'не выполнен',
+		statusColor: 'red',
+	},
+	{
+		id: 4,
+		goal: 'Смена команды',
+		deadline: '12.01.2021',
+		progress: 90,
+		statusText: 'выполнен',
+		statusColor: 'green',
+	},
+	{
+		id: 5,
+		goal: 'Соответствие занимаемой должности',
+		deadline: '23.01.2020',
+		progress: 100,
+		statusText: 'выполнен',
+		statusColor: 'green',
+	},
+];
+
 export interface Education {
 	name: string;
 	url: string;
 	status: 'COMPLETED' | 'IN_PROGRESS' | 'NOT_STARTED';
 }
 
-export interface Task {
+export interface IPRTask {
 	id: number;
 	name: string;
 	dateOfEnd: string;
@@ -115,8 +193,15 @@ export interface Task {
 	commentOfEmployee: string;
 	commentOfMentor: string;
 	files: { name: string; url: string }[];
-	status: keyof typeof statusKeyMap;
+	status: 'IN_PROGRESS' | 'COMPLETED' | 'NOT_COMPLETED' | 'CANCELED';
 }
+
+const statusKeyMap = {
+	IN_PROGRESS: 'В работе',
+	COMPLETED: 'Выполнен',
+	NOT_COMPLETED: 'Не выполнен',
+	CANCELED: 'Отменен',
+};
 
 export interface IPRGoal {
 	id: number;
@@ -127,17 +212,9 @@ export interface IPRGoal {
 	dateOfEnd: string;
 	mentorId: number | null;
 	description: string;
-	tasks: Task[];
+	tasks: IPRTask[];
 	status: keyof typeof statusKeyMap;
 }
-
-const statusKeyMap = {
-	DRAFT: 'Черновик',
-	IN_PROGRESS: 'В работе',
-	COMPLETED: 'Выполнен',
-	NOT_COMPLETED: 'Не выполнен',
-	CANCELED: 'Отменен',
-};
 
 export const employeeIPRs: IPRGoal[] = [
 	{

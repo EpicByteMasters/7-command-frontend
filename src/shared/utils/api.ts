@@ -23,8 +23,8 @@ const getResponseData = <T>(res: Response): Promise<T> => {
 	return res.json();
 };
 
-export const getUserData = (id: number): Promise<UserData[]> => {
-	return fetch(`${BASE_URL}api/v1/user/${id}`, {
+export const getUserData = (): Promise<UserData[]> => {
+	return fetch(`${BASE_URL}api/v1/user/me`, {
 		method: 'GET',
 		headers,
 	})

@@ -3,31 +3,29 @@ import styles2 from './my-ipr.module.scss';
 import { useState } from 'react';
 import { Footer } from '../../entities/footer/footer';
 import Header from '../../shared/header-component/header';
-import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
+import { useParams } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
-import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
-import NavBarMy from '../../entities/navbar-my/navbar-my';
 import { PageTitle } from '../../shared/page-title/page-title';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+import { goalsData } from '../../shared/utils/constants';
 
-interface ManagerIprDraftProps {
-	statusText: string;
-	statusColor: StatusProps['color'];
-}
-interface OptionShape {
-	key: string;
-}
-
-export const MyIpr = ({ statusText, statusColor }: ManagerIprDraftProps) => {
+export const MyIpr: React.FC = () => {
 	const [modalOpen, setModalOpen] = useState(false);
-
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
 	};
+
+	const { id } = useParams<{ id: string }>();
+	const currentGoal = goalsData.find((goal) => goal.id === Number(id));
+	if (!currentGoal) {
+		return <div>Ошибка не нашел Id</div>;
+	}
+
+	const { statusText, statusColor } = currentGoal;
 
 	return (
 		<>
@@ -48,13 +46,6 @@ export const MyIpr = ({ statusText, statusColor }: ManagerIprDraftProps) => {
 						<Status view="soft" color={statusColor}>
 							{statusText}
 						</Status>
-					</div>
-					<div className={styles.employeeWrapper}>
-						<EmployeeInfoCard
-							name="Сошнева Инна Павловна"
-							position="Руководитель направления"
-							avatar={avatar}
-						/>
 					</div>
 					<div className={styles.buttonsWrapper}>
 						<Button view="secondary" size="m" className={styles.buttonSave}>
