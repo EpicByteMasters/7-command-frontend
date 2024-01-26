@@ -9,6 +9,7 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
+import { goal, role, competence, mentor } from '../../shared/utils/constants';
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
 	iprStatus: string;
@@ -21,91 +22,96 @@ export const TasksOverview = ({
 	isExecutive,
 	iprStatus,
 }: ManagerIprDraftProps) => {
-	const optionsGoal: OptionShape[] = [
-		{ key: 'Карьерный рост' },
-		{ key: 'Повышение грейда' },
-		{ key: 'Соответствие занимаемой должности' },
-		{ key: 'Развитие софт-скиллов' },
-		{ key: 'Развитие хард-скиллов' },
-		{ key: 'Смена специализации' },
-		{ key: 'Смена команды' },
-		{ key: 'Получение нового опыта' },
-	];
+	// const optionsGoal: OptionShape[] = [
+	// 	{ key: 'Карьерный рост' },
+	// 	{ key: 'Повышение грейда' },
+	// 	{ key: 'Соответствие занимаемой должности' },
+	// 	{ key: 'Развитие софт-скиллов' },
+	// 	{ key: 'Развитие хард-скиллов' },
+	// 	{ key: 'Смена специализации' },
+	// 	{ key: 'Смена команды' },
+	// 	{ key: 'Получение нового опыта' },
+	// ];
 
-	const optionsRole: OptionShape[] = [
-		{ key: 'Продакт-менеджер' },
-		{ key: 'Проджект-менеджер' },
-		{ key: 'Бизнес-аналитик' },
-		{ key: 'Системный аналитик' },
-		{ key: 'Дизайнер' },
-		{ key: 'QA-инженер' },
-		{ key: 'Фронтенд-разработчик' },
-		{ key: 'Бэкенд-разработчик' },
-		{ key: 'Мобильный разработчик' },
-		{ key: 'DevOps-инженер' },
-		{ key: 'Системный администратор' },
-		{ key: 'Дата-аналитик' },
-		{ key: 'Дата-сайентист' },
-		{ key: 'Руководитель' },
-		{ key: 'HR' },
-		{ key: 'Другое' },
-	];
+	// const optionsRole: OptionShape[] = [
+	// 	{ key: 'Продакт-менеджер' },
+	// 	{ key: 'Проджект-менеджер' },
+	// 	{ key: 'Бизнес-аналитик' },
+	// 	{ key: 'Системный аналитик' },
+	// 	{ key: 'Дизайнер' },
+	// 	{ key: 'QA-инженер' },
+	// 	{ key: 'Фронтенд-разработчик' },
+	// 	{ key: 'Бэкенд-разработчик' },
+	// 	{ key: 'Мобильный разработчик' },
+	// 	{ key: 'DevOps-инженер' },
+	// 	{ key: 'Системный администратор' },
+	// 	{ key: 'Дата-аналитик' },
+	// 	{ key: 'Дата-сайентист' },
+	// 	{ key: 'Руководитель' },
+	// 	{ key: 'HR' },
+	// 	{ key: 'Другое' },
+	// ];
 
-	const optionsCompetence: OptionShape[] = [
-		{ key: 'Адаптивность и стрессоустойчивость' },
-		{ key: 'Анализ и решение проблем' },
-		{ key: 'Английский язык' },
-		{ key: 'Аналитическое мышление' },
-		{ key: 'Ведение переговоров' },
-		{ key: 'Выявление паттернов или связей' },
-		{ key: 'Гибкость и готовность к изменениям' },
-		{ key: 'Делегирование' },
-		{ key: 'Исполнительская дисциплина' },
-		{ key: 'Клиентоориентированность' },
-		{ key: 'Креативное мышление' },
-		{ key: 'Критическое мышление' },
-		{ key: 'Лидерство' },
-		{ key: 'Навык деловой переписки' },
-		{ key: 'Наставничество и менторинг' },
-		{ key: 'Ориентация на результат' },
-		{ key: 'Ответственность' },
-		{ key: 'Планирование и организация' },
-		{ key: 'Поиск информации и ресурсов для решения задач' },
-		{ key: 'Понимание бизнеса и структуры организации' },
-		{ key: 'Построение эффективных процессов' },
-		{ key: 'Принятие управленческих решений' },
-		{ key: 'Публичные выступления' },
-		{ key: 'Работа в команде' },
-		{ key: 'Работа в режиме неопределенности' },
-		{ key: 'Работоспособность и личная эффективность' },
-		{ key: 'Самоанализ и саморефлексия' },
-		{ key: 'Самомотивация' },
-		{ key: 'Самосовершенствование (самообучение)' },
-		{ key: 'Самостоятельность (самоорганизация)' },
-		{ key: 'Системное мышление' },
-		{ key: 'Следование стандартам деятельности' },
-		{ key: 'Способности к анализу и прогнозированию результатов' },
-		{ key: 'Стратегическое мышление' },
-		{ key: 'Умение обрабатывать полученную информацию' },
-		{ key: 'Умение оценивать сроки выполнения задач' },
-		{ key: 'Умение проводить исследования' },
-		{ key: 'Умение слушать' },
-		{ key: 'Управление данными' },
-		{ key: 'Управление изменениям' },
-		{ key: 'Управление конфликтами' },
-		{ key: 'Управление людьми' },
-		{ key: 'Управление проектами' },
-		{ key: 'Целеустремленность' },
-		{ key: 'Эмоциональный интеллект' },
-		{ key: 'Эмпатия' },
-		{ key: 'Другое' },
-	];
+	// const optionsCompetence: OptionShape[] = [
+	// 	{ key: 'Адаптивность и стрессоустойчивость' },
+	// 	{ key: 'Анализ и решение проблем' },
+	// 	{ key: 'Английский язык' },
+	// 	{ key: 'Аналитическое мышление' },
+	// 	{ key: 'Ведение переговоров' },
+	// 	{ key: 'Выявление паттернов или связей' },
+	// 	{ key: 'Гибкость и готовность к изменениям' },
+	// 	{ key: 'Делегирование' },
+	// 	{ key: 'Исполнительская дисциплина' },
+	// 	{ key: 'Клиентоориентированность' },
+	// 	{ key: 'Креативное мышление' },
+	// 	{ key: 'Критическое мышление' },
+	// 	{ key: 'Лидерство' },
+	// 	{ key: 'Навык деловой переписки' },
+	// 	{ key: 'Наставничество и менторинг' },
+	// 	{ key: 'Ориентация на результат' },
+	// 	{ key: 'Ответственность' },
+	// 	{ key: 'Планирование и организация' },
+	// 	{ key: 'Поиск информации и ресурсов для решения задач' },
+	// 	{ key: 'Понимание бизнеса и структуры организации' },
+	// 	{ key: 'Построение эффективных процессов' },
+	// 	{ key: 'Принятие управленческих решений' },
+	// 	{ key: 'Публичные выступления' },
+	// 	{ key: 'Работа в команде' },
+	// 	{ key: 'Работа в режиме неопределенности' },
+	// 	{ key: 'Работоспособность и личная эффективность' },
+	// 	{ key: 'Самоанализ и саморефлексия' },
+	// 	{ key: 'Самомотивация' },
+	// 	{ key: 'Самосовершенствование (самообучение)' },
+	// 	{ key: 'Самостоятельность (самоорганизация)' },
+	// 	{ key: 'Системное мышление' },
+	// 	{ key: 'Следование стандартам деятельности' },
+	// 	{ key: 'Способности к анализу и прогнозированию результатов' },
+	// 	{ key: 'Стратегическое мышление' },
+	// 	{ key: 'Умение обрабатывать полученную информацию' },
+	// 	{ key: 'Умение оценивать сроки выполнения задач' },
+	// 	{ key: 'Умение проводить исследования' },
+	// 	{ key: 'Умение слушать' },
+	// 	{ key: 'Управление данными' },
+	// 	{ key: 'Управление изменениям' },
+	// 	{ key: 'Управление конфликтами' },
+	// 	{ key: 'Управление людьми' },
+	// 	{ key: 'Управление проектами' },
+	// 	{ key: 'Целеустремленность' },
+	// 	{ key: 'Эмоциональный интеллект' },
+	// 	{ key: 'Эмпатия' },
+	// 	{ key: 'Другое' },
+	// ];
 
-	const optionsMentor: OptionShape[] = [
-		{ key: 'Иванова Наталья Дмитриевна' },
-		{ key: 'Петрова Наталья Дмитриевна' },
-		{ key: 'Сидорова Наталья Дмитриевна' },
-	];
+	// const optionsMentor: OptionShape[] = [
+	// 	{ key: 'Иванова Наталья Дмитриевна' },
+	// 	{ key: 'Петрова Наталья Дмитриевна' },
+	// 	{ key: 'Сидорова Наталья Дмитриевна' },
+	// ];
+
+	const optionsRole: OptionShape[] = role;
+	const optionsGoal: OptionShape[] = goal;
+	const optionsMentor: OptionShape[] = mentor;
+	const optionsCompetence: OptionShape[] = competence;
 
 	const [multiple, setMultiple] = useState(true);
 	const [shownChevron, setShownChevron] = useState(true);
@@ -116,6 +122,20 @@ export const TasksOverview = ({
 	const [valueCompetence, setValueCompetence] = useState<string>('');
 	const [valueStartDate, setStartDate] = useState<string>('');
 	const [valueEndDate, setEndDate] = useState<string>('');
+	const [valueDescription, setValueDescription] = useState<string>('');
+	const [valueComment, setValueComment] = useState<string>('');
+
+	const allInputs = {
+		goal: valueGoal,
+		role: valueRole,
+		competence: valueCompetence,
+		mentor: valueMentor,
+		startDate: valueStartDate,
+		endDate: valueEndDate,
+		description: valueComment,
+		comment: valueDescription,
+	};
+	console.log(allInputs);
 
 	const [modalOpen, setModalOpen] = useState(false);
 
@@ -137,6 +157,31 @@ export const TasksOverview = ({
 		setValueRole(value);
 	};
 
+	function handleInputDescription(
+		event: ChangeEvent<HTMLTextAreaElement>
+	): void {
+		event.preventDefault();
+		const target = event.target as HTMLTextAreaElement;
+		if (target.name === 'description') {
+			setValueDescription(target.value);
+			console.log(valueDescription);
+		}
+		if (!target) {
+			return;
+		}
+	}
+
+	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
+		event.preventDefault();
+		const target = event.target as HTMLTextAreaElement;
+		if (target.name === 'comment') {
+			setValueComment(target.value);
+			console.log(valueComment);
+		}
+		if (!target) {
+			return;
+		}
+	}
 	const handleInputMentor = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
@@ -214,7 +259,7 @@ export const TasksOverview = ({
 	}): void => {
 		if (multiple) {
 			const value = selectedMultiple?.length
-				? selectedMultiple.map((option) => option.key).join(', ') + ', '
+				? selectedMultiple.map((option) => option.key).join(', ')
 				: '';
 			setValueCompetence(value);
 			return;
@@ -246,7 +291,7 @@ export const TasksOverview = ({
 				<div className={styles2.formRow}>
 					<div style={{ width: 496 }}>
 						<InputAutocomplete
-							name={'goal'}
+							name="goal"
 							block={true}
 							closeOnSelect={true}
 							className="inputGoal"
@@ -269,7 +314,7 @@ export const TasksOverview = ({
 					</div>
 					<div style={{ width: 496 }}>
 						<InputAutocomplete
-							name={'role'}
+							name="role"
 							block={true}
 							closeOnSelect={true}
 							className="inputRole"
@@ -292,7 +337,7 @@ export const TasksOverview = ({
 				</div>
 				<div>
 					<InputAutocomplete
-						name={'competence'}
+						name="competence"
 						value={valueCompetence}
 						block={true}
 						multiple={multiple}
@@ -338,7 +383,7 @@ export const TasksOverview = ({
 				<div className={styles2.formRow}>
 					<div>
 						<InputAutocomplete
-							name={'mentor'}
+							name="mentor"
 							block={true}
 							closeOnSelect={true}
 							className={styles2.inputMentor}
@@ -371,6 +416,7 @@ export const TasksOverview = ({
 
 					<div style={{ width: 236 }}>
 						<UniversalDateInput
+							name="startDate"
 							block={true}
 							view="date"
 							label="Дата создания"
@@ -392,11 +438,13 @@ export const TasksOverview = ({
 					</div>
 					<div style={{ width: 236 }}>
 						<UniversalDateInput
+							name="endDate"
 							block={true}
 							view="date"
 							label="Дата завершения"
 							size="s"
 							value={valueEndDate}
+							// onChange={handleChange}
 							onChange={handleChangeEndDate}
 							picker={true}
 							Calendar={CalendarDesktop}
@@ -417,6 +465,9 @@ export const TasksOverview = ({
 						}}
 					>
 						<Textarea
+							name="description"
+							value={valueDescription}
+							onChange={handleInputDescription}
 							fieldClassName={styles2.textClass}
 							maxHeight={91}
 							label="Описание"
@@ -435,6 +486,8 @@ export const TasksOverview = ({
 						}}
 					>
 						<Textarea
+							name="comment"
+							onChange={handleInputComment}
 							fieldClassName={styles2.textClass}
 							maxHeight={91}
 							label="Комментарий (виден только вам)"

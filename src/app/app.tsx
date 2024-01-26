@@ -101,7 +101,7 @@ function App() {
 					}
 				/>
 				<Route
-					path="/service-iprs/ipr/:id"
+					path="/service-iprs/ipr/3"
 					element={
 						<ManagerIprDraft
 							ipr_id={1}
@@ -111,16 +111,18 @@ function App() {
 						/>
 					}
 				/>
+
+				<Route
+					path="/service-iprs/my-ipr-rating/:id"
+					element={<MyIprRating />}
+				/>
 				{/* Футер - старые роуты */}
 
 				<Route
 					path={roleUrl[1].url}
 					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
 				/>
-				<Route
-					path="/service-iprs/my-ipr-rating/:id"
-					element={<MyIprRating />}
-				/>
+
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 
