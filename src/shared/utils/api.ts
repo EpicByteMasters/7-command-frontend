@@ -7,11 +7,9 @@ interface UserData {
 	imageUrl: string;
 }
 
-export const BASE_URL = 'http://localhost:8000';
-export const TOKEN = '3ce1649ddce9c5aa867a4a9de993da7d5bc850e7';
+export const BASE_URL = 'http://213.171.6.128:81/';
 
 const headers: HeadersInit = {
-	authorization: `Token ${TOKEN}`,
 	Accept: 'application/json',
 	'Content-Type': 'application/json',
 };
