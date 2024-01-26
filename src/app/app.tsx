@@ -18,21 +18,7 @@ import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { password, username } from '../shared/utils/constants';
-
-interface UserData {
-	id: string;
-	email: string;
-	isActive: boolean;
-	isSuperuser: boolean;
-	isVerified: boolean;
-	firstName: string;
-	surname: string;
-	patronymic: string;
-	imageUrl: string;
-	positionId: string;
-	specialtyId: string;
-	supervisorId: number;
-}
+import { UserData } from '../store/reducers/userSlice';
 
 function App() {
 	const dispatch = useDispatch();
@@ -42,22 +28,35 @@ function App() {
 
 	const fetchData = async () => {
 		try {
+			// Выполнение запроса на авторизацию
 			const loginResponse = await api.onLogin(username, password);
-			if (loginResponse) {
-				const userData = await api.getUserData();
-				console.log('userData:', userData);
-				// dispatch(setUser({ user: userData }));
+			console.log('loginResponse: ', loginResponse);
+
+			if (loginResponse === null) {
+				// Если запрос на авторизацию успешен, выполняем запрос на получение данных пользователя
+				const UserData = await api.getUserData();
+				console.log('UserData: ', UserData);
+
+				//   dispatch(setUser({ user: UserData }));
+			} else {
+				console.error('Ошибка в запросе на авторизацию');
 			}
 		} catch (error) {
-			console.error('Ошибка при выполнении асинхронных операций:', error);
+			console.error(
+				'Ошибка в запросе на получение данных пользователя:',
+				error
+			);
 		}
 	};
+
+	// Вызываем функцию fetchData
+	fetchData();
 
 	useEffect(() => {
 		fetchData();
 	}, [dispatch, username, password]);
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		fetchData();
 	};
 

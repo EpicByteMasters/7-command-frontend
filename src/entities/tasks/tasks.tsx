@@ -16,23 +16,7 @@ import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
-
-interface TaskProps {
-	id: number;
-	title: string;
-	deadline: string;
-	statusText: string;
-	statusColor?:
-		| 'green'
-		| 'orange'
-		| 'red'
-		| 'blue'
-		| 'grey'
-		| 'teal'
-		| 'purple'
-		| undefined;
-	closeButton?: boolean | undefined;
-}
+import { tasksData } from '../../shared/utils/constants';
 
 interface TasksProps {
 	isEmployee: boolean;
@@ -43,41 +27,6 @@ interface OptionShape {
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const tasksData: TaskProps[] = [
-		{
-			id: 1,
-			title: 'Менторинг новых сотрудников',
-			deadline: 'До 30 января',
-			statusText: 'не выполнена',
-			statusColor: 'red',
-			closeButton: false,
-		},
-		{
-			id: 2,
-			title: 'Разработка стратегии компании',
-			deadline: 'До 20 марта',
-			statusText: 'ожидает проверки',
-			statusColor: 'purple',
-			closeButton: true,
-		},
-		{
-			id: 3,
-			title: 'Найм сотрудников',
-			deadline: 'До 10 апреля',
-			statusText: 'выполнена',
-			statusColor: 'green',
-			closeButton: false,
-		},
-		{
-			id: 4,
-			title: 'Подготовка и выступление на конференции',
-			deadline: 'До 1 июня',
-			statusText: 'отменена',
-			statusColor: 'orange',
-			closeButton: true,
-		},
-	];
-
 	const [valueCourse, setValueCourse] = useState<string>('');
 	const [tagValues, setTagValues] = useState<string[]>([]);
 	const [shownChevron, setShownChevron] = useState(true);
@@ -239,7 +188,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													<div className={styles.formRowTag}>
 														{tagValues.length > 0 &&
 															tagValues.map((value, index) => (
-																<div key={index} style={{ maxWidth: '319px' }}>
+																<div key={index} style={{ maxWidth: '952px' }}>
 																	<FilterTag
 																		showClear={true}
 																		size="s"
