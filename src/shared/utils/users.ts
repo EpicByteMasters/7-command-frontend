@@ -5,14 +5,18 @@ import employee2 from '../../images/avatars/avatar_employee2.png';
 import mentor1 from '../../images/avatars/avatar_mentor1.png';
 import mentor2 from '../../images/avatars/avatar_mentor2.png';
 import { roleUrl } from './urls';
-interface User {
+
+export interface User {
 	id: number;
 	name: string;
 	position: string;
 	pic: string;
 	link: {};
 	role: string;
+	email: string;
+	password: string;
 }
+
 const users: User[] = [
 	{
 		id: 1,
@@ -21,6 +25,8 @@ const users: User[] = [
 		pic: head1,
 		link: roleUrl[0].url,
 		role: 'myteam',
+		email: 'user1@example.com',
+		password: 'string',
 	},
 	{
 		id: 2,
@@ -29,6 +35,8 @@ const users: User[] = [
 		pic: head2,
 		link: roleUrl[0].url,
 		role: 'myteam',
+		email: 'user2@example.com',
+		password: 'string',
 	},
 	{
 		id: 3,
@@ -37,6 +45,8 @@ const users: User[] = [
 		pic: employee1,
 		link: roleUrl[1].url,
 		role: 'my',
+		email: 'user3@example.com',
+		password: 'string',
 	},
 	{
 		id: 4,
@@ -45,6 +55,8 @@ const users: User[] = [
 		pic: employee2,
 		link: roleUrl[1].url,
 		role: 'my',
+		email: 'user4@example.com',
+		password: 'string',
 	},
 	{
 		id: 5,
@@ -53,6 +65,8 @@ const users: User[] = [
 		pic: mentor1,
 		link: roleUrl[2].url,
 		role: 'mentor',
+		email: 'user5@example.com',
+		password: 'string',
 	},
 	{
 		id: 6,
@@ -61,6 +75,8 @@ const users: User[] = [
 		pic: mentor2,
 		link: roleUrl[2].url,
 		role: 'mentor',
+		email: 'user6@example.com',
+		password: 'string',
 	},
 ];
 

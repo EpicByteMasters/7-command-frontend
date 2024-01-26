@@ -1,26 +1,48 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
-
-interface User {
-	id: number;
-	pic: string;
-	name: string;
-	position: string;
-	link: {};
-	role: string;
-}
+import { User } from '../../shared/utils/users';
+import { logInUser } from '../../store/reducers/userSlice';
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../shared/hooks/redux';
+import { unstable_HistoryRouter } from 'react-router-dom';
 
 interface LoginProps {
 	users: User[];
 }
 
 export const Login: FC<LoginProps> = ({ users }) => {
-	function onClick(e: any) {
-		// setCurrentUser(users.find((user) => user.role === e.currentTarget.name));
-	}
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const handleLogin = async (
+		email: string,
+		password: string,
+		userLink: string
+	) => {
+		try {
+			const action = logInUser({ email, password });
+
+			const result = await dispatch(action);
+
+			if (logInUser.rejected.match(result)) {
+				console.error('Login rejected:', result.error); // Выводим информацию об ошибке в консоль
+			} else if (logInUser.fulfilled.match(result) && result.payload) {
+				const auth_token = result.payload.auth_token;
+				console.log('Login successful. Token:', auth_token);
+
+				navigate(userLink); // Переход на роут пользователя
+			} else {
+				console.error('Unexpected result during login:', result);
+			}
+		} catch (error) {
+			console.error('Error during login:', error);
+		}
+	};
 
 	return (
 		<>
@@ -45,11 +67,13 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												href={JSON.stringify(user.link).replace(
-													/[\s.,""%]/g,
-													''
-												)}
-												onClick={onClick}
+												onClick={() =>
+													handleLogin(
+														user.email,
+														user.password,
+														JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
+													)
+												}
 												name={user.role}
 											>
 												Вход

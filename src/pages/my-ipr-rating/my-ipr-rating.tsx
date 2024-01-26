@@ -5,7 +5,7 @@ import Header from '../../shared/header-component/header';
 import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
-import { TasksOverview } from '../tasks-overview/tasks-overview';
+import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 interface RatingProps {
 	isExecutive?: boolean;
 }
