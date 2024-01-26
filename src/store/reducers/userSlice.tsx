@@ -71,6 +71,7 @@ export const logInUser = createAsyncThunk<any, logInData>(
 		const formData = new FormData();
 		formData.append('username', data.email);
 		formData.append('password', data.password);
+		console.log('formData', formData);
 
 		const response = await fetch(
 			'http://213.171.6.128:81/api/v1/auth/jwt/login',
@@ -80,6 +81,7 @@ export const logInUser = createAsyncThunk<any, logInData>(
 			}
 		);
 		let res;
+		console.log('slice response', response);
 		if (response.status === 200) {
 			res = response.json();
 		} else if (response.status === 400) {

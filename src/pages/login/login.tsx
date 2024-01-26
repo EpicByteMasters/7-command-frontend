@@ -67,10 +67,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												href={JSON.stringify(user.link).replace(
-													/[\s.,""%]/g,
-													''
-												)}
 												onClick={() =>
 													handleLogin(
 														user.email,
