@@ -15,7 +15,7 @@ interface User {
 
 interface LoginProps {
 	users: User[];
-	handleLogin: (password: string, username: string) => Promise<void>;
+	handleLogin: (password: string, username: string) => void;
 	password: string;
 	username: string;
 }

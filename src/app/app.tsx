@@ -19,6 +19,21 @@ import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { password, username } from '../shared/utils/constants';
 
+interface UserData {
+	id: string;
+	email: string;
+	isActive: boolean;
+	isSuperuser: boolean;
+	isVerified: boolean;
+	firstName: string;
+	surname: string;
+	patronymic: string;
+	imageUrl: string;
+	positionId: string;
+	specialtyId: string;
+	supervisorId: number;
+}
+
 function App() {
 	const dispatch = useDispatch();
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
@@ -27,22 +42,22 @@ function App() {
 
 	const fetchData = async () => {
 		try {
-			const [userData] = await Promise.all([
-				api.onLogin(username, password),
-				api.getUserData(),
-			]);
-			dispatch(setUser({ user: userData }));
+			const loginResponse = await api.onLogin(username, password);
+			if (loginResponse) {
+				const userData = await api.getUserData();
+				console.log('userData:', userData);
+				// dispatch(setUser({ user: userData }));
+			}
 		} catch (error) {
-			console.error('Ошибка при выполнении Promise.all:', error);
+			console.error('Ошибка при выполнении асинхронных операций:', error);
 		}
 	};
-	fetchData();
 
 	useEffect(() => {
 		fetchData();
 	}, [dispatch, username, password]);
 
-	const handleLogin = async () => {
+	const handleLogin = () => {
 		fetchData();
 	};
 

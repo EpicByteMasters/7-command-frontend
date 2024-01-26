@@ -7,7 +7,7 @@ interface UserData {
 	imageUrl: string;
 }
 
-export const BASE_URL = 'http://213.171.6.128:81/';
+export const BASE_URL = 'http://213.171.6.128:80';
 
 const headers: HeadersInit = {
 	Accept: 'application/json',
@@ -22,7 +22,7 @@ const getResponseData = <T>(res: Response): Promise<T> => {
 };
 
 export const getUserData = (): Promise<UserData[]> => {
-	return fetch(`${BASE_URL}api/v1/user/me`, {
+	return fetch(`${BASE_URL}/api/v1/user/me`, {
 		method: 'GET',
 		headers,
 	})
@@ -41,7 +41,7 @@ export const getEmployeeIPRs = (id: number): Promise<UserData[]> => {
 
 //тут нужен id руководеля где-то
 export const getMyTeamIprs = (): Promise<UserData[]> => {
-	return fetch(`${BASE_URL}api/v1/mentor/iprs`, {
+	return fetch(`${BASE_URL}/api/v1/mentor/iprs`, {
 		method: 'GET',
 		headers,
 	})
@@ -50,7 +50,7 @@ export const getMyTeamIprs = (): Promise<UserData[]> => {
 };
 
 export const createDraft = (id: number): Promise<any> => {
-	return fetch(`${BASE_URL}api/v1/mentor/iprs/ipr/create`, {
+	return fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/create`, {
 		method: 'POST',
 		headers,
 		body: JSON.stringify({
@@ -62,7 +62,7 @@ export const createDraft = (id: number): Promise<any> => {
 };
 
 export const deleteDraft = (id: number): Promise<any> => {
-	return fetch(`${BASE_URL}api/v1/mentor/iprs/ipr/${id}`, {
+	return fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}`, {
 		method: 'DELETE',
 		headers,
 		body: JSON.stringify({
@@ -74,7 +74,7 @@ export const deleteDraft = (id: number): Promise<any> => {
 };
 
 export const logout = (): Promise<void> => {
-	return fetch(`${BASE_URL}api/v1/logout`, {
+	return fetch(`${BASE_URL}/api/v1/logout`, {
 		method: 'POST',
 		credentials: 'include',
 	})
@@ -83,7 +83,7 @@ export const logout = (): Promise<void> => {
 };
 
 export const onLogin = (username: string, password: string): Promise<any> => {
-	return fetch(`${BASE_URL}api/v1/login`, {
+	return fetch(`${BASE_URL}/api/v1/login`, {
 		method: 'POST',
 		headers,
 		body: JSON.stringify({
