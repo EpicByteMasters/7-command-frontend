@@ -1,0 +1,32 @@
+@import './../../styles/variables.scss';
+
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.wrapper {
+	flex-grow: 1;
+}
+
+.dataWrapper {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 24px;
+	padding-top: 26px;
+	gap: 24px;
+}
+
+.dataWrapper > * {
+	width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
+}
+
+.searchInputWrapper {
+	padding-bottom: 28px;
+}
+
+.filterTagsWrapper {
+	display: flex;
+	gap: 16px;
+	padding-bottom: 32px;
+}

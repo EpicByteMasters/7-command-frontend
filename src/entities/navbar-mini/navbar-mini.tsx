@@ -8,10 +8,12 @@ import { roleUrl } from '../../shared/utils/urls';
 interface ExecutiveProps {
 	isExecutive?: boolean;
 	isEmployee?: boolean;
+	isMentor?: boolean;
 }
 export const NavBarMini: React.FC<ExecutiveProps> = ({
 	isExecutive,
 	isEmployee,
+	isMentor,
 }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -82,16 +84,18 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 					) : (
 						''
 					)}
-					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[1].url}>
-							<RocketMIcon
-								fill="currentColor"
-								className={styles.icon}
-							></RocketMIcon>
-							Мой план развития
-						</NavLink>
-					</li>
-					{isExecutive ? (
+					{!isMentor && (
+						<li className={styles.item}>
+							<NavLink className={styles.link} to={roleUrl[1].url}>
+								<RocketMIcon
+									fill="currentColor"
+									className={styles.icon}
+								></RocketMIcon>
+								Мой план развития
+							</NavLink>
+						</li>
+					)}
+					{(isExecutive && isMentor) || isExecutive ? (
 						<li className={styles.item}>
 							<NavLink className={styles.link} to={roleUrl[2].url}>
 								<UserStarMIcon

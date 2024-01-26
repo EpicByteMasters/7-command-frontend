@@ -1,3 +1,6 @@
+import mentor1 from '../../images/avatars/avatar_mentor1.png';
+import mentor2 from '../../images/avatars/avatar_mentor2.png';
+
 export const testData = [
 	{
 		id: 1,
@@ -187,5 +190,26 @@ export const testData = [
 		date: '',
 		progress: 60,
 		status: 'отсутствует',
+	},
+];
+
+export const mentorData = [
+	{
+		id: 1,
+		name: 'Иванов Пётр Александрович',
+		position: 'Руководитель дирекции',
+		goal: 'Повышение грейда',
+		date: '01.04.2024',
+		progress: 50,
+		status: 'в работе',
+	},
+	{
+		id: 2,
+		name: 'Кириллов Константин Соломонович',
+		position: 'Руководитель дирекции',
+		goal: 'Соответствие занимаемой должности',
+		date: '01.07.2024',
+		progress: 75,
+		status: 'в работе',
 	},
 ];
