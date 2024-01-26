@@ -25,7 +25,7 @@ const users: User[] = [
 		pic: head1,
 		link: roleUrl[0].url,
 		role: 'myteam',
-		email: 'user1@example.com',
+		email: 'user@example.com',
 		password: 'string',
 	},
 	{

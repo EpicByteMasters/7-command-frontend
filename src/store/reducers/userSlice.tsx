@@ -1,7 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stat } from 'fs';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-// Определение типа данных пользователя
 export interface IUser {
 	id: string;
 	email: string;
@@ -17,17 +15,13 @@ export interface IUser {
 	supervisorId: number;
 }
 
-// Изменения в структуре UserState
 export type UserState = {
 	user: IUser;
-	auth_token: string | null;
 	isLoading: boolean;
 	error: string;
 };
 
-// Изменения в начальном состоянии
 let initialState: UserState;
-
 initialState = {
 	user: {
 		id: '',
@@ -43,22 +37,9 @@ initialState = {
 		specialtyId: '',
 		supervisorId: 0,
 	},
-	auth_token: null,
 	isLoading: false,
 	error: '',
 };
-
-// const userSlice = createSlice({
-// 	name: 'user',
-// 	initialState,
-// 	reducers: {
-// 		setUser: (state, action: PayloadAction<{ user: UserData | null }>) => {
-// 			state.user = action.payload.user;
-// 		},
-// 	},
-// });
-
-// export const { setUser } = userSlice.actions;
 
 type logInData = {
 	email: string;
@@ -68,30 +49,45 @@ type logInData = {
 export const logInUser = createAsyncThunk<any, logInData>(
 	'user/signin',
 	async (data) => {
-		const formData = new FormData();
-		formData.append('username', data.email);
-		formData.append('password', data.password);
-		console.log('formData', formData);
+		try {
+			const formData = new FormData();
+			formData.append('username', data.email);
+			formData.append('password', data.password);
 
-		const response = await fetch(
-			'http://213.171.6.128:81/api/v1/auth/jwt/login',
-			{
-				method: 'POST',
-				body: formData,
+			const response = await fetch(
+				'http://213.171.6.128:80/api/v1/auth/jwt/login',
+				{
+					method: 'POST',
+					body: formData,
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-		);
-		let res;
-		console.log('slice response', response);
-		if (response.status === 200) {
-			res = response.json();
-		} else if (response.status === 400) {
-			throw new Error('Invalid Data');
-		} else if (response.status === 500) {
-			throw new Error('Server Error');
+
+			const responseBody = await response.json();
+			return responseBody;
+		} catch (error) {
+			console.error('Error during login:', error);
+			throw error;
 		}
-		return res;
 	}
 );
+
+export const getUserData = createAsyncThunk<any>('user/getData', async () => {
+	const res = await fetch('', {
+		method: 'GET',
+	});
+
+	let response;
+	if (res.status === 200) {
+		response = res.json();
+	} else {
+		throw new Error('Не возможно получить данные о текущем пользователе');
+	}
+	return response;
+});
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -111,12 +107,19 @@ export const userSlice = createSlice({
 			state.user.supervisorId = action.payload.supervisorId;
 		},
 	},
-
 	extraReducers: (builder) => {
 		builder.addCase(logInUser.fulfilled, (state, action) => {
-			localStorage.setItem('token', action.payload.auth_token);
-			state.auth_token = action.payload.auth_token;
 			console.log('Login successful:', action.payload);
+		});
+		builder.addCase(getUserData.fulfilled, (state, action) => {
+			state.user.email = action.payload.email;
+			state.user.firstName = action.payload.firstName;
+			state.user.surname = action.payload.surname;
+			state.user.patronymic = action.payload.patronymic;
+			state.user.imageUrl = action.payload.imageUrl;
+			state.user.positionId = action.payload.positionId;
+			state.user.specialtyId = action.payload.specialtyId;
+			state.user.supervisorId = action.payload.supervisorId;
 		});
 	},
 });
