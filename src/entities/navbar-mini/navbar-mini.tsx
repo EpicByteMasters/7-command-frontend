@@ -17,14 +17,16 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 	const location = useLocation();
 
 	const onGoBack = () => {
-		// //Сотрудник
+		// Сотрудник
 		if (location.pathname === '/service-iprs/myteam' && isExecutive) {
 			navigate('/main', { replace: true });
 		}
-		if (location.pathname === '/service-iprs/my' && isEmployee) {
+		if (
+			location.pathname === '/service-iprs/my' &&
+			(isEmployee || !isExecutive)
+		) {
 			navigate('/main', { replace: true });
 		}
-
 		if (
 			(location.pathname === '/service-iprs/ipr/2' || '/service-iprs/ipr/1') &&
 			isExecutive
