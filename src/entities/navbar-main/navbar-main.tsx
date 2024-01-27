@@ -15,19 +15,18 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({ isMentor }) => {
 	const location = useLocation();
 	const userData = useAppSelector((state) => state.user.user);
 	const isEmployee = userData.positionId === 'EMPLOYEE';
-	const isExecutive = userData.positionId === 'MANAGER';
 
 	console.log('isEmployee в навбаре: ', isEmployee);
-	console.log('userData в навбаре: ', userData);
-	console.log('isEmployee в навбаре: ', isEmployee);
-	console.log('isExecutive в навбаре: ', isExecutive);
+	const isExecutive = userData.positionId === 'MANAGER';
+	console.log('isExecutive: ', isExecutive);
 
 	const onNavigate = () => {
 		if (location.pathname === '/main' && isExecutive) {
-			navigate('/service-iprs/myteam', { replace: true });
+			navigate('/service-iprs/myteam', { replace: false });
 		}
 		if (location.pathname === '/main' && isEmployee) {
-			navigate('/service-iprs/my', { replace: true });
+			console.log('isEmployee', isEmployee);
+			navigate('/service-iprs/my', { replace: false });
 		}
 		if (location.pathname === '/main' && isExecutive && isMentor) {
 			navigate('/service-iprs/mentor', { replace: true });
