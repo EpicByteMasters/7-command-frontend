@@ -44,7 +44,7 @@ function App() {
 		<div className={styles.container__main}>
 			<Routes>
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
-				<Route path="/main" element={<MainPage isMentor={true}></MainPage>} />
+				<Route path="/main" element={<MainPage isMentor={false}></MainPage>} />
 				<Route
 					path={roleUrl[0].url}
 					element={
