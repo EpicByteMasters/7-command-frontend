@@ -10,11 +10,15 @@ import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 import { accessUrl } from '../../shared/utils/urls';
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
+import { useAppSelector } from '../hooks/redux';
 
 interface HeaderProps {
 	error?: string;
 }
 function Header({ error }: HeaderProps) {
+	const userData = useAppSelector((state) => state.user.user);
+	console.log('userData: ', userData);
+
 	const [searchValue, setSearchValue] = useState<string>('');
 
 	const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +76,7 @@ function Header({ error }: HeaderProps) {
 					''
 				) : (
 					<img
-						// onClick={handleOpen}
-						src={avatar}
+						src={userData.imageUrl || avatar}
 						alt="аватар"
 						className={styles.avatar}
 					/>

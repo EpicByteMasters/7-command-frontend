@@ -22,52 +22,23 @@ import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
 import users, { User } from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { mentorData } from '../shared/utils/test-users';
+import { useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
 
 //import { password, username } from '../shared/utils/constants';
 
 function App() {
-	const dispatch = useDispatch();
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
 	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
 	const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
-	// const fetchData = async () => {
-	// 	try {
-	// 		const loginResponse = await api.onLogin(username, password);
-	// 		if (loginResponse) {
-	// 			const userData = await api.getUserData();
-	// 			console.log('userData:', userData);
-	// 			// dispatch(setUser({ user: userData }));
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Ошибка при выполнении асинхронных операций:', error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	fetchData();
-	// }, [dispatch, username, password]);
-
-	// Определение типа данных для пользователя
-
-	// const handleLogin = async (loginUserData: User) => {
-	// 	try {
-	// 		const action = logInUser(loginUserData);
-
-	// 		const result = await dispatch(action);
-
-	// 		// Получите данные пользователя из результата успешного входа
-	// 		const auth_token = result.payload.auth_token;
-
-	// 		// Обработайте токен или выполните другие действия при успешном входе
-	// 		console.log('Token:', auth_token);
-	// 	} catch (error) {
-	// 		console.error('Error during login:', error);
-	// 	}
-	// };
+	const userData = useAppSelector((state) => state.user.user);
+	console.log('userData в Апп: ', userData);
+	const isEmployee = userData.positionId === 'EMPLOYEE';
+	console.log('isEmployee: ', isEmployee);
+	// const isExecutive = userData.positionId === 'MANAGER'
 
 	return (
 		<div className={styles.container__main}>
