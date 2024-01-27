@@ -122,7 +122,7 @@ export const goalsData: Goal[] = [
 
 export interface Task {
 	id: number;
-	goal: string;
+	title: string;
 	deadline: string;
 	progress: number;
 	statusText: string;
@@ -141,7 +141,7 @@ export interface Task {
 export const tasksData: Task[] = [
 	{
 		id: 1,
-		goal: 'Карьерный рост',
+		title: 'Изучение английского языка до С1',
 		deadline: '15.01.2024',
 		progress: 0,
 		statusText: 'в работе',
@@ -149,7 +149,7 @@ export const tasksData: Task[] = [
 	},
 	{
 		id: 2,
-		goal: 'Повышение грейда',
+		title: 'Менторинг новых сотрудников',
 		deadline: '20.01.2023',
 		progress: 40,
 		statusText: 'отменен',
@@ -157,7 +157,7 @@ export const tasksData: Task[] = [
 	},
 	{
 		id: 3,
-		goal: 'Получение нового опыта',
+		title: 'Получение нового опыта',
 		deadline: '16.01.2022',
 		progress: 40,
 		statusText: 'не выполнен',
@@ -165,7 +165,7 @@ export const tasksData: Task[] = [
 	},
 	{
 		id: 4,
-		goal: 'Смена команды',
+		title: 'Смена команды',
 		deadline: '12.01.2021',
 		progress: 90,
 		statusText: 'выполнен',
@@ -173,7 +173,7 @@ export const tasksData: Task[] = [
 	},
 	{
 		id: 5,
-		goal: 'Соответствие занимаемой должности',
+		title: 'Подготовка и выступление на конференции',
 		deadline: '23.01.2020',
 		progress: 100,
 		statusText: 'выполнен',

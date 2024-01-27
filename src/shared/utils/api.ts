@@ -7,7 +7,7 @@ interface UserData {
 	imageUrl: string;
 }
 
-export const BASE_URL = 'http://213.171.6.128:80';
+export const BASE_URL = 'http://213.171.6.128:81';
 
 const headers: HeadersInit = {
 	Accept: 'application/json',
@@ -82,15 +82,28 @@ export const logout = (): Promise<void> => {
 		.catch((error) => Promise.reject(error));
 };
 
-export const onLogin = (username: string, password: string): Promise<any> => {
-	return fetch(`${BASE_URL}/api/v1/login`, {
-		method: 'POST',
-		headers,
-		body: JSON.stringify({
-			username: username,
-			password: password,
-		}),
-	})
-		.then((response: Response) => getResponseData(response))
-		.catch((error) => Promise.reject(error));
+export const onLogin = async (
+	username: string,
+	password: string
+): Promise<any> => {
+	const formData = new FormData();
+	formData.append('username', username);
+	formData.append('password', password);
+
+	try {
+		const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
+			method: 'POST',
+			body: formData,
+		});
+
+		if (!response.ok) {
+			throw new Error(`Request failed with status: ${response.status}`);
+		}
+
+		const responseData = await response.json();
+		return responseData;
+	} catch (error) {
+		console.error('Error during login:', error);
+		throw error;
+	}
 };

@@ -25,7 +25,7 @@ const users: User[] = [
 		pic: head1,
 		link: roleUrl[0].url,
 		role: 'myteam',
-		email: 'user@example.com',
+		email: 'user5@example.com',
 		password: 'string',
 	},
 	{
@@ -35,7 +35,7 @@ const users: User[] = [
 		pic: head2,
 		link: roleUrl[0].url,
 		role: 'myteam',
-		email: 'user2@example.com',
+		email: 'user6@example.com',
 		password: 'string',
 	},
 	{

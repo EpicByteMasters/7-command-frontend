@@ -55,15 +55,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 				</Table.THead>
 				<Table.TBody>
 					{goalsData.map(
-						({
-							id,
-							goal,
-							dateStart,
-							dateEnd,
-							statusColor,
-							statusText,
-							// progress,
-						}) => {
+						({ id, goal, dateStart, dateEnd, statusColor, statusText }) => {
 							let iprLink;
 							if (
 								statusText === 'выполнен' ||

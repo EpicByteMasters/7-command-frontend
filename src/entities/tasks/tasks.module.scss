@@ -81,3 +81,9 @@
 	height: 24px;
 	object-fit: contain;
 }
+
+.formRowTag {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
