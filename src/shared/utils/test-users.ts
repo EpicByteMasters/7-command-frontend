@@ -1,5 +1,19 @@
+<<<<<<< HEAD:src/shared/utils/test-users.js
 import mentor1 from '../../images/avatars/avatar_mentor1.png';
 import mentor2 from '../../images/avatars/avatar_mentor2.png';
+=======
+export interface EmployeeGoalPlan {
+	id: number;
+	name: string;
+	position: string;
+	goal: string;
+	date: string;
+	progress: number;
+	taskAll: number;
+	taskDone: number;
+	status: string;
+}
+>>>>>>> 2f3d43ffcc38f201c48e60c42b0a65814063e3d3:src/shared/utils/test-users.ts
 
 export const testData = [
 	{
@@ -9,6 +23,8 @@ export const testData = [
 		goal: 'Карьерный рост',
 		date: '10.01.2024',
 		progress: 25,
+		taskAll: 10,
+		taskDone: 4,
 		status: 'не выполнен',
 	},
 	{
@@ -18,6 +34,8 @@ export const testData = [
 		goal: 'Повышение грейда',
 		date: '01.04.2024',
 		progress: 50,
+		taskAll: 2,
+		taskDone: 1,
 		status: 'в работе',
 	},
 	{
@@ -26,7 +44,9 @@ export const testData = [
 		position: 'Руководитель дирекции',
 		goal: 'Соответствие занимаемой должности',
 		date: '01.07.2024',
-		progress: 75,
+		progress: 80,
+		taskAll: 5,
+		taskDone: 4,
 		status: 'в работе',
 	},
 	{
@@ -36,6 +56,8 @@ export const testData = [
 		goal: 'Развитие софт-скиллов',
 		date: '01.03.2024',
 		progress: 100,
+		taskAll: 3,
+		taskDone: 3,
 		status: 'выполнен',
 	},
 	{
@@ -45,6 +67,8 @@ export const testData = [
 		goal: 'Развитие хард-скиллов',
 		date: '05.02.2024',
 		progress: 100,
+		taskAll: 5,
+		taskDone: 5,
 		status: 'выполнен',
 	},
 	{
@@ -54,6 +78,8 @@ export const testData = [
 		goal: 'Карьерный рост',
 		date: '01.12.2023',
 		progress: 0,
+		taskAll: 3,
+		taskDone: 0,
 		status: 'отменен',
 	},
 	{
@@ -63,6 +89,8 @@ export const testData = [
 		goal: 'Смена специализации',
 		date: '01.08.2024',
 		progress: 0,
+		taskAll: 4,
+		taskDone: 0,
 		status: 'черновик',
 	},
 	{
@@ -72,6 +100,8 @@ export const testData = [
 		goal: 'Получение нового опыта',
 		date: '',
 		progress: 0,
+		taskAll: 6,
+		taskDone: 0,
 		status: 'черновик',
 	},
 	{
@@ -81,6 +111,8 @@ export const testData = [
 		goal: '',
 		date: '',
 		progress: 0,
+		taskAll: 0,
+		taskDone: 0,
 		status: 'отсутствует',
 	},
 	{
@@ -90,6 +122,8 @@ export const testData = [
 		goal: '',
 		date: '',
 		progress: 0,
+		taskAll: 0,
+		taskDone: 0,
 		status: 'отсутствует',
 	},
 	{
@@ -99,6 +133,8 @@ export const testData = [
 		goal: 'Карьерный рост',
 		date: '10.01.2024',
 		progress: 25,
+		taskAll: 4,
+		taskDone: 1,
 		status: 'не выполнен',
 	},
 	{
@@ -108,6 +144,8 @@ export const testData = [
 		goal: 'Повышение грейда',
 		date: '01.04.2024',
 		progress: 50,
+		taskAll: 4,
+		taskDone: 2,
 		status: 'в работе',
 	},
 	{
@@ -116,7 +154,9 @@ export const testData = [
 		position: 'Руководитель дирекции',
 		goal: 'Соответствие занимаемой должности',
 		date: '01.07.2024',
-		progress: 75,
+		progress: 70,
+		taskAll: 10,
+		taskDone: 7,
 		status: 'в работе',
 	},
 	{
@@ -126,6 +166,8 @@ export const testData = [
 		goal: 'Развитие софт-скиллов',
 		date: '01.03.2024',
 		progress: 100,
+		taskAll: 7,
+		taskDone: 7,
 		status: 'выполнен',
 	},
 	{
@@ -135,6 +177,8 @@ export const testData = [
 		goal: 'Развитие хард-скиллов',
 		date: '05.02.2024',
 		progress: 100,
+		taskAll: 8,
+		taskDone: 8,
 		status: 'выполнен',
 	},
 	{
@@ -144,6 +188,8 @@ export const testData = [
 		goal: 'Карьерный рост',
 		date: '01.12.2023',
 		progress: 0,
+		taskAll: 5,
+		taskDone: 0,
 		status: 'отменен',
 	},
 	{
@@ -153,6 +199,8 @@ export const testData = [
 		goal: 'Смена специализации',
 		date: '01.08.2024',
 		progress: 0,
+		taskAll: 4,
+		taskDone: 0,
 		status: 'черновик',
 	},
 	{
@@ -162,6 +210,8 @@ export const testData = [
 		goal: 'Получение нового опыта',
 		date: '',
 		progress: 0,
+		taskAll: 2,
+		taskDone: 0,
 		status: 'черновик',
 	},
 	{
@@ -171,6 +221,8 @@ export const testData = [
 		goal: '',
 		date: '',
 		progress: 0,
+		taskAll: 0,
+		taskDone: 0,
 		status: 'отсутствует',
 	},
 	{
@@ -180,6 +232,8 @@ export const testData = [
 		goal: '',
 		date: '',
 		progress: 0,
+		taskAll: 0,
+		taskDone: 0,
 		status: 'отсутствует',
 	},
 	{
@@ -188,7 +242,9 @@ export const testData = [
 		position: 'Руководитель дирекции',
 		goal: '',
 		date: '',
-		progress: 60,
+		progress: 0,
+		taskAll: 0,
+		taskDone: 0,
 		status: 'отсутствует',
 	},
 ];

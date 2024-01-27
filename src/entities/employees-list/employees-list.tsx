@@ -10,16 +10,7 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
-
-export interface EmployeeGoalPlan {
-	id: number;
-	name: string;
-	position: string;
-	goal: string;
-	date: string;
-	progress: number;
-	status: string;
-}
+import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 export interface IEmployeesListProps {
 	data: EmployeeGoalPlan[];
@@ -219,7 +210,17 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				</Table.THead>
 				<Table.TBody>
 					{currentPageData.map(
-						({ id, name, position, goal, date, progress, status }) => {
+						({
+							id,
+							name,
+							position,
+							goal,
+							date,
+							progress,
+							taskAll,
+							taskDone,
+							status,
+						}) => {
 							const progressPercentage = `${progress}%`;
 							const color = getStatusColor(status);
 
@@ -240,7 +241,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 									<Table.TCell>
 										<CircularProgressBar
 											value={progress}
-											title={progressPercentage}
+											title={`${taskDone}/${taskAll}`}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -279,6 +280,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													goal,
 													date,
 													progress,
+													taskAll,
+													taskDone,
 													status,
 												})
 											}
