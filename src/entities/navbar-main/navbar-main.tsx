@@ -6,16 +6,17 @@ import iconVacation from '../../images/navbar-icons-color/icon-vacation.svg';
 import iconTarget from '../../images/navbar-icons-color/icon-target.svg';
 import iconRocket from '../../images/navbar-icons-color/icon-rocket.svg';
 import iconMore from '../../images/navbar-icons-color/icon-more.svg';
+import { useAppSelector } from '../../shared/hooks/redux';
 interface ExecutiveProps {
 	isExecutive: boolean;
-	isEmployee: boolean;
 }
-export const NavBarMain: React.FC<ExecutiveProps> = ({
-	isExecutive,
-	isEmployee,
-}) => {
+export const NavBarMain: React.FC<ExecutiveProps> = ({ isExecutive }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const userData = useAppSelector((state) => state.user.user);
+	console.log('userData в навбаре: ', userData);
+	const isEmployee = userData.positionId === 'EMPLOYEE';
+	console.log('isEmployee в навбаре: ', isEmployee);
 
 	const onNavigate = () => {
 		//Сотрудник
@@ -23,6 +24,7 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({
 			navigate('/service-iprs/myteam', { replace: true });
 		}
 		if (location.pathname === '/main' && isEmployee) {
+			console.log('isEmployee', isEmployee);
 			navigate('/service-iprs/my', { replace: true });
 		}
 		// //Руководитель

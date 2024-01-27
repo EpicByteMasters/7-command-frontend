@@ -11,9 +11,8 @@ import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
-	isEmployee: boolean;
 }
-export const MainPage = ({ isExecutive, isEmployee }: ManagerIprDraftProps) => {
+export const MainPage = ({ isExecutive }: ManagerIprDraftProps) => {
 	const [role, setRole] = useState<boolean>(true);
 
 	return (
@@ -21,7 +20,7 @@ export const MainPage = ({ isExecutive, isEmployee }: ManagerIprDraftProps) => {
 			{role ? <Header /> : <Header />}
 			<main className={styles.main}>
 				<div className={styles.container}>
-					<NavBarMain isExecutive={isExecutive} isEmployee={isEmployee} />
+					<NavBarMain isExecutive={isExecutive} />
 					<div className={styles.contentWrapper}>
 						<div className={styles.titleWrapper}>
 							<img src={layout1} alt="заглушка" className={styles.title}></img>

@@ -48,7 +48,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	//   }
 	// };
 
-	const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
+	//const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
 
 	const handleChangeCourse = ({
 		selected,
