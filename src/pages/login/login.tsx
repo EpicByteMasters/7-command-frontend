@@ -15,10 +15,19 @@ interface User {
 
 interface LoginProps {
 	users: User[];
+	handleLogin: (password: string, username: string) => void;
+	password: string;
+	username: string;
 }
 
-export const Login: FC<LoginProps> = ({ users }) => {
+export const Login: FC<LoginProps> = ({
+	users,
+	handleLogin,
+	password,
+	username,
+}) => {
 	function onClick(e: any) {
+		handleLogin(password, username);
 		// setCurrentUser(users.find((user) => user.role === e.currentTarget.name));
 	}
 

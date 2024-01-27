@@ -2,12 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Определение типа данных пользователя
 export interface UserData {
-	id: number;
+	id: string;
+	email: string;
+	isActive: boolean;
+	isSuperuser: boolean;
+	isVerified: boolean;
 	firstName: string;
-	lastName: string;
-	middleName: string;
-	role: 'MENTOR' | 'EMPLOYEE' | 'MANAGER';
+	surname: string;
+	patronymic: string;
 	imageUrl: string;
+	positionId: string;
+	specialtyId: string;
+	supervisorId: number;
 }
 
 // Изменения в структуре UserState

@@ -9,11 +9,9 @@ import Header from '../../shared/header-component/header';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Footer } from '../../entities/footer/footer';
-import {
-	EmployeeGoalPlan,
-	EmployeesList,
-} from '../../entities/employees-list/employees-list';
+import { EmployeesList } from '../../entities/employees-list/employees-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];

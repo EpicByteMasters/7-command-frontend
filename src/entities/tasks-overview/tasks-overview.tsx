@@ -204,6 +204,7 @@ export const TasksOverview = ({
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
 	const tagValues = valueCompetence.trim().split(',');
+	console.log(inputValues);
 
 	const handleChangeCompetence = ({
 		selected,
