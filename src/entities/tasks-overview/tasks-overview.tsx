@@ -30,25 +30,47 @@ export const TasksOverview = ({
 	const [multiple, setMultiple] = useState(true);
 	const [shownChevron, setShownChevron] = useState(true);
 
-	const [valueGoal, setValueGoal] = useState<string>('');
-	const [valueRole, setValueRole] = useState<string>('');
-	const [valueMentor, setValueMentor] = useState<string>('');
-	const [valueCompetence, setValueCompetence] = useState<string>('');
-	const [valueStartDate, setStartDate] = useState<string>('');
-	const [valueEndDate, setEndDate] = useState<string>('');
-	const [valueDescription, setValueDescription] = useState<string>('');
-	const [valueComment, setValueComment] = useState<string>('');
+	const [valueGoal, setValueGoal] = useState<string>(
+		isExecutive ? 'Карьерный рост' : 'Соответствие занимаемой должности'
+	);
+	const [valueRole, setValueRole] = useState<string>(
+		isExecutive ? 'Продакт-менеджер' : 'Руководитель'
+	);
+	const [valueMentor, setValueMentor] = useState<string>(
+		isExecutive ? 'Иванова Наталья Дмитриевна' : 'Евдокимов Сергей Семёнович'
+	);
+	const [valueCompetence, setValueCompetence] = useState<string>(
+		isExecutive
+			? 'Знания продуктовой аналитики, продуктовых исследований, UI/UX, Ведение бэклога, Запуск новых фичей, Оценивать влияние запуска фичи на ключевые метрики, Определять потребность клиентов, Искать решения проблем клиентов, Составление стратегии развития, Продуктовый маркетинг, Бюджетирование продукта, управление P&L, Анализ рынка и конкурентов'
+			: 'Ведение переговоров, Делегирование, Лидерство, Понимание бизнеса и структуры организации, Построение эффективных процессов, Публичные выступления, Стратегическое мышление, Управление конфликтами'
+	);
+	const [valueStartDate, setStartDate] = useState<string>('2024-01-09');
+	const [valueEndDate, setEndDate] = useState<string>(
+		isExecutive ? '' : '01.11.2024'
+	);
+	const [valueDescription, setValueDescription] = useState<string>(
+		isExecutive
+			? 'Составим план задач, которые в течение года помогут достичь повышения'
+			: 'Выработаем план развития для достижения поставленных целей'
+	);
+	const [valueComment, setValueComment] = useState<string>(
+		'Список материалов к изучению:'
+	);
 
 	const allInputs = {
+		id: '',
+		iprStatus: iprStatus,
+		supervisorId: '',
 		goal: valueGoal,
-		role: valueRole,
-		competence: valueCompetence,
-		mentor: valueMentor,
-		startDate: valueStartDate,
-		endDate: valueEndDate,
-		description: valueComment,
-		comment: valueDescription,
+		specialty: valueCompetence,
+		createDate: valueStartDate,
+		closeDate: valueEndDate,
+		mentorId: valueMentor,
+		description: valueDescription,
+		comment: valueComment,
+		supervisorComment: '',
 	};
+
 	console.log(allInputs);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -279,6 +301,7 @@ export const TasksOverview = ({
 								return (
 									<div key={value.length + 1} style={{ maxWidth: '319' }}>
 										<FilterTag
+											disabled={isExecutive ? false : true}
 											showClear={true}
 											size="xxs"
 											shape="rounded"
@@ -400,20 +423,24 @@ export const TasksOverview = ({
 							width: 1016,
 						}}
 					>
-						<Textarea
-							name="comment"
-							onChange={handleInputComment}
-							fieldClassName={styles2.textClass}
-							maxHeight={91}
-							label="Комментарий (виден только вам)"
-							labelView="inner"
-							size="m"
-							block={true}
-							maxLength={96}
-							showCounter={true}
-							autosize={true}
-							disabled={isExecutive ? false : true}
-						/>
+						{isExecutive ? (
+							<Textarea
+								name="comment"
+								onChange={handleInputComment}
+								fieldClassName={styles2.textClass}
+								maxHeight={91}
+								label="Комментарий (виден только вам)"
+								labelView="inner"
+								size="m"
+								block={true}
+								maxLength={96}
+								showCounter={true}
+								autosize={true}
+								disabled={isExecutive ? false : true}
+							/>
+						) : (
+							''
+						)}
 					</div>
 				</div>
 			</div>

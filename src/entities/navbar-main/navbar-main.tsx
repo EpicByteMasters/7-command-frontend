@@ -1,4 +1,5 @@
 import styles from './navbar-main.module.scss';
+import { useAppSelector } from '../../shared/hooks/redux';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import iconProfile from '../../images/navbar-icons-color/icon-user-account.svg';
 import iconCert from '../../images/navbar-icons-color/icon-certificate.svg';
@@ -9,13 +10,22 @@ import iconMore from '../../images/navbar-icons-color/icon-more.svg';
 interface ExecutiveProps {
 	isExecutive: boolean;
 	isEmployee: boolean;
+	isMentor: boolean;
 }
 export const NavBarMain: React.FC<ExecutiveProps> = ({
-	isExecutive,
-	isEmployee,
+	// isExecutive,
+	// isEmployee,
+	isMentor,
 }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	const userData = useAppSelector((state) => state.user.user);
+	console.log('userData в навбаре: ', userData);
+	const isEmployee = userData.positionId === 'EMPLOYEE';
+	const isExecutive = userData.positionId === 'MANAGER';
+
+	console.log('isEmployee в навбаре: ', isEmployee);
 
 	const onNavigate = () => {
 		//Сотрудник
@@ -25,34 +35,9 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({
 		if (location.pathname === '/main' && isEmployee) {
 			navigate('/service-iprs/my', { replace: true });
 		}
-		// //Руководитель
-		// if (
-		// 	location.pathname === '/service-iprs/myteam' &&
-		// 	user.role === 'myteam'
-		// ) {
-		// 	navigate('/', { replace: true });
-		// }
-		// if (
-		// 	location.pathname === ' /service-iprs/myteam/history' &&
-		// 	user.role === 'myteam'
-		// ) {
-		// 	navigate('/service-iprs/myteam', { replace: true });
-		// }
-		// if (
-		// 	location.pathname === '/service-iprs/ipr/:id' &&
-		// 	user.role === 'myteam'
-		// ) {
-		// 	navigate('/service-iprs/myteam', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
-		// 	navigate('/service-iprs/my', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/my' && user.role === 'my') {
-		// 	navigate('/', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/ipr/:id' && user.role === 'my') {
-		// 	navigate('/service-iprs/my', { replace: true });
-		// }
+		if (location.pathname === '/main' && isMentor) {
+			navigate('/service-iprs/mentor', { replace: true });
+		}
 	};
 	return (
 		<aside className={styles.aside}>

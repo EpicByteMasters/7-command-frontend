@@ -3,7 +3,6 @@ import styles from './ipr-employee.module.scss';
 import { Tasks } from '../../entities/tasks/tasks';
 import { useParams } from 'react-router-dom';
 import Header from '../../shared/header-component/header';
-import { Footer } from '@alfalab/core-components/select/shared';
 import BackButton from '../../entities/backbutton/backbutton';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Status, StatusProps } from '@alfalab/core-components/status';

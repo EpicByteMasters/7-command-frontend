@@ -75,7 +75,13 @@ function App() {
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
 				<Route
 					path="/main"
-					element={<MainPage isExecutive={true} isEmployee={false}></MainPage>}
+					element={
+						<MainPage
+							isExecutive={true}
+							isEmployee={false}
+							isMentor={true}
+						></MainPage>
+					}
 				/>
 				<Route
 					path={roleUrl[0].url}

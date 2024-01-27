@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import { Footer } from '../../entities/footer/footer';
 import { User } from '../../shared/utils/users';
 import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
@@ -111,7 +110,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					</div>
 				</div>
 			</main>
-			<Footer></Footer>
 		</>
 	);
 };

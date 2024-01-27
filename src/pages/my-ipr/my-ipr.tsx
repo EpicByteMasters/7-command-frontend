@@ -1,7 +1,6 @@
 import styles from './my-ipr.module.scss';
 import styles2 from './my-ipr.module.scss';
 import { useState } from 'react';
-import { Footer } from '../../entities/footer/footer';
 import Header from '../../shared/header-component/header';
 import { useParams } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
@@ -64,7 +63,6 @@ export const MyIpr: React.FC = () => {
 					</form>
 				</div>
 			</div>
-			<Footer></Footer>
 		</>
 	);
 };

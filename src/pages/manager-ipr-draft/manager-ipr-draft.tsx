@@ -2,7 +2,6 @@ import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Footer } from '../../entities/footer/footer';
 import Header from '../../shared/header-component/header';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Button } from '@alfalab/core-components/button';
@@ -139,7 +138,6 @@ export const ManagerIprDraft = ({
 					</form>
 				</div>
 			</div>
-			<Footer></Footer>
 		</>
 	);
 };
