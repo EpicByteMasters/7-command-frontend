@@ -37,6 +37,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					if (getUserData.fulfilled.match(userDataResult)) {
 						// Выводим данные пользователя в консоль
 						console.log('User data received:', userDataResult.payload);
+						navigate(userLink); // Переход на роут пользователя
 					} else {
 						// Обработка ошибки при получении данных о пользователе
 						console.error(
@@ -44,7 +45,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 							userDataResult.error
 						);
 					}
-					navigate(userLink); // Переход на роут пользователя
+
 					console.log('Login successful. Null received.');
 				}
 			} else {

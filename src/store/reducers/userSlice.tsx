@@ -46,6 +46,14 @@ type logInData = {
 	password: string;
 };
 
+// Получение значения cookie по имени
+function getCookie(name: string): string | undefined {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop()?.split(';').shift();
+	return undefined;
+}
+
 export const logInUser = createAsyncThunk<any, logInData>(
 	'user/signin',
 	async (data) => {
@@ -53,6 +61,11 @@ export const logInUser = createAsyncThunk<any, logInData>(
 			const formData = new FormData();
 			formData.append('username', data.email);
 			formData.append('password', data.password);
+
+			console.log('Request data:', {
+				email: data.email,
+				password: data.password,
+			});
 
 			const response = await fetch(
 				'http://213.171.6.128:80/api/v1/auth/jwt/login',
@@ -62,11 +75,34 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				}
 			);
 
+			console.log('Response:', {
+				status: response.status,
+				statusText: response.statusText,
+			});
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
 
 			const responseBody = await response.json();
+			console.log('response headers', response.headers);
+			// Извлекаем значение куки 'fastapiusersauth' из headers
+			const authTokenCookie = response.headers.get('Set-Cookie');
+			console.log('authTokenCookie', authTokenCookie);
+
+			// Разбиваем строку куки на массив строк
+			const cookieArray = authTokenCookie?.split(';');
+
+			// Ищем строку, содержащую 'fastapiusersauth'
+			const authCookieString = cookieArray?.find((str) =>
+				str.includes('fastapiusersauth')
+			);
+
+			// Извлекаем значение токена из строки куки
+			const authToken = authCookieString?.split('=')[1];
+
+			console.log('Auth Token from cookie:', authToken);
+
 			return responseBody;
 		} catch (error) {
 			console.error('Error during login:', error);
@@ -76,8 +112,9 @@ export const logInUser = createAsyncThunk<any, logInData>(
 );
 
 export const getUserData = createAsyncThunk<any>('user/getData', async () => {
-	const res = await fetch('', {
+	const res = await fetch('http://213.171.6.128:80/api/v1/user/me', {
 		method: 'GET',
+		credentials: 'include', // Включаем отправку куки
 	});
 
 	let response;
