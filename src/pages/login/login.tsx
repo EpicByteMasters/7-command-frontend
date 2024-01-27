@@ -6,10 +6,8 @@ import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Footer } from '../../entities/footer/footer';
 import { User } from '../../shared/utils/users';
-import { logInUser } from '../../store/reducers/userSlice';
-import { useDispatch } from 'react-redux';
+import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
-import { unstable_HistoryRouter } from 'react-router-dom';
 
 interface LoginProps {
 	users: User[];
@@ -29,13 +27,40 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 			const result = await dispatch(action);
 
-			if (logInUser.rejected.match(result)) {
-				console.error('Login rejected:', result.error); // Выводим информацию об ошибке в консоль
-			} else if (logInUser.fulfilled.match(result) && result.payload) {
-				const auth_token = result.payload.auth_token;
-				console.log('Login successful. Token:', auth_token);
+			console.log('result', result);
 
-				navigate(userLink); // Переход на роут пользователя
+			if (logInUser.rejected.match(result)) {
+				console.error('Login rejected:', result.error);
+			} else if (logInUser.fulfilled.match(result)) {
+				// Проверяем наличие токена в ответе
+				if (result.payload && result.payload.access_token) {
+					try {
+						// Запрос данных пользователя
+						const userDataResult = await dispatch(getUserData());
+
+						if (getUserData.fulfilled.match(userDataResult)) {
+							// Выводим данные пользователя в консоль
+							console.log('User data received:', userDataResult.payload);
+
+							// Переход на роут пользователя
+							navigate(userLink);
+						} else {
+							// Обработка ошибки при получении данных о пользователе
+							console.error(
+								'Error during fetching user data:',
+								userDataResult.error
+							);
+						}
+
+						console.log('Login successful. Token received.');
+					} catch (userDataError) {
+						// Обработка ошибки при запросе данных о пользователе
+						console.error('Error during fetching user data:', userDataError);
+					}
+				} else {
+					// Токен не получен, или его нет в ответе
+					console.error('Token not received during login.');
+				}
 			} else {
 				console.error('Unexpected result during login:', result);
 			}
