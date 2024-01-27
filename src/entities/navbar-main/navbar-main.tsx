@@ -18,7 +18,7 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({
 	const location = useLocation();
 
 	const onNavigate = () => {
-		// //Сотрудник
+		//Сотрудник
 		if (location.pathname === '/main' && isExecutive) {
 			navigate('/service-iprs/myteam', { replace: true });
 		}

@@ -243,3 +243,28 @@ export const testData = [
 		status: 'отсутствует',
 	},
 ];
+
+export const mentorData = [
+	{
+		id: 1,
+		name: 'Кириллов Константин Соломонович',
+		position: 'Руководитель дирекции',
+		goal: 'Соответствие занимаемой должности',
+		date: '01.07.2024',
+		progress: 70,
+		taskAll: 10,
+		taskDone: 7,
+		status: 'в работе',
+	},
+	{
+		id: 2,
+		name: 'Иванов Пётр Александрович',
+		position: 'Руководитель дирекции',
+		goal: 'Повышение грейда',
+		date: '01.04.2024',
+		progress: 50,
+		taskAll: 4,
+		taskDone: 2,
+		status: 'в работе',
+	},
+];
