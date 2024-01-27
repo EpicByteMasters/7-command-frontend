@@ -17,6 +17,7 @@ export interface IUser {
 
 export type UserState = {
 	user: IUser;
+	access_token: string | null;
 	isLoading: boolean;
 	error: string;
 };
@@ -37,6 +38,7 @@ initialState = {
 		specialtyId: '',
 		supervisorId: 0,
 	},
+	access_token: null,
 	isLoading: false,
 	error: '',
 };
@@ -54,20 +56,32 @@ export const logInUser = createAsyncThunk<any, logInData>(
 			formData.append('username', data.email);
 			formData.append('password', data.password);
 
+			console.log('Request data:', {
+				email: data.email,
+				password: data.password,
+			});
+
 			const response = await fetch(
-				'http://213.171.6.128:80/api/v1/auth/jwt/login',
+				'http://213.171.6.128:81/api/v1/auth/jwt/login',
 				{
 					method: 'POST',
 					body: formData,
 				}
 			);
 
+			console.log('Response:', {
+				status: response.status,
+				statusText: response.statusText,
+			});
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-
 			const responseBody = await response.json();
-			return responseBody;
+			console.log('Response body:', responseBody);
+
+			// Возвращаем объект, содержащий access_token
+			return { access_token: responseBody.access_token, ...responseBody };
 		} catch (error) {
 			console.error('Error during login:', error);
 			throw error;
@@ -76,17 +90,31 @@ export const logInUser = createAsyncThunk<any, logInData>(
 );
 
 export const getUserData = createAsyncThunk<any>('user/getData', async () => {
-	const res = await fetch('', {
-		method: 'GET',
-	});
+	try {
+		// Получаем токен из localStorage
+		const token = localStorage.getItem('token');
 
-	let response;
-	if (res.status === 200) {
-		response = res.json();
-	} else {
-		throw new Error('Не возможно получить данные о текущем пользователе');
+		if (!token) {
+			throw new Error('Токен отсутствует в localStorage');
+		}
+
+		const res = await fetch('http://213.171.6.128:81/api/v1/user/me', {
+			method: 'GET',
+			headers: {
+				// Передаем токен в заголовках
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (res.status === 200) {
+			return res.json();
+		} else {
+			throw new Error('Не удалось получить данные о текущем пользователе');
+		}
+	} catch (error) {
+		console.error('Error during fetching user data:', error);
+		throw error;
 	}
-	return response;
 });
 
 export const userSlice = createSlice({
@@ -110,6 +138,8 @@ export const userSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(logInUser.fulfilled, (state, action) => {
 			console.log('Login successful:', action.payload);
+			localStorage.setItem('token', action.payload.access_token);
+			state.access_token = action.payload.access_token;
 		});
 		builder.addCase(getUserData.fulfilled, (state, action) => {
 			state.user.email = action.payload.email;

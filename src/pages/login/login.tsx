@@ -32,20 +32,34 @@ export const Login: FC<LoginProps> = ({ users }) => {
 			if (logInUser.rejected.match(result)) {
 				console.error('Login rejected:', result.error);
 			} else if (logInUser.fulfilled.match(result)) {
-				if (result.payload === null) {
-					const userDataResult = await dispatch(getUserData());
-					if (getUserData.fulfilled.match(userDataResult)) {
-						// Выводим данные пользователя в консоль
-						console.log('User data received:', userDataResult.payload);
-					} else {
-						// Обработка ошибки при получении данных о пользователе
-						console.error(
-							'Error during fetching user data:',
-							userDataResult.error
-						);
+				// Проверяем наличие токена в ответе
+				if (result.payload && result.payload.access_token) {
+					try {
+						// Запрос данных пользователя
+						const userDataResult = await dispatch(getUserData());
+
+						if (getUserData.fulfilled.match(userDataResult)) {
+							// Выводим данные пользователя в консоль
+							console.log('User data received:', userDataResult.payload);
+
+							// Переход на роут пользователя
+							navigate(userLink);
+						} else {
+							// Обработка ошибки при получении данных о пользователе
+							console.error(
+								'Error during fetching user data:',
+								userDataResult.error
+							);
+						}
+
+						console.log('Login successful. Token received.');
+					} catch (userDataError) {
+						// Обработка ошибки при запросе данных о пользователе
+						console.error('Error during fetching user data:', userDataError);
 					}
-					navigate(userLink); // Переход на роут пользователя
-					console.log('Login successful. Null received.');
+				} else {
+					// Токен не получен, или его нет в ответе
+					console.error('Token not received during login.');
 				}
 			} else {
 				console.error('Unexpected result during login:', result);
