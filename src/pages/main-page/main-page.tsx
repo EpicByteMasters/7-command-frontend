@@ -9,9 +9,9 @@ import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
 interface ManagerIprDraftProps {
-	isMentor: boolean;
+	// isMentor: boolean;
 }
-export const MainPage = ({ isMentor }: ManagerIprDraftProps) => {
+export const MainPage = () => {
 	const [role, setRole] = useState<boolean>(true);
 
 	return (
@@ -19,7 +19,7 @@ export const MainPage = ({ isMentor }: ManagerIprDraftProps) => {
 			{role ? <Header /> : <Header />}
 			<main className={styles.main}>
 				<div className={styles.container}>
-					<NavBarMain isMentor={isMentor} />
+					<NavBarMain />
 					<div className={styles.contentWrapper}>
 						<div className={styles.titleWrapper}>
 							<img src={layout1} alt="заглушка" className={styles.title}></img>

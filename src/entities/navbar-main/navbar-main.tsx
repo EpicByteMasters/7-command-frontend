@@ -8,17 +8,22 @@ import iconTarget from '../../images/navbar-icons-color/icon-target.svg';
 import iconRocket from '../../images/navbar-icons-color/icon-rocket.svg';
 import iconMore from '../../images/navbar-icons-color/icon-more.svg';
 interface ExecutiveProps {
-	isMentor: boolean;
+	// isMentor: boolean;
 }
-export const NavBarMain: React.FC<ExecutiveProps> = ({ isMentor }) => {
+export const NavBarMain: React.FC<ExecutiveProps> = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const userData = useAppSelector((state) => state.user.user);
 	const isEmployee = userData.positionId === 'EMPLOYEE';
-
-	console.log('isEmployee в навбаре: ', isEmployee);
 	const isExecutive = userData.positionId === 'MANAGER';
+	const id = userData.id === 6;
+	const id2 = userData.id === 5;
+
 	console.log('isExecutive: ', isExecutive);
+	console.log('isEmployee в навбаре: ', isEmployee);
+	console.log('userData: ', userData);
+	console.log('id: ', id);
+	console.log('id2: ', id2);
 
 	const onNavigate = () => {
 		if (location.pathname === '/main' && isExecutive) {
@@ -28,7 +33,10 @@ export const NavBarMain: React.FC<ExecutiveProps> = ({ isMentor }) => {
 			console.log('isEmployee', isEmployee);
 			navigate('/service-iprs/my', { replace: false });
 		}
-		if (location.pathname === '/main' && isExecutive && isMentor) {
+		if (location.pathname === '/main' && id) {
+			navigate('/service-iprs/mentor', { replace: true });
+		}
+		if (location.pathname === '/main' && id2) {
 			navigate('/service-iprs/mentor', { replace: true });
 		}
 	};

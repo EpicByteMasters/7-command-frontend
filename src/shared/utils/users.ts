@@ -2,16 +2,14 @@ import head1 from '../../images/avatars/avatar_head1.png';
 import head2 from '../../images/avatars/avatar_head2.png';
 import employee1 from '../../images/avatars/avatar_employee1.png';
 import employee2 from '../../images/avatars/avatar_employee2.png';
-import mentor1 from '../../images/avatars/avatar_mentor2.png';
-import mentor2 from '../../images/avatars/avatar_mentor1.png';
-import { roleUrl } from './urls';
+import mentor1 from '../../images/avatars/avatar_mentor1.png';
+import mentor2 from '../../images/avatars/avatar_mentor2.png';
 
 export interface User {
 	id: number;
 	name: string;
 	position: string;
 	pic: string;
-	link: {};
 	role: string;
 	email: string;
 	password: string;
@@ -23,9 +21,8 @@ const users: User[] = [
 		name: 'Хорошёва Анна Викторовна',
 		position: 'Руководитель 1',
 		pic: head1,
-		link: roleUrl[0].url,
 		role: 'myteam',
-		email: 'user5@example.com',
+		email: 'user4@example.com',
 		password: 'string',
 	},
 	{
@@ -33,9 +30,8 @@ const users: User[] = [
 		name: 'Иванов Пётр Александрович',
 		position: 'Руководитель 2',
 		pic: head2,
-		link: roleUrl[0].url,
 		role: 'myteam',
-		email: 'user6@example.com',
+		email: 'user5@example.com',
 		password: 'string',
 	},
 	{
@@ -43,9 +39,8 @@ const users: User[] = [
 		name: 'Кириллов Константин Соломонович',
 		position: 'Сотрудник 1',
 		pic: employee1,
-		link: roleUrl[1].url,
 		role: 'my',
-		email: 'user3@example.com',
+		email: 'user@example.com',
 		password: 'string',
 	},
 	{
@@ -53,9 +48,8 @@ const users: User[] = [
 		name: 'Евсеев Антон Иванович',
 		position: 'Сотрудник 2',
 		pic: employee2,
-		link: roleUrl[1].url,
 		role: 'my',
-		email: 'user4@example.com',
+		email: 'user2@example.com',
 		password: 'string',
 	},
 	{
@@ -63,9 +57,8 @@ const users: User[] = [
 		name: 'Чаевская Евгения Владимировна',
 		position: 'Ментор 1',
 		pic: mentor1,
-		link: roleUrl[2].url,
 		role: 'mentor',
-		email: 'user5@example.com',
+		email: 'user6@example.com',
 		password: 'string',
 	},
 	{
@@ -73,7 +66,6 @@ const users: User[] = [
 		name: 'Куприна Валентина Ивановна',
 		position: 'Ментор 2',
 		pic: mentor2,
-		link: roleUrl[2].url,
 		role: 'mentor',
 		email: 'user6@example.com',
 		password: 'string',

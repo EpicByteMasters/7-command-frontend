@@ -18,8 +18,8 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 	const handleLogin = async (
 		email: string,
-		password: string,
-		userLink: string
+		password: string
+		// userLink: string
 	) => {
 		try {
 			const action = logInUser({ email, password });
@@ -94,8 +94,8 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												onClick={() =>
 													handleLogin(
 														user.email,
-														user.password,
-														JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
+														user.password
+														// JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
 													)
 												}
 												name={user.role}
