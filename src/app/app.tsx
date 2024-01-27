@@ -38,16 +38,13 @@ function App() {
 	console.log('userData в Апп: ', userData);
 	const isEmployee = userData.positionId === 'EMPLOYEE';
 	console.log('isEmployee: ', isEmployee);
-	// const isExecutive = userData.positionId === 'MANAGER'
+	// const isExecutive = userData.positionId === 'MANAGER';
 
 	return (
 		<div className={styles.container__main}>
 			<Routes>
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
-				<Route
-					path="/main"
-					element={<MainPage isExecutive={true}></MainPage>}
-				/>
+				<Route path="/main" element={<MainPage></MainPage>} />
 				<Route
 					path={roleUrl[0].url}
 					element={

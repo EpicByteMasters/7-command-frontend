@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface IUser {
-	id: string;
+	id: number;
 	email: string;
 	isActive: boolean;
 	isSuperuser: boolean;
@@ -25,7 +25,7 @@ export type UserState = {
 let initialState: UserState;
 initialState = {
 	user: {
-		id: '',
+		id: 0,
 		email: '',
 		isActive: true,
 		isSuperuser: false,
@@ -142,6 +142,7 @@ export const userSlice = createSlice({
 			state.access_token = action.payload.access_token;
 		});
 		builder.addCase(getUserData.fulfilled, (state, action) => {
+			state.user.id = action.payload.id;
 			state.user.email = action.payload.email;
 			state.user.firstName = action.payload.firstName;
 			state.user.surname = action.payload.surname;

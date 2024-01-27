@@ -1,7 +1,6 @@
 import styles from './main-page.module.scss';
 import { useState } from 'react';
 import Header from '../../shared/header-component/header';
-import { Footer } from '../../entities/footer/footer';
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
 import layout1 from '../../images/main-layout/top.png';
 import layout2 from '../../images/main-layout/main-news.png';
@@ -10,9 +9,9 @@ import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
 interface ManagerIprDraftProps {
-	isExecutive: boolean;
+	// isMentor: boolean;
 }
-export const MainPage = ({ isExecutive }: ManagerIprDraftProps) => {
+export const MainPage = () => {
 	const [role, setRole] = useState<boolean>(true);
 
 	return (
@@ -20,7 +19,7 @@ export const MainPage = ({ isExecutive }: ManagerIprDraftProps) => {
 			{role ? <Header /> : <Header />}
 			<main className={styles.main}>
 				<div className={styles.container}>
-					<NavBarMain isExecutive={isExecutive} />
+					<NavBarMain />
 					<div className={styles.contentWrapper}>
 						<div className={styles.titleWrapper}>
 							<img src={layout1} alt="заглушка" className={styles.title}></img>
@@ -39,7 +38,6 @@ export const MainPage = ({ isExecutive }: ManagerIprDraftProps) => {
 					</div>
 				</div>
 			</main>
-			<Footer></Footer>
 		</>
 	);
 };

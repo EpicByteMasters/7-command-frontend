@@ -24,7 +24,6 @@ export const EmployeePlan: React.FC = () => {
 					<Plan />
 				</div>
 			</div>
-			<Footer></Footer>
 		</>
 	);
 };

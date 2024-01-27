@@ -8,8 +8,6 @@ import { Status } from '@alfalab/core-components/status';
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
-import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
-import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 export interface MentorListProps {
@@ -31,18 +29,12 @@ export const MentorList: React.FC<MentorListProps> = ({
 	const [selectedEmployee, setSelectedEmployee] =
 		useState<EmployeeGoalPlan | null>(null);
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
-	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 	const [page, setPage] = useState<number>(0);
+
 	const navigate = useNavigate();
 	const location = useLocation();
-	// 	popover
-
-	const handleMoreIconClick = (employee: EmployeeGoalPlan) => {
-		setPopoverVisible(true);
-		setSelectedEmployee(employee);
-	};
 
 	const closePopover = () => {
 		setPopoverVisible(false);
@@ -61,17 +53,6 @@ export const MentorList: React.FC<MentorListProps> = ({
 
 			// Закрываем Popover
 			closePopover();
-		}
-	};
-
-	// sorting
-
-	const handleSort = (column: string) => {
-		if (sortColumn === column) {
-			setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-		} else {
-			setSortColumn(column);
-			setSortOrder('asc');
 		}
 	};
 
@@ -183,30 +164,18 @@ export const MentorList: React.FC<MentorListProps> = ({
 					<Table.THeadCell>
 						<div className={styles.sortBtn}>
 							<span>Сотрудник</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort('name')}
-							/>
 						</div>
 					</Table.THeadCell>
 					<Table.THeadCell>Цель</Table.THeadCell>
 					<Table.THeadCell>
 						<div className={styles.sortBtn}>
 							<span>Дата</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort('date')}
-							/>
 						</div>
 					</Table.THeadCell>
 					<Table.THeadCell>Прогресс</Table.THeadCell>
 					<Table.THeadCell>
 						<div className={styles.sortBtn}>
 							<span>Статус</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort('status')}
-							/>
 						</div>
 					</Table.THeadCell>
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
@@ -255,43 +224,6 @@ export const MentorList: React.FC<MentorListProps> = ({
 										<Status view="soft" color={color}>
 											{status}
 										</Status>
-									</Table.TCell>
-									<Table.TCell>
-										{status ===
-										('отсутствует' ||
-											'в работе' ||
-											'выполнен' ||
-											'не выполнен' ||
-											'отменен') ? (
-											<Button view="tertiary" size="s" onClick={onClickToDraft}>
-												Создать
-											</Button>
-										) : (
-											<Button view="tertiary" size="s" onClick={onClickToIpr}>
-												Открыть
-											</Button>
-										)}
-									</Table.TCell>
-									<Table.TCell>
-										<Button
-											view="ghost"
-											ref={buttonRef}
-											onClick={() =>
-												handleMoreIconClick({
-													id,
-													name,
-													position,
-													goal,
-													date,
-													progress,
-													taskAll,
-													taskDone,
-													status,
-												})
-											}
-										>
-											<MoreMIcon />
-										</Button>
 									</Table.TCell>
 								</Table.TRow>
 							);

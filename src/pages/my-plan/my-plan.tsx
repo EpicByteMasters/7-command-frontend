@@ -1,7 +1,6 @@
 import styles from './my-plan.module.scss';
 import Header from '../../shared/header-component/header';
 import { Plan } from '../../entities/plan-component/plan';
-import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 interface EmployeeProps {
 	isEmployee?: boolean;
@@ -22,7 +21,6 @@ export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee, ipr_id3 }) => {
 					</div>
 				</div>
 			</section>
-			<Footer></Footer>
 		</>
 	);
 };

@@ -6,7 +6,6 @@ import { ChangeEvent, useState } from 'react';
 import Header from '../../shared/header-component/header';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';
-import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 interface RatingProps {
 	isExecutive?: boolean;
@@ -89,7 +88,6 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 					</div>
 				</div>
 			</div>
-			<Footer></Footer>
 		</>
 	);
 };

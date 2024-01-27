@@ -2,7 +2,6 @@ import styles from './my-ipr-rating.module.scss';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
 import Header from '../../shared/header-component/header';
-import { Footer } from '../../entities/footer/footer';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
@@ -71,7 +70,6 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 					<TasksOverview isExecutive={false} iprStatus="" />
 				</div>
 			</div>
-			<Footer />
 		</>
 	);
 };
