@@ -27,37 +27,68 @@ interface OptionShape {
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const [valueCourse, setValueCourse] = useState<string>('');
-	const [tagValues, setTagValues] = useState<string[]>([]);
-	const [shownChevron, setShownChevron] = useState(true);
+	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(false);
 	const [progress, setProgress] = useState<number | undefined>(0);
 
 	const optionsCourses: OptionShape[] = courses;
 
-	const handleChangeCourse = (payload: any) => {
-		// Извлекаем значение из payload
-		const value = payload.selectedItem?.key || '';
+	const [valueCourse, setValueCourse] = useState<string>('');
+	const [tagValues, setTagValues] = useState<string[]>([]);
 
-		setValueCourse(value);
-		if (value && !tagValues.includes(value)) {
-			setTagValues([...tagValues, value]);
-		}
+	// const handleChangeCourse: ({selected: OptionShape | null}): void => {
+	//   // Обработка выбора опции в автозаполнении
+	//   const selectedOption = optionsCourses.find(option => option.key === payload.value);
+
+	//   if (selectedOption) {
+	//     setValueCourse(selectedOption.key);
+
+	//     // Добавление выбранного значения в массив tagValues
+	//     setTagValues((prevTagValues) => [...prevTagValues, selectedOption.key]);
+	//   }
+	// };
+
+	const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
+
+	const handleChangeCourse = ({
+		selected,
+	}: {
+		selected: OptionShape | null;
+	}) => {
+		setValueCourse(selected ? selected.key : '');
 	};
 
 	const handleInputCourse = (
 		event: ChangeEvent<HTMLInputElement> | null,
-		{ value }: { value: string }
+		payload: { value: string }
 	) => {
-		setValueCourse(value);
-		if (value && !tagValues.includes(value)) {
-			setTagValues([...tagValues, value]);
+		// Обработка изменения ввода в автозаполнении
+		if (event && event.target) {
+			// При изменении значения
+			setValueCourse(event.target.value);
+		} else {
+			// При событии очистки
+			setValueCourse('');
 		}
+	};
+	const inputValues = valueCourse.replace(/ /g, '').split(',');
+
+	const matchOption = (optionsCourses: any, inputValue: any) =>
+		optionsCourses.key.toLowerCase().includes((inputValue || '').toLowerCase());
+
+	const selectedOptions = optionsCourses.filter((option) =>
+		inputValues.includes(option.key.trim())
+	);
+
+	const getFilteredOptions = () => {
+		return optionsCourses.some(({ key }) => key === valueCourse)
+			? optionsCourses
+			: optionsCourses.filter((option) => matchOption(option, valueCourse));
 	};
 
 	const handleClearCourse = () => {
+		// Обработка очистки выбранного курса
 		setValueCourse('');
-		setTagValues([]);
 	};
 
 	const handleTagRemove = (tagValue: string) => {
@@ -184,7 +215,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														size="s"
 														label="Тренинги и курсы"
 														placeholder="Начните вводить название"
-													></InputAutocomplete>
+													/>
 													<div className={styles.formRowTag}>
 														{tagValues.length > 0 &&
 															tagValues.map((value, index) => (
