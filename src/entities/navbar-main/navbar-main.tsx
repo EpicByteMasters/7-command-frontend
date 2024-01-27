@@ -18,15 +18,16 @@ export const NavBarMain: React.FC<ExecutiveProps> = () => {
 	const isEmployee = userData.positionId === 'EMPLOYEE';
 	console.log('isEmployee в навбаре: ', isEmployee);
 	const isExecutive = userData.positionId === 'MANAGER';
+	console.log('isExecutive: ', isExecutive);
 
 	const onNavigate = () => {
 		//Сотрудник
 		if (location.pathname === '/main' && isExecutive) {
-			navigate('/service-iprs/myteam', { replace: true });
+			navigate('/service-iprs/myteam', { replace: false });
 		}
 		if (location.pathname === '/main' && isEmployee) {
 			console.log('isEmployee', isEmployee);
-			navigate('/service-iprs/my', { replace: true });
+			navigate('/service-iprs/my', { replace: false });
 		}
 		// //Руководитель
 		// if (
