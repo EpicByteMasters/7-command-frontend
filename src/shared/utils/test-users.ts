@@ -1,7 +1,3 @@
-<<<<<<< HEAD:src/shared/utils/test-users.js
-import mentor1 from '../../images/avatars/avatar_mentor1.png';
-import mentor2 from '../../images/avatars/avatar_mentor2.png';
-=======
 export interface EmployeeGoalPlan {
 	id: number;
 	name: string;
@@ -13,7 +9,6 @@ export interface EmployeeGoalPlan {
 	taskDone: number;
 	status: string;
 }
->>>>>>> 2f3d43ffcc38f201c48e60c42b0a65814063e3d3:src/shared/utils/test-users.ts
 
 export const testData = [
 	{
@@ -252,20 +247,24 @@ export const testData = [
 export const mentorData = [
 	{
 		id: 1,
+		name: 'Кириллов Константин Соломонович',
+		position: 'Руководитель дирекции',
+		goal: 'Соответствие занимаемой должности',
+		date: '01.07.2024',
+		progress: 70,
+		taskAll: 10,
+		taskDone: 7,
+		status: 'в работе',
+	},
+	{
+		id: 2,
 		name: 'Иванов Пётр Александрович',
 		position: 'Руководитель дирекции',
 		goal: 'Повышение грейда',
 		date: '01.04.2024',
 		progress: 50,
-		status: 'в работе',
-	},
-	{
-		id: 2,
-		name: 'Кириллов Константин Соломонович',
-		position: 'Руководитель дирекции',
-		goal: 'Соответствие занимаемой должности',
-		date: '01.07.2024',
-		progress: 75,
+		taskAll: 4,
+		taskDone: 2,
 		status: 'в работе',
 	},
 ];

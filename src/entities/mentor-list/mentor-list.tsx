@@ -10,18 +10,9 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
+import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
-export interface EmployeeGoalPlan {
-	id: number;
-	name: string;
-	position: string;
-	goal: string;
-	date: string;
-	progress: number;
-	status: string;
-}
-
-export interface IEmployeesListProps {
+export interface MentorListProps {
 	data: EmployeeGoalPlan[];
 	ipr_id: number;
 	ipr_id4: number;
@@ -29,7 +20,7 @@ export interface IEmployeesListProps {
 	isExecutive: boolean;
 }
 
-export const MentorList: React.FC<IEmployeesListProps> = ({
+export const MentorList: React.FC<MentorListProps> = ({
 	data,
 	ipr_id,
 	ipr_id4,
@@ -223,7 +214,17 @@ export const MentorList: React.FC<IEmployeesListProps> = ({
 				</Table.THead>
 				<Table.TBody>
 					{currentPageData.map(
-						({ id, name, position, goal, date, progress, status }) => {
+						({
+							id,
+							name,
+							position,
+							goal,
+							date,
+							progress,
+							taskAll,
+							taskDone,
+							status,
+						}) => {
 							const progressPercentage = `${progress}%`;
 							const color = getStatusColor(status);
 
@@ -244,7 +245,7 @@ export const MentorList: React.FC<IEmployeesListProps> = ({
 									<Table.TCell>
 										<CircularProgressBar
 											value={progress}
-											title={progressPercentage}
+											title={`${taskDone}/${taskAll}`}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -283,6 +284,8 @@ export const MentorList: React.FC<IEmployeesListProps> = ({
 													goal,
 													date,
 													progress,
+													taskAll,
+													taskDone,
 													status,
 												})
 											}

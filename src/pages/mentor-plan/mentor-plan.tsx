@@ -2,16 +2,16 @@ import styles from './mentor-plan.module.scss';
 import Header from '../../shared/header-component/header';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import { EmployeeGoalPlan } from '../../entities/employees-list/employees-list';
+import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
-interface EmployeeProps {
+interface MentorProps {
+	data: EmployeeGoalPlan[];
 	isMentor: boolean;
 	isExecutive: boolean;
 	ipr_id4: number;
 	ipr_id: number;
-	data: EmployeeGoalPlan[];
 }
-export const MentorPlan: React.FC<EmployeeProps> = ({
+export const MentorPlan: React.FC<MentorProps> = ({
 	isMentor,
 	isExecutive,
 	ipr_id4,
