@@ -29,12 +29,17 @@
 }
 
 .item {
+	@include mixins.button_xxs;
 	display: flex;
 	flex-direction: row;
 	padding: 11px 10px;
 	align-items: center;
 	border-radius: 10px;
 	height: 22px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	width: 184px;
 }
 
 .item:first-of-type {

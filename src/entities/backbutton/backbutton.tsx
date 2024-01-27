@@ -1,5 +1,4 @@
 import styles from './backbutton.module.scss';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 
