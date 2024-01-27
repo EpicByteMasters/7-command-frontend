@@ -58,17 +58,15 @@ export const TasksOverview = ({
 	);
 
 	const allInputs = {
-		id: '',
-		iprStatus: iprStatus,
-		supervisorId: '',
 		goal: valueGoal,
-		specialty: valueCompetence,
-		createDate: valueStartDate,
+		specialty: valueRole,
+		competence: valueCompetence,
+		// createDate: valueStartDate,
 		closeDate: valueEndDate,
-		mentorId: valueMentor,
+		mentorId: '', // из стора подтянуть mentorId
 		description: valueDescription,
 		comment: valueComment,
-		supervisorComment: '',
+		iprStatus: iprStatus,
 	};
 
 	console.log(allInputs);
