@@ -31,7 +31,7 @@ export const MyIpr: React.FC = () => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini></NavBarMini>
+				<NavBarMini />
 				{modalOpen && (
 					<Modal
 						title="Выйти без сохранения?"

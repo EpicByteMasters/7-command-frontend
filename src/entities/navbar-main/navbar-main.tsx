@@ -10,13 +10,14 @@ import { useAppSelector } from '../../shared/hooks/redux';
 interface ExecutiveProps {
 	isExecutive: boolean;
 }
-export const NavBarMain: React.FC<ExecutiveProps> = ({ isExecutive }) => {
+export const NavBarMain: React.FC<ExecutiveProps> = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const userData = useAppSelector((state) => state.user.user);
 	console.log('userData в навбаре: ', userData);
 	const isEmployee = userData.positionId === 'EMPLOYEE';
 	console.log('isEmployee в навбаре: ', isEmployee);
+	const isExecutive = userData.positionId === 'MANAGER';
 
 	const onNavigate = () => {
 		//Сотрудник
