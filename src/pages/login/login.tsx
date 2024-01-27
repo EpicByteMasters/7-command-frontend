@@ -43,7 +43,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 							console.log('User data received:', userDataResult.payload);
 
 							// Переход на роут пользователя
-							navigate(userLink);
+							navigate('/main');
 						} else {
 							// Обработка ошибки при получении данных о пользователе
 							console.error(

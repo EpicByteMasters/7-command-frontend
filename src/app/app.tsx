@@ -18,13 +18,18 @@ import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { logInUser } from '../store/reducers/userSlice';
-//import { password, username } from '../shared/utils/constants';
+import { useAppSelector } from '../shared/hooks/redux';
 
 function App() {
 	const dispatch = useDispatch();
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
 	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
+
+	const userData = useAppSelector((state) => state.user.user);
+	console.log('userData в Апп: ', userData);
+	const isEmployee = userData.positionId === 'EMPLOYEE';
+	console.log('isEmployee: ', isEmployee);
 
 	// const fetchData = async () => {
 	// 	try {
