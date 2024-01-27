@@ -17,6 +17,7 @@ export interface IUser {
 
 export type UserState = {
 	user: IUser;
+	access_token: string | null;
 	isLoading: boolean;
 	error: string;
 };
@@ -37,6 +38,7 @@ initialState = {
 		specialtyId: '',
 		supervisorId: 0,
 	},
+	access_token: null,
 	isLoading: false,
 	error: '',
 };
@@ -45,14 +47,6 @@ type logInData = {
 	email: string;
 	password: string;
 };
-
-// Получение значения cookie по имени
-function getCookie(name: string): string | undefined {
-	const value = `; ${document.cookie}`;
-	const parts = value.split(`; ${name}=`);
-	if (parts.length === 2) return parts.pop()?.split(';').shift();
-	return undefined;
-}
 
 export const logInUser = createAsyncThunk<any, logInData>(
 	'user/signin',
@@ -68,7 +62,7 @@ export const logInUser = createAsyncThunk<any, logInData>(
 			});
 
 			const response = await fetch(
-				'http://213.171.6.128:80/api/v1/auth/jwt/login',
+				'http://213.171.6.128:81/api/v1/auth/jwt/login',
 				{
 					method: 'POST',
 					body: formData,
@@ -83,27 +77,11 @@ export const logInUser = createAsyncThunk<any, logInData>(
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-
 			const responseBody = await response.json();
-			console.log('response headers', response.headers);
-			// Извлекаем значение куки 'fastapiusersauth' из headers
-			const authTokenCookie = response.headers.get('Set-Cookie');
-			console.log('authTokenCookie', authTokenCookie);
+			console.log('Response body:', responseBody);
 
-			// Разбиваем строку куки на массив строк
-			const cookieArray = authTokenCookie?.split(';');
-
-			// Ищем строку, содержащую 'fastapiusersauth'
-			const authCookieString = cookieArray?.find((str) =>
-				str.includes('fastapiusersauth')
-			);
-
-			// Извлекаем значение токена из строки куки
-			const authToken = authCookieString?.split('=')[1];
-
-			console.log('Auth Token from cookie:', authToken);
-
-			return responseBody;
+			// Возвращаем объект, содержащий access_token
+			return { access_token: responseBody.access_token, ...responseBody };
 		} catch (error) {
 			console.error('Error during login:', error);
 			throw error;
@@ -112,18 +90,31 @@ export const logInUser = createAsyncThunk<any, logInData>(
 );
 
 export const getUserData = createAsyncThunk<any>('user/getData', async () => {
-	const res = await fetch('http://213.171.6.128:80/api/v1/user/me', {
-		method: 'GET',
-		credentials: 'include', // Включаем отправку куки
-	});
+	try {
+		// Получаем токен из localStorage
+		const token = localStorage.getItem('token');
 
-	let response;
-	if (res.status === 200) {
-		response = res.json();
-	} else {
-		throw new Error('Не возможно получить данные о текущем пользователе');
+		if (!token) {
+			throw new Error('Токен отсутствует в localStorage');
+		}
+
+		const res = await fetch('http://213.171.6.128:81/api/v1/user/me', {
+			method: 'GET',
+			headers: {
+				// Передаем токен в заголовках
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (res.status === 200) {
+			return res.json();
+		} else {
+			throw new Error('Не удалось получить данные о текущем пользователе');
+		}
+	} catch (error) {
+		console.error('Error during fetching user data:', error);
+		throw error;
 	}
-	return response;
 });
 
 export const userSlice = createSlice({
@@ -147,6 +138,8 @@ export const userSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(logInUser.fulfilled, (state, action) => {
 			console.log('Login successful:', action.payload);
+			localStorage.setItem('token', action.payload.access_token);
+			state.access_token = action.payload.access_token;
 		});
 		builder.addCase(getUserData.fulfilled, (state, action) => {
 			state.user.email = action.payload.email;
