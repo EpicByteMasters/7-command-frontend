@@ -2,8 +2,8 @@ import head1 from '../../images/avatars/avatar_head1.png';
 import head2 from '../../images/avatars/avatar_head2.png';
 import employee1 from '../../images/avatars/avatar_employee1.png';
 import employee2 from '../../images/avatars/avatar_employee2.png';
-import mentor1 from '../../images/avatars/avatar_mentor1.png';
-import mentor2 from '../../images/avatars/avatar_mentor2.png';
+import mentor1 from '../../images/avatars/avatar_mentor2.png';
+import mentor2 from '../../images/avatars/avatar_mentor1.png';
 import { roleUrl } from './urls';
 
 export interface User {

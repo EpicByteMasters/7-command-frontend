@@ -14,10 +14,10 @@ import { tasksData } from '../../shared/utils/constants';
 
 interface PlanProps {
 	isEmployee?: boolean;
-	ipr_id3?: number;
+	ipr_id?: number;
 }
 
-export const Plan: React.FC<PlanProps> = ({ isEmployee = true, ipr_id3 }) => {
+export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	const dispatch = useDispatch();
 	const activeGoalId = useSelector(selectActiveGoalId);
 

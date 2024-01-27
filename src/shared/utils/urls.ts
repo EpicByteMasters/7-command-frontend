@@ -61,4 +61,5 @@ export const accessUrl: accessUrlProps[] = [
 	{ id: 1, role: 'login', url: '/login' }, // Страница входа
 	{ id: 2, role: 'logout', url: '/logout' }, // Запрос выхода
 	{ id: 3, role: 'main', url: '/' }, // Главная
+	{ id: 4, role: 'main2', url: '/main' }, // Главная - тест
 ];
