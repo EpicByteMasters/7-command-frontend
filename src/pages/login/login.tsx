@@ -16,11 +16,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleLogin = async (
-		email: string,
-		password: string
-		// userLink: string
-	) => {
+	const handleLogin = async (email: string, password: string) => {
 		try {
 			const action = logInUser({ email, password });
 
@@ -91,13 +87,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												onClick={() =>
-													handleLogin(
-														user.email,
-														user.password
-														// JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
-													)
-												}
+												onClick={() => handleLogin(user.email, user.password)}
 												name={user.role}
 											>
 												Вход
