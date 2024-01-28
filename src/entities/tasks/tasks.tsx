@@ -3,12 +3,10 @@ import styles from './tasks.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
-import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Collapse } from '@alfalab/core-components/collapse';
-import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import linkToCourses from '../../images/link-gotocourses.png';
@@ -17,6 +15,7 @@ import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
+import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 
 interface TasksProps {
 	isEmployee: boolean;
@@ -26,74 +25,129 @@ interface OptionShape {
 	key: string;
 }
 
+interface Education {
+	name: string;
+	url: string;
+	status: string;
+}
+
+interface FormData {
+	id: number;
+	name: string;
+	dateOfEnd: string;
+	description: string;
+	educations: Education[];
+	commentOfMentor: string;
+	commentOfEmployee: string;
+}
+
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
+	const [formData, setFormData] = React.useState<FormData>({
+		id: 0,
+		name: '',
+		dateOfEnd: '',
+		description: '',
+		educations: [],
+		commentOfMentor: '',
+		commentOfEmployee: '',
+	});
 	const [shownChevron, setShownChevron] = React.useState(true);
-	const [multiple, setMultiple] = React.useState(false);
+	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
+	const [valueCourse, setValueCourse] = useState<string>('');
+
+	console.log('formData из зфдач: ', formData);
+
+	const handleInputChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	): void => {
+		const { name, value } = event.target;
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
+	};
 
 	const optionsCourses: OptionShape[] = courses;
 
-	const [valueCourse, setValueCourse] = useState<string>('');
-	const [tagValues, setTagValues] = useState<string[]>([]);
+	const handleInputCourse = (
+		event: ChangeEvent<HTMLInputElement> | null,
+		{ value }: { value: string }
+	) => {
+		setValueCourse(value);
+	};
 
-	// const handleChangeCourse: ({selected: OptionShape | null}): void => {
-	//   // Обработка выбора опции в автозаполнении
-	//   const selectedOption = optionsCourses.find(option => option.key === payload.value);
+	const handleCourseSelection = (
+		selectedCourses: OptionShape[] | string
+	): void => {
+		let selectedEducations: Education[] = [];
 
-	//   if (selectedOption) {
-	//     setValueCourse(selectedOption.key);
+		if (typeof selectedCourses === 'string') {
+			// Если selectedCourses - это строка, преобразуйте ее в массив строк
+			const courseNames = selectedCourses.split(',').map((name) => name.trim());
 
-	//     // Добавление выбранного значения в массив tagValues
-	//     setTagValues((prevTagValues) => [...prevTagValues, selectedOption.key]);
-	//   }
-	// };
+			selectedEducations = courseNames.map((name) => ({
+				name,
+				url: '',
+				status: '',
+			}));
+		} else {
+			// Иначе, предполагаем, что selectedCourses - это массив объектов OptionShape
+			selectedEducations = selectedCourses.map((course) => ({
+				name: course.key,
+				url: '',
+				status: '',
+			}));
+		}
 
-	//const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
+		setFormData((prevData) => ({
+			...prevData,
+			educations: selectedEducations,
+		}));
+	};
+
+	const inputValues: string[] = valueCourse.replace(/ /g, '').split(',');
+	const selectedOptions: OptionShape[] = optionsCourses.filter((option) =>
+		inputValues.includes(option.key.trim())
+	);
+
+	const selected: string[] | OptionShape = multiple
+		? selectedOptions.map((option) => option.key)
+		: optionsCourses.find((o) => o.key === inputValues[0]) || [];
+
+	const tagValues = valueCourse.trim().split(',');
 
 	const handleChangeCourse = ({
 		selected,
+		selectedMultiple,
 	}: {
 		selected: OptionShape | null;
-	}) => {
+		selectedMultiple: OptionShape[] | null;
+	}): void => {
+		if (multiple) {
+			const value = selectedMultiple?.length
+				? selectedMultiple.map((option) => option.key).join(', ') // если добавить + ',' выводит лишний таг, убирается с клавиатуры
+				: '';
+			setValueCourse(value);
+			handleCourseSelection(value);
+			return;
+		}
 		setValueCourse(selected ? selected.key : '');
 	};
-
-	const handleInputCourse = (
-		event: ChangeEvent<HTMLInputElement> | null,
-		payload: { value: string }
-	) => {
-		// Обработка изменения ввода в автозаполнении
-		if (event && event.target) {
-			// При изменении значения
-			setValueCourse(event.target.value);
-		} else {
-			// При событии очистки
-			setValueCourse('');
-		}
-	};
-	const inputValues = valueCourse.replace(/ /g, '').split(',');
 
 	const matchOption = (optionsCourses: any, inputValue: any) =>
 		optionsCourses.key.toLowerCase().includes((inputValue || '').toLowerCase());
 
-	const selectedOptions = optionsCourses.filter((option) =>
-		inputValues.includes(option.key.trim())
-	);
+	const getFilteredOptions = (): OptionShape[] => {
+		if (multiple) {
+			return optionsCourses.filter((option) => {
+				return (
+					selectedOptions.includes(option) ||
+					matchOption(option, inputValues[inputValues.length - 1])
+				);
+			});
+		}
 
-	const getFilteredOptions = () => {
 		return optionsCourses.some(({ key }) => key === valueCourse)
 			? optionsCourses
 			: optionsCourses.filter((option) => matchOption(option, valueCourse));
-	};
-
-	const handleClearCourse = () => {
-		// Обработка очистки выбранного курса
-		setValueCourse('');
-	};
-
-	const handleTagRemove = (tagValue: string) => {
-		const updatedTags = tagValues.filter((value) => value !== tagValue);
-		setTagValues(updatedTags);
 	};
 
 	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
@@ -103,6 +157,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
+		setFormData((prevData) => ({ ...prevData, endDate: value }));
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -126,6 +181,19 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	const handleChange = () => {
 		simulateProgress();
+	};
+
+	const onDeleteTag = (event: React.MouseEvent<HTMLDivElement>) => {
+		const clickedTagValue = event.currentTarget.textContent;
+		const updatedTagValues = tagValues.filter(
+			(value) => value !== clickedTagValue
+		);
+
+		setValueCourse(updatedTagValues.join(', '));
+	};
+
+	const getFormData = (): FormData => {
+		return formData;
 	};
 
 	return (
@@ -159,6 +227,8 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														fieldClassName={styles.goalName}
 														maxHeight={56}
 														label="Название*"
+														name="name"
+														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
 														block={true}
@@ -188,6 +258,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													fieldClassName={styles.textClass}
 													maxHeight={91}
 													label="Описание"
+													name="description"
+													value={formData.description}
+													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
 													block={true}
@@ -200,48 +273,64 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														name="course"
 														value={valueCourse}
 														block={true}
+														multiple={multiple}
 														allowUnselect={true}
 														closeOnSelect={true}
 														onChange={handleChangeCourse}
 														onInput={handleInputCourse}
-														options={optionsCourses}
+														options={getFilteredOptions()}
 														Arrow={shownChevron ? Arrow : undefined}
-														inputProps={{
-															onClear: handleClearCourse,
-															clear: true,
-														}}
 														showEmptyOptionsList={true}
 														className={styles.inputCourses}
 														size="s"
 														label="Тренинги и курсы"
 														placeholder="Начните вводить название"
 													/>
-													<div className={styles.formRowTag}>
-														{tagValues.length > 0 &&
-															tagValues.map((value, index) => (
-																<div key={index} style={{ maxWidth: '952px' }}>
-																	<FilterTag
-																		showClear={true}
-																		size="s"
-																		shape="rectangular"
-																		view="outlined"
-																		checked={true}
-																	>
-																		{value}
-																	</FilterTag>
-																</div>
-															))}
-													</div>
+
 													<img
 														src={linkToCourses}
 														alt="ссылка на курсы"
 														className={styles.linkToCourses}
 													></img>
 												</div>
+												<div className={styles.formRowTag}>
+													{valueCourse.length > 0
+														? tagValues.map((value: string, key: number) => {
+																return (
+																	<div key={value.length + 1}>
+																		<div
+																			className={styles.formTag}
+																			onClick={onDeleteTag}
+																		>
+																			<CrossCircleMIcon />
+																			{value}
+																		</div>
+																	</div>
+																);
+															})
+														: ''}
+												</div>
+												{isEmployee && (
+													<Textarea
+														fieldClassName={styles.textClass}
+														maxHeight={91}
+														label="Комментарий руководителя"
+														name="commentOfMentor"
+														onChange={handleInputChange}
+														labelView="inner"
+														size="m"
+														block={true}
+														maxLength={96}
+														showCounter={true}
+														autosize={true}
+													/>
+												)}
 												<Textarea
 													fieldClassName={styles.textClass}
 													maxHeight={91}
 													label="Ваш комментарий"
+													name="commentOfEmployee"
+													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
 													block={true}
