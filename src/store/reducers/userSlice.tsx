@@ -67,16 +67,10 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				body: formData,
 			});
 
-			console.log('Response:', {
-				status: response.status,
-				statusText: response.statusText,
-			});
-
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
 			const responseBody = await response.json();
-			console.log('Response body:', responseBody);
 
 			// Возвращаем объект, содержащий access_token
 			return { access_token: responseBody.access_token, ...responseBody };
@@ -123,6 +117,7 @@ export const userSlice = createSlice({
 			return (state = action.payload);
 		},
 		setUserData: (state, action) => {
+			state.user.id = action.payload.id;
 			state.user.email = action.payload.email;
 			state.user.firstName = action.payload.firstName;
 			state.user.surname = action.payload.surname;
