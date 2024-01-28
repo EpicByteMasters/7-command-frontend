@@ -3,12 +3,10 @@ import styles from './tasks.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
-import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Collapse } from '@alfalab/core-components/collapse';
-import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import linkToCourses from '../../images/link-gotocourses.png';
@@ -17,7 +15,7 @@ import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
-
+import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 interface TasksProps {
 	isEmployee: boolean;
 }
@@ -28,13 +26,13 @@ interface OptionShape {
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const [shownChevron, setShownChevron] = React.useState(true);
-	const [multiple, setMultiple] = React.useState(false);
+	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
+	const [valueCourse, setValueCourse] = useState<string>('');
 
 	const optionsCourses: OptionShape[] = courses;
 
-	const [valueCourse, setValueCourse] = useState<string>('');
-	const [tagValues, setTagValues] = useState<string[]>([]);
+	// const [tagValues, setTagValues] = useState<string[]>([]);
 
 	// const handleChangeCourse: ({selected: OptionShape | null}): void => {
 	//   // Обработка выбора опции в автозаполнении
@@ -50,51 +48,74 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	//const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
 
-	const handleChangeCourse = ({
-		selected,
-	}: {
-		selected: OptionShape | null;
-	}) => {
-		setValueCourse(selected ? selected.key : '');
-	};
-
 	const handleInputCourse = (
 		event: ChangeEvent<HTMLInputElement> | null,
-		payload: { value: string }
+		{ value }: { value: string }
 	) => {
-		// Обработка изменения ввода в автозаполнении
-		if (event && event.target) {
-			// При изменении значения
-			setValueCourse(event.target.value);
-		} else {
-			// При событии очистки
-			setValueCourse('');
-		}
+		setValueCourse(value);
 	};
-	const inputValues = valueCourse.replace(/ /g, '').split(',');
+
+	const inputValues: string[] = valueCourse.replace(/ /g, '').split(',');
+	const selectedOptions: OptionShape[] = optionsCourses.filter((option) =>
+		inputValues.includes(option.key.trim())
+	);
+
+	const selected: string[] | OptionShape = multiple
+		? selectedOptions.map((option) => option.key)
+		: optionsCourses.find((o) => o.key === inputValues[0]) || [];
+
+	const tagValues = valueCourse.trim().split(',');
+
+	const handleChangeCourse = ({
+		selected,
+		selectedMultiple,
+	}: {
+		selected: OptionShape | null;
+		selectedMultiple: OptionShape[] | null;
+	}): void => {
+		if (multiple) {
+			const value = selectedMultiple?.length
+				? selectedMultiple.map((option) => option.key).join(', ') // если добавить + ',' выводит лишний таг, убирается с клавиатуры
+				: '';
+			setValueCourse(value);
+			return;
+		}
+		setValueCourse(selected ? selected.key : '');
+	};
 
 	const matchOption = (optionsCourses: any, inputValue: any) =>
 		optionsCourses.key.toLowerCase().includes((inputValue || '').toLowerCase());
 
-	const selectedOptions = optionsCourses.filter((option) =>
-		inputValues.includes(option.key.trim())
-	);
+	const getFilteredOptions = (): OptionShape[] => {
+		if (multiple) {
+			return optionsCourses.filter((option) => {
+				return (
+					selectedOptions.includes(option) ||
+					matchOption(option, inputValues[inputValues.length - 1])
+				);
+			});
+		}
 
-	const getFilteredOptions = () => {
 		return optionsCourses.some(({ key }) => key === valueCourse)
 			? optionsCourses
 			: optionsCourses.filter((option) => matchOption(option, valueCourse));
 	};
 
-	const handleClearCourse = () => {
-		// Обработка очистки выбранного курса
-		setValueCourse('');
-	};
+	// const getFilteredOptions = () => {
+	// 	return optionsCourses.some(({ key }) => key === valueCourse)
+	// 		? optionsCourses
+	// 		: optionsCourses.filter((option) => matchOption(option, valueCourse));
+	// };
 
-	const handleTagRemove = (tagValue: string) => {
-		const updatedTags = tagValues.filter((value) => value !== tagValue);
-		setTagValues(updatedTags);
-	};
+	// const handleClearCourse = () => {
+	// 	// Обработка очистки выбранного курса
+	// 	setValueCourse('');
+	// };
+
+	// const handleTagRemove = (tagValue: string) => {
+	// 	const updatedTags = tagValues.filter((value) => value !== tagValue);
+	// 	setTagValues(updatedTags);
+	// };
 
 	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
 		{}
@@ -200,43 +221,39 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														name="course"
 														value={valueCourse}
 														block={true}
+														multiple={multiple}
 														allowUnselect={true}
 														closeOnSelect={true}
 														onChange={handleChangeCourse}
 														onInput={handleInputCourse}
-														options={optionsCourses}
+														options={getFilteredOptions()}
 														Arrow={shownChevron ? Arrow : undefined}
-														inputProps={{
-															onClear: handleClearCourse,
-															clear: true,
-														}}
 														showEmptyOptionsList={true}
 														className={styles.inputCourses}
 														size="s"
 														label="Тренинги и курсы"
 														placeholder="Начните вводить название"
 													/>
-													<div className={styles.formRowTag}>
-														{tagValues.length > 0 &&
-															tagValues.map((value, index) => (
-																<div key={index} style={{ maxWidth: '952px' }}>
-																	<FilterTag
-																		showClear={true}
-																		size="s"
-																		shape="rectangular"
-																		view="outlined"
-																		checked={true}
-																	>
-																		{value}
-																	</FilterTag>
-																</div>
-															))}
-													</div>
+
 													<img
 														src={linkToCourses}
 														alt="ссылка на курсы"
 														className={styles.linkToCourses}
 													></img>
+												</div>
+												<div className={styles.formRowTag}>
+													{valueCourse.length > 0
+														? tagValues.map((value: string, key: number) => {
+																return (
+																	<div key={value.length + 1}>
+																		<div className={styles.formTag}>
+																			<CrossCircleMIcon></CrossCircleMIcon>
+																			{value}
+																		</div>
+																	</div>
+																);
+															})
+														: ''}
 												</div>
 												<Textarea
 													fieldClassName={styles.textClass}
