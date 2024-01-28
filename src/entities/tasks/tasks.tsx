@@ -32,22 +32,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	const optionsCourses: OptionShape[] = courses;
 
-	// const [tagValues, setTagValues] = useState<string[]>([]);
-
-	// const handleChangeCourse: ({selected: OptionShape | null}): void => {
-	//   // Обработка выбора опции в автозаполнении
-	//   const selectedOption = optionsCourses.find(option => option.key === payload.value);
-
-	//   if (selectedOption) {
-	//     setValueCourse(selectedOption.key);
-
-	//     // Добавление выбранного значения в массив tagValues
-	//     setTagValues((prevTagValues) => [...prevTagValues, selectedOption.key]);
-	//   }
-	// };
-
-	//const selected = optionsCourses.find((o) => o.key === inputValues[0]) || [];
-
 	const handleInputCourse = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
