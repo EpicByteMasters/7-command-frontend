@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { BASE_URL, BASE_URL2 } from '../../shared/utils/constants';
+
 export interface IUser {
 	id: number;
 	email: string;
@@ -61,21 +63,16 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				password: data.password,
 			});
 
-			const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
+			const response = await fetch(`${BASE_URL2}/api/v1/auth/jwt/login`, {
 				method: 'POST',
 				body: formData,
 			});
-
-			console.log('Response:', {
-				status: response.status,
-				statusText: response.statusText,
 			});
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
 			const responseBody = await response.json();
-			console.log('Response body:', responseBody);
 
 			// Возвращаем объект, содержащий access_token
 			return { access_token: responseBody.access_token, ...responseBody };
@@ -95,7 +92,7 @@ export const getUserData = createAsyncThunk<any>('user/getData', async () => {
 			throw new Error('Токен отсутствует в localStorage');
 		}
 
-		const res = await fetch(`${BASE_URL}/api/v1/user/me`, {
+		const res = await fetch(`${BASE_URL2}/api/v1/user/me`, {
 			method: 'GET',
 			headers: {
 				// Передаем токен в заголовках
@@ -122,6 +119,7 @@ export const userSlice = createSlice({
 			return (state = action.payload);
 		},
 		setUserData: (state, action) => {
+			state.user.id = action.payload.id;
 			state.user.email = action.payload.email;
 			state.user.firstName = action.payload.firstName;
 			state.user.surname = action.payload.surname;

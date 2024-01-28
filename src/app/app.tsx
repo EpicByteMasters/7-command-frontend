@@ -36,9 +36,9 @@ function App() {
 	const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
 	const userData = useAppSelector((state) => state.user.user);
-	console.log('userData в Апп: ', userData);
+	//console.log('userData в Апп: ', userData);
 	const isEmployee = userData.positionId === 'EMPLOYEE';
-	console.log('isEmployee: ', isEmployee);
+	//console.log('isEmployee: ', isEmployee);
 	// const isExecutive = userData.positionId === 'MANAGER';
 
 	return (
