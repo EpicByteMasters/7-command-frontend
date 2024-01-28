@@ -67,7 +67,6 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				method: 'POST',
 				body: formData,
 			});
-			});
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);

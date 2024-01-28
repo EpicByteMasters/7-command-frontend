@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 function Header({ error }: HeaderProps) {
 	const userData = useAppSelector((state) => state.user.user);
-	console.log('userData: ', userData);
+	console.log('userData in header: ', userData);
 
 	const [searchValue, setSearchValue] = useState<string>('');
 
@@ -76,7 +76,7 @@ function Header({ error }: HeaderProps) {
 					''
 				) : (
 					<img
-						src={avatar || userData.imageUrl}
+						src={userData.imageUrl ? userData.imageUrl : avatar}
 						alt="аватар"
 						className={styles.avatar}
 					/>
