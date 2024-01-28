@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { User } from '../../shared/utils/users';
 import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
+import { getIPRSData } from '../../store/reducers/iprsSlice';
 
 interface LoginProps {
 	users: User[];
@@ -16,52 +16,49 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleLogin = async (
-		email: string,
-		password: string
-		// userLink: string
-	) => {
+	const handleLogin = async (email: string, password: string) => {
 		try {
-			const action = logInUser({ email, password });
+			const loginAction = logInUser({ email, password });
+			const loginResult = await dispatch(loginAction);
 
-			const result = await dispatch(action);
+			console.log('result', loginResult);
 
-			console.log('result', result);
-
-			if (logInUser.rejected.match(result)) {
-				console.error('Login rejected:', result.error);
-			} else if (logInUser.fulfilled.match(result)) {
-				// Проверяем наличие токена в ответе
-				if (result.payload && result.payload.access_token) {
+			if (logInUser.rejected.match(loginResult)) {
+				console.error('Login rejected:', loginResult.error);
+			} else if (logInUser.fulfilled.match(loginResult)) {
+				if (loginResult.payload && loginResult.payload.access_token) {
 					try {
-						// Запрос данных пользователя
 						const userDataResult = await dispatch(getUserData());
 
 						if (getUserData.fulfilled.match(userDataResult)) {
-							// Выводим данные пользователя в консоль
 							console.log('User data received:', userDataResult.payload);
+							// добываем ИПРы
+							const iprsDataResult = await dispatch(getIPRSData());
 
-							// Переход на роут пользователя
+							if (getIPRSData.fulfilled.match(iprsDataResult)) {
+								console.log('IPRS data received:', iprsDataResult.payload);
+							} else {
+								console.error(
+									'Error during fetching IPRS data:',
+									iprsDataResult.error
+								);
+							}
 							navigate('/main');
+							console.log('Login successful. Token and data received.');
 						} else {
-							// Обработка ошибки при получении данных о пользователе
 							console.error(
 								'Error during fetching user data:',
 								userDataResult.error
 							);
 						}
-
-						console.log('Login successful. Token received.');
 					} catch (userDataError) {
-						// Обработка ошибки при запросе данных о пользователе
 						console.error('Error during fetching user data:', userDataError);
 					}
 				} else {
-					// Токен не получен, или его нет в ответе
 					console.error('Token not received during login.');
 				}
 			} else {
-				console.error('Unexpected result during login:', result);
+				console.error('Unexpected result during login:', loginResult);
 			}
 		} catch (error) {
 			console.error('Error during login:', error);
@@ -91,13 +88,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"
-												onClick={() =>
-													handleLogin(
-														user.email,
-														user.password
-														// JSON.stringify(user.link).replace(/[\s.,""%]/g, '')
-													)
-												}
+												onClick={() => handleLogin(user.email, user.password)}
 												name={user.role}
 											>
 												Вход
