@@ -16,6 +16,7 @@ import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+
 interface TasksProps {
 	isEmployee: boolean;
 }
@@ -24,11 +25,45 @@ interface OptionShape {
 	key: string;
 }
 
+interface Education {
+	name: string;
+	url: string;
+	status: string;
+}
+
+interface FormData {
+	id: number;
+	name: string;
+	dateOfEnd: string;
+	description: string;
+	educations: Education[];
+	commentOfMentor: string;
+	commentOfEmployee: string;
+}
+
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
+	const [formData, setFormData] = React.useState<FormData>({
+		id: 0,
+		name: '',
+		dateOfEnd: '',
+		description: '',
+		educations: [],
+		commentOfMentor: '',
+		commentOfEmployee: '',
+	});
 	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
+
+	console.log('formData из зфдач: ', formData);
+
+	const handleInputChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	): void => {
+		const { name, value } = event.target;
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
+	};
 
 	const optionsCourses: OptionShape[] = courses;
 
@@ -37,6 +72,35 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		{ value }: { value: string }
 	) => {
 		setValueCourse(value);
+	};
+
+	const handleCourseSelection = (
+		selectedCourses: OptionShape[] | string
+	): void => {
+		let selectedEducations: Education[] = [];
+
+		if (typeof selectedCourses === 'string') {
+			// Если selectedCourses - это строка, преобразуйте ее в массив строк
+			const courseNames = selectedCourses.split(',').map((name) => name.trim());
+
+			selectedEducations = courseNames.map((name) => ({
+				name,
+				url: '',
+				status: '',
+			}));
+		} else {
+			// Иначе, предполагаем, что selectedCourses - это массив объектов OptionShape
+			selectedEducations = selectedCourses.map((course) => ({
+				name: course.key,
+				url: '',
+				status: '',
+			}));
+		}
+
+		setFormData((prevData) => ({
+			...prevData,
+			educations: selectedEducations,
+		}));
 	};
 
 	const inputValues: string[] = valueCourse.replace(/ /g, '').split(',');
@@ -62,6 +126,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 				? selectedMultiple.map((option) => option.key).join(', ') // если добавить + ',' выводит лишний таг, убирается с клавиатуры
 				: '';
 			setValueCourse(value);
+			handleCourseSelection(value);
 			return;
 		}
 		setValueCourse(selected ? selected.key : '');
@@ -85,22 +150,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			: optionsCourses.filter((option) => matchOption(option, valueCourse));
 	};
 
-	// const getFilteredOptions = () => {
-	// 	return optionsCourses.some(({ key }) => key === valueCourse)
-	// 		? optionsCourses
-	// 		: optionsCourses.filter((option) => matchOption(option, valueCourse));
-	// };
-
-	// const handleClearCourse = () => {
-	// 	// Обработка очистки выбранного курса
-	// 	setValueCourse('');
-	// };
-
-	// const handleTagRemove = (tagValue: string) => {
-	// 	const updatedTags = tagValues.filter((value) => value !== tagValue);
-	// 	setTagValues(updatedTags);
-	// };
-
 	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
 		{}
 	);
@@ -108,6 +157,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
+		setFormData((prevData) => ({ ...prevData, endDate: value }));
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -142,6 +192,10 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		setValueCourse(updatedTagValues.join(', '));
 	};
 
+	const getFormData = (): FormData => {
+		return formData;
+	};
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -173,6 +227,8 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														fieldClassName={styles.goalName}
 														maxHeight={56}
 														label="Название*"
+														name="name"
+														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
 														block={true}
@@ -202,6 +258,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													fieldClassName={styles.textClass}
 													maxHeight={91}
 													label="Описание"
+													name="description"
+													value={formData.description}
+													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
 													block={true}
@@ -251,10 +310,27 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															})
 														: ''}
 												</div>
+												{isEmployee && (
+													<Textarea
+														fieldClassName={styles.textClass}
+														maxHeight={91}
+														label="Комментарий руководителя"
+														name="commentOfMentor"
+														onChange={handleInputChange}
+														labelView="inner"
+														size="m"
+														block={true}
+														maxLength={96}
+														showCounter={true}
+														autosize={true}
+													/>
+												)}
 												<Textarea
 													fieldClassName={styles.textClass}
 													maxHeight={91}
 													label="Ваш комментарий"
+													name="commentOfEmployee"
+													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
 													block={true}
