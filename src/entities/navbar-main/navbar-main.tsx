@@ -17,7 +17,7 @@ export const NavBarMain: React.FC<ExecutiveProps> = () => {
 	const isEmployee = userData.positionId === 'EMPLOYEE';
 	const isExecutive = userData.positionId === 'MANAGER';
 	const id = userData.id === 6;
-	const id2 = userData.id === 5;
+	const id2 = userData.id === 16;
 
 	console.log('isExecutive: ', isExecutive);
 	console.log('isEmployee в навбаре: ', isEmployee);
