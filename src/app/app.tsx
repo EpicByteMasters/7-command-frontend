@@ -25,6 +25,7 @@ import { mentorData } from '../shared/utils/test-users';
 import { useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
+import { Page404 } from '../pages/page404/page404';
 
 //import { password, username } from '../shared/utils/constants';
 
@@ -121,6 +122,41 @@ function App() {
 					path="/service-iprs/my-ipr-rating/:id"
 					element={<MyIprRating />}
 				/>
+				<Route
+					path="/404"
+					element={
+						<Page404
+							error={'Ошибка'}
+							title={'404'}
+							paragraph={'Что-то пошло не так'}
+							button={'Вернуться на главную'}
+						></Page404>
+					}
+				/>
+				<Route
+					path="/505"
+					element={
+						<Page404
+							error={'Ошибка2'}
+							title={'505'}
+							paragraph={'Сервер недоступен'}
+							button={'Вернуться на главную'}
+						></Page404>
+					}
+				/>
+				<Route
+					path="/207"
+					element={
+						<Page404
+							error={'Ошибка2'}
+							title={'207'}
+							paragraph={'Вы не авторизованы'}
+							button={'Авторизоваться'}
+						></Page404>
+					}
+				/>
+				<Route path="/*" element={<></>} />
+
 				{/* Футер - старые роуты */}
 
 				<Route
@@ -136,7 +172,6 @@ function App() {
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}
 				/>
-				<Route path="/*" element={<></>} />
 			</Routes>
 		</div>
 	);

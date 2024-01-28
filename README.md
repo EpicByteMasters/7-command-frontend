@@ -1,3 +1,45 @@
+# О команде
+
+- Наталья - Team-lead - @UltraNata
+- Ольга Аверьянова - @Olga_Averianova47
+- Дарья Матвеева - @DannyohDanny
+
+# Ссылка на проект
+
+[Ссылка на проект](https://new-develop--benevolent-melomakarona-4df41c.netlify.app/)
+
+# Стек технологий
+
+<div> 
+ <img src="https://img.shields.io/badge/TypeScript-%23404d59.svg?style=for-the-badge&logo=typescript&logoColor=blue" alt="TypeScript Badge" />
+<img src="https://img.shields.io/badge/javascript-%23404d59.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript Badge" />
+<img src="https://img.shields.io/badge/Redux-%23404d59.svg?style=for-the-badge&logo=Redux&logoColor=violet" alt="Redux Badge" /> 
+<img src="https://img.shields.io/badge/react-%23404d59.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" />
+<img src="https://img.shields.io/badge/css3-%23404d59.svg?style=for-the-badge&logo=css3&logoColor=lightblue" alt="CSS3 Badge" />
+<img src="https://img.shields.io/badge/SASS-%23404d59.svg?style=for-the-badge&logo=SASS&logoColor=hotpink" alt="SASS Badge" />
+<img src="https://img.shields.io/badge/html5-%23404d59.svg?style=for-the-badge&logo=html5&logoColor=orange" alt="HTML5 Badge" />
+
+ </div>
+
+### Инструменты разработчика
+
+---
+
+<div id="general" style="display: inline">
+  <img src="https://img.shields.io/badge/git-%23404d59.svg?style=for-the-badge&logo=git&logoColor=red" alt="Git Badge" />
+  <img src="https://img.shields.io/badge/ESLint-%23404d59?style=for-the-badge&logo=eslint&logoColor=violet" alt="ESLint Badge" />
+  <img src="https://img.shields.io/badge/babel-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="Babel" />
+  <img src="https://img.shields.io/badge/NPM-%23404d59?style=for-the-badge&logo=npm&logoColor=red" alt="NPM Badge" />
+  <img src="https://img.shields.io/badge/figma-%23404d59.svg?style=for-the-badge&logo=figma&logoColor=purple" alt="Figma Badge" />
+  <img src="https://img.shields.io/badge/vscode-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="VScode Badge" />
+
+
+### Ссылки на сторонне библиотеки
+
+- Иконки и компоненты - [Core-components](https://core-ds.github.io/core-components/master/?path=/docs/guidelines-accessibility-forms--docs)
+
+- Шрифт Google Fonts - [Inter](https://fonts.google.com/specimen/Inter)
+
 # О проекте
 
 Проект представляет собой MVP-версию раздела корпоративного портала, который предлагает функционал для индивидуального плана развития сотрудника (ИПР).
@@ -6,19 +48,7 @@
 
 - Руководитель
 - Сотрудник
-- Ментор\*
-
-### Функционал
-
-[- в разработке -]
-
-### Стек
-
-<img src="https://img.shields.io/badge/TypeScript-%23404d59.svg?style=for-the-badge&logo=typescript&logoColor=blue" alt="TypeScript Badge" /> <img src="https://img.shields.io/badge/react-%23404d59.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" /> <img src="https://img.shields.io/badge/html5-%23404d59.svg?style=for-the-badge&logo=html5&logoColor=orange" alt="HTML5 Badge" /> <img src="https://img.shields.io/badge/SASS-%23404d59.svg?style=for-the-badge&logo=Sass&logoColor=hotpink" alt="SASS Badge" /> <img src="https://img.shields.io/badge/Redux-%23404d59.svg?style=for-the-badge&logo=Redux&logoColor=violet" alt="Redux Badge" /> <img src="https://img.shields.io/badge/javascript-%23404d59.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript Badge" />
-
-### План развития приложения
-
-[- в разработке -]
+- Ментор
 
 # Установка
 
@@ -27,27 +57,3 @@
 - `npm start` - локальный запуск приложения на порте `http://localhost:3000`;
 
 - `npm run build` - сборка приложения для диплоя;
-
-# Руководство иcпользования
-
-[- в разработке -]
-
-# Разработка и дебаггинг
-
-Чтобы исправить ошибку или улучшить существующий модуль, выполните следующие действия:
-
-- Форкнуть репо
-- Создайте новую ветку `git checkout -b improve-feature`
-- Внесите соответствующие изменения в файлы
-- Добавьте изменения, чтобы отразить внесенные изменения.
-- Зафиксируйте изменения `git commit -am 'Improve feature`
-- Запушите на ветку `git push origin improve-feature`
-- Создать a `Pull Request`
-
-# Тесты
-
-[- в разработке -]
-
-# Лицензия
-
-Ознакомьтесь с [Лицензией](/LICENCE.md) (MIT).

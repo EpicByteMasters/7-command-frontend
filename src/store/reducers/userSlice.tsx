@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL } from '../../shared/utils/api';
+
+import { BASE_URL, BASE_URL2 } from '../../shared/utils/constants';
 
 export interface IUser {
 	id: number;
@@ -62,9 +63,10 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				password: data.password,
 			});
 
-			const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
+			const response = await fetch(`${BASE_URL2}/api/v1/auth/jwt/login`, {
 				method: 'POST',
 				body: formData,
+			});
 			});
 
 			if (!response.ok) {
@@ -90,7 +92,7 @@ export const getUserData = createAsyncThunk<any>('user/getData', async () => {
 			throw new Error('Токен отсутствует в localStorage');
 		}
 
-		const res = await fetch(`${BASE_URL}/api/v1/user/me`, {
+		const res = await fetch(`${BASE_URL2}/api/v1/user/me`, {
 			method: 'GET',
 			headers: {
 				// Передаем токен в заголовках

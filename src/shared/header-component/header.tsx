@@ -76,7 +76,7 @@ function Header({ error }: HeaderProps) {
 					''
 				) : (
 					<img
-						src={userData.imageUrl || avatar}
+						src={avatar || userData.imageUrl}
 						alt="аватар"
 						className={styles.avatar}
 					/>
