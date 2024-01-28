@@ -56,6 +56,11 @@ export const TasksOverview = ({
 	const [valueComment, setValueComment] = useState<string>(
 		'Список материалов к изучению:'
 	);
+	const [error1, setError1] = useState<string>('');
+	const [error2, setError2] = useState<string>('');
+	const [error3, setError3] = useState<string>('');
+	const [error4, setError4] = useState<string>('');
+	const [error5, setError5] = useState<string>('');
 
 	const allInputs = {
 		goal: valueGoal,
@@ -96,11 +101,14 @@ export const TasksOverview = ({
 	): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		if (target.name === 'description') {
+		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+
+		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
-			console.log(valueDescription);
+			setError5('');
 		}
-		if (!target) {
+		if (!target.value) {
+			setError5('Допустимы только кириллические символы и знаки препинания');
 			return;
 		}
 	}
@@ -108,11 +116,14 @@ export const TasksOverview = ({
 	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		if (target.name === 'comment') {
+		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+
+		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);
-			console.log(valueComment);
+			setError4('');
 		}
-		if (!target) {
+		if (!target.value) {
+			setError4('Допустимы только кириллические символы и знаки препинания');
 			return;
 		}
 	}
@@ -125,11 +136,26 @@ export const TasksOverview = ({
 	// Обработка изменения импутов
 
 	const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
-		setValueGoal(selected ? selected.key : '');
+		if (selected) {
+			setValueGoal(selected.key);
+			setError1('');
+			console.log(selected, selected.key);
+		}
+		if (!selected) {
+			setError1('Обязательное поле');
+			setValueGoal('');
+		}
 	};
 
 	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
-		setValueRole(selected ? selected.key : '');
+		if (selected) {
+			setValueRole(selected.key);
+			setError2('');
+		}
+		if (!selected) {
+			setError2('Обязательное поле');
+			setValueRole('');
+		}
 	};
 	const handleChangeMentor = ({
 		selected,
@@ -197,6 +223,10 @@ export const TasksOverview = ({
 				? selectedMultiple.map((option) => option.key).join(', ')
 				: '';
 			setValueCompetence(value);
+			setError3('');
+			if (!value) {
+				setError3('Обязательное поле');
+			}
 			return;
 		}
 		setValueCompetence(selected ? selected.key : '');
@@ -226,6 +256,7 @@ export const TasksOverview = ({
 				<div className={styles2.formRow}>
 					<div style={{ width: 496 }}>
 						<InputAutocomplete
+							error={error1}
 							name="goal"
 							block={true}
 							closeOnSelect={true}
@@ -249,6 +280,7 @@ export const TasksOverview = ({
 					</div>
 					<div style={{ width: 496 }}>
 						<InputAutocomplete
+							error={error2}
 							name="role"
 							block={true}
 							closeOnSelect={true}
@@ -272,6 +304,7 @@ export const TasksOverview = ({
 				</div>
 				<div>
 					<InputAutocomplete
+						error={error3}
 						name="competence"
 						value={valueCompetence}
 						block={true}
@@ -401,6 +434,7 @@ export const TasksOverview = ({
 						}}
 					>
 						<Textarea
+							error={error5}
 							name="description"
 							value={valueDescription}
 							onChange={handleInputDescription}
@@ -423,6 +457,7 @@ export const TasksOverview = ({
 					>
 						{isExecutive ? (
 							<Textarea
+								error={error4}
 								name="comment"
 								onChange={handleInputComment}
 								fieldClassName={styles2.textClass}

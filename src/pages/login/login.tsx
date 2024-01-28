@@ -51,18 +51,23 @@ export const Login: FC<LoginProps> = ({ users }) => {
 								'Error during fetching user data:',
 								userDataResult.error
 							);
+							navigate('/404', { replace: true });
 						}
 					} catch (userDataError) {
 						console.error('Error during fetching user data:', userDataError);
+						navigate('/505', { replace: true });
 					}
 				} else {
 					console.error('Token not received during login.');
+					navigate('/207', { replace: true });
 				}
 			} else {
 				console.error('Unexpected result during login:', loginResult);
+				navigate('/207', { replace: true });
 			}
 		} catch (error) {
 			console.error('Error during login:', error);
+			navigate('/207', { replace: true });
 		}
 	};
 
