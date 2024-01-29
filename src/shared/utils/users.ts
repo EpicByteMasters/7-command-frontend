@@ -58,8 +58,8 @@ const users: User[] = [
 		position: 'Ментор 1',
 		pic: mentor1,
 		role: 'mentor',
-		email: 'user1@example.com',
-		password: 'string',
+		email: 'user15@example.com',
+		password: 'password',
 	},
 	{
 		id: 6,
