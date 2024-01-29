@@ -5,6 +5,7 @@ import Header from '../../shared/header-component/header';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
+
 interface RatingProps {
 	isExecutive?: boolean;
 }
@@ -29,6 +30,30 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 		setComment(inputText);
 	};
 
+	const generateRandomTextAndRating = () => {
+		const ratings = [5, 6, 7, 8, 9];
+		const positiveComments = [
+			'Отличная работа! Продолжай в том же духе!',
+			'Супер! Ты превзошел ожидания!',
+			'Молодец! Продвигайся дальше в развитии!',
+			'Очень хорошо! Твои усилия заметны.',
+			'Прекрасно! Так держать!',
+		];
+
+		const randomRating = ratings[Math.floor(Math.random() * ratings.length)];
+		const randomComment =
+			positiveComments[Math.floor(Math.random() * positiveComments.length)];
+
+		return {
+			rating: randomRating,
+			textAreaValue: randomComment,
+		};
+	};
+
+	// Пример использования в вашем компоненте:
+	const { rating, textAreaValue } = generateRandomTextAndRating();
+	//TODO прокинуть пропсом
+
 	return (
 		<>
 			<Header />
@@ -43,9 +68,8 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 								{Array.from({ length: 10 }, (_, index) => (
 									<div
 										key={index + 1}
-										onClick={() => handleRatingClick(index + 1)}
 										className={`${styles.ratingBtn} ${
-											selectedRating >= index + 1 ? styles.clicked : ''
+											index + 1 <= rating ? styles.clicked : ''
 										}`}
 									>
 										{index + 1}
@@ -58,13 +82,15 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 							</div>
 						</div>
 						<Textarea
-							label="Оцените достижение цели"
+							//label="Оцените достижение цели"
 							block={true}
 							minRows={3}
 							maxLength={96}
 							showCounter={true}
 							onChange={handleCommentChange}
 							allowOverflow={false}
+							disabled={true}
+							value={textAreaValue}
 						/>
 					</div>
 					<TasksOverview isExecutive={false} iprStatus="" />
