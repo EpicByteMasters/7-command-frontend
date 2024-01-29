@@ -46,14 +46,22 @@ export const ManagerIprDraft = ({
 	];
 
 	const [modalOpen, setModalOpen] = useState(false);
+	const [modalDisacrd, setDiscardOpen] = useState(false);
+	const [modalSave, setSaveOpen] = useState(false);
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
 	};
 	const onClick = () => {
 		// navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
-
 		navigate('/iprs/rating', { replace: true });
+	};
+
+	const onModalDiscardOpen = () => {
+		setDiscardOpen(!modalDisacrd);
+	};
+	const onModalSaveOpen = () => {
+		setSaveOpen(!modalSave);
 	};
 
 	return (
@@ -86,7 +94,12 @@ export const ManagerIprDraft = ({
 						/>
 					</div>
 					<div className={styles.buttonsWrapper}>
-						<Button view="secondary" size="m" className={styles.buttonSave}>
+						<Button
+							onClick={onModalSaveOpen}
+							view="secondary"
+							size="m"
+							className={styles.buttonSave}
+						>
 							Сохранить
 						</Button>
 						{statusText === 'в работе' ? (
@@ -114,7 +127,22 @@ export const ManagerIprDraft = ({
 						>
 							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
 						</button>
+						{statusText === 'в работе' ? (
+							<div className={styles.btnSaveWrapper}>
+								<Button
+									onClick={onModalDiscardOpen}
+									view="tertiary"
+									size="m"
+									className={styles.buttonDiscard}
+								>
+									Отменить
+								</Button>
+							</div>
+						) : (
+							''
+						)}
 					</div>
+
 					<form className={styles2.form}>
 						<TasksOverview
 							isExecutive={isExecutive}
@@ -138,6 +166,30 @@ export const ManagerIprDraft = ({
 					</form>
 				</div>
 			</div>
+			{modalDisacrd ? (
+				<Modal
+					title={'Отмена плана развития сотрудника'}
+					paragraph={
+						'Вы дейстивтельно хотите отменить индивидуальный план развития?'
+					}
+					button1={'Да'}
+					button2={'Нет'}
+				></Modal>
+			) : (
+				''
+			)}
+			{modalSave ? (
+				<Modal
+					title={'Изменения сохранены'}
+					// paragraph={
+					// 	'Вы дейстивтельно хотите отменить индивидуальный план развития?'
+					// }
+					// button1={'Да'}
+					// button2={'Нет'}
+				></Modal>
+			) : (
+				''
+			)}
 		</>
 	);
 };

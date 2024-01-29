@@ -76,6 +76,9 @@ function App() {
 				/>
 
 				{/* Роуты сценариев */}
+
+				{/* Сценарий 1 план развития сотрудника - в работе */}
+
 				<Route
 					path="/service-iprs/ipr/1"
 					element={
@@ -87,22 +90,25 @@ function App() {
 						/>
 					}
 				/>
+				{/* Сценарий 2 Создать черновик */}
 				<Route
 					path="/service-iprs/ipr/2"
 					element={
 						<ManagerIprDraft
-							ipr_id={1}
+							ipr_id={2}
 							isExecutive={true}
 							statusColor="purple"
 							statusText="черновик"
 						/>
 					}
 				/>
+				{/* Сценарий 3 - Сотрудник - ИПР в работе */}
+
 				<Route
 					path="/service-iprs/ipr/3"
 					element={
 						<ManagerIprDraft
-							ipr_id={1}
+							ipr_id={3}
 							isExecutive={false}
 							statusColor="blue"
 							statusText="в работе"

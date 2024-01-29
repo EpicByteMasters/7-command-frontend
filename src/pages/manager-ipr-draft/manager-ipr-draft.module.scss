@@ -42,9 +42,17 @@
 }
 
 .buttonSend {
+	width: 200px;
 	margin-right: 20px;
 }
 
+.buttonDiscard {
+}
+.btnSaveWrapper {
+	display: flex;
+	justify-content: flex-end;
+	width: 700px;
+}
 .paragraph {
 	@include mixins.text;
 
