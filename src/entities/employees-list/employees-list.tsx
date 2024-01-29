@@ -164,10 +164,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
+	// Фильтрация по цели/ по статусу
 	let resultGoal = sortedData.filter((data) => data.goal === goal);
 	let resultStatus = sortedData.filter((data) => data.status === status);
-
-	console.log(resultStatus, status);
 
 	return (
 		<>
@@ -274,7 +273,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													'отменен') ? (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToDraft}
 													>
 														Создать
@@ -282,7 +281,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 												) : (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToIpr}
 													>
 														Открыть
@@ -307,7 +306,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 														})
 													}
 												>
-													<MoreMIcon />
+													<MoreMIcon style={{ fill: '#898889' }} />
 												</Button>
 											</Table.TCell>
 										</Table.TRow>
@@ -371,7 +370,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													'отменен') ? (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToDraft}
 													>
 														Создать
@@ -379,7 +378,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 												) : (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToIpr}
 													>
 														Открыть
@@ -404,7 +403,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 														})
 													}
 												>
-													<MoreMIcon />
+													<MoreMIcon style={{ fill: '#898889' }} />
 												</Button>
 											</Table.TCell>
 										</Table.TRow>
@@ -469,7 +468,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													'отменен') ? (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToDraft}
 													>
 														Создать
@@ -477,7 +476,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 												) : (
 													<Button
 														view="tertiary"
-														size="s"
+														size="xxs"
 														onClick={onClickToIpr}
 													>
 														Открыть
@@ -502,7 +501,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 														})
 													}
 												>
-													<MoreMIcon />
+													<MoreMIcon style={{ fill: '#898889' }} />
 												</Button>
 											</Table.TCell>
 										</Table.TRow>
@@ -518,20 +517,20 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 					anchorElement={buttonRef.current}
 					open={popoverVisible}
 					position="bottom"
+					className={styles.container}
 				>
-					<div
-						style={{
-							padding: '15px',
-							width: '100px',
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '36px',
-						}}
-					>
-						<Button view="ghost" size="s" onClick={handleDeleteClick}>
+					<div className={styles.btnWrapper}>
+						<Button
+							className={styles.btnText}
+							view="ghost"
+							size="s"
+							onClick={handleDeleteClick}
+						>
 							Удалить
 						</Button>
+
 						<Button
+							className={styles.btnText}
 							view="ghost"
 							size="s"
 							onClick={() => {
