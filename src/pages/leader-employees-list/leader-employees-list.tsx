@@ -109,9 +109,13 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 
 					<div className={styles.filterTagsWrapper}>
 						<div className={styles.dropdown}>
-							<button name="btnGoal" className={styles.dropbtn}>
+							<button
+								onClick={onClick}
+								name="btnGoal"
+								className={styles.dropbtn}
+							>
 								Цель
-								<div onClick={onClick}>
+								<div>
 									{chevron ? (
 										<ChevronDownSIcon></ChevronDownSIcon>
 									) : (
@@ -128,7 +132,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 													key={goal.key}
 													onClick={() => {
 														setGoalValue(goal.content);
-														// setGoalValue('');
+														setChevron(!chevron);
 													}}
 												>
 													{goal.content}
@@ -142,9 +146,13 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 						</div>
 
 						<div className={styles.dropdown}>
-							<button name="btnStatus" className={styles.dropbtn}>
+							<button
+								name="btnStatus"
+								onClick={onClick2}
+								className={styles.dropbtn}
+							>
 								Статус
-								<div onClick={onClick2}>
+								<div>
 									{chevron2 ? (
 										<ChevronDownSIcon></ChevronDownSIcon>
 									) : (
@@ -161,7 +169,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 													key={status.key}
 													onClick={() => {
 														setStatusValue(status.content.toLocaleLowerCase());
-														// setStatusValue('');
+														setChevron2(!chevron2);
 													}}
 												>
 													{status.content}
