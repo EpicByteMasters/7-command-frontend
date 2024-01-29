@@ -1,15 +1,18 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import userReducer, { UserState } from './userSlice';
-import goalReducer from './goalSlice';
+import commonLibsReducer, { TCommonLibState } from './libSlice';
+import iprsReducer, { IPRSState } from './iprsSlice';
 
 export interface RootState {
 	user: UserState; // тип состояния пользователя
-	goal: ReturnType<typeof goalReducer>;
+	commonLibs: TCommonLibState;
+	iprs: IPRSState;
 }
 
 const rootReducer = combineReducers({
 	user: userReducer,
-	goal: goalReducer,
+	commonLibs: commonLibsReducer,
+	iprs: iprsReducer,
 	// добавь другие срезы состояния
 });
 

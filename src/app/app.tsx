@@ -18,12 +18,31 @@ import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { mentorData } from '../shared/utils/test-users';
-import { useAppSelector } from '../shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { Page404 } from '../pages/page404/page404';
+import { useEffect } from 'react';
+import {
+	fetchCommonLibs,
+	selectCommonLibsPositions,
+	selectCommonLibsIPRStatus,
+	selectCommonLibsLoading,
+	selectCommonLibsError,
+	selectCommonLibsIPRGoals,
+	selectCommonLibsTaskStatus,
+} from '../store/reducers/libSlice';
+import { loadavg } from 'os';
 
 function App() {
+	const dispatch = useAppDispatch();
+	const positions = useAppSelector(selectCommonLibsPositions);
+	const iprStatus = useAppSelector(selectCommonLibsIPRStatus);
+	const loading = useAppSelector(selectCommonLibsLoading);
+	const error = useAppSelector(selectCommonLibsError);
+	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
+	const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
+
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
 	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
@@ -32,6 +51,26 @@ function App() {
 	const userData = useAppSelector((state) => state.user.user);
 	//console.log('userData в Апп: ', userData);
 	const isEmployee = userData.isSupervisor === true;
+
+	useEffect(() => {
+		if (
+			!loading &&
+			!error &&
+			positions.length === 0 &&
+			iprStatus.length === 0 &&
+			iprGoals.length === 0 &&
+			taskStatus.length === 0
+		) {
+			// Загрузка справочников, если они еще не загружены
+			dispatch(fetchCommonLibs());
+		}
+	}, [dispatch, loading, error, positions, iprStatus, iprGoals, taskStatus]);
+
+	// Вывод в консоль данных библиотек
+	console.log('Positions:', positions);
+	console.log('IPR Status:', iprStatus);
+	console.log('IPR Goals:', iprGoals);
+	console.log('Task status:', taskStatus);
 
 	return (
 		<div className={styles.container__main}>
