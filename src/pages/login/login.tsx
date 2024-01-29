@@ -43,8 +43,9 @@ export const Login: FC<LoginProps> = ({ users }) => {
 									'Error during fetching IPRS data:',
 									iprsDataResult.error
 								);
+								navigate('/404', { replace: true });
 							}
-							navigate('/main');
+							navigate('/main', { replace: true });
 							console.log('Login successful. Token and data received.');
 						} else {
 							console.error(
