@@ -1,3 +1,5 @@
+@use '../../styles/mixins.scss';
+
 @import './../../styles/variables.scss';
 
 .container {
@@ -18,7 +20,7 @@
 }
 
 .dataWrapper > * {
-	width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
+	width: calc(50% - 12px);
 }
 
 .searchInputWrapper {
@@ -27,6 +29,79 @@
 
 .filterTagsWrapper {
 	display: flex;
-	gap: 16px;
+	gap: 220px;
 	padding-bottom: 32px;
+}
+
+// дропдаун
+
+.dropbtn {
+	color: black;
+	width: 100px;
+	height: 43px;
+	border: none;
+	display: flex;
+	align-items: flex-start;
+	padding: 8px 8px 8px 16px;
+	gap: 8px;
+	border-radius: 99px;
+	background: #f2f3f5;
+	font-feature-settings: 'salt' on;
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: normal;
+	letter-spacing: 0.14px;
+	opacity: 1;
+	cursor: pointer;
+	align-items: center;
+}
+
+/* контейнер <div> - необходим для размещения выпадающего содержимого */
+.dropdown {
+	position: relative;
+	display: inline-block;
+	opacity: 1;
+}
+
+/* Выпадающей контент (по умолчанию скрыт) */
+.dropdownContent {
+	position: absolute;
+	padding: 16px;
+	z-index: 1;
+	box-shadow:
+		0px 20px 24px 0px rgba(0, 0, 0, 0.08),
+		0px 12px 16px 0px rgba(0, 0, 0, 0.04),
+		0px 4px 8px 0px rgba(0, 0, 0, 0.04),
+		0px 0px 1px 0px rgba(0, 0, 0, 0.04);
+	border: 1px solid #e7e7ea;
+	border-radius: 8px;
+	background-color: #fff;
+}
+
+/* Ссылки внутри выпадающего списка */
+.dropdownContent p {
+	@include mixins.text;
+	color: black;
+	padding: 5px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	width: 270px;
+}
+
+/* Изменить цвет выпадающих ссылок при наведении */
+.dropdownContent p:hover {
+	background-color: #f1f1f1;
+}
+
+/* Показать выпадающее меню при наведении */
+// .dropdown:hover .dropdownContent {
+// 	display: block;
+// }
+
+/* Изменить цвет фона выпадающего кнопка при отображении выпадающего списка */
+.dropdown:hover .dropbtn {
+	opacity: 0.6;
+	transform: 1s opacity ease-in-out;
 }
