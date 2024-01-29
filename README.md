@@ -1,3 +1,13 @@
+# О проекте
+
+Проект представляет собой MVP-версию раздела корпоративного портала, который предлагает функционал для индивидуального плана развития сотрудника (ИПР).
+
+### Роли
+
+- Руководитель
+- Сотрудник
+- Ментор
+
 # О команде
 
 - Наталья - Team-lead - @UltraNata
@@ -33,22 +43,11 @@
   <img src="https://img.shields.io/badge/figma-%23404d59.svg?style=for-the-badge&logo=figma&logoColor=purple" alt="Figma Badge" />
   <img src="https://img.shields.io/badge/vscode-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="VScode Badge" />
 
-
-### Ссылки на сторонне библиотеки
+### Ссылки на сторонние библиотеки
 
 - Иконки и компоненты - [Core-components](https://core-ds.github.io/core-components/master/?path=/docs/guidelines-accessibility-forms--docs)
 
 - Шрифт Google Fonts - [Inter](https://fonts.google.com/specimen/Inter)
-
-# О проекте
-
-Проект представляет собой MVP-версию раздела корпоративного портала, который предлагает функционал для индивидуального плана развития сотрудника (ИПР).
-
-### Роли
-
-- Руководитель
-- Сотрудник
-- Ментор
 
 # Установка
 
