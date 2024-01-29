@@ -80,10 +80,10 @@ function App() {
 				{/* Сценарий 1 план развития сотрудника - в работе */}
 
 				<Route
-					path="/service-iprs/ipr/1"
+					path="/service-iprs/ipr/0"
 					element={
 						<ManagerIprDraft
-							ipr_id={1}
+							ipr_id={0}
 							isExecutive={true}
 							statusColor="blue"
 							statusText="в работе"
@@ -108,7 +108,7 @@ function App() {
 					path="/service-iprs/ipr/3"
 					element={
 						<ManagerIprDraft
-							ipr_id={3}
+							ipr_id={1}
 							isExecutive={false}
 							statusColor="blue"
 							statusText="в работе"

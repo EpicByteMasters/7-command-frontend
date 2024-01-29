@@ -4,28 +4,50 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
 import { Modal } from '../modal/modal';
 
-function BackButton() {
+interface ButtonProps {
+	isExecutive?: boolean;
+	isEmployee?: boolean;
+	isMentor?: boolean;
+}
+export const BackButton: React.FC<ButtonProps> = ({
+	isExecutive,
+	isEmployee,
+	isMentor,
+}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [modal, setModal] = useState(false);
 
 	const goBack = () => {
 		// navigate(-1);
-		if (location.pathname === '/iprs/rating') {
-			navigate('/service-iprs/ipr/1', { replace: true });
+		if (location.pathname === '/service-iprs/myteam') {
+			navigate('/main', { replace: true });
 		}
+		if (location.pathname === '/service-iprs/my') {
+			navigate('/main', { replace: true });
+		}
+		if (location.pathname === '/service-iprs/mentor') {
+			navigate('/main', { replace: true });
+		}
+
 		if (location.pathname === '/service-iprs/ipr/1') {
 			setModal(!modal);
 		}
-		if (
-			location.pathname === '/service-iprs/myteam' ||
-			location.pathname === '/service-iprs/my' ||
-			location.pathname === '/service-iprs/mentor'
-		) {
-			navigate('/main', { replace: true });
+
+		if (location.pathname === '/service-iprs/my-ipr/1') {
+			navigate('/service-iprs/my', { replace: true });
+		}
+		if (location.pathname === '/iprs/rating') {
+			navigate('/service-iprs/ipr/1', { replace: true });
 		}
 		if (location.pathname === '/service-iprs/myteam/history') {
 			navigate('/service-iprs/myteam', { replace: true });
+		}
+		if (
+			location.pathname === '/service-iprs/my-ipr-rating/4' ||
+			'/service-iprs/my-ipr-rating/5'
+		) {
+			navigate('/service-iprs/my', { replace: true });
 		}
 	};
 	return (
@@ -59,6 +81,4 @@ function BackButton() {
 			)}
 		</>
 	);
-}
-
-export default BackButton;
+};

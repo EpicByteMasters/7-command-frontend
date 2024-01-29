@@ -4,7 +4,7 @@ import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
 import { roleUrl } from '../../shared/utils/urls';
-import BackButton from '../backbutton/backbutton';
+import { BackButton } from '../backbutton/backbutton';
 
 interface ExecutiveProps {
 	isExecutive?: boolean;
@@ -13,6 +13,7 @@ interface ExecutiveProps {
 }
 export const NavBarMini: React.FC<ExecutiveProps> = ({
 	isExecutive,
+	isEmployee,
 	isMentor,
 }) => {
 	return (
@@ -20,7 +21,11 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 			<nav className={styles.navtab}>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<BackButton />
+						<BackButton
+							isExecutive={isExecutive}
+							isEmployee={isEmployee}
+							isMentor={isMentor}
+						/>
 					</li>
 					{isExecutive ? (
 						<li className={styles.item}>
