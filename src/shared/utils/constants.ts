@@ -1,10 +1,8 @@
 /* eslint-disable no-useless-escape */
+export const BASE_URL = 'http://213.171.6.128:81';
 
 export const username = 'user4@example.com';
 export const password = 'string';
-
-export const BASE_URL = 'http://213.171.6.128:81';
-export const BASE_URL2 = '';
 
 export const courses = [
 	{ key: 'Подготовка к IELTS' },

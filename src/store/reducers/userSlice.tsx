@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { BASE_URL, BASE_URL2 } from '../../shared/utils/constants';
+import { BASE_URL } from '../../shared/utils/constants';
 
 export interface IUser {
 	id: number;
@@ -12,9 +12,14 @@ export interface IUser {
 	surname: string;
 	patronymic: string;
 	imageUrl: string;
-	positionId: string;
-	specialtyId: string;
+	position: {
+		name: string;
+	};
+	specialty: {
+		name: string;
+	};
 	supervisorId: number;
+	isSupervisor: boolean;
 }
 
 export type UserState = {
@@ -36,9 +41,10 @@ initialState = {
 		surname: '',
 		patronymic: '',
 		imageUrl: '',
-		positionId: '',
-		specialtyId: '',
+		position: { name: '' }, // Обновлено для соответствия интерфейсу IUser
+		specialty: { name: '' }, // Обновлено для соответствия интерфейсу IUser
 		supervisorId: 0,
+		isSupervisor: false,
 	},
 	access_token: null,
 	isLoading: false,
@@ -63,7 +69,7 @@ export const logInUser = createAsyncThunk<any, logInData>(
 				password: data.password,
 			});
 
-			const response = await fetch(`${BASE_URL2}/api/v1/auth/jwt/login`, {
+			const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
 				method: 'POST',
 				body: formData,
 			});
@@ -91,7 +97,7 @@ export const getUserData = createAsyncThunk<any>('user/getData', async () => {
 			throw new Error('Токен отсутствует в localStorage');
 		}
 
-		const res = await fetch(`${BASE_URL2}/api/v1/user/me`, {
+		const res = await fetch(`${BASE_URL}/api/v1/user/me`, {
 			method: 'GET',
 			headers: {
 				// Передаем токен в заголовках
@@ -124,9 +130,10 @@ export const userSlice = createSlice({
 			state.user.surname = action.payload.surname;
 			state.user.patronymic = action.payload.patronymic;
 			state.user.imageUrl = action.payload.imageUrl;
-			state.user.positionId = action.payload.positionId;
-			state.user.specialtyId = action.payload.specialtyId;
+			state.user.position = { name: action.payload.position.name };
+			state.user.specialty = { name: action.payload.specialty.name };
 			state.user.supervisorId = action.payload.supervisorId;
+			state.user.isSupervisor = action.payload.isSupervisor;
 		},
 	},
 	extraReducers: (builder) => {
@@ -142,9 +149,10 @@ export const userSlice = createSlice({
 			state.user.surname = action.payload.surname;
 			state.user.patronymic = action.payload.patronymic;
 			state.user.imageUrl = action.payload.imageUrl;
-			state.user.positionId = action.payload.positionId;
-			state.user.specialtyId = action.payload.specialtyId;
+			state.user.position = { name: action.payload.position.name };
+			state.user.specialty = { name: action.payload.specialty.name };
 			state.user.supervisorId = action.payload.supervisorId;
+			state.user.isSupervisor = action.payload.isSupervisor;
 		});
 	},
 });

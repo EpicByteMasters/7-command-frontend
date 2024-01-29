@@ -14,8 +14,8 @@ export const NavBarMain: React.FC<ExecutiveProps> = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const userData = useAppSelector((state) => state.user.user);
-	const isEmployee = userData.positionId === 'EMPLOYEE';
-	const isExecutive = userData.positionId === 'MANAGER';
+	const isEmployee = userData.isSupervisor === false;
+	const isExecutive = userData.isSupervisor === true;
 	const id = userData.id === 6;
 	const id2 = userData.id === 16;
 

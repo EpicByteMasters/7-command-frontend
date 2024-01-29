@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { BASE_URL, BASE_URL2 } from '../../shared/utils/constants';
+import { BASE_URL } from '../../shared/utils/constants';
 
 export interface IPRSdata {
 	id: number;
@@ -37,15 +37,12 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 			throw new Error('Token is missing in localStorage');
 		}
 
-		const response = await fetch(
-			`${BASE_URL2}/api/v1/mentor/iprs/ipr/my_iprs`,
-			{
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
+		const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/my_iprs`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		if (response.status === 200) {
 			return response.json();
