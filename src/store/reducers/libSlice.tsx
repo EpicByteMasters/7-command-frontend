@@ -7,11 +7,25 @@ interface ICommonLib {
 	name: string;
 }
 
+interface ICommonLibWithSkillType extends ICommonLib {
+	skillType: string;
+}
+
+interface IEducation {
+	id: number;
+	name: string;
+	specialty: string;
+	urlLink: string;
+}
+
 export type TCommonLibState = {
 	positions: ICommonLib[];
 	iprStatus: ICommonLib[];
 	iprGoals: ICommonLib[];
 	taskStatus: ICommonLib[];
+	specialty: ICommonLib[];
+	iprCompetency: ICommonLibWithSkillType[];
+	education: IEducation[];
 	isLoading: boolean;
 	error: string;
 };
@@ -21,6 +35,9 @@ let initialCommonLibState: TCommonLibState = {
 	iprStatus: [],
 	iprGoals: [],
 	taskStatus: [],
+	specialty: [],
+	iprCompetency: [],
+	education: [],
 	isLoading: false,
 	error: '',
 };
@@ -37,26 +54,43 @@ export const fetchCommonLibs = createAsyncThunk<TCommonLibState>(
 			const taskStatusResponse = await fetch(
 				`${BASE_URL}/api/v1/docs/task_status`
 			);
+			const specialtyResponse = await fetch(
+				`${BASE_URL}/api/v1/docs/specialty`
+			);
+			const iprCompetencyResponse = await fetch(
+				`${BASE_URL}/api/v1/docs/ipr_competency`
+			);
+			const educationResponse = await fetch(
+				`${BASE_URL}/api/v1/docs/education`
+			);
 
 			if (
 				!positionsResponse.ok ||
 				!iprStatusResponse.ok ||
 				!iprGoalsResponse.ok ||
-				!taskStatusResponse.ok
+				!taskStatusResponse.ok ||
+				!specialtyResponse.ok ||
+				!iprCompetencyResponse.ok ||
+				!educationResponse.ok
 			) {
 				throw new Error(`HTTP error!`);
 			}
-
 			const positions = await positionsResponse.json();
 			const iprStatus = await iprStatusResponse.json();
 			const iprGoals = await iprGoalsResponse.json();
 			const taskStatus = await taskStatusResponse.json();
+			const specialty = await specialtyResponse.json();
+			const iprCompetency = await iprCompetencyResponse.json();
+			const education = await educationResponse.json();
 
 			return {
 				positions,
 				iprStatus,
 				iprGoals,
 				taskStatus,
+				specialty,
+				iprCompetency,
+				education,
 				isLoading: false,
 				error: '',
 			};
@@ -82,6 +116,9 @@ const commonLibsSlice = createSlice({
 				state.iprStatus = action.payload.iprStatus;
 				state.iprGoals = action.payload.iprGoals;
 				state.taskStatus = action.payload.taskStatus;
+				state.specialty = action.payload.specialty;
+				state.iprCompetency = action.payload.iprCompetency;
+				state.education = action.payload.education;
 			})
 			.addCase(fetchCommonLibs.rejected, (state, action) => {
 				state.isLoading = false;
@@ -104,5 +141,13 @@ export const selectCommonLibsLoading = (state: RootState) =>
 	selectCommonLibs(state).isLoading;
 export const selectCommonLibsError = (state: RootState) =>
 	selectCommonLibs(state).error;
+export const selectCommonLibsSpecialty = (state: RootState) =>
+	selectCommonLibs(state).specialty;
+
+export const selectCommonLibsIPRCompetency = (state: RootState) =>
+	selectCommonLibs(state).iprCompetency;
+
+export const selectCommonLibsEducation = (state: RootState) =>
+	selectCommonLibs(state).education;
 
 export default commonLibsSlice.reducer;

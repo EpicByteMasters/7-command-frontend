@@ -31,6 +31,9 @@ import {
 	selectCommonLibsError,
 	selectCommonLibsIPRGoals,
 	selectCommonLibsTaskStatus,
+	selectCommonLibsSpecialty,
+	selectCommonLibsIPRCompetency,
+	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
 import { loadavg } from 'os';
 
@@ -42,6 +45,9 @@ function App() {
 	const error = useAppSelector(selectCommonLibsError);
 	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
 	const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
+	const specialty = useAppSelector(selectCommonLibsSpecialty);
+	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
+	const education = useAppSelector(selectCommonLibsEducation);
 
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
 	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
@@ -58,19 +64,34 @@ function App() {
 			!error &&
 			positions.length === 0 &&
 			iprStatus.length === 0 &&
-			iprGoals.length === 0 &&
-			taskStatus.length === 0
+			taskStatus.length === 0 &&
+			specialty.length === 0 &&
+			iprCompetency.length === 0 &&
+			education.length === 0
 		) {
 			// Загрузка справочников, если они еще не загружены
 			dispatch(fetchCommonLibs());
 		}
-	}, [dispatch, loading, error, positions, iprStatus, iprGoals, taskStatus]);
+	}, [
+		dispatch,
+		loading,
+		error,
+		positions,
+		iprStatus,
+		taskStatus,
+		specialty,
+		iprCompetency,
+		education,
+	]);
 
 	// Вывод в консоль данных библиотек
-	console.log('Positions:', positions);
-	console.log('IPR Status:', iprStatus);
-	console.log('IPR Goals:', iprGoals);
-	console.log('Task status:', taskStatus);
+	console.log('Библиотека Positions:', positions);
+	console.log('Библиотека IPR Status:', iprStatus);
+	console.log('Библиотека IPR Goals:', iprGoals);
+	console.log('Библиотека Task status:', taskStatus);
+	console.log('Библиотека specialty:', specialty);
+	console.log('Библиотека iprCompetency:', iprCompetency);
+	console.log('Библиотека Task education:', education);
 
 	return (
 		<div className={styles.container__main}>
