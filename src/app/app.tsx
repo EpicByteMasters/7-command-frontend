@@ -1,10 +1,5 @@
 import styles from './app.module.scss';
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import * as api from '../shared/utils/api';
-//import { setUser } from '../store/reducers/userSlice';
-import { logInUser } from '../store/reducers/userSlice';
 
 // components
 import { Login } from '../pages/login/login';
@@ -18,16 +13,15 @@ import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
+
 // data
-import users, { User } from '../shared/utils/users';
+import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { mentorData } from '../shared/utils/test-users';
 import { useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { Page404 } from '../pages/page404/page404';
-
-//import { password, username } from '../shared/utils/constants';
 
 function App() {
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
@@ -37,9 +31,7 @@ function App() {
 
 	const userData = useAppSelector((state) => state.user.user);
 	//console.log('userData в Апп: ', userData);
-	const isEmployee = userData.positionId === 'EMPLOYEE';
-	//console.log('isEmployee: ', isEmployee);
-	// const isExecutive = userData.positionId === 'MANAGER';
+	const isEmployee = userData.isSupervisor === true;
 
 	return (
 		<div className={styles.container__main}>
