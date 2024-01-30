@@ -1,10 +1,11 @@
-// Base colors
+// Базовые цвета
+
 $baseColorWhite: #fff;
 $baseColorBlack: #0e0e0e;
 $baseColorMetallic: #898889;
 $baseColorGrey: #70707a;
 
-// Status colors
+// Цвета статусов
 
 $statusCompletedTxt: #0a9336;
 $statusCompletedBg: #d1f1d7;
@@ -19,7 +20,7 @@ $statusDraftBg: #e3e7ff;
 $statusNotComplitedTxt: #ec2e13;
 $statusNotComplitedBg: #ffdfdf;
 
-// Button colors
+// Цвета кнопок и состояний
 
 $buttonPrimaryHover: #29292c;
 $buttonPrimaryPressed: #2f2f32;
@@ -28,7 +29,7 @@ $buttonSecondaryPressed: #d2d3d9;
 $buttonTertiaryPressed: #eeeef0;
 $buttonBgAttention: #ffdfdf;
 
-// Additional
+// Дополнительное
 $additionalBg: #f2f3f5;
 $additionalLockedTxt: #989aa3;
 $additionalProgressGreen: #08c44d;

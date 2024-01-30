@@ -344,55 +344,45 @@ export const mentor = [
 	{ key: 'Писарев Сергей Витальевич' },
 ];
 
-export const obj = [
+export const objCompetence = [
 	{
 		id: 'PRODUCT_ANALYTICS',
 		name: 'Знания продуктовой аналитики, продуктовых исследований, UI/UX',
 		skillType: 'HARD',
 	},
-
 	{ id: 'BACKLOG', name: 'Ведение бэклога', skillType: 'HARD' },
-
 	{ id: 'LAUNCH_FEATURES', name: 'Запуск новых фичей', skillType: 'HARD' },
-
 	{
 		id: 'ESTIMATING_INFLUENCE',
 		name: 'Оценивать влияние запуска фичи на ключевые метрики',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'DETERMINE_CLIENT_NEED',
 		name: 'Определять потребность клиентов',
 		skillType: 'SOFT',
 	},
-
 	{
 		id: 'SOLVING_PROBLEMS',
 		name: 'Искать решения проблем клиентов',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'MAKING_STRATEGY_GROW',
 		name: 'Составление стратегии развития',
 		skillType: 'HARD',
 	},
-
 	{ id: 'PRODUCT_MARKETING', name: 'Продуктовый маркетинг', skillType: 'HARD' },
-
 	{
 		id: 'MANAGING_PL',
 		name: 'Бюджетирование продукта, управление P&L',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'MARKET_ANALYSIS',
 		name: 'Анализ рынка и конкурентов',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'MANAGING_PROJECT_METHODOLOGIES',
 		name: 'Методологии управления проектами',
@@ -446,144 +436,103 @@ export const obj = [
 	{ id: 'LOGIC', name: 'Логика', skillType: 'SOFT' },
 
 	{ id: 'MODELING', name: 'Моделирование', skillType: 'HARD' },
-
 	{
 		id: 'ARCHITECTURE_IS',
 		name: 'Проектирование и архитектура ИС',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'IT_ARCHITECTURE',
 		name: 'ИТ архитектура предприятия',
 		skillType: 'HARD',
 	},
-
 	{ id: 'OPTIMIZATION_METHODS', name: 'Методы оптимизации', skillType: 'HARD' },
 
 	{ id: 'BI', name: 'BI', skillType: 'HARD' },
-
 	{
 		id: 'WORK_WITH_REQUIREMENTS',
 		name: 'Работа с требованиями',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'WORK_WITH_DOCUMENTS',
 		name: 'Работа с документами',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'NOTATIONS',
 		name: 'Нотации, методологии, инструменты',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'STANDARTS_AND_KNOWLEDGE',
 		name: 'Стандарты и своды знаний',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'TECHNIQUES', name: 'Техники', skillType: 'HARD' },
-
 	{
 		id: 'FACILITATION_OF_MEETINGS',
 		name: 'Фасилитация встреч',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'NEGOTIATIONS', name: 'Переговоры', skillType: 'SOFT' },
-
 	{ id: 'TESTING', name: 'Тестирование', skillType: 'HARD' },
-
 	{ id: 'MANAGING_RISKS', name: 'Управление рисками', skillType: 'HARD' },
-
 	{ id: 'SQL', name: 'SQL', skillType: 'HARD' },
-
 	{ id: 'UML', name: 'UML', skillType: 'HARD' },
-
 	{ id: 'BPMN', name: 'BPMN', skillType: 'HARD' },
-
 	{
 		id: 'REST_INTEGRATION_OUT',
 		name: 'Интеграция REST — сторонних сервисов',
 		skillType: 'HARD',
 	},
-
 	{
 		id: 'REST_INTEGRATION_SELF',
 		name: 'Интеграция REST — собственных сервисов',
 		skillType: 'HARD',
 	},
-
 	{ id: 'ABILITY_TO_LISTEN', name: 'Умение слушать', skillType: 'SOFT' },
-
 	{ id: 'GRADE', name: 'Оценка', skillType: 'SOFT' },
-
 	{ id: 'COMPOSITION', name: 'Композиция и сетки', skillType: 'HARD' },
-
 	{ id: 'TYPOGRAPHIC', name: 'Типографика', skillType: 'HARD' },
-
 	{ id: 'COLOR', name: 'Цвет', skillType: 'HARD' },
-
 	{ id: 'UI', name: 'UI', skillType: 'HARD' },
-
 	{ id: 'UI_ANALYTICS', name: 'UX и Аналитика', skillType: 'HARD' },
-
 	{ id: 'SYSTEMATIC_THINKING', name: 'Системное мышление', skillType: 'SOFT' },
-
 	{
 		id: 'COMMUNICATION_COLLOBARATION',
 		name: 'Коммуникация и коллаборация',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'TEAM_MANAGEMENT', name: 'Управление командой', skillType: 'HARD' },
-
 	{ id: 'PRODUCT_SKILLS', name: 'Продуктовые навыки', skillType: 'HARD' },
-
 	{ id: 'MOBILE_APPS', name: 'Мобильные приложения', skillType: 'HARD' },
-
 	{
 		id: 'ADAPTIVENESS',
 		name: 'Адаптивность и стрессоустойчивость',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'ENGLISH', name: 'Английский язык', skillType: 'HARD' },
-
 	{
 		id: 'ANALYTIC_THINKING',
 		name: 'Аналитическое мышление',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'DELEGATING', name: 'Делегирование', skillType: 'SOFT' },
-
 	{
 		id: 'CLIENT_ORIENTED',
 		name: 'Клиентоориентированность',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'CREATIVE_THINKING', name: 'Креативное мышление', skillType: 'SOFT' },
-
 	{ id: 'CRITICAL_THINKING', name: 'Критическое мышление', skillType: 'SOFT' },
-
 	{ id: 'LEADERSHIP', name: 'Лидерство', skillType: 'SOFT' },
-
 	{ id: 'PROJECT_MANAGING', name: 'Управление проектами', skillType: 'HARD' },
-
 	{ id: 'GOAL_DRIVENESS', name: 'Целеустремленность', skillType: 'SOFT' },
-
 	{
 		id: 'EMOTIONAL_INTELLEGENCE',
 		name: 'Эмоциональный интеллект',
 		skillType: 'SOFT',
 	},
-
 	{ id: 'EMPATHY', name: 'Эмпатия', skillType: 'SOFT' },
 ];
