@@ -13,7 +13,7 @@ import {
 	role,
 	competence,
 	mentor,
-	obj,
+	objCompetence,
 } from '../../shared/utils/constants';
 import { useAppSelector } from '../../shared/hooks/redux';
 import {
@@ -34,22 +34,24 @@ interface OptionShape {
 // 	id: string[];
 // 	name: string[];
 // }
+
 export const TasksOverview = ({
 	isExecutive,
 	iprStatus,
 	handleGoalValuesChange,
 }: ManagerIprDraftProps) => {
-	const newObj = obj.map((item) => ({ key: item.name }));
-
+	// Преобразование объекта с данными комптенций в массив с key:value
+	const newObj = objCompetence.map((item) => ({ key: item.name }));
+	// Подключение БД данных по знаячениям импутов
 	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
 	const specialty = useAppSelector(selectCommonLibsSpecialty);
 	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
-
+	// Константы из /utils/constants
 	const optionsRole: OptionShape[] = role;
 	const optionsGoal: OptionShape[] = goal;
 	const optionsMentor: OptionShape[] = mentor;
 	const optionsCompetence: OptionShape[] = newObj;
-
+	// Стейты
 	const [multiple, setMultiple] = useState(true);
 	const [shownChevron, setShownChevron] = useState(true);
 
@@ -80,24 +82,24 @@ export const TasksOverview = ({
 		'Список материалов к изучению:'
 	);
 
-	const [setList, setSavedList] = useState('Список материалов к изучению:');
-
+	// Ошибки
 	const [error1, setError1] = useState<string>('');
 	const [error2, setError2] = useState<string>('');
 	const [error3, setError3] = useState<string>('');
 	const [error4, setError4] = useState<string>('');
 	const [error5, setError5] = useState<string>('');
-
+	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
-
+	// Поиск id Цели
 	const goalId: string | undefined = iprGoals.find(
 		(o) => o.name === valueGoal
 	)?.id;
+	// Поиск id Роли
 	const roleId: string | undefined = specialty.find(
 		(o) => o.name === valueRole
 	)?.id;
 
-	// вывод id компетенций
+	// Поиск id Компетенций
 	const result = iprCompetency.filter((obj) =>
 		tagValues.map((item) => item.trim()).includes(obj.name)
 	);
@@ -120,7 +122,7 @@ export const TasksOverview = ({
 		handleGoalValuesChange(taskValues);
 	};
 
-	const [modalOpen, setModalOpen] = useState(false);
+	// const [modalOpen, setModalOpen] = useState(false);
 
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
@@ -244,6 +246,7 @@ export const TasksOverview = ({
 			: optionsMentor.filter((option) => matchOption(option, valueMentor));
 	};
 
+	// Все хендлеры для импута компетенции
 	const handleInputCompetence = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
@@ -499,7 +502,7 @@ export const TasksOverview = ({
 							labelView="inner"
 							size="m"
 							block={true}
-							minLength={1}
+							minLength={0}
 							maxLength={96}
 							showCounter={true}
 							autosize={true}
