@@ -1,7 +1,6 @@
 import styles from './tasks-overview.module.scss';
 import styles2 from './tasks-overview-form.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
-
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
@@ -9,23 +8,47 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
-import { goal, role, competence, mentor } from '../../shared/utils/constants';
+import {
+	goal,
+	role,
+	competence,
+	mentor,
+	obj,
+} from '../../shared/utils/constants';
+import { useAppSelector } from '../../shared/hooks/redux';
+import {
+	selectCommonLibsIPRGoals,
+	selectCommonLibsSpecialty,
+	selectCommonLibsIPRCompetency,
+} from '../../store/reducers/libSlice';
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
 	iprStatus: string;
+	handleGoalValuesChange?: any;
 }
 interface OptionShape {
 	key: string;
 }
 
+// interface OptionShape2 {
+// 	id: string[];
+// 	name: string[];
+// }
 export const TasksOverview = ({
 	isExecutive,
 	iprStatus,
+	handleGoalValuesChange,
 }: ManagerIprDraftProps) => {
+	const newObj = obj.map((item) => ({ key: item.name }));
+
+	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
+	const specialty = useAppSelector(selectCommonLibsSpecialty);
+	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
+
 	const optionsRole: OptionShape[] = role;
 	const optionsGoal: OptionShape[] = goal;
 	const optionsMentor: OptionShape[] = mentor;
-	const optionsCompetence: OptionShape[] = competence;
+	const optionsCompetence: OptionShape[] = newObj;
 
 	const [multiple, setMultiple] = useState(true);
 	const [shownChevron, setShownChevron] = useState(true);
@@ -56,25 +79,46 @@ export const TasksOverview = ({
 	const [valueComment, setValueComment] = useState<string>(
 		'Список материалов к изучению:'
 	);
+
+	const [setList, setSavedList] = useState('Список материалов к изучению:');
+
 	const [error1, setError1] = useState<string>('');
 	const [error2, setError2] = useState<string>('');
 	const [error3, setError3] = useState<string>('');
 	const [error4, setError4] = useState<string>('');
 	const [error5, setError5] = useState<string>('');
 
-	const allInputs = {
-		goal: valueGoal,
-		specialty: valueRole,
-		competence: valueCompetence,
+	const tagValues = valueCompetence.trim().split(',');
+
+	const goalId: string | undefined = iprGoals.find(
+		(o) => o.name === valueGoal
+	)?.id;
+	const roleId: string | undefined = specialty.find(
+		(o) => o.name === valueRole
+	)?.id;
+
+	// вывод id компетенций
+	const result = iprCompetency.filter((obj) =>
+		tagValues.map((item) => item.trim()).includes(obj.name)
+	);
+	const idArray = result.map((item) => item.id);
+
+	// console.log(idArray, 'results');
+
+	const taskValues = {
+		goal: goalId,
+		specialty: roleId,
+		competence: idArray,
 		// createDate: valueStartDate,
-		closeDate: valueEndDate,
+		// closeDate: valueEndDate,
 		mentorId: '', // из стора подтянуть mentorId
 		description: valueDescription,
 		comment: valueComment,
 		iprStatus: iprStatus,
 	};
-
-	console.log(allInputs);
+	const handleCallback = (): void => {
+		handleGoalValuesChange(taskValues);
+	};
 
 	const [modalOpen, setModalOpen] = useState(false);
 
@@ -87,6 +131,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueGoal(value);
+		handleCallback();
 	};
 
 	const handleInputRole = (
@@ -94,6 +139,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueRole(value);
+		handleCallback();
 	};
 
 	function handleInputDescription(
@@ -105,6 +151,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
+			handleCallback();
 			setError5('');
 		}
 		if (!target.value) {
@@ -120,6 +167,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);
+			handleCallback();
 			setError4('');
 		}
 		if (!target.value) {
@@ -132,6 +180,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueMentor(value);
+		handleCallback();
 	};
 	// Обработка изменения импутов
 
@@ -139,7 +188,7 @@ export const TasksOverview = ({
 		if (selected) {
 			setValueGoal(selected.key);
 			setError1('');
-			console.log(selected, selected.key);
+			handleCallback();
 		}
 		if (!selected) {
 			setError1('Обязательное поле');
@@ -150,6 +199,7 @@ export const TasksOverview = ({
 	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
 		if (selected) {
 			setValueRole(selected.key);
+			handleCallback();
 			setError2('');
 		}
 		if (!selected) {
@@ -163,6 +213,7 @@ export const TasksOverview = ({
 		selected: OptionShape | null;
 	}) => {
 		setValueMentor(selected ? selected.key : '');
+		handleCallback();
 	};
 
 	const handleChangeStartDate = (event: any, { value }: { value: string }) => {
@@ -198,8 +249,9 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
+		handleCallback();
 	};
-	const inputValues: string[] = valueCompetence.replace(/ /g, '').split(',');
+	const inputValues: string[] = valueCompetence.split(',');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
 	);
@@ -208,8 +260,8 @@ export const TasksOverview = ({
 		? selectedOptions.map((option) => option.key)
 		: optionsCompetence.find((o) => o.key === inputValues[0]) || [];
 
-	const tagValues = valueCompetence.trim().split(',');
-	console.log(inputValues);
+	// console.log(inputValues, 'input');
+	// console.log(tagValues, 'tag');
 
 	const handleChangeCompetence = ({
 		selected,
@@ -223,6 +275,7 @@ export const TasksOverview = ({
 				? selectedMultiple.map((option) => option.key).join(', ')
 				: '';
 			setValueCompetence(value);
+			handleCallback();
 			setError3('');
 			if (!value) {
 				setError3('Обязательное поле');
@@ -251,7 +304,9 @@ export const TasksOverview = ({
 
 	return (
 		<fieldset className={styles2.blockWrapper}>
-			<legend className={styles2.blockTitle}>Общее описание</legend>
+			<legend className={styles2.blockTitle} onClick={handleCallback}>
+				Общее описание
+			</legend>
 			<div className={styles2.formBlock}>
 				<div className={styles2.formRow}>
 					<div style={{ width: 496 }}>
@@ -444,6 +499,7 @@ export const TasksOverview = ({
 							labelView="inner"
 							size="m"
 							block={true}
+							minLength={1}
 							maxLength={96}
 							showCounter={true}
 							autosize={true}
@@ -466,6 +522,7 @@ export const TasksOverview = ({
 								labelView="inner"
 								size="m"
 								block={true}
+								minLength={0}
 								maxLength={96}
 								showCounter={true}
 								autosize={true}

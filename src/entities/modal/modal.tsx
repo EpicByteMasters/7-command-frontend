@@ -1,7 +1,7 @@
 import styles from './modal.module.scss';
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
 
@@ -21,43 +21,62 @@ export const Modal = ({
 	button2,
 }: HeaderProps) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const [open, setOpen] = useState(true);
-	const [logOut, setLogOut] = useState(false);
 
 	const handleOpen = () => setOpen(true);
 
 	const handleClose = () => setOpen(false);
 
-	const handleLogIn = () => {
+	const handleButton2 = () => {
 		setOpen(false);
-		setLogOut(false);
 	};
 
-	const handleLogOut = () => {
-		navigate('/', { replace: true });
+	const handleButton1 = () => {
+		if (location.pathname === '/service-iprs/ipr/1') {
+			navigate('/service-iprs/myteam');
+		}
+		if (location.pathname === '/service-iprs/ipr/2') {
+			navigate('/service-iprs/myteam');
+		}
+		if (location.pathname === '/service-iprs/myteam' && button1 === 'Создать') {
+			navigate('/service-iprs/ipr/2');
+		}
+
+		// navigate('/', { replace: true });
 		setOpen(false);
-		setLogOut(true);
 	};
 
 	return (
 		<>
 			<ModalDesktop open={open} onClose={handleClose} size={'s'}>
-				<ModalDesktop.Header hasCloser={true} sticky={true} title={title} />
-				<ModalDesktop.Content>
-					<p>{paragraph}</p>
+				<ModalDesktop.Header
+					align={'center'}
+					hasCloser={true}
+					sticky={true}
+					title={title}
+				/>
+				<ModalDesktop.Content className={styles.modalContent}>
+					{paragraph && <p>{paragraph}</p>}
 				</ModalDesktop.Content>
 				<ModalDesktop.Footer sticky={true}>
 					<ModalDesktop.Controls
+						layout={'center'}
+						gap={24}
 						primary={
-							<Button view="primary" size="s" onClick={handleLogOut}>
-								{button1}
-							</Button>
+							button1 && (
+								<Button view="primary" size="s" onClick={handleButton1}>
+									{button1}
+								</Button>
+							)
 						}
 						secondary={
-							<Button view="secondary" size="s" onClick={handleLogIn}>
-								{button2}
-							</Button>
+							button2 && (
+								<Button view="secondary" size="s" onClick={handleButton2}>
+									{button2}
+								</Button>
+							)
 						}
 					/>
 				</ModalDesktop.Footer>

@@ -11,7 +11,7 @@ import { Table } from '@alfalab/core-components/table';
 import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
-
+import { Modal } from '../modal/modal';
 export interface IEmployeesListProps {
 	data: EmployeeGoalPlan[];
 	ipr_id: number;
@@ -37,8 +37,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const [page, setPage] = useState<number>(0);
 	const navigate = useNavigate();
 	const location = useLocation();
-	// 	popover
 
+	// 	popover
+	const [modalDelete, setModalDelete] = useState(false);
+	const [modalCreate, setModalCreate] = useState(false);
 	const handleMoreIconClick = (employee: EmployeeGoalPlan) => {
 		setPopoverVisible(true);
 		setSelectedEmployee(employee);
@@ -158,10 +160,11 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	);
 
 	const onClickToIpr = () => {
-		navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+		navigate(`/service-iprs/ipr/3`, { replace: true });
 	};
 	const onClickToDraft = () => {
-		navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
+		setModalCreate(true);
+		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
 	// Фильтрация по цели/ по статусу
@@ -512,36 +515,58 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				</Table.TBody>
 			</Table>
 
-			{selectedEmployee && (
-				<Popover
-					anchorElement={buttonRef.current}
-					open={popoverVisible}
-					position="bottom"
-					className={styles.container}
-				>
-					<div className={styles.btnWrapper}>
-						<Button
-							className={styles.btnText}
-							view="ghost"
-							size="s"
-							onClick={handleDeleteClick}
-						>
-							Удалить
-						</Button>
+			<Popover
+				anchorElement={buttonRef.current}
+				open={popoverVisible}
+				position="bottom"
+				className={styles.container}
+			>
+				<div className={styles.btnWrapper}>
+					<Button
+						className={styles.btnText}
+						view="ghost"
+						size="s"
+						onClick={() => {
+							handleDeleteClick();
+							setModalDelete(!modalDelete);
+						}}
+					>
+						Удалить
+					</Button>
 
-						<Button
-							className={styles.btnText}
-							view="ghost"
-							size="s"
-							onClick={() => {
-								closePopover();
-								console.log('History clicked');
-							}}
-						>
-							История
-						</Button>
-					</div>
-				</Popover>
+					<Button
+						className={styles.btnText}
+						view="ghost"
+						size="s"
+						onClick={() => {
+							navigate('/service-iprs/myteam/history', { replace: true });
+							closePopover();
+							console.log('History clicked');
+						}}
+					>
+						История
+					</Button>
+				</div>
+			</Popover>
+			{modalDelete ? (
+				<Modal
+					title="Удаление плана развития"
+					paragraph={'Вы действительно хотите удалить план развития?'}
+					button1={'Удалить'}
+					button2={'Отмена'}
+				></Modal>
+			) : (
+				''
+			)}
+			{modalCreate ? (
+				<Modal
+					title="Создать новый план развития"
+					paragraph={'Вы можете создать черновик и вернуться к нему позже'}
+					button1={'Создать'}
+					button2={'Отмена'}
+				></Modal>
+			) : (
+				''
 			)}
 		</>
 	);
