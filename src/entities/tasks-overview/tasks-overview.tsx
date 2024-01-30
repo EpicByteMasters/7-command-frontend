@@ -8,37 +8,39 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
-import { goal, role, competence, mentor } from '../../shared/utils/constants';
+import {
+	goal,
+	role,
+	competence,
+	mentor,
+	obj,
+} from '../../shared/utils/constants';
 import { useAppSelector } from '../../shared/hooks/redux';
 import {
-	fetchCommonLibs,
-	selectCommonLibsPositions,
-	selectCommonLibsIPRStatus,
-	selectCommonLibsLoading,
-	selectCommonLibsError,
 	selectCommonLibsIPRGoals,
-	selectCommonLibsTaskStatus,
 	selectCommonLibsSpecialty,
 	selectCommonLibsIPRCompetency,
-	selectCommonLibsEducation,
 } from '../../store/reducers/libSlice';
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
 	iprStatus: string;
-	// handleGoalValuesChange: void;
+	handleGoalValuesChange?: any;
 }
 interface OptionShape {
 	key: string;
 }
 
-interface OptionShape2 {
-	id: string[];
-	name: string[];
-}
+// interface OptionShape2 {
+// 	id: string[];
+// 	name: string[];
+// }
 export const TasksOverview = ({
 	isExecutive,
 	iprStatus,
+	handleGoalValuesChange,
 }: ManagerIprDraftProps) => {
+	const newObj = obj.map((item) => ({ key: item.name }));
+
 	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
 	const specialty = useAppSelector(selectCommonLibsSpecialty);
 	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
@@ -46,7 +48,7 @@ export const TasksOverview = ({
 	const optionsRole: OptionShape[] = role;
 	const optionsGoal: OptionShape[] = goal;
 	const optionsMentor: OptionShape[] = mentor;
-	const optionsCompetence: OptionShape[] = competence;
+	const optionsCompetence: OptionShape[] = newObj;
 
 	const [multiple, setMultiple] = useState(true);
 	const [shownChevron, setShownChevron] = useState(true);
@@ -114,10 +116,9 @@ export const TasksOverview = ({
 		comment: valueComment,
 		iprStatus: iprStatus,
 	};
-
-	// const handleGoalValuesChange = () => {
-	// 	onGoaValuelChange(taskValues);
-	// };
+	const handleCallback = (): void => {
+		handleGoalValuesChange(taskValues);
+	};
 
 	const [modalOpen, setModalOpen] = useState(false);
 
@@ -130,6 +131,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueGoal(value);
+		handleCallback();
 	};
 
 	const handleInputRole = (
@@ -137,6 +139,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueRole(value);
+		handleCallback();
 	};
 
 	function handleInputDescription(
@@ -148,6 +151,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
+			handleCallback();
 			setError5('');
 		}
 		if (!target.value) {
@@ -163,6 +167,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);
+			handleCallback();
 			setError4('');
 		}
 		if (!target.value) {
@@ -175,6 +180,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueMentor(value);
+		handleCallback();
 	};
 	// Обработка изменения импутов
 
@@ -182,7 +188,7 @@ export const TasksOverview = ({
 		if (selected) {
 			setValueGoal(selected.key);
 			setError1('');
-			console.log(selected, selected.key);
+			handleCallback();
 		}
 		if (!selected) {
 			setError1('Обязательное поле');
@@ -193,6 +199,7 @@ export const TasksOverview = ({
 	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
 		if (selected) {
 			setValueRole(selected.key);
+			handleCallback();
 			setError2('');
 		}
 		if (!selected) {
@@ -206,6 +213,7 @@ export const TasksOverview = ({
 		selected: OptionShape | null;
 	}) => {
 		setValueMentor(selected ? selected.key : '');
+		handleCallback();
 	};
 
 	const handleChangeStartDate = (event: any, { value }: { value: string }) => {
@@ -241,6 +249,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
+		handleCallback();
 	};
 	const inputValues: string[] = valueCompetence.split(',');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
@@ -266,6 +275,7 @@ export const TasksOverview = ({
 				? selectedMultiple.map((option) => option.key).join(', ')
 				: '';
 			setValueCompetence(value);
+			handleCallback();
 			setError3('');
 			if (!value) {
 				setError3('Обязательное поле');
@@ -294,7 +304,9 @@ export const TasksOverview = ({
 
 	return (
 		<fieldset className={styles2.blockWrapper}>
-			<legend className={styles2.blockTitle}>Общее описание</legend>
+			<legend className={styles2.blockTitle} onClick={handleCallback}>
+				Общее описание
+			</legend>
 			<div className={styles2.formBlock}>
 				<div className={styles2.formRow}>
 					<div style={{ width: 496 }}>

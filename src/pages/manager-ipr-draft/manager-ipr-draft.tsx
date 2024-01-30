@@ -48,6 +48,7 @@ export const ManagerIprDraft = ({
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalDisacrd, setDiscardOpen] = useState(false);
 	const [modalSave, setSaveOpen] = useState(false);
+	const [taskValues, setTaskValues] = useState('');
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
@@ -64,9 +65,10 @@ export const ManagerIprDraft = ({
 		setSaveOpen(!modalSave);
 	};
 
-	// const handleGoalValueChange = (e: Event) => {
-	// 	e.preventDefault();
-	// };
+	const handleGoalValuesChange = (data: any) => {
+		setTaskValues(data);
+	};
+	console.log(taskValues, 'task-task-task');
 
 	return (
 		<>
@@ -149,7 +151,7 @@ export const ManagerIprDraft = ({
 
 					<form className={styles2.form}>
 						<TasksOverview
-							// handleGoalValuesChange={handleGoalValuesChange}
+							handleGoalValuesChange={handleGoalValuesChange}
 							isExecutive={isExecutive}
 							iprStatus="черновик"
 						></TasksOverview>
