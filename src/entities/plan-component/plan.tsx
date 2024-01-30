@@ -8,14 +8,33 @@ import { CircularProgressBar } from '@alfalab/core-components/circular-progress-
 import { Link } from 'react-router-dom';
 import { goalsData } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
+import { useAppSelector } from '../../shared/hooks/redux';
 
 interface PlanProps {
 	isEmployee?: boolean;
 	ipr_id?: number;
 }
 
+interface iiIPRData {
+	id: number;
+	goal: {
+		id: string;
+		name: string;
+	};
+	closeDate: string;
+	createDate: string;
+	status: {
+		id: string;
+		name: string;
+	};
+}
+
 export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
+
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
+	console.log('status: ', iprData);
 
 	const handleClick = (id: number) => {
 		setActiveGoalId(id);
@@ -50,67 +69,65 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{goalsData.map(
-						({ id, goal, dateStart, dateEnd, statusColor, statusText }) => {
-							let iprLink;
-							if (
-								statusText === 'выполнен' ||
-								statusText === 'не выполнен' ||
-								statusText === 'отменен'
-							) {
-								iprLink = `/service-iprs/my-ipr-rating/${id}`;
-							} else {
-								iprLink = isEmployee
-									? `/service-iprs/my-ipr/${id}`
-									: `/service-iprs/ipr/${id}`;
-							}
-							return (
-								<Table.TRow
-									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-									onClick={() => handleClick(id)}
-									key={id}
-								>
-									<Table.TCell>{goal}</Table.TCell>
-									<Table.TCell>{dateStart}</Table.TCell>
-									<Table.TCell>{dateEnd}</Table.TCell>
-									<Table.TCell>
-										<CircularProgressBar
-											value={progress}
-											title={progressPercentage}
-											size="s"
-											contentColor="primary"
-											className={styles.progressBar}
-										/>
-									</Table.TCell>
-									<Table.TCell>
-										<Status
-											view="soft"
-											color={
-												statusColor as
-													| 'green'
-													| 'orange'
-													| 'red'
-													| 'blue'
-													| 'grey'
-													| 'teal'
-													| 'purple'
-													| undefined
-											}
-										>
-											{statusText}
-										</Status>
-									</Table.TCell>
-									<Table.TCell>
-										<Link to={iprLink}>
-											<Button view="tertiary" size="s">
-												Открыть
-											</Button>
-										</Link>
-									</Table.TCell>
-								</Table.TRow>
-							);
+					{iprData.map(({ id, goal, closeDate, createDate, status }) => {
+						let iprLink;
+						if (
+							status.name === 'Выполнен' ||
+							status.name === 'Не выполнен' ||
+							status.name === 'Отменен'
+						) {
+							iprLink = `/service-iprs/my-ipr-rating/${id}`;
+						} else {
+							iprLink = isEmployee
+								? `/service-iprs/my-ipr/${id}`
+								: `/service-iprs/ipr/${id}`;
 						}
-					)}
+						return (
+							<Table.TRow
+								className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
+								onClick={() => handleClick(id)}
+								key={id}
+							>
+								<Table.TCell>{goal.name}</Table.TCell>
+								<Table.TCell>{createDate}</Table.TCell>
+								<Table.TCell>{closeDate}</Table.TCell>
+								<Table.TCell>
+									<CircularProgressBar
+										value={progress}
+										title={progressPercentage}
+										size="s"
+										contentColor="primary"
+										className={styles.progressBar}
+									/>
+								</Table.TCell>
+								<Table.TCell>
+									<Status
+										view="soft"
+										color={
+											status.name as
+												| 'green'
+												| 'orange'
+												| 'red'
+												| 'blue'
+												| 'grey'
+												| 'teal'
+												| 'purple'
+												| undefined
+										}
+									>
+										{status.name}
+									</Status>
+								</Table.TCell>
+								<Table.TCell>
+									<Link to={iprLink}>
+										<Button view="tertiary" size="s">
+											Открыть
+										</Button>
+									</Link>
+								</Table.TCell>
+							</Table.TRow>
+						);
+					})}
 				</Table.TBody>
 			</Table>
 		</>
