@@ -15,32 +15,45 @@ interface PlanProps {
 	ipr_id?: number;
 }
 
-interface iiIPRData {
-	id: number;
-	goal: {
-		id: string;
-		name: string;
-	};
-	closeDate: string;
-	createDate: string;
-	status: {
-		id: string;
-		name: string;
-	};
-}
-
 export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
-	console.log('status: ', iprData);
 
 	const handleClick = (id: number) => {
 		setActiveGoalId(id);
 	};
 
-	//кружочки прогресса
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'черновик':
+				return 'purple';
+			case 'отменен':
+				return 'orange';
+			case 'в работе':
+				return 'blue';
+			case 'не выполнен':
+				return 'red';
+			case 'выполнен':
+				return 'green';
+			case 'отсутствует':
+				return 'grey';
+			default:
+				return 'blue';
+		}
+	};
+
+	//   // Color map based on status name
+	//   const statusColorMap: Record<iiIPRData['status']['name'], 'purple' | 'green' | 'orange' | 'red' | 'blue' | 'grey' | 'teal' | undefined> = {
+	//     'Черновик': 'purple',
+	//     'В работе': 'green',
+	//     'Выполнен': 'orange',
+	//     'Не выполнен': 'orange',
+	//     'Отменен': 'red',
+	//   };
+
+	// кружочки прогресса
 	const numberOfTasks = tasksData.length;
 	const finishedTasks = tasksData.filter(
 		(task) => task.statusText.toLowerCase() === 'выполнен'
@@ -70,6 +83,11 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 				</Table.THead>
 				<Table.TBody>
 					{iprData.map(({ id, goal, closeDate, createDate, status }) => {
+						console.log('status: ', status);
+						console.log('goal: ', goal);
+
+						console.log('iprData после мап: ', iprData);
+
 						let iprLink;
 						if (
 							status.name === 'Выполнен' ||
@@ -88,7 +106,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 								onClick={() => handleClick(id)}
 								key={id}
 							>
-								<Table.TCell>{goal.name}</Table.TCell>
+								<Table.TCell>{goal?.name}</Table.TCell>
 								<Table.TCell>{createDate}</Table.TCell>
 								<Table.TCell>{closeDate}</Table.TCell>
 								<Table.TCell>
@@ -103,17 +121,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 								<Table.TCell>
 									<Status
 										view="soft"
-										color={
-											status.name as
-												| 'green'
-												| 'orange'
-												| 'red'
-												| 'blue'
-												| 'grey'
-												| 'teal'
-												| 'purple'
-												| undefined
-										}
+										color={getStatusColor(status.name.toLowerCase())}
 									>
 										{status.name}
 									</Status>

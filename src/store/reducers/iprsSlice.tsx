@@ -3,7 +3,7 @@ import { BASE_URL } from '../../shared/utils/constants';
 
 interface IPRSData {
 	id: number;
-	goal: {
+	goal?: {
 		id: string;
 		name: string;
 	};
@@ -11,7 +11,7 @@ interface IPRSData {
 	createDate: string;
 	status: {
 		id: string;
-		name: string;
+		name: 'Черновик' | 'В работе' | 'Выполнен' | 'Не выполнен' | 'Отменен';
 	};
 }
 
