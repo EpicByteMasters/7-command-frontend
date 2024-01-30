@@ -13,6 +13,8 @@ import { Tasks } from '../../entities/tasks/tasks';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
+import { useAppSelector } from '../../shared/hooks/redux';
+
 interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
@@ -32,23 +34,16 @@ export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
 	isExecutive,
-	ipr_id,
 }: ManagerIprDraftProps) => {
 	const navigate = useNavigate();
-	const location = useLocation();
-
-	const user = [
-		{
-			name: 'Сошнева Инна Павловна',
-			position: 'Менеджер направления',
-			avatar: avatar,
-		},
-	];
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalDisacrd, setDiscardOpen] = useState(false);
 	const [modalSave, setSaveOpen] = useState(false);
 	const [taskValues, setTaskValues] = useState('');
+
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
