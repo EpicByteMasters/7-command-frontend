@@ -16,7 +16,7 @@ import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-
+import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 interface TasksProps {
 	isEmployee: boolean;
 }
@@ -302,7 +302,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																			className={styles.formTag}
 																			onClick={onDeleteTag}
 																		>
-																			<CrossCircleMIcon />
+																			<div className={styles.formCircle}>
+																				<CrossCircleMIcon />
+																			</div>
 																			{value}
 																		</div>
 																	</div>
@@ -383,7 +385,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														/>
 														<Button
 															view="primary"
-															size="m"
+															size="s"
 															className={styles.button}
 														>
 															Отправить на проверку

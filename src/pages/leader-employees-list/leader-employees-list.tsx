@@ -102,17 +102,13 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 							block={true}
 						/>
 					</div>
-					{/* <div className={styles.filterTagsWrapper}>
-						<FilterTag view="filled">{contentLabel1}</FilterTag>
-						<FilterTag view="filled">{contentLabel2}</FilterTag>
-					</div> */}
 
 					<div className={styles.filterTagsWrapper}>
-						<div className={styles.dropdown}>
+						<div className={styles.dropdown1}>
 							<button
 								onClick={onClick}
 								name="btnGoal"
-								className={styles.dropbtn}
+								className={styles.dropbtn1}
 							>
 								Цель
 								<div>
@@ -124,7 +120,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 								</div>
 							</button>
 							{chevron ? (
-								<div className={styles.dropdownContent}>
+								<div className={styles.dropdownContent1}>
 									{chevron &&
 										OPTIONS_GOAL.map((goal, key) => {
 											return (
@@ -145,11 +141,11 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 							)}
 						</div>
 
-						<div className={styles.dropdown}>
+						<div className={styles.dropdown2}>
 							<button
 								name="btnStatus"
 								onClick={onClick2}
-								className={styles.dropbtn}
+								className={styles.dropbtn2}
 							>
 								Статус
 								<div>
@@ -161,7 +157,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 								</div>
 							</button>
 							{chevron2 ? (
-								<div className={styles.dropdownContent}>
+								<div className={styles.dropdownContent2}>
 									{chevron2 &&
 										OPTIONS_STATUS.map((status, key) => {
 											return (
