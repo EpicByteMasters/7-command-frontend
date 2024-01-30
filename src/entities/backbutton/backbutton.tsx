@@ -19,36 +19,23 @@ export const BackButton: React.FC<ButtonProps> = ({
 	const [modal, setModal] = useState(false);
 
 	const goBack = () => {
-		// navigate(-1);
-		if (location.pathname === '/service-iprs/myteam') {
-			navigate('/main', { replace: true });
-		}
-		if (location.pathname === '/service-iprs/my') {
-			navigate('/main', { replace: true });
-		}
-		if (location.pathname === '/service-iprs/mentor') {
-			navigate('/main', { replace: true });
-		}
+		// if (location.pathname === '/service-iprs/myteam') {
+		// 	navigate('/main', { replace: true });
+		// }
+		// if (location.pathname === '/service-iprs/my') {
+		// 	navigate('/main', { replace: true });
+		// }
+		// if (
+		// 	(location.pathname === '/service-iprs/mentor' && isMentor) ||
+		// 	isExecutive
+		// ) {
+		// 	navigate('/main', { replace: true });
+		// }
+		navigate(-1);
+	};
 
-		if (location.pathname === '/service-iprs/ipr/1') {
-			setModal(!modal);
-		}
-
-		if (location.pathname === '/service-iprs/my-ipr/1') {
-			navigate('/service-iprs/my', { replace: true });
-		}
-		if (location.pathname === '/iprs/rating') {
-			navigate('/service-iprs/ipr/1', { replace: true });
-		}
-		if (location.pathname === '/service-iprs/myteam/history') {
-			navigate('/service-iprs/myteam', { replace: true });
-		}
-		if (
-			location.pathname === '/service-iprs/my-ipr-rating/4' ||
-			'/service-iprs/my-ipr-rating/5'
-		) {
-			navigate('/service-iprs/my', { replace: true });
-		}
+	const goBack2 = () => {
+		setModal(!modal);
 	};
 	return (
 		<>
@@ -56,13 +43,23 @@ export const BackButton: React.FC<ButtonProps> = ({
 				<nav className={styles.navtab}>
 					<div className={styles.list}>
 						<li className={styles.item}>
-							<button className={styles.link} onClick={goBack}>
-								<ArrowLeftMediumMIcon
-									className={styles.iconBack}
-									fill="currentColor"
-								></ArrowLeftMediumMIcon>
-								<span>Назад</span>
-							</button>
+							{location.pathname === '/service-iprs/ipr/2' ? (
+								<button className={styles.link} onClick={goBack2}>
+									<ArrowLeftMediumMIcon
+										className={styles.iconBack}
+										fill="currentColor"
+									></ArrowLeftMediumMIcon>
+									<span>Назад</span>
+								</button>
+							) : (
+								<button className={styles.link} onClick={goBack}>
+									<ArrowLeftMediumMIcon
+										className={styles.iconBack}
+										fill="currentColor"
+									></ArrowLeftMediumMIcon>
+									<span>Назад</span>
+								</button>
+							)}
 						</li>
 					</div>
 				</nav>

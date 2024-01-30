@@ -64,6 +64,10 @@ export const ManagerIprDraft = ({
 		setSaveOpen(!modalSave);
 	};
 
+	// const handleGoalValueChange = (e: Event) => {
+	// 	e.preventDefault();
+	// };
+
 	return (
 		<>
 			<Header />
@@ -145,6 +149,7 @@ export const ManagerIprDraft = ({
 
 					<form className={styles2.form}>
 						<TasksOverview
+							// handleGoalValuesChange={handleGoalValuesChange}
 							isExecutive={isExecutive}
 							iprStatus="черновик"
 						></TasksOverview>

@@ -160,7 +160,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	);
 
 	const onClickToIpr = () => {
-		navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+		navigate(`/service-iprs/ipr/3`, { replace: true });
 	};
 	const onClickToDraft = () => {
 		setModalCreate(true);
@@ -515,7 +515,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				</Table.TBody>
 			</Table>
 
-			{/* {selectedEmployee && ( */}
 			<Popover
 				anchorElement={buttonRef.current}
 				open={popoverVisible}
@@ -549,7 +548,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 					</Button>
 				</div>
 			</Popover>
-			{/* )} */}
 			{modalDelete ? (
 				<Modal
 					title="Удаление плана развития"

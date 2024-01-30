@@ -18,12 +18,37 @@ import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
 import { mentorData } from '../shared/utils/test-users';
-import { useAppSelector } from '../shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { Page404 } from '../pages/page404/page404';
+import { useEffect } from 'react';
+import {
+	fetchCommonLibs,
+	selectCommonLibsPositions,
+	selectCommonLibsIPRStatus,
+	selectCommonLibsLoading,
+	selectCommonLibsError,
+	selectCommonLibsIPRGoals,
+	selectCommonLibsTaskStatus,
+	selectCommonLibsSpecialty,
+	selectCommonLibsIPRCompetency,
+	selectCommonLibsEducation,
+} from '../store/reducers/libSlice';
+import { loadavg } from 'os';
 
 function App() {
+	const dispatch = useAppDispatch();
+	const positions = useAppSelector(selectCommonLibsPositions);
+	const iprStatus = useAppSelector(selectCommonLibsIPRStatus);
+	const loading = useAppSelector(selectCommonLibsLoading);
+	const error = useAppSelector(selectCommonLibsError);
+	const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
+	const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
+	const specialty = useAppSelector(selectCommonLibsSpecialty);
+	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
+	const education = useAppSelector(selectCommonLibsEducation);
+
 	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
 	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
@@ -32,6 +57,41 @@ function App() {
 	const userData = useAppSelector((state) => state.user.user);
 	//console.log('userData в Апп: ', userData);
 	const isEmployee = userData.isSupervisor === true;
+
+	useEffect(() => {
+		if (
+			!loading &&
+			!error &&
+			positions.length === 0 &&
+			iprStatus.length === 0 &&
+			taskStatus.length === 0 &&
+			specialty.length === 0 &&
+			iprCompetency.length === 0 &&
+			education.length === 0
+		) {
+			// Загрузка справочников, если они еще не загружены
+			dispatch(fetchCommonLibs());
+		}
+	}, [
+		dispatch,
+		loading,
+		error,
+		positions,
+		iprStatus,
+		taskStatus,
+		specialty,
+		iprCompetency,
+		education,
+	]);
+
+	// Вывод в консоль данных библиотек
+	console.log('Библиотека Positions:', positions);
+	console.log('Библиотека IPR Status:', iprStatus);
+	console.log('Библиотека IPR Goals:', iprGoals);
+	console.log('Библиотека Task status:', taskStatus);
+	console.log('Библиотека specialty:', specialty);
+	console.log('Библиотека iprCompetency:', iprCompetency);
+	console.log('Библиотека Task education:', education);
 
 	return (
 		<div className={styles.container__main}>
@@ -90,7 +150,7 @@ function App() {
 						/>
 					}
 				/>
-				{/* Сценарий 2 Создать черновик */}
+				{/* Сценарий 2 Создать черновик - заполненная форма*/}
 				<Route
 					path="/service-iprs/ipr/2"
 					element={
@@ -102,6 +162,7 @@ function App() {
 						/>
 					}
 				/>
+
 				{/* Сценарий 3 - Сотрудник - ИПР в работе */}
 
 				<Route
@@ -157,10 +218,10 @@ function App() {
 
 				{/* Футер - старые роуты */}
 
-				<Route
+				{/* <Route
 					path={roleUrl[1].url}
 					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
-				/>
+				/> */}
 
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />

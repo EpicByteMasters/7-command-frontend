@@ -51,12 +51,19 @@ export const Modal = ({
 	return (
 		<>
 			<ModalDesktop open={open} onClose={handleClose} size={'s'}>
-				<ModalDesktop.Header hasCloser={true} sticky={true} title={title} />
-				<ModalDesktop.Content>
+				<ModalDesktop.Header
+					align={'center'}
+					hasCloser={true}
+					sticky={true}
+					title={title}
+				/>
+				<ModalDesktop.Content className={styles.modalContent}>
 					{paragraph && <p>{paragraph}</p>}
 				</ModalDesktop.Content>
 				<ModalDesktop.Footer sticky={true}>
 					<ModalDesktop.Controls
+						layout={'center'}
+						gap={24}
 						primary={
 							button1 && (
 								<Button view="primary" size="s" onClick={handleButton1}>

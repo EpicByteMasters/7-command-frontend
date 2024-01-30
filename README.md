@@ -48,6 +48,8 @@
 - Иконки и компоненты - [Core-components](https://core-ds.github.io/core-components/master/?path=/docs/guidelines-accessibility-forms--docs)
 
 - Шрифт Google Fonts - [Inter](https://fonts.google.com/specimen/Inter)
+- Шрифт Styrene woff2 - [Styrene](https://alfabank.servicecdn.ru/media/fonts/styrene-ui/styrene-ui_regular.woff2)
+- Шрифт Styrene woff - [Styrene](https://alfabank.servicecdn.ru/media/fonts/styrene-ui/styrene-ui_regular.woff)
 
 # Установка
 
