@@ -39,8 +39,7 @@
 }
 .blockTitle {
 	@include mixins.title_h2;
-	margin: 0;
-	padding: 48px 0 28px 0;
+	margin: 0 0 28px 0;
 }
 .formBlock {
 	// @include mixins.form;

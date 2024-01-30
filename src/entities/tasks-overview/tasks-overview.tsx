@@ -456,7 +456,7 @@ export const TasksOverview = ({
 								e.stopPropagation();
 								setStartDate('');
 							}}
-							disabled={isExecutive ? false : true}
+							disabled={true}
 						/>
 					</div>
 					<div style={{ width: 236 }}>
@@ -479,7 +479,7 @@ export const TasksOverview = ({
 								e.stopPropagation();
 								setEndDate('');
 							}}
-							disabled={isExecutive ? true : false}
+							disabled={true}
 						/>
 					</div>
 					<div

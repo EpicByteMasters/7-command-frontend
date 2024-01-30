@@ -8,6 +8,7 @@ import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
 import { getIPRSData } from '../../store/reducers/iprsSlice';
 import { Page404 } from '../page404/page404';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface LoginProps {
 	users: User[];
@@ -108,6 +109,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					</div>
 				</div>
 			</main>
+			<FooterMain></FooterMain>
 		</>
 	);
 };

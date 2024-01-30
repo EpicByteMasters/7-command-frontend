@@ -112,7 +112,7 @@ export const ManagerIprDraft = ({
 						<Button
 							onClick={onModalSaveOpen}
 							view="secondary"
-							size="m"
+							size="s"
 							className={styles.buttonSave}
 						>
 							Сохранить
@@ -121,7 +121,7 @@ export const ManagerIprDraft = ({
 							<Button
 								onClick={onClick}
 								view="primary"
-								size="m"
+								size="s"
 								className={styles.buttonSend}
 							>
 								Подвести итоги
@@ -140,7 +140,7 @@ export const ManagerIprDraft = ({
 								<Button
 									onClick={onModalDiscardOpen}
 									view="tertiary"
-									size="m"
+									size="s"
 									className={styles.buttonDiscard}
 								>
 									Отменить
