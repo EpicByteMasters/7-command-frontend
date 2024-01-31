@@ -133,7 +133,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
-export const getIpr = createAsyncThunk<IprData, number>(
+export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
 	'iprs/getIpr',
 	async (id) => {
 		try {
@@ -143,12 +143,15 @@ export const getIpr = createAsyncThunk<IprData, number>(
 				throw new Error('Token is missing in localStorage');
 			}
 
-			const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/employee/${id}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 
 			if (response.status === 200) {
 				return response.json();
@@ -249,7 +252,7 @@ export const iprsSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 		});
-		builder.addCase(getIpr.fulfilled, (state, action) => {
+		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id

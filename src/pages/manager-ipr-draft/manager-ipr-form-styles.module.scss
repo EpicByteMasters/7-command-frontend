@@ -2,6 +2,8 @@
 @import './../../styles/variables.scss';
 
 .container {
+	margin: 0;
+	padding: 0 0 50px 0;
 	display: flex;
 	gap: 24px;
 }
@@ -26,6 +28,8 @@
 .form {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
+	clear: both;
 	.blockWrapper:last-of-type {
 		margin-bottom: 28px;
 	}
@@ -67,4 +71,22 @@
 
 .textClass {
 	height: 91px;
+}
+
+.containerNote {
+	margin: 0;
+	padding: 0 40px 0 0;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	padding: 16px;
+	align-items: center;
+	gap: 16px;
+}
+
+.title {
+	color: white;
+}
+
+.paragraph {
 }

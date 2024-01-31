@@ -58,7 +58,8 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini isExecutive={false} />
+				<NavBarMini />
+				{/* <NavBarMini isExecutive={false} /> */}
 				<div className={styles.wrapper}>
 					<PageTitle title="Мой план развития" />
 					<h3 className={styles.subtitle}>Оценка от руководителя</h3>
