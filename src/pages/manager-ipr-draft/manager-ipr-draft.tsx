@@ -13,6 +13,7 @@ import { Tasks } from '../../entities/tasks/tasks';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
+import { useAppSelector } from '../../shared/hooks/redux';
 import { NewTask } from '../../entities/new-task/new-task';
 
 interface ManagerIprDraftProps {
@@ -26,7 +27,6 @@ export const ManagerIprDraft = ({
 	statusText,
 	statusColor,
 	isExecutive,
-	ipr_id,
 }: ManagerIprDraftProps) => {
 	const navigate = useNavigate();
 
@@ -35,6 +35,9 @@ export const ManagerIprDraft = ({
 	const [modalSave, setSaveOpen] = useState(false);
 	const [taskValues, setTaskValues] = useState('');
 	const [newTaskOpen, setNewTaskOpen] = useState(false);
+
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
@@ -51,8 +54,10 @@ export const ManagerIprDraft = ({
 		setSaveOpen(!modalSave);
 	};
 
-	const handleGoalValuesChange = (data: any) => {
-		setTaskValues(data);
+	const handleDataSubmit = (goalData: any, taskData: any) => {
+		// Здесь вы можете отправить оба набора данных на сервер
+		console.log('Отправка данных на сервер из Tasks:', taskData);
+		console.log('Отправка данных на сервер из TasksOverview:', goalData);
 	};
 	const [newTask, setNewTask] = useState<Task[]>([]);
 
@@ -153,7 +158,7 @@ export const ManagerIprDraft = ({
 
 					<form className={styles2.form}>
 						<TasksOverview
-							handleGoalValuesChange={handleGoalValuesChange}
+							handleGoalValuesChange={handleDataSubmit}
 							isExecutive={isExecutive}
 							iprStatus="черновик"
 						></TasksOverview>
