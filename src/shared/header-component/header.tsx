@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 function Header({ error }: HeaderProps) {
 	const userData = useAppSelector((state) => state.user.user);
-	//console.log('userData in header: ', userData);
+	console.log('userData in header: ', userData);
 
 	const [searchValue, setSearchValue] = useState<string>('');
 

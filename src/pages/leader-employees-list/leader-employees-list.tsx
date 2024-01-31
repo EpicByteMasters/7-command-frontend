@@ -1,18 +1,25 @@
 import styles from './leader-employees-list.module.scss';
-import { FC, useMemo, useState } from 'react';
+
+import { useEffect, useState } from 'react';
+
 import { Input } from '@alfalab/core-components/input';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
-import { FilterTag } from '@alfalab/core-components/filter-tag';
-import { Select } from '@alfalab/core-components/select';
+import { ChevronDownSIcon } from '@alfalab/icons-glyph/ChevronDownSIcon';
+import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
+import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
+
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import Header from '../../shared/header-component/header';
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeesList } from '../../entities/employees-list/employees-list';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
-import { ChevronDownSIcon } from '@alfalab/icons-glyph/ChevronDownSIcon';
-import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
-import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
+
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import {
+	getManagerIprsList,
+	selectManagerList,
+} from '../../store/reducers/managerIprSlice';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
@@ -45,6 +52,15 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 	ipr_id,
 	ipr_id2,
 }) => {
+	const dispatch = useAppDispatch();
+	const managerIprsList = useAppSelector(selectManagerList);
+
+	useEffect(() => {
+		dispatch(getManagerIprsList());
+	}, [dispatch]);
+
+	console.log('MANAGER_LIST_IPRS', managerIprsList);
+
 	const contentLabel1 = <span>Цель</span>;
 	const contentLabel2 = <span>Статус</span>;
 

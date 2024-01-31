@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
-
+import { useParams } from 'react-router-dom';
 import styles from './tasks.module.scss';
 
 import { Table } from '@alfalab/core-components/table';
@@ -18,7 +18,6 @@ import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
-
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
 
@@ -39,36 +38,51 @@ interface Education {
 interface FormData {
 	id: number;
 	name: string;
-	dateOfEnd: string;
+	closeDate: string;
 	description: string;
 	educations: Education[];
-	commentOfMentor: string;
+	supervisorComment: string;
 	commentOfEmployee: string;
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const [taskData, setTaskData] = React.useState<FormData>({
+	const [taskValues, setTaskValues] = React.useState<FormData>({
 		id: 0,
 		name: '',
-		dateOfEnd: '',
+		closeDate: '',
 		description: '',
 		educations: [],
-		commentOfMentor: '',
+		supervisorComment: '',
 		commentOfEmployee: '',
 	});
-  
+
 	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
+	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
+		{}
+	);
+	const [valueEndDate, setEndDate] = useState<string>('');
 
-	console.log('formData из задачах: ', taskData);
+	console.log('taskValues из задач: ', taskValues);
+
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
+	const { id } = useParams<{ id: string }>();
+	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	console.log('currentIpr: ', currentIpr);
+	if (!currentIpr) {
+		return <div>Ошибка не нашел Id</div>;
+	}
+
+	const tasksArrayForRender = currentIpr.task;
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	): void => {
 		const { name, value } = event.target;
-		setTaskData((prevData) => ({ ...prevData, [name]: value }));
+		setTaskValues((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const optionsCourses: OptionShape[] = courses;
@@ -101,7 +115,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			}));
 		}
 
-		setTaskData((prevData) => ({
+		setTaskValues((prevData) => ({
 			...prevData,
 			educations: selectedEducations,
 		}));
@@ -154,14 +168,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			: optionsCourses.filter((option) => matchOption(option, valueCourse));
 	};
 
-	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
-		{}
-	);
-	const [valueEndDate, setEndDate] = useState<string>('');
-
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
-		setTaskData((prevData) => ({ ...prevData, endDate: value }));
+		setTaskValues((prevData) => ({ ...prevData, endDate: value }));
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -195,26 +204,43 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 		setValueCourse(updatedTagValues.join(', '));
 	};
-
-	const getTaskData = (): FormData => {
-		return taskData;
+	const { status } = currentIpr;
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'черновик':
+				return 'purple';
+			case 'отменен':
+				return 'orange';
+			case 'в работе':
+				return 'blue';
+			case 'не выполнен':
+				return 'red';
+			case 'выполнен':
+				return 'green';
+			case 'отсутствует':
+				return 'grey';
+			default:
+				return 'blue';
+		}
 	};
+
+	console.log('tasksArrayForRender: ', tasksArrayForRender);
 
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
-				{tasksData.map(
-					({ id, title, deadline, statusColor, statusText, closeButton }) => (
+				{tasksArrayForRender.map(
+					({ id, name, closeDate, description, status, supervisorComment }) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
-									{closeButton && <CrossCircleMIcon color="#70707A" />}
-									{title}
+									<CrossCircleMIcon color="#70707A" />
+									{name}
 								</Table.TCell>
-								<Table.TCell>{deadline}</Table.TCell>
+								<Table.TCell>{closeDate}</Table.TCell>
 								<Table.TCell>
-									<Status view="soft" color={statusColor}>
-										{statusText}
+									<Status view="soft" color={getStatusColor(status)}>
+										{status}
 									</Status>
 								</Table.TCell>
 								<Table.TCell>
@@ -231,6 +257,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														fieldClassName={styles.goalName}
 														maxHeight={56}
 														label="Название*"
+														value={name}
 														name="name"
 														onChange={handleInputChange}
 														labelView="inner"
@@ -244,7 +271,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														view="date"
 														label="Дата завершения"
 														size="m"
-														value={valueEndDate}
+														value={closeDate}
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
@@ -263,7 +290,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxHeight={91}
 													label="Описание"
 													name="description"
-													value={taskData.description}
+													value={description}
 													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
@@ -322,6 +349,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														maxHeight={91}
 														label="Комментарий руководителя"
 														name="commentOfMentor"
+														value={supervisorComment}
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"

@@ -1,5 +1,80 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../shared/utils/constants';
+interface IprStatus {
+	id: string;
+	name: string;
+}
+
+interface Competency {
+	competency_rel: {
+		id: string;
+		name: string;
+	};
+}
+
+interface Goal {
+	id: string;
+	name: string;
+}
+
+interface Specialty {
+	name: string;
+}
+
+interface Mentor {
+	name: string;
+	surname: string;
+	patronymic: string;
+}
+
+interface File {
+	name: string;
+	url: string;
+	id: number;
+}
+
+interface Education {
+	status: boolean;
+	education: {
+		id: number;
+		name: string;
+		urlLink: string;
+	};
+}
+
+interface Task {
+	name: string;
+	description: string;
+	closeDate: string;
+	id: number;
+	supervisorComment: string;
+	comment: string;
+	status: string;
+	file: File[];
+	education: Education[];
+}
+
+interface IprData {
+	id: number;
+	status: IprStatus;
+	competency: Competency[];
+	supervisorId: number;
+	goal: Goal;
+	specialty: Specialty;
+	createDate: string;
+	closeDate: string;
+	mentor: Mentor;
+	description: string;
+	comment: string;
+	supervisorComment: string;
+	task: Task[];
+}
+
+export interface IPRSState {
+	iprsData: IprData[];
+	isLoading: boolean;
+	error: string | DeleteIprError; // Update the error type based on your requirements
+}
 
 interface IPRSData {
 	id: number;
@@ -14,12 +89,6 @@ interface IPRSData {
 		name: 'Черновик' | 'В работе' | 'Выполнен' | 'Не выполнен' | 'Отменен';
 	};
 }
-
-export type IPRSState = {
-	iprsData: IPRSData[];
-	isLoading: boolean;
-	error: string;
-};
 
 export interface IPRSCreatePayload {
 	employeeId: number;
@@ -63,6 +132,35 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 		throw error;
 	}
 });
+
+export const getIpr = createAsyncThunk<IprData, number>(
+	'iprs/getIpr',
+	async (id) => {
+		try {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				throw new Error('Token is missing in localStorage');
+			}
+
+			const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}`, {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			if (response.status === 200) {
+				return response.json();
+			} else {
+				throw new Error('Failed to fetch IPR data');
+			}
+		} catch (error) {
+			console.error('Error during fetching IPR data:', error);
+			throw error;
+		}
+	}
+);
 
 export const createIPR = createAsyncThunk<any, IPRSCreatePayload>(
 	'iprs/create',
@@ -123,7 +221,7 @@ export const deleteIpr = createAsyncThunk<
 		);
 
 		if (response.status === 204) {
-			// Deletion successful, no content in the response
+			// успешное удаление и в ответе нет ничего
 			return;
 		} else {
 			throw new Error('Failed to delete IPR');
@@ -148,6 +246,19 @@ export const iprsSlice = createSlice({
 		});
 		builder.addCase(createIPR.fulfilled, (state, action) => {
 			state.iprsData.push(action.payload);
+			state.isLoading = false;
+			state.error = '';
+		});
+		builder.addCase(getIpr.fulfilled, (state, action) => {
+			const iprData = action.payload;
+			const existingIndex = state.iprsData.findIndex(
+				(ipr) => ipr.id === iprData.id
+			);
+			if (existingIndex !== -1) {
+				state.iprsData[existingIndex] = iprData;
+			} else {
+				state.iprsData.push(iprData);
+			}
 			state.isLoading = false;
 			state.error = '';
 		});
