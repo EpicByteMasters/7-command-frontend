@@ -1,6 +1,7 @@
 import styles from './tasks-overview.module.scss';
 import styles2 from './tasks-overview-form.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
@@ -84,6 +85,17 @@ export const TasksOverview = ({
 	const [error3, setError3] = useState<string>('');
 	const [error4, setError4] = useState<string>('');
 	const [error5, setError5] = useState<string>('');
+
+	//получаем данные с Сервера
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
+	const { id } = useParams<{ id: string }>();
+	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	console.log('currentIpr в Task-oveview: ', currentIpr);
+	if (!currentIpr) {
+		return <div>Ошибка не нашел Id</div>;
+	}
+
 	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
 	// Поиск id Цели
@@ -106,9 +118,9 @@ export const TasksOverview = ({
 	const taskValues = {
 		goal: goalId,
 		specialty: roleId,
-		competence: idArray,
-		// createDate: valueStartDate,
-		// closeDate: valueEndDate,
+		competency: idArray,
+		createDate: valueStartDate,
+		closeDate: valueEndDate,
 		mentorId: '', // из стора подтянуть mentorId
 		description: valueDescription,
 		comment: valueComment,
@@ -303,236 +315,274 @@ export const TasksOverview = ({
 
 	return (
 		<fieldset className={styles2.blockWrapper}>
-			<legend className={styles2.blockTitle} onClick={handleCallback}>
-				Общее описание
-			</legend>
-			<div className={styles2.formBlock}>
-				<div className={styles2.formRow}>
-					<div style={{ width: 496 }}>
-						<InputAutocomplete
-							error={error1}
-							name="goal"
-							block={true}
-							closeOnSelect={true}
-							className="inputGoal"
-							size="s"
-							options={getFilteredGoals()}
-							label="Цель *"
-							placeholder="Начните вводить название"
-							onChange={handleChangeGoal}
-							onInput={handleInputGoal}
-							Arrow={shownChevron ? Arrow : undefined}
-							value={valueGoal}
-							allowUnselect={true}
-							showEmptyOptionsList={true}
-							inputProps={{
-								onClear: () => setValueGoal(''),
-								clear: true,
-							}}
-							disabled={isExecutive ? false : true}
-						></InputAutocomplete>
-					</div>
-					<div style={{ width: 496 }}>
-						<InputAutocomplete
-							error={error2}
-							name="role"
-							block={true}
-							closeOnSelect={true}
-							className="inputRole"
-							size="s"
-							options={getFilteredRoles()}
-							label="Специализация *"
-							placeholder="Начните вводить название"
-							onChange={handleChangeRole}
-							onInput={handleInputRole}
-							Arrow={shownChevron ? Arrow : undefined}
-							value={valueRole}
-							allowUnselect={true}
-							inputProps={{
-								onClear: () => setValueRole(''),
-								clear: true,
-							}}
-							disabled={isExecutive ? false : true}
-						></InputAutocomplete>
-					</div>
-				</div>
-				<div>
-					<InputAutocomplete
-						error={error3}
-						name="competence"
-						value={valueCompetence}
-						block={true}
-						multiple={multiple}
-						allowUnselect={true}
-						closeOnSelect={true}
-						onChange={handleChangeCompetence}
-						onInput={handleInputCompetence}
-						options={getFilteredOptionsCompetence()}
-						Arrow={shownChevron ? Arrow : undefined}
-						inputProps={{
-							onClear: () => setValueCompetence(''),
-							clear: true,
-						}}
-						className={styles2.inputCompetence}
-						size="s"
-						label="Компетенция *"
-						placeholder="Начните вводить название"
-						disabled={isExecutive ? false : true}
-					></InputAutocomplete>
-				</div>
-				<div className={styles2.formRowTag}>
-					{valueCompetence.length > 0
-						? tagValues.map((value: string, key: number) => {
-								return (
-									<div key={value.length + 1} style={{ maxWidth: '319' }}>
-										<FilterTag
+			{currentIpr.map(
+				({
+					id,
+					closeDate,
+					comment,
+					competency,
+					createDate,
+					description,
+					goal,
+					speciality,
+					status,
+					task,
+				}) => (
+					<React.Fragment key={id}>
+						<legend className={styles2.blockTitle} onClick={handleCallback}>
+							Общее описание
+						</legend>
+						<div className={styles2.formBlock}>
+							<div className={styles2.formRow}>
+								<div style={{ width: 496 }}>
+									<InputAutocomplete
+										error={error1}
+										name="goal"
+										block={true}
+										closeOnSelect={true}
+										className="inputGoal"
+										size="s"
+										options={getFilteredGoals()}
+										label="Цель *"
+										placeholder="Начните вводить название"
+										onChange={handleChangeGoal}
+										onInput={handleInputGoal}
+										Arrow={shownChevron ? Arrow : undefined}
+										value={isExecutive ? goal.name : valueGoal}
+										allowUnselect={true}
+										showEmptyOptionsList={true}
+										inputProps={{
+											onClear: () => setValueGoal(''),
+											clear: true,
+										}}
+										disabled={isExecutive ? false : true}
+									></InputAutocomplete>
+								</div>
+								<div style={{ width: 496 }}>
+									<InputAutocomplete
+										error={error2}
+										name="role"
+										block={true}
+										closeOnSelect={true}
+										className="inputRole"
+										size="s"
+										options={getFilteredRoles()}
+										label="Специализация *"
+										placeholder="Начните вводить название"
+										onChange={handleChangeRole}
+										onInput={handleInputRole}
+										Arrow={shownChevron ? Arrow : undefined}
+										value={isExecutive ? speciality.name : valueRole}
+										allowUnselect={true}
+										inputProps={{
+											onClear: () => setValueRole(''),
+											clear: true,
+										}}
+										disabled={isExecutive ? false : true}
+									></InputAutocomplete>
+								</div>
+							</div>
+							<div>
+								<InputAutocomplete
+									error={error3}
+									name="competence"
+									value={isExecutive ? competency : valueCompetence}
+									block={true}
+									multiple={multiple}
+									allowUnselect={true}
+									closeOnSelect={true}
+									onChange={handleChangeCompetence}
+									onInput={handleInputCompetence}
+									options={getFilteredOptionsCompetence()}
+									Arrow={shownChevron ? Arrow : undefined}
+									inputProps={{
+										onClear: () => setValueCompetence(''),
+										clear: true,
+									}}
+									className={styles2.inputCompetence}
+									size="s"
+									label="Компетенция *"
+									placeholder="Начните вводить название"
+									disabled={isExecutive ? false : true}
+								></InputAutocomplete>
+							</div>
+							<div className={styles2.formRowTag}>
+								{valueCompetence.length > 0
+									? tagValues.map((value: string, key: number) => {
+											return (
+												<div key={value.length + 1} style={{ maxWidth: '319' }}>
+													<FilterTag
+														disabled={isExecutive ? false : true}
+														showClear={true}
+														size="xxs"
+														shape="rounded"
+														view="filled"
+														checked={true}
+														onClear={() => {
+															setValueCompetence('');
+														}}
+													>
+														{value}
+													</FilterTag>
+												</div>
+											);
+										})
+									: ''}
+								{competency.length > 0
+									? tagValues.map((value: string, key: number) => {
+											return (
+												<div key={value.length + 1} style={{ maxWidth: '319' }}>
+													<FilterTag
+														disabled={isExecutive ? false : true}
+														showClear={true}
+														size="xxs"
+														shape="rounded"
+														view="filled"
+														checked={true}
+														onClear={() => {
+															setValueCompetence('');
+														}}
+													>
+														{value}
+													</FilterTag>
+												</div>
+											);
+										})
+									: ''}
+							</div>
+							<div className={styles2.formRow}>
+								<div>
+									<InputAutocomplete
+										name="mentor"
+										block={true}
+										closeOnSelect={true}
+										className={styles2.inputMentor}
+										size="s"
+										options={getFilteredMentor()}
+										label="Ментор"
+										placeholder="Начните вводить название"
+										onChange={handleChangeMentor}
+										onInput={handleInputMentor}
+										Arrow={shownChevron ? Arrow : undefined}
+										value={valueMentor}
+										allowUnselect={true}
+										inputProps={{
+											onClear: () => setValueMentor(''),
+											clear: true,
+										}}
+										disabled={isExecutive ? false : true}
+									></InputAutocomplete>
+
+									{!isExecutive && iprStatus === 'черновик' ? (
+										<img
+											className={styles2.avatarMentor}
+											src={avatarMentor}
+											alt="avatar"
+										></img>
+									) : (
+										''
+									)}
+								</div>
+
+								<div style={{ width: 236 }}>
+									<UniversalDateInput
+										name="startDate"
+										block={true}
+										view="date"
+										label="Дата создания"
+										size="s"
+										value={valueStartDate}
+										onChange={handleChangeStartDate}
+										picker={true}
+										Calendar={CalendarDesktop}
+										calendarProps={{
+											selectorView: 'month-only',
+										}}
+										clear={true}
+										onClear={(e) => {
+											e.stopPropagation();
+											setStartDate('');
+										}}
+										disabled={true}
+									/>
+								</div>
+								<div style={{ width: 236 }}>
+									<UniversalDateInput
+										name="endDate"
+										block={true}
+										view="date"
+										label="Дата завершения"
+										size="s"
+										value={valueEndDate}
+										// onChange={handleChange}
+										onChange={handleChangeEndDate}
+										picker={true}
+										Calendar={CalendarDesktop}
+										calendarProps={{
+											selectorView: 'month-only',
+										}}
+										clear={true}
+										onClear={(e) => {
+											e.stopPropagation();
+											setEndDate('');
+										}}
+										disabled={true}
+									/>
+								</div>
+								<div
+									style={{
+										width: 1016,
+									}}
+								>
+									<Textarea
+										error={error5}
+										name="description"
+										value={valueDescription}
+										onChange={handleInputDescription}
+										fieldClassName={styles2.textClass}
+										maxHeight={91}
+										label="Описание"
+										labelView="inner"
+										size="m"
+										block={true}
+										minLength={0}
+										maxLength={96}
+										showCounter={true}
+										autosize={true}
+										disabled={isExecutive ? false : true}
+									/>
+								</div>
+								<div
+									style={{
+										width: 1016,
+									}}
+								>
+									{isExecutive ? (
+										<Textarea
+											error={error4}
+											name="comment"
+											onChange={handleInputComment}
+											fieldClassName={styles2.textClass}
+											maxHeight={91}
+											label="Комментарий (виден только вам)"
+											labelView="inner"
+											size="m"
+											block={true}
+											minLength={0}
+											maxLength={96}
+											showCounter={true}
+											autosize={true}
 											disabled={isExecutive ? false : true}
-											showClear={true}
-											size="xxs"
-											shape="rounded"
-											view="filled"
-											checked={true}
-											onClear={() => {
-												setValueCompetence('');
-											}}
-										>
-											{value}
-										</FilterTag>
-									</div>
-								);
-							})
-						: ''}
-				</div>
-				<div className={styles2.formRow}>
-					<div>
-						<InputAutocomplete
-							name="mentor"
-							block={true}
-							closeOnSelect={true}
-							className={styles2.inputMentor}
-							size="s"
-							options={getFilteredMentor()}
-							label="Ментор"
-							placeholder="Начните вводить название"
-							onChange={handleChangeMentor}
-							onInput={handleInputMentor}
-							Arrow={shownChevron ? Arrow : undefined}
-							value={valueMentor}
-							allowUnselect={true}
-							inputProps={{
-								onClear: () => setValueMentor(''),
-								clear: true,
-							}}
-							disabled={isExecutive ? false : true}
-						></InputAutocomplete>
-
-						{!isExecutive && iprStatus === 'черновик' ? (
-							<img
-								className={styles2.avatarMentor}
-								src={avatarMentor}
-								alt="avatar"
-							></img>
-						) : (
-							''
-						)}
-					</div>
-
-					<div style={{ width: 236 }}>
-						<UniversalDateInput
-							name="startDate"
-							block={true}
-							view="date"
-							label="Дата создания"
-							size="s"
-							value={valueStartDate}
-							onChange={handleChangeStartDate}
-							picker={true}
-							Calendar={CalendarDesktop}
-							calendarProps={{
-								selectorView: 'month-only',
-							}}
-							clear={true}
-							onClear={(e) => {
-								e.stopPropagation();
-								setStartDate('');
-							}}
-							disabled={true}
-						/>
-					</div>
-					<div style={{ width: 236 }}>
-						<UniversalDateInput
-							name="endDate"
-							block={true}
-							view="date"
-							label="Дата завершения"
-							size="s"
-							value={valueEndDate}
-							// onChange={handleChange}
-							onChange={handleChangeEndDate}
-							picker={true}
-							Calendar={CalendarDesktop}
-							calendarProps={{
-								selectorView: 'month-only',
-							}}
-							clear={true}
-							onClear={(e) => {
-								e.stopPropagation();
-								setEndDate('');
-							}}
-							disabled={true}
-						/>
-					</div>
-					<div
-						style={{
-							width: 1016,
-						}}
-					>
-						<Textarea
-							error={error5}
-							name="description"
-							value={valueDescription}
-							onChange={handleInputDescription}
-							fieldClassName={styles2.textClass}
-							maxHeight={91}
-							label="Описание"
-							labelView="inner"
-							size="m"
-							block={true}
-							minLength={0}
-							maxLength={96}
-							showCounter={true}
-							autosize={true}
-							disabled={isExecutive ? false : true}
-						/>
-					</div>
-					<div
-						style={{
-							width: 1016,
-						}}
-					>
-						{isExecutive ? (
-							<Textarea
-								error={error4}
-								name="comment"
-								onChange={handleInputComment}
-								fieldClassName={styles2.textClass}
-								maxHeight={91}
-								label="Комментарий (виден только вам)"
-								labelView="inner"
-								size="m"
-								block={true}
-								minLength={0}
-								maxLength={96}
-								showCounter={true}
-								autosize={true}
-								disabled={isExecutive ? false : true}
-							/>
-						) : (
-							''
-						)}
-					</div>
-				</div>
-			</div>
+										/>
+									) : (
+										''
+									)}
+								</div>
+							</div>
+						</div>
+					</React.Fragment>
+				)
+			)}
 		</fieldset>
 	);
 };
