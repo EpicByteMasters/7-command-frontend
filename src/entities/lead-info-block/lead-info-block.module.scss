@@ -7,6 +7,9 @@
 }
 
 .dataTitle {
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
 	color: $baseColorBlack;
 	font-family: 'Inter';
 	font-size: 14px;
@@ -42,4 +45,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
+}
+
+.dataElement:nth-child(3) {
+	.dataNumber:after {
+		content: '%';
+	}
 }
