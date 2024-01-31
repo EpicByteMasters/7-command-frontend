@@ -573,7 +573,6 @@ export const getValueById = <T extends LibraryItem>(
 
 // Функция преобразования формата даты
 export const formatDateString = (inputDate: string): string => {
-	console.log(inputDate);
 	const [day, month, year] = inputDate.split('-');
 	const formattedDate = `${day}.${month}.${year}`;
 	return formattedDate;

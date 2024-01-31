@@ -21,18 +21,206 @@ import {
 	getStatusColor,
 	getValueById,
 } from '../../shared/utils/constants';
-import { useAppSelector } from '../../shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
+import { getIprByIdBySupervisor } from '../../store/reducers/iprsSlice';
 
 export interface IEmployeesListProps {
 	data: Employee[] | undefined;
 	status: string;
 	goal: string;
 }
+
+export const EmployeesList: React.FC<IEmployeesListProps> = ({
+	data,
+	status,
+	goal,
+}) => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	console.log('EmployeeList DATA', data);
+
+	const positionsLib = useAppSelector(selectCommonLibsPositions);
+	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
+	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
+
+	const [modalCreate, setModalCreate] = useState(false);
+
+	const handleSort = () => {
+		console.log('handleSort');
+	};
+
+	const onClickToDraft = () => {
+		setModalCreate(true);
+		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
+	};
+
+	const handleOpenButtonClick = async (id: number, status: any) => {
+		try {
+			const iprDataResult = await dispatch(getIprByIdBySupervisor(id));
+
+			if (getIprByIdBySupervisor.fulfilled.match(iprDataResult)) {
+				console.log('Получили Ипр по id:', iprDataResult.payload);
+				navigate(
+					`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+				);
+			} else {
+				console.error(
+					'!!!Error during fetching IPRS data:',
+					iprDataResult.error
+				);
+			}
+		} catch (error) {
+			console.error('Error during fetching user data:', error);
+		}
+	};
+
+	return (
+		<>
+			<Table className={styles.table} wrapper={false}>
+				<Table.THead>
+					<Table.THeadCell>
+						<div className={styles.sortBtn}>
+							<span>Сотрудник</span>
+							<ListDefaultSIcon
+								className={styles.sortIcon}
+								onClick={() => handleSort()}
+							/>
+						</div>
+					</Table.THeadCell>
+					<Table.THeadCell>Цель</Table.THeadCell>
+					<Table.THeadCell>
+						<div className={styles.sortBtn}>
+							<span>Дата</span>
+							<ListDefaultSIcon
+								className={styles.sortIcon}
+								onClick={() => handleSort()}
+							/>
+						</div>
+					</Table.THeadCell>
+					<Table.THeadCell>Прогресс</Table.THeadCell>
+					<Table.THeadCell>
+						<div className={styles.sortBtn}>
+							<span>Статус</span>
+							<ListDefaultSIcon
+								className={styles.sortIcon}
+								onClick={() => handleSort()}
+							/>
+						</div>
+					</Table.THeadCell>
+					<Table.THeadCell title="Пустая"></Table.THeadCell>
+					<Table.THeadCell title="Пустая"></Table.THeadCell>
+				</Table.THead>
+				<Table.TBody>
+					{data && data.length > 0 ? (
+						data.map(
+							({
+								id,
+								firstName,
+								lastName,
+								middleName,
+								position_id,
+								specialty_id,
+								imageUrl,
+								goal,
+								date_of_end,
+								progress,
+								task_completed,
+								task_count,
+								status,
+							}) => {
+								const progressPercent = (task_completed / task_count) * 100;
+								const color = getStatusColor(status);
+								//TODO вставить в верстку аватарку
+								return (
+									<Table.TRow>
+										<Table.TCell>
+											<Space size={2} align={'start'}>
+												<Typography.Text view="primary-small" tag="div">
+													{`${lastName} ${firstName} ${middleName}`}
+												</Typography.Text>
+												<Typography.Text view="primary-small" color="secondary">
+													{getValueById(position_id, positionsLib)}
+												</Typography.Text>
+											</Space>
+										</Table.TCell>
+										<Table.TCell>
+											{goal ? getValueById(goal, iprGoalsLib) : '-'}
+										</Table.TCell>
+										<Table.TCell>
+											{date_of_end ? formatDateString(date_of_end) : '-'}
+										</Table.TCell>
+										<Table.TCell>
+											{progress ? (
+												<CircularProgressBar
+													value={progressPercent}
+													title={`${task_completed}/${task_count}`}
+													size="s"
+													contentColor="primary"
+													className={styles.progressBar}
+												/>
+											) : (
+												'-'
+											)}
+										</Table.TCell>
+										<Table.TCell>
+											<Status view="soft" color={color}>
+												{getValueById(status, iprStatusLib)}
+											</Status>
+										</Table.TCell>
+										<Table.TCell>
+											{status === 'NO_IPR' ? (
+												<Button
+													view="tertiary"
+													size="xxs"
+													onClick={onClickToDraft}
+												>
+													Создать
+												</Button>
+											) : (
+												<Button
+													view="tertiary"
+													size="xxs"
+													onClick={() => handleOpenButtonClick(id, status)}
+												>
+													Открыть
+												</Button>
+											)}
+										</Table.TCell>
+										<Table.TCell>
+											<Button view="ghost">
+												<MoreMIcon style={{ fill: '#898889' }} />
+											</Button>
+										</Table.TCell>
+									</Table.TRow>
+								);
+							}
+						)
+					) : (
+						<Table.TRow>
+							<Table.TCell>Нет данных для отображения</Table.TCell>
+						</Table.TRow>
+					)}
+				</Table.TBody>
+			</Table>
+			{modalCreate ? (
+				<Modal
+					title="Создать новый план развития"
+					paragraph={'Вы можете создать черновик и вернуться к нему позже'}
+					button1={'Создать'}
+					button2={'Отмена'}
+				></Modal>
+			) : (
+				''
+			)}
+		</>
+	);
+};
 
 // export const EmployeesList: React.FC<IEmployeesListProps> = ({
 // 	data,
@@ -583,148 +771,3 @@ export interface IEmployeesListProps {
 // 		</>
 // 	);
 // };
-
-export const EmployeesList: React.FC<IEmployeesListProps> = ({
-	data,
-	status,
-	goal,
-}) => {
-	console.log('EmployeeList DATA', data);
-	const positionsLib = useAppSelector(selectCommonLibsPositions);
-	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
-	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
-	const handleSort = () => {
-		console.log('handleSort');
-	};
-
-	return (
-		<>
-			<Table className={styles.table} wrapper={false}>
-				<Table.THead>
-					<Table.THeadCell>
-						<div className={styles.sortBtn}>
-							<span>Сотрудник</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort()}
-							/>
-						</div>
-					</Table.THeadCell>
-					<Table.THeadCell>Цель</Table.THeadCell>
-					<Table.THeadCell>
-						<div className={styles.sortBtn}>
-							<span>Дата</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort()}
-							/>
-						</div>
-					</Table.THeadCell>
-					<Table.THeadCell>Прогресс</Table.THeadCell>
-					<Table.THeadCell>
-						<div className={styles.sortBtn}>
-							<span>Статус</span>
-							<ListDefaultSIcon
-								className={styles.sortIcon}
-								onClick={() => handleSort()}
-							/>
-						</div>
-					</Table.THeadCell>
-					<Table.THeadCell title="Пустая"></Table.THeadCell>
-					<Table.THeadCell title="Пустая"></Table.THeadCell>
-				</Table.THead>
-				<Table.TBody>
-					{data && data.length > 0 ? (
-						data.map(
-							({
-								id,
-								firstName,
-								lastName,
-								middleName,
-								position_id,
-								specialty_id,
-								imageUrl,
-								goal,
-								date_of_end,
-								progress,
-								task_completed,
-								task_count,
-								status,
-							}) => {
-								const progressPercent = (task_completed / task_count) * 100;
-								const color = getStatusColor(status);
-								//TODO вставить в верстку аватарку
-								return (
-									<Table.TRow>
-										<Table.TCell>
-											<Space size={2} align={'start'}>
-												<Typography.Text view="primary-small" tag="div">
-													{`${lastName} ${firstName} ${middleName}`}
-												</Typography.Text>
-												<Typography.Text view="primary-small" color="secondary">
-													{getValueById(position_id, positionsLib)}
-												</Typography.Text>
-											</Space>
-										</Table.TCell>
-										<Table.TCell>
-											{goal ? getValueById(goal, iprGoalsLib) : '-'}
-										</Table.TCell>
-										<Table.TCell>
-											{date_of_end ? formatDateString(date_of_end) : '-'}
-										</Table.TCell>
-										<Table.TCell>
-											{progress ? (
-												<CircularProgressBar
-													value={progressPercent}
-													title={`${task_completed}/${task_count}`}
-													size="s"
-													contentColor="primary"
-													className={styles.progressBar}
-												/>
-											) : (
-												'-'
-											)}
-										</Table.TCell>
-										<Table.TCell>
-											<Status view="soft" color={color}>
-												{getValueById(status, iprStatusLib)}
-											</Status>
-										</Table.TCell>
-										<Table.TCell>
-											{status === 'NO_IPR' ? (
-												<Button
-													view="tertiary"
-													size="xxs"
-													//onClick={console.log('create')}
-												>
-													Создать
-												</Button>
-											) : (
-												<Button
-													view="tertiary"
-													size="xxs"
-													//onClick={console.log('open')}
-												>
-													Открыть
-												</Button>
-											)}
-										</Table.TCell>
-										<Table.TCell>
-											<Button view="ghost">
-												<MoreMIcon style={{ fill: '#898889' }} />
-											</Button>
-										</Table.TCell>
-									</Table.TRow>
-								);
-							}
-						)
-					) : (
-						<Table.TRow>
-							<Table.TCell>Нет данных для отображения</Table.TCell>
-						</Table.TRow>
-					)}
-				</Table.TBody>
-			</Table>
-		</>
-	);
-};

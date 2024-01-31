@@ -1,12 +1,15 @@
 import styles from './plan.module.scss';
+
 import React, { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
+import { useNavigate } from 'react-router-dom';
+
 import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
-import { getIpr } from '../../store/reducers/iprsSlice';
+
+import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
 
 interface PlanProps {
 	isEmployee?: boolean;
@@ -26,9 +29,9 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 
 	const handleOpenButtonClick = async (id: number, status: any) => {
 		try {
-			const iprDataResult = await dispatch(getIpr(id));
+			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
-			if (getIpr.fulfilled.match(iprDataResult)) {
+			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
 				console.log('Получили Ипр по id:', iprDataResult.payload);
 				navigate(
 					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`

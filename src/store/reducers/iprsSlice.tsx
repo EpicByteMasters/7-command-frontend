@@ -133,8 +133,8 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
-export const getIpr = createAsyncThunk<IprData, number>(
-	'iprs/getIpr',
+export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
+	'iprs/getIprSupevisor',
 	async (id) => {
 		try {
 			const token = localStorage.getItem('token');
@@ -143,12 +143,47 @@ export const getIpr = createAsyncThunk<IprData, number>(
 				throw new Error('Token is missing in localStorage');
 			}
 
-			const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/supervisor/${id}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			if (response.status === 200) {
+				return response.json();
+			} else {
+				throw new Error('Failed to fetch IPR data');
+			}
+		} catch (error) {
+			console.error('Error during fetching IPR data:', error);
+			throw error;
+		}
+	}
+);
+
+export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
+	'iprs/getIprEmployee',
+	async (id) => {
+		try {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				throw new Error('Token is missing in localStorage');
+			}
+
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/employee/${id}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 
 			if (response.status === 200) {
 				return response.json();
@@ -249,7 +284,20 @@ export const iprsSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 		});
-		builder.addCase(getIpr.fulfilled, (state, action) => {
+		builder.addCase(getIprByIdBySupervisor.fulfilled, (state, action) => {
+			const iprData = action.payload;
+			const existingIndex = state.iprsData.findIndex(
+				(ipr) => ipr.id === iprData.id
+			);
+			if (existingIndex !== -1) {
+				state.iprsData[existingIndex] = iprData;
+			} else {
+				state.iprsData.push(iprData);
+			}
+			state.isLoading = false;
+			state.error = '';
+		});
+		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id
