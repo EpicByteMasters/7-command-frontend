@@ -10,7 +10,9 @@ export const EmployeePlan: React.FC = () => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini isExecutive={true} />
+				{/* <NavBarMini isExecutive={true} /> */}
+				<NavBarMini />
+
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
 					<div className={styles.employeeWrapper}>

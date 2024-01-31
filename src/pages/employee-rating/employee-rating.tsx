@@ -35,7 +35,9 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini isExecutive={isExecutive} />
+				{/* <NavBarMini isExecutive={isExecutive} /> */}
+				<NavBarMini />
+
 				<div className={styles.wrapper}>
 					<h2 className={styles.title}>План развития сотрудника</h2>
 					<div className={styles.employeeWrapper}>

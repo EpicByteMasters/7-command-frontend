@@ -9,6 +9,9 @@ import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
+
 import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
 
 interface PlanProps {

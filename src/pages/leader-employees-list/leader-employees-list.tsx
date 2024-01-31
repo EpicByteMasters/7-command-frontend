@@ -102,7 +102,9 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 		<>
 			<Header />
 			<div className={styles.container}>
-				<NavBarMini isExecutive={isExecutive} />
+				{/* <NavBarMini isExecutive={isExecutive} /> */}
+				<NavBarMini />
+
 				<div className={styles.wrapper}>
 					<div className={styles.titleWrapper}>
 						<PageTitle title="План развития сотрудников" />
