@@ -143,12 +143,15 @@ export const getIpr = createAsyncThunk<IprData, number>(
 				throw new Error('Token is missing in localStorage');
 			}
 
-			const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/employee/${id}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 
 			if (response.status === 200) {
 				return response.json();

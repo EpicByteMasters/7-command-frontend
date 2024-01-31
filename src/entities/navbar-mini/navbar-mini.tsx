@@ -18,7 +18,7 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 	isMentor,
 }) => {
 	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
-	console.log(isExecutive, 'userDATAA');
+	console.log(isExecutive, 'userIsExecutive');
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>

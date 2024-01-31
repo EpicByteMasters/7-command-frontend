@@ -7,7 +7,7 @@ interface UserData {
 	imageUrl: string;
 }
 
-export const BASE_URL = 'http://213.171.6.128:80';
+export const BASE_URL = 'http://213.171.6.128:81';
 
 const headers: HeadersInit = {
 	Accept: 'application/json',

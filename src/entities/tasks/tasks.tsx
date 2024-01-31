@@ -12,6 +12,7 @@ import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
+import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
@@ -46,6 +47,14 @@ interface FormData {
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
+	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
+	const pickerOptions = [
+		{ key: 'В работе' },
+		{ key: 'Выполнена' },
+		{ key: 'Не выполнена' },
+		{ key: 'Отменена' },
+	];
+
 	const [taskValues, setTaskValues] = React.useState<FormData>({
 		id: 0,
 		name: '',
@@ -72,6 +81,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const { id } = useParams<{ id: string }>();
 	const currentIpr = iprData.find((goal) => goal.id === Number(id));
 	console.log('currentIpr: ', currentIpr);
+
 	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
 	}
@@ -435,14 +445,14 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															name="Название файла.pdf"
 															uploadDate="22.01.2018"
 															uploadPercent={23.5678}
-															uploadStatus="UPLOADING"
+															// uploadStatus="UPLOADING"
 															showDelete={true}
 														/>
 														<FileUploadItem
 															name="Название файла.jpg"
 															uploadDate="22.01.2018"
 															size={45000}
-															uploadStatus="ERROR"
+															// uploadStatus="ERROR"
 															showDelete={true}
 														/>
 														<Button
@@ -452,6 +462,21 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														>
 															Отправить на проверку
 														</Button>
+														{isExecutive && (
+															<div
+																style={{
+																	display: 'flex',
+																	flexDirection: 'row',
+																	justifyContent: 'flex-end',
+																}}
+															>
+																<PickerButtonDesktop
+																	options={pickerOptions}
+																	view="primary"
+																	label="В работе"
+																/>
+															</div>
+														)}
 													</div>
 												)}
 											</div>

@@ -27,7 +27,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	const handleOpenButtonClick = async (id: number, status: any) => {
 		try {
 			const iprDataResult = await dispatch(getIpr(id));
-
+			console.log(iprDataResult);
 			if (getIpr.fulfilled.match(iprDataResult)) {
 				console.log('Получили Ипр по id:', iprDataResult.payload);
 				navigate(
