@@ -6,8 +6,6 @@ import { Input } from '@alfalab/core-components/input';
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { ChevronDownSIcon } from '@alfalab/icons-glyph/ChevronDownSIcon';
 import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
-import { ChevronDownSIcon } from '@alfalab/icons-glyph/ChevronDownSIcon';
-import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
 import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
 
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
@@ -22,7 +20,6 @@ import {
 	getManagerIprsList,
 	selectManagerList,
 } from '../../store/reducers/managerIprSlice';
-
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
