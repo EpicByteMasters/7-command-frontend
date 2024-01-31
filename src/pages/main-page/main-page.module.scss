@@ -65,14 +65,15 @@
 	width: 600px;
 }
 .card {
-	height: 300px;
-	margin-left: 24px;
+	width: 288px;
+	margin-left: 20px;
+	background-position: center;
 }
 
 .cards {
 	margin-top: 24px;
 	height: 300px;
-	width: 912px;
+	width: 900px;
 }
 .buttonWrapper {
 	padding: 0;
@@ -84,4 +85,10 @@
 .button {
 	height: 36px;
 	width: 118px;
+}
+
+.icon:nth-of-type(5) {
+	margin: 0;
+	padding: 0;
+	width: 30px;
 }

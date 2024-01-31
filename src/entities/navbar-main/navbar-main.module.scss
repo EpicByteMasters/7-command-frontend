@@ -3,7 +3,6 @@
 
 .aside {
 	margin: 0;
-	padding: 0;
 }
 
 .navtab {
@@ -22,6 +21,8 @@
 	gap: 4px;
 
 	.link {
+		margin: 0;
+		padding: 0;
 		display: flex;
 		align-items: center;
 		border: none;
@@ -30,7 +31,7 @@
 	}
 
 	.link:hover {
-		border: 2px solid #e7e7ea;
+		border: 1px solid #e7e7ea;
 	}
 }
 
