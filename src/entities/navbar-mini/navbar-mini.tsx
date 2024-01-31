@@ -1,5 +1,4 @@
 import styles from './navbar-mini.module.scss';
-import { useAppSelector } from '../../shared/hooks/redux';
 import { NavLink } from 'react-router-dom';
 import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
@@ -8,17 +7,15 @@ import { roleUrl } from '../../shared/utils/urls';
 import { BackButton } from '../backbutton/backbutton';
 
 interface ExecutiveProps {
-	// isExecutive?: boolean;
+	isExecutive?: boolean;
 	isEmployee?: boolean;
 	isMentor?: boolean;
 }
 export const NavBarMini: React.FC<ExecutiveProps> = ({
-	// isExecutive,
+	isExecutive,
 	isEmployee,
 	isMentor,
 }) => {
-	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
-	console.log(isExecutive, 'userIsExecutive');
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>
@@ -30,7 +27,7 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 							isMentor={isMentor}
 						/>
 					</li>
-					{isExecutive ? (
+					{isExecutive && !isMentor ? (
 						<li className={styles.item}>
 							<NavLink className={styles.link} to={roleUrl[0].url}>
 								<TwoUsersMIcon
