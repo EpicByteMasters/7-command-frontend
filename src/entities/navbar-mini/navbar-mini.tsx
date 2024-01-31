@@ -27,7 +27,7 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 							isMentor={isMentor}
 						/>
 					</li>
-					{isExecutive ? (
+					{isExecutive && !isMentor ? (
 						<li className={styles.item}>
 							<NavLink className={styles.link} to={roleUrl[0].url}>
 								<TwoUsersMIcon
@@ -40,17 +40,17 @@ export const NavBarMini: React.FC<ExecutiveProps> = ({
 					) : (
 						''
 					)}
-					{!isMentor && (
-						<li className={styles.item}>
-							<NavLink className={styles.link} to={roleUrl[1].url}>
-								<RocketMIcon
-									fill="currentColor"
-									className={styles.icon}
-								></RocketMIcon>
-								Мой план развития
-							</NavLink>
-						</li>
-					)}
+
+					<li className={styles.item}>
+						<NavLink className={styles.link} to={roleUrl[1].url}>
+							<RocketMIcon
+								fill="currentColor"
+								className={styles.icon}
+							></RocketMIcon>
+							Мой план развития
+						</NavLink>
+					</li>
+
 					{(isExecutive && isMentor) || isExecutive ? (
 						<li className={styles.item}>
 							<NavLink className={styles.link} to={roleUrl[2].url}>

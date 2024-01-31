@@ -14,20 +14,13 @@ import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { useAppSelector } from '../../shared/hooks/redux';
+import { NewTask } from '../../entities/new-task/new-task';
 
 interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
 	isExecutive: boolean;
 	ipr_id: number;
-}
-interface OptionShape {
-	key: string;
-}
-interface UserShapeProps {
-	name: string;
-	position: string;
-	avatar: string;
 }
 
 export const ManagerIprDraft = ({
@@ -41,6 +34,7 @@ export const ManagerIprDraft = ({
 	const [modalDisacrd, setDiscardOpen] = useState(false);
 	const [modalSave, setSaveOpen] = useState(false);
 	const [taskValues, setTaskValues] = useState('');
+	const [newTaskOpen, setNewTaskOpen] = useState(false);
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
@@ -64,6 +58,30 @@ export const ManagerIprDraft = ({
 		// Здесь вы можете отправить оба набора данных на сервер
 		console.log('Отправка данных на сервер из Tasks:', taskData);
 		console.log('Отправка данных на сервер из TasksOverview:', goalData);
+	};
+	const [newTask, setNewTask] = useState<Task[]>([]);
+
+	interface Task {
+		taskTitle: string;
+		closeDate: string;
+		description: string;
+		courses: string;
+		comment: string;
+	}
+
+	const handleNewTaskOpen = () => {
+		setNewTaskOpen(true);
+		setNewTask((prevTasks) => [
+			...prevTasks,
+			{
+				taskTitle: '',
+				closeDate: '',
+				description: '',
+				courses: '',
+				comment: '',
+			},
+		]);
+		console.log(newTask);
 	};
 
 	return (
@@ -99,7 +117,7 @@ export const ManagerIprDraft = ({
 						<Button
 							onClick={onModalSaveOpen}
 							view="secondary"
-							size="m"
+							size="s"
 							className={styles.buttonSave}
 						>
 							Сохранить
@@ -108,7 +126,7 @@ export const ManagerIprDraft = ({
 							<Button
 								onClick={onClick}
 								view="primary"
-								size="m"
+								size="s"
 								className={styles.buttonSend}
 							>
 								Подвести итоги
@@ -119,14 +137,7 @@ export const ManagerIprDraft = ({
 							</Button>
 						)}
 
-						<button
-							onClick={onModalOpen}
-							style={{
-								border: 'none',
-								backgroundColor: 'transparent',
-								cursor: 'pointer',
-							}}
-						>
+						<button onClick={onModalOpen} className={styles.trashCan}>
 							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
 						</button>
 						{statusText === 'в работе' ? (
@@ -134,7 +145,7 @@ export const ManagerIprDraft = ({
 								<Button
 									onClick={onModalDiscardOpen}
 									view="tertiary"
-									size="m"
+									size="s"
 									className={styles.buttonDiscard}
 								>
 									Отменить
@@ -156,11 +167,23 @@ export const ManagerIprDraft = ({
 							<Tasks isEmployee={true} />
 						</fieldset>
 
+						{newTask.map((item) => {
+							return (
+								<div>
+									<NewTask isEmployee={false}></NewTask>
+								</div>
+							);
+						})}
+
+						{/* {newTaskOpen && (
+							<NewTask isEmployee={false} isExecutive={true}></NewTask>
+						)} */}
 						<ButtonDesktop
+							onClick={handleNewTaskOpen}
 							view="tertiary"
 							shape="rectangular"
 							size="s"
-							className="button__component"
+							className={styles.buttonComponent}
 							nowrap={false}
 							colors="default"
 						>
@@ -181,18 +204,7 @@ export const ManagerIprDraft = ({
 			) : (
 				''
 			)}
-			{modalSave ? (
-				<Modal
-					title={'Изменения сохранены'}
-					// paragraph={
-					// 	'Вы дейстивтельно хотите отменить индивидуальный план развития?'
-					// }
-					// button1={'Да'}
-					// button2={'Нет'}
-				></Modal>
-			) : (
-				''
-			)}
+			{modalSave ? <Modal title={'Изменения сохранены'}></Modal> : ''}
 		</>
 	);
 };

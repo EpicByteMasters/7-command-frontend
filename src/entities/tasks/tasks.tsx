@@ -1,6 +1,8 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
-import styles from './tasks.module.scss';
+import React, { ChangeEvent, useState } from 'react';
+import { useAppSelector } from '../../shared/hooks/redux';
 import { useParams } from 'react-router-dom';
+import styles from './tasks.module.scss';
+
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
@@ -14,10 +16,10 @@ import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
+import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
-import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { useAppSelector } from '../../shared/hooks/redux';
 
 interface TasksProps {
 	isEmployee: boolean;
@@ -36,10 +38,10 @@ interface Education {
 interface FormData {
 	id: number;
 	name: string;
-	dateOfEnd: string;
+	closeDate: string;
 	description: string;
 	educations: Education[];
-	commentOfMentor: string;
+	supervisorComment: string;
 	commentOfEmployee: string;
 }
 
@@ -47,12 +49,13 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const [taskValues, setTaskValues] = React.useState<FormData>({
 		id: 0,
 		name: '',
-		dateOfEnd: '',
+		closeDate: '',
 		description: '',
 		educations: [],
-		commentOfMentor: '',
+		supervisorComment: '',
 		commentOfEmployee: '',
 	});
+
 	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
@@ -62,11 +65,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
 
-	// useEffect(() => {
-	// 	gettaskValues(taskValues, goalData);
-	//   }, [taskValues, gettaskValues]);
-
-	console.log('formData из задач: ', taskValues);
+	console.log('taskValues из задач: ', taskValues);
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
@@ -225,11 +224,13 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		}
 	};
 
+	console.log('tasksArrayForRender: ', tasksArrayForRender);
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
 				{tasksArrayForRender.map(
-					({ id, name, closeDate, status, supervisorComment }) => (
+					({ id, name, closeDate, description, status, supervisorComment }) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
@@ -256,6 +257,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														fieldClassName={styles.goalName}
 														maxHeight={56}
 														label="Название*"
+														value={name}
 														name="name"
 														onChange={handleInputChange}
 														labelView="inner"
@@ -269,7 +271,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														view="date"
 														label="Дата завершения"
 														size="m"
-														value={valueEndDate}
+														value={closeDate}
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
@@ -288,7 +290,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxHeight={91}
 													label="Описание"
 													name="description"
-													value={taskValues.description}
+													value={description}
 													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
@@ -331,7 +333,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																			className={styles.formTag}
 																			onClick={onDeleteTag}
 																		>
-																			<CrossCircleMIcon />
+																			<div className={styles.formCircle}>
+																				<CrossCircleMIcon />
+																			</div>
 																			{value}
 																		</div>
 																	</div>
@@ -345,6 +349,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														maxHeight={91}
 														label="Комментарий руководителя"
 														name="commentOfMentor"
+														value={supervisorComment}
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
@@ -412,7 +417,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														/>
 														<Button
 															view="primary"
-															size="m"
+															size="s"
 															className={styles.button}
 														>
 															Отправить на проверку

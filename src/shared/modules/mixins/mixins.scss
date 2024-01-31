@@ -1,7 +1,6 @@
 @mixin title_h1($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
 	font-feature-settings: 'salt' on;
-	/* h1 */
 	font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 38px;
 	font-style: normal;
@@ -12,18 +11,17 @@
 
 @mixin title_h2($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
-	/* h2 */
 	font-family: 'Styrene UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 24px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 28px; /* 116.667% */
+	line-height: 28px;
 }
 
 @mixin logo($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
 	font-feature-settings: 'salt' on;
-	/* logo*/
+
 	font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 20px;
 	font-style: normal;
@@ -34,29 +32,26 @@
 
 @mixin button_txt($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
-	/* button */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 24px; /* 150% */
+	line-height: 24px;
 }
 
 @mixin input_txt($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
 
-	/* input */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 20px; /* 125% */
+	line-height: 20px;
 }
 
 @mixin header_h3($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
 	font-feature-settings: 'salt' on;
-	/* h3 */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 14px;
 	font-style: normal;
@@ -68,47 +63,43 @@
 @mixin button_xxs($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
 	font-feature-settings: 'salt' on;
-	/* btn_xxs */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 20px; /* 142.857% */
+	line-height: 20px;
 }
 
 @mixin text($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
-	/* text */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 20px; /* 142.857% */
+	line-height: 20px;
 }
 
 @mixin input_name($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
-	/* input_name */
+
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 16px; /* 114.286% */
+	line-height: 16px;
 }
 
 @mixin files($baseColorBlack: #0e0e0e) {
-	color: var(--black, $baseColorBlack);
-	/* files */
+	color: $baseColorBlack;
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 13px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 16px; /* 123.077% */
+	line-height: 16px;
 }
 
 @mixin columns($baseColorBlack: #0e0e0e) {
 	color: var(--black, $baseColorBlack);
-	/* columns */
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 12px;
 	font-style: normal;
@@ -119,14 +110,12 @@
 }
 
 @mixin status {
-	color: var(--black, #0e0e0e);
-
-	/* status */
+	color: #0e0e0e;
 	font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 11px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: 20px; /* 181.818% */
+	line-height: 20px;
 	letter-spacing: 0.5px;
 	text-transform: uppercase;
 }

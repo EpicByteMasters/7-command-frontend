@@ -21,6 +21,7 @@ import {
 	selectCommonLibsSpecialty,
 	selectCommonLibsIPRCompetency,
 } from '../../store/reducers/libSlice';
+
 interface ManagerIprDraftProps {
 	isExecutive: boolean;
 	iprStatus: string;
@@ -29,11 +30,6 @@ interface ManagerIprDraftProps {
 interface OptionShape {
 	key: string;
 }
-
-// interface OptionShape2 {
-// 	id: string[];
-// 	name: string[];
-// }
 
 export const TasksOverview = ({
 	isExecutive,
@@ -133,7 +129,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueGoal(value);
-		handleCallback();
+		// handleCallback();
 	};
 
 	const handleInputRole = (
@@ -141,7 +137,7 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueRole(value);
-		handleCallback();
+		// handleCallback();
 	};
 
 	function handleInputDescription(
@@ -153,7 +149,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
-			handleCallback();
+			// handleCallback();
 			setError5('');
 		}
 		if (!target.value) {
@@ -169,7 +165,7 @@ export const TasksOverview = ({
 
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);
-			handleCallback();
+			// handleCallback();
 			setError4('');
 		}
 		if (!target.value) {
@@ -181,13 +177,13 @@ export const TasksOverview = ({
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
-		setValueMentor(value);
+		// setValueMentor(value);
 		handleCallback();
 	};
 	// Обработка изменения импутов
 
 	const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
-		if (selected) {
+		if (selected && !error1) {
 			setValueGoal(selected.key);
 			setError1('');
 			handleCallback();
@@ -199,7 +195,7 @@ export const TasksOverview = ({
 	};
 
 	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
-		if (selected) {
+		if (selected && !error2) {
 			setValueRole(selected.key);
 			handleCallback();
 			setError2('');
@@ -254,7 +250,7 @@ export const TasksOverview = ({
 		setValueCompetence(value);
 		handleCallback();
 	};
-	const inputValues: string[] = valueCompetence.split(',');
+	const inputValues: string[] = valueCompetence.split(', ');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
 		inputValues.includes(option.key.trim())
 	);
@@ -275,7 +271,7 @@ export const TasksOverview = ({
 	}): void => {
 		if (multiple) {
 			const value = selectedMultiple?.length
-				? selectedMultiple.map((option) => option.key).join(', ')
+				? selectedMultiple.map((option) => option.key).join(',') + ' '
 				: '';
 			setValueCompetence(value);
 			handleCallback();
@@ -460,7 +456,7 @@ export const TasksOverview = ({
 								e.stopPropagation();
 								setStartDate('');
 							}}
-							disabled={isExecutive ? false : true}
+							disabled={true}
 						/>
 					</div>
 					<div style={{ width: 236 }}>
@@ -483,7 +479,7 @@ export const TasksOverview = ({
 								e.stopPropagation();
 								setEndDate('');
 							}}
-							disabled={isExecutive ? true : false}
+							disabled={true}
 						/>
 					</div>
 					<div

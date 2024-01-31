@@ -13,7 +13,7 @@ import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
-
+import { NotificationCard } from '../entities/notification-green/notification';
 // data
 import users from '../shared/utils/users';
 import { testData } from '../shared/utils/test-users';
@@ -222,7 +222,17 @@ function App() {
 					path={roleUrl[1].url}
 					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
 				/> */}
-
+				<Route
+					path={'/notification1'}
+					element={
+						<NotificationCard
+							error={true}
+							title={'Сохранено'}
+							paragraph={'План развития добавлен в общий список как черновик'}
+						/>
+						// <NotificationCard title={'Отправлено в работу'} paragraph={'План развития отправлен сотруднику для исполнения'} />
+					}
+				></Route>
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 
