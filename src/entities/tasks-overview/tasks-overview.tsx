@@ -1,6 +1,7 @@
 import styles from './tasks-overview.module.scss';
 import styles2 from './tasks-overview-form.module.scss';
 import React, { FC, ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
@@ -84,6 +85,17 @@ export const TasksOverview = ({
 	const [error3, setError3] = useState<string>('');
 	const [error4, setError4] = useState<string>('');
 	const [error5, setError5] = useState<string>('');
+
+	//получаем данные с Сервера
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
+	const { id } = useParams<{ id: string }>();
+	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	console.log('currentIpr в Task-oveview: ', currentIpr);
+	if (!currentIpr) {
+		return <div>Ошибка не нашел Id</div>;
+	}
+
 	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
 	// Поиск id Цели
@@ -106,9 +118,9 @@ export const TasksOverview = ({
 	const taskValues = {
 		goal: goalId,
 		specialty: roleId,
-		competence: idArray,
-		// createDate: valueStartDate,
-		// closeDate: valueEndDate,
+		competency: idArray,
+		createDate: valueStartDate,
+		closeDate: valueEndDate,
 		mentorId: '', // из стора подтянуть mentorId
 		description: valueDescription,
 		comment: valueComment,

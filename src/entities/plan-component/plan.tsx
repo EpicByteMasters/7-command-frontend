@@ -24,13 +24,15 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 		setActiveGoalId(id);
 	};
 
-	const handleOpenButtonClick = async (id: number) => {
+	const handleOpenButtonClick = async (id: number, status: any) => {
 		try {
 			const iprDataResult = await dispatch(getIpr(id));
 
 			if (getIpr.fulfilled.match(iprDataResult)) {
 				console.log('Получили Ипр по id:', iprDataResult.payload);
-				navigate(`/service-iprs/${isEmployee ? 'my-ipr' : 'ipr'}/${id}`);
+				navigate(
+					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+				);
 			} else {
 				console.error('Error during fetching IPRS data:', iprDataResult.error);
 			}
@@ -107,7 +109,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 								<Button
 									view="tertiary"
 									size="s"
-									onClick={() => handleOpenButtonClick(id)}
+									onClick={() => handleOpenButtonClick(id, status)}
 								>
 									Открыть
 								</Button>

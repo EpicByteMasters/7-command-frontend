@@ -226,6 +226,36 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	console.log('tasksArrayForRender: ', tasksArrayForRender);
 
+	function formatDateToCustomFormat(dateString: any) {
+		console.log('dateString: ', dateString);
+		const months = [
+			'января',
+			'февраля',
+			'марта',
+			'апреля',
+			'мая',
+			'июня',
+			'июля',
+			'августа',
+			'сентября',
+			'октября',
+			'ноября',
+			'декабря',
+		];
+
+		const [year, month, day] = dateString.split('-').map(Number);
+
+		const formattedDate = `${day} ${months[month - 1]}`;
+
+		return `до ${formattedDate}`;
+	}
+
+	function formatDate(inputDate: string): string {
+		const [year, month, day] = inputDate.split('-');
+		const formattedDate: string = `${day}.${month}.${year}`;
+		return formattedDate;
+	}
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -237,7 +267,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 									<CrossCircleMIcon color="#70707A" />
 									{name}
 								</Table.TCell>
-								<Table.TCell>{closeDate}</Table.TCell>
+								<Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
 								<Table.TCell>
 									<Status view="soft" color={getStatusColor(status)}>
 										{status}
@@ -271,7 +301,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														view="date"
 														label="Дата завершения"
 														size="m"
-														value={closeDate}
+														value={formatDate(closeDate)}
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
