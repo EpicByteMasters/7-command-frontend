@@ -20,7 +20,8 @@ export interface Employee {
 
 interface ManagerIPRSListResponse {
 	employees: Employee[];
-	total_count: number;
+	total_count_employee: number;
+	total_count_iprs: number;
 }
 
 export type IPRSSliceState = {
