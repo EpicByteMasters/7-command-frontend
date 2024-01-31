@@ -1,5 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useAppSelector } from '../../shared/hooks/redux';
+
 import styles from './tasks.module.scss';
+
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
@@ -13,10 +16,11 @@ import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
+import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
+
 import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
-import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { useAppSelector } from '../../shared/hooks/redux';
 
 interface TasksProps {
 	isEmployee: boolean;
@@ -52,12 +56,13 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		commentOfMentor: '',
 		commentOfEmployee: '',
 	});
+  
 	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
 
-	console.log('formData из зфдач: ', taskData);
+	console.log('formData из задачах: ', taskData);
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -301,7 +306,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																			className={styles.formTag}
 																			onClick={onDeleteTag}
 																		>
-																			<CrossCircleMIcon />
+																			<div className={styles.formCircle}>
+																				<CrossCircleMIcon />
+																			</div>
 																			{value}
 																		</div>
 																	</div>
@@ -382,7 +389,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														/>
 														<Button
 															view="primary"
-															size="m"
+															size="s"
 															className={styles.button}
 														>
 															Отправить на проверку

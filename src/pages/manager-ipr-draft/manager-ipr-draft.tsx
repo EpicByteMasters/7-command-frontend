@@ -13,19 +13,13 @@ import { Tasks } from '../../entities/tasks/tasks';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
+import { NewTask } from '../../entities/new-task/new-task';
+
 interface ManagerIprDraftProps {
 	statusText: string;
 	statusColor: StatusProps['color'];
 	isExecutive: boolean;
 	ipr_id: number;
-}
-interface OptionShape {
-	key: string;
-}
-interface UserShapeProps {
-	name: string;
-	position: string;
-	avatar: string;
 }
 
 export const ManagerIprDraft = ({
@@ -35,20 +29,12 @@ export const ManagerIprDraft = ({
 	ipr_id,
 }: ManagerIprDraftProps) => {
 	const navigate = useNavigate();
-	const location = useLocation();
-
-	const user = [
-		{
-			name: 'Сошнева Инна Павловна',
-			position: 'Менеджер направления',
-			avatar: avatar,
-		},
-	];
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalDisacrd, setDiscardOpen] = useState(false);
 	const [modalSave, setSaveOpen] = useState(false);
 	const [taskValues, setTaskValues] = useState('');
+	const [newTaskOpen, setNewTaskOpen] = useState(false);
 
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
@@ -68,7 +54,30 @@ export const ManagerIprDraft = ({
 	const handleGoalValuesChange = (data: any) => {
 		setTaskValues(data);
 	};
-	console.log(taskValues, 'task-task-task');
+	const [newTask, setNewTask] = useState<Task[]>([]);
+
+	interface Task {
+		taskTitle: string;
+		closeDate: string;
+		description: string;
+		courses: string;
+		comment: string;
+	}
+
+	const handleNewTaskOpen = () => {
+		setNewTaskOpen(true);
+		setNewTask((prevTasks) => [
+			...prevTasks,
+			{
+				taskTitle: '',
+				closeDate: '',
+				description: '',
+				courses: '',
+				comment: '',
+			},
+		]);
+		console.log(newTask);
+	};
 
 	return (
 		<>
@@ -103,7 +112,7 @@ export const ManagerIprDraft = ({
 						<Button
 							onClick={onModalSaveOpen}
 							view="secondary"
-							size="m"
+							size="s"
 							className={styles.buttonSave}
 						>
 							Сохранить
@@ -112,7 +121,7 @@ export const ManagerIprDraft = ({
 							<Button
 								onClick={onClick}
 								view="primary"
-								size="m"
+								size="s"
 								className={styles.buttonSend}
 							>
 								Подвести итоги
@@ -123,14 +132,7 @@ export const ManagerIprDraft = ({
 							</Button>
 						)}
 
-						<button
-							onClick={onModalOpen}
-							style={{
-								border: 'none',
-								backgroundColor: 'transparent',
-								cursor: 'pointer',
-							}}
-						>
+						<button onClick={onModalOpen} className={styles.trashCan}>
 							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
 						</button>
 						{statusText === 'в работе' ? (
@@ -138,7 +140,7 @@ export const ManagerIprDraft = ({
 								<Button
 									onClick={onModalDiscardOpen}
 									view="tertiary"
-									size="m"
+									size="s"
 									className={styles.buttonDiscard}
 								>
 									Отменить
@@ -160,11 +162,23 @@ export const ManagerIprDraft = ({
 							<Tasks isEmployee={true} />
 						</fieldset>
 
+						{newTask.map((item) => {
+							return (
+								<div>
+									<NewTask isEmployee={false}></NewTask>
+								</div>
+							);
+						})}
+
+						{/* {newTaskOpen && (
+							<NewTask isEmployee={false} isExecutive={true}></NewTask>
+						)} */}
 						<ButtonDesktop
+							onClick={handleNewTaskOpen}
 							view="tertiary"
 							shape="rectangular"
 							size="s"
-							className="button__component"
+							className={styles.buttonComponent}
 							nowrap={false}
 							colors="default"
 						>
@@ -185,18 +199,7 @@ export const ManagerIprDraft = ({
 			) : (
 				''
 			)}
-			{modalSave ? (
-				<Modal
-					title={'Изменения сохранены'}
-					// paragraph={
-					// 	'Вы дейстивтельно хотите отменить индивидуальный план развития?'
-					// }
-					// button1={'Да'}
-					// button2={'Нет'}
-				></Modal>
-			) : (
-				''
-			)}
+			{modalSave ? <Modal title={'Изменения сохранены'}></Modal> : ''}
 		</>
 	);
 };

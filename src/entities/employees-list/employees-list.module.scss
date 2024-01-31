@@ -37,7 +37,7 @@
 	font-family: 'Inter';
 	font-size: 11px;
 	font-weight: 700;
-	line-height: 20px; /* 181.818% */
+	line-height: 20px;
 	letter-spacing: 0.5px;
 	text-transform: uppercase;
 	box-sizing: border-box;
@@ -95,6 +95,7 @@
 	.btnText {
 		@include mixins.input_txt;
 		height: 40px;
+		cursor: pointer;
 	}
 	.btnText:hover {
 		border: 1px solid gray;

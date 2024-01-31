@@ -1,6 +1,7 @@
 .table {
 	box-sizing: border-box;
 	font-family: 'Inter';
+	width: 1016px;
 }
 
 .cellWithIcon {
@@ -10,8 +11,8 @@
 }
 
 .openedTask {
-	padding: 28px;
-	border: 1px dashed var(--in_progress_text, #2a77ef);
+	margin: 0 auto;
+	border: 1px dashed #2a77ef;
 	display: block;
 	border: none;
 }
@@ -60,6 +61,7 @@
 	width: 237px;
 	height: 48px;
 	margin-top: 28px;
+	padding: 10px;
 }
 
 .calendar {
@@ -92,6 +94,8 @@
 }
 
 .formTag {
+	margin: 0;
+	padding: 0;
 	width: 952px;
 	border-radius: 8px;
 	background: #f2f3f5;
@@ -101,4 +105,18 @@
 	align-items: center;
 	gap: 8px;
 	align-self: stretch;
+	overflow: hidden;
+	color: #2a77ef;
+	text-overflow: ellipsis;
+	font-family: 'Inter';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.formCircle {
+	margin: 0;
+	padding: 0;
+	color: #70707a;
 }
