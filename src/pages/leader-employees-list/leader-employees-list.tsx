@@ -12,6 +12,8 @@ import { EmployeesList } from '../../entities/employees-list/employees-list';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { ChevronDownSIcon } from '@alfalab/icons-glyph/ChevronDownSIcon';
 import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
+import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
+
 interface TableProps {
 	data: EmployeeGoalPlan[];
 	isExecutive: boolean;
@@ -20,20 +22,20 @@ interface TableProps {
 }
 
 const structureData = {
-	title: 'Вся структура',
+	title: 'Вовлеченность команды',
 	items: [
-		{ subtitle: 'Штатная численность', number: 30 },
-		{ subtitle: 'Сотрудники', number: 25 },
-		{ subtitle: 'Вакансии', number: 5 },
+		{ subtitle: 'Размеры команды', number: 348 },
+		{ subtitle: 'Всего в работе', number: 60 },
+		{ subtitle: 'Соотношение', number: 15 },
 	],
 };
 
 const successData = {
 	title: 'Успешность планов развития',
 	items: [
-		{ subtitle: 'Создано', number: 30 },
-		{ subtitle: 'Закрыто', number: 25 },
-		{ subtitle: 'В работе', number: 5 },
+		{ subtitle: 'Выполненных', number: 85 },
+		{ subtitle: 'Не выполненных', number: 15 },
+		{ subtitle: 'Соотношение', number: 5 },
 	],
 };
 
@@ -86,7 +88,10 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 			<div className={styles.container}>
 				<NavBarMini isExecutive={isExecutive} />
 				<div className={styles.wrapper}>
-					<PageTitle title="План развития"></PageTitle>
+					<div className={styles.titleWrapper}>
+						<PageTitle title="План развития сотрудников" />
+						<ExclamationCircleSIcon fill={'#898889'} />
+					</div>
 					<div className={styles.dataWrapper}>
 						<LeadInfoBlock data={structureData} />
 						<LeadInfoBlock data={successData} />
