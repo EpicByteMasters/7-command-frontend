@@ -88,10 +88,11 @@ export const TasksOverview = ({
 
 	//получаем данные с Сервера
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData в tasks: ', iprData);
 	const { id } = useParams<{ id: string }>();
 	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	console.log('iprData в tasks: ', iprData);
 	console.log('currentIpr в Task-oveview: ', currentIpr);
+
 	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
 	}
@@ -348,7 +349,7 @@ export const TasksOverview = ({
 										onChange={handleChangeGoal}
 										onInput={handleInputGoal}
 										Arrow={shownChevron ? Arrow : undefined}
-										value={isExecutive ? goal.name : valueGoal}
+										value={isExecutive ? valueGoal : goal.name}
 										allowUnselect={true}
 										showEmptyOptionsList={true}
 										inputProps={{
@@ -372,7 +373,7 @@ export const TasksOverview = ({
 										onChange={handleChangeRole}
 										onInput={handleInputRole}
 										Arrow={shownChevron ? Arrow : undefined}
-										value={isExecutive ? speciality.name : valueRole}
+										value={isExecutive ? valueRole : speciality.name}
 										allowUnselect={true}
 										inputProps={{
 											onClear: () => setValueRole(''),
@@ -386,7 +387,7 @@ export const TasksOverview = ({
 								<InputAutocomplete
 									error={error3}
 									name="competence"
-									value={isExecutive ? competency : valueCompetence}
+									value={isExecutive ? valueCompetence : competency}
 									block={true}
 									multiple={multiple}
 									allowUnselect={true}
