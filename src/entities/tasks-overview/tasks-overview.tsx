@@ -101,7 +101,7 @@ export const TasksOverview = ({
 	);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
 	console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
-	console.log(currentIpr.competency[0].competencyRel, '!Competency');
+	console.log(currentIpr.goal, '!Competency');
 	// if (!currentIpr) {
 	// 	return <div>Ошибка не нашел Id</div>;
 	// }
@@ -442,7 +442,7 @@ export const TasksOverview = ({
 								})
 							: ''}
 						{/* {!isExecutive
-							? currentIpr.competency[0].flat.map(
+							? [...currentIpr.competency[0].competencyRel].map(
 									(id: string, name: number) => {
 										return (
 											<div key={id.length + 1} style={{ maxWidth: '319' }}>

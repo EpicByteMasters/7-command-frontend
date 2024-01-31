@@ -133,7 +133,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
-export const getIpr = createAsyncThunk<IprData, number>(
+export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
 	'iprs/getIpr',
 	async (id) => {
 		try {
@@ -252,7 +252,7 @@ export const iprsSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 		});
-		builder.addCase(getIpr.fulfilled, (state, action) => {
+		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id
