@@ -250,6 +250,12 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		return `до ${formattedDate}`;
 	}
 
+	function formatDate(inputDate: string): string {
+		const [year, month, day] = inputDate.split('-');
+		const formattedDate: string = `${day}.${month}.${year}`;
+		return formattedDate;
+	}
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -295,7 +301,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														view="date"
 														label="Дата завершения"
 														size="m"
-														value={closeDate}
+														value={formatDate(closeDate)}
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
