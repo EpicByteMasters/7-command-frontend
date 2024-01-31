@@ -1,9 +1,5 @@
 import styles from './footer-main.module.scss';
-import { Link } from 'react-router-dom';
 import logo from '../../images/footer-icons/logo-mobile.svg';
-import icon1 from '../../images/footer-icons/icon-social-1.svg';
-import icon2 from '../../images/footer-icons/icon-social-2.svg';
-import icon3 from '../../images/footer-icons/icon-social-3.svg';
 import logo1 from '../../images/footer-icons/logotype_telegram_m.svg';
 import logo2 from '../../images/footer-icons/logotype_vk_m.svg';
 import logo3 from '../../images/footer-icons/logotype_youtube_m.svg';
