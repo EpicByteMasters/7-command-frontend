@@ -163,8 +163,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		navigate(`/service-iprs/ipr/3`, { replace: true });
 	};
 	const onClickToDraft = () => {
-		setModalCreate(true);
-		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
+		setModalCreate(!modalCreate);
 	};
 
 	// Фильтрация по цели/ по статусу

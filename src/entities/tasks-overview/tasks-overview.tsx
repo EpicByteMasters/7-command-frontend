@@ -99,18 +99,9 @@ export const TasksOverview = ({
 	const currentIpr: any | undefined = iprData.find(
 		(goal: any) => goal.id === Number(id)
 	);
-
-	// let NEW: Map<string, any> = new Map(Object.entries(currentIpr));
-	// let NEW2: any[] = [...currentIpr];
-
-	// console.log(NEW2, NEW, '!!!!!new');
-	// console.log('iprData в tasks: ', iprData);
-	console.log('!currentIpr в Task-oveview ', currentIpr);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
-	console.log(currentIpr, 'STATE');
-	// let newArray = new Map(Object.entries(currentIpr));
-	// console.log(newArray, 'MAP');
-
+	console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
+	console.log(currentIpr.competency[0].competencyRel, '!Competency');
 	// if (!currentIpr) {
 	// 	return <div>Ошибка не нашел Id</div>;
 	// }
@@ -450,6 +441,29 @@ export const TasksOverview = ({
 									);
 								})
 							: ''}
+						{/* {!isExecutive
+							? currentIpr.competency[0].flat.map(
+									(id: string, name: number) => {
+										return (
+											<div key={id.length + 1} style={{ maxWidth: '319' }}>
+												<FilterTag
+													disabled={isExecutive ? false : true}
+													showClear={true}
+													size="xxs"
+													shape="rounded"
+													view="filled"
+													checked={true}
+													onClear={() => {
+														setValueCompetence('');
+													}}
+												>
+													{name}
+												</FilterTag>
+											</div>
+										);
+									}
+								)
+							: ''} */}
 						{valueCompetence.length > 0
 							? tagValues.map((value: string, key: number) => {
 									return (
