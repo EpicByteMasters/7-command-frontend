@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../shared/utils/constants';
 
-export interface IPRSData {
+interface IPRSData {
 	id: number;
-	iprStatus: string;
-	supervisorId: number;
-	goal: string;
-	specialty: string;
-	createDate: string;
+	goal?: {
+		id: string;
+		name: string;
+	};
 	closeDate: string;
-	mentorId: number;
-	description: string;
-	comment: string;
-	supervisorComment: string;
+	createDate: string;
+	status: {
+		id: string;
+		name: 'Черновик' | 'В работе' | 'Выполнен' | 'Не выполнен' | 'Отменен';
+	};
 }
 
 export type IPRSState = {

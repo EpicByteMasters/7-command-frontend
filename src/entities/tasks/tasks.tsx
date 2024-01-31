@@ -1,5 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useAppSelector } from '../../shared/hooks/redux';
+
 import styles from './tasks.module.scss';
+
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
@@ -13,10 +16,12 @@ import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
-import { courses } from '../../shared/utils/constants';
-import { tasksData } from '../../shared/utils/constants';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
+
+import { courses } from '../../shared/utils/constants';
+import { tasksData } from '../../shared/utils/constants';
+
 interface TasksProps {
 	isEmployee: boolean;
 }
@@ -42,7 +47,7 @@ interface FormData {
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const [formData, setFormData] = React.useState<FormData>({
+	const [taskData, setTaskData] = React.useState<FormData>({
 		id: 0,
 		name: '',
 		dateOfEnd: '',
@@ -51,18 +56,19 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		commentOfMentor: '',
 		commentOfEmployee: '',
 	});
+  
 	const [shownChevron, setShownChevron] = React.useState(true);
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
 
-	console.log('formData из зфдач: ', formData);
+	console.log('formData из задачах: ', taskData);
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	): void => {
 		const { name, value } = event.target;
-		setFormData((prevData) => ({ ...prevData, [name]: value }));
+		setTaskData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const optionsCourses: OptionShape[] = courses;
@@ -80,7 +86,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		let selectedEducations: Education[] = [];
 
 		if (typeof selectedCourses === 'string') {
-			// Если selectedCourses - это строка, преобразуйте ее в массив строк
 			const courseNames = selectedCourses.split(',').map((name) => name.trim());
 
 			selectedEducations = courseNames.map((name) => ({
@@ -89,7 +94,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 				status: '',
 			}));
 		} else {
-			// Иначе, предполагаем, что selectedCourses - это массив объектов OptionShape
 			selectedEducations = selectedCourses.map((course) => ({
 				name: course.key,
 				url: '',
@@ -97,7 +101,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			}));
 		}
 
-		setFormData((prevData) => ({
+		setTaskData((prevData) => ({
 			...prevData,
 			educations: selectedEducations,
 		}));
@@ -157,7 +161,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
-		setFormData((prevData) => ({ ...prevData, endDate: value }));
+		setTaskData((prevData) => ({ ...prevData, endDate: value }));
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -192,8 +196,8 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		setValueCourse(updatedTagValues.join(', '));
 	};
 
-	const getFormData = (): FormData => {
-		return formData;
+	const getTaskData = (): FormData => {
+		return taskData;
 	};
 
 	return (
@@ -259,7 +263,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxHeight={91}
 													label="Описание"
 													name="description"
-													value={formData.description}
+													value={taskData.description}
 													onChange={handleInputChange}
 													labelView="inner"
 													size="m"
