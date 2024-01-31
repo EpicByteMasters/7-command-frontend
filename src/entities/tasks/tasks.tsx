@@ -226,6 +226,30 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	console.log('tasksArrayForRender: ', tasksArrayForRender);
 
+	function formatDateToCustomFormat(dateString: any) {
+		console.log('dateString: ', dateString);
+		const months = [
+			'января',
+			'февраля',
+			'марта',
+			'апреля',
+			'мая',
+			'июня',
+			'июля',
+			'августа',
+			'сентября',
+			'октября',
+			'ноября',
+			'декабря',
+		];
+
+		const [year, month, day] = dateString.split('-').map(Number);
+
+		const formattedDate = `${day} ${months[month - 1]}`;
+
+		return `до ${formattedDate}`;
+	}
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -237,7 +261,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 									<CrossCircleMIcon color="#70707A" />
 									{name}
 								</Table.TCell>
-								<Table.TCell>{closeDate}</Table.TCell>
+								<Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
 								<Table.TCell>
 									<Status view="soft" color={getStatusColor(status)}>
 										{status}
