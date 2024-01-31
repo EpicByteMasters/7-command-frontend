@@ -56,7 +56,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	};
 
 	const onClickToDraft = () => {
-		setModalCreate(true);
+		setModalCreate(!modalCreate);
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
