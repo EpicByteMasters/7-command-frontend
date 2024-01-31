@@ -60,10 +60,11 @@ export const ManagerIprDraft = ({
 		setSaveOpen(!modalSave);
 	};
 
-	const handleGoalValuesChange = (data: any) => {
-		setTaskValues(data);
+	const handleDataSubmit = (goalData: any, taskData: any) => {
+		// Здесь вы можете отправить оба набора данных на сервер
+		console.log('Отправка данных на сервер из Tasks:', taskData);
+		console.log('Отправка данных на сервер из TasksOverview:', goalData);
 	};
-	console.log(taskValues, 'task-task-task');
 
 	return (
 		<>
@@ -146,7 +147,7 @@ export const ManagerIprDraft = ({
 
 					<form className={styles2.form}>
 						<TasksOverview
-							handleGoalValuesChange={handleGoalValuesChange}
+							handleGoalValuesChange={handleDataSubmit}
 							isExecutive={isExecutive}
 							iprStatus="черновик"
 						></TasksOverview>

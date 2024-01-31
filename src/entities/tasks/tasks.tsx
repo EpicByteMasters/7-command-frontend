@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import styles from './tasks.module.scss';
+import { useParams } from 'react-router-dom';
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
@@ -43,7 +44,7 @@ interface FormData {
 }
 
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const [taskData, setTaskData] = React.useState<FormData>({
+	const [taskValues, setTaskValues] = React.useState<FormData>({
 		id: 0,
 		name: '',
 		dateOfEnd: '',
@@ -56,14 +57,33 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const [multiple, setMultiple] = React.useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
+	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
+		{}
+	);
+	const [valueEndDate, setEndDate] = useState<string>('');
 
-	console.log('formData из зфдач: ', taskData);
+	// useEffect(() => {
+	// 	gettaskValues(taskValues, goalData);
+	//   }, [taskValues, gettaskValues]);
+
+	console.log('formData из задач: ', taskValues);
+
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData в tasks: ', iprData);
+	const { id } = useParams<{ id: string }>();
+	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	console.log('currentIpr: ', currentIpr);
+	if (!currentIpr) {
+		return <div>Ошибка не нашел Id</div>;
+	}
+
+	const tasksArrayForRender = currentIpr.task;
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	): void => {
 		const { name, value } = event.target;
-		setTaskData((prevData) => ({ ...prevData, [name]: value }));
+		setTaskValues((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const optionsCourses: OptionShape[] = courses;
@@ -96,7 +116,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			}));
 		}
 
-		setTaskData((prevData) => ({
+		setTaskValues((prevData) => ({
 			...prevData,
 			educations: selectedEducations,
 		}));
@@ -149,14 +169,9 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 			: optionsCourses.filter((option) => matchOption(option, valueCourse));
 	};
 
-	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
-		{}
-	);
-	const [valueEndDate, setEndDate] = useState<string>('');
-
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
-		setTaskData((prevData) => ({ ...prevData, endDate: value }));
+		setTaskValues((prevData) => ({ ...prevData, endDate: value }));
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -190,26 +205,41 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 		setValueCourse(updatedTagValues.join(', '));
 	};
-
-	const getTaskData = (): FormData => {
-		return taskData;
+	const { status } = currentIpr;
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'черновик':
+				return 'purple';
+			case 'отменен':
+				return 'orange';
+			case 'в работе':
+				return 'blue';
+			case 'не выполнен':
+				return 'red';
+			case 'выполнен':
+				return 'green';
+			case 'отсутствует':
+				return 'grey';
+			default:
+				return 'blue';
+		}
 	};
 
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
-				{tasksData.map(
-					({ id, title, deadline, statusColor, statusText, closeButton }) => (
+				{tasksArrayForRender.map(
+					({ id, name, closeDate, status, supervisorComment }) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
-									{closeButton && <CrossCircleMIcon color="#70707A" />}
-									{title}
+									<CrossCircleMIcon color="#70707A" />
+									{name}
 								</Table.TCell>
-								<Table.TCell>{deadline}</Table.TCell>
+								<Table.TCell>{closeDate}</Table.TCell>
 								<Table.TCell>
-									<Status view="soft" color={statusColor}>
-										{statusText}
+									<Status view="soft" color={getStatusColor(status)}>
+										{status}
 									</Status>
 								</Table.TCell>
 								<Table.TCell>
@@ -258,7 +288,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxHeight={91}
 													label="Описание"
 													name="description"
-													value={taskData.description}
+													value={taskValues.description}
 													onChange={handleInputChange}
 													labelView="inner"
 													size="m"

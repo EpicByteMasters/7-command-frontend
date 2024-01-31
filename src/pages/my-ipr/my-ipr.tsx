@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Header from '../../shared/header-component/header';
 import { useParams } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
-import { Status, StatusProps } from '@alfalab/core-components/status';
+import { Status } from '@alfalab/core-components/status';
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
@@ -21,14 +21,13 @@ export const MyIpr: React.FC = () => {
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
-
 	const { id } = useParams<{ id: string }>();
-	const currentGoal = iprData.find((goal) => goal.id === Number(id));
-	if (!currentGoal) {
+	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
 	}
 
-	const { status } = currentGoal;
+	const { status } = currentIpr;
 	const getStatusColor = (status: string) => {
 		switch (status) {
 			case 'черновик':
@@ -46,6 +45,12 @@ export const MyIpr: React.FC = () => {
 			default:
 				return 'blue';
 		}
+	};
+
+	const handleDataSubmit = (goalData: any, taskData: any) => {
+		// Здесь вы можете отправить оба набора данных на сервер
+		console.log('Отправка данных на сервер из Tasks:', goalData);
+		console.log('Отправка данных на сервер из AnotherComponent:', taskData);
 	};
 
 	return (
@@ -74,7 +79,11 @@ export const MyIpr: React.FC = () => {
 						</Button>
 					</div>
 					<form className={styles2.form}>
-						<TasksOverview isExecutive={false} iprStatus="черновик" />
+						<TasksOverview
+							isExecutive={false}
+							iprStatus={status.name}
+							handleGoalValuesChange={handleDataSubmit}
+						/>
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 							<Tasks isEmployee={true} />
