@@ -536,3 +536,44 @@ export const objCompetence = [
 	},
 	{ id: 'EMPATHY', name: 'Эмпатия', skillType: 'SOFT' },
 ];
+
+export const getStatusColor = (status: string) => {
+	switch (status) {
+		case 'DRAFT':
+			return 'purple';
+		case 'CANCELED':
+			return 'orange';
+		case 'IN_PROGRESS':
+			return 'blue';
+		case 'NOT_COMPLETED':
+			return 'red';
+		case 'COMPLETED':
+			return 'green';
+		case 'NO_IPR':
+			return 'grey';
+		default:
+			return 'blue';
+	}
+};
+
+// Библиотека
+interface LibraryItem {
+	id: string;
+	name: string;
+}
+
+// Универсальная функция для получения русского значения по id из библиотеки
+export const getValueById = <T extends LibraryItem>(
+	id: string,
+	library: T[]
+): string => {
+	const item = library.find((item) => item.id === id);
+	return item ? item.name : id; // Если не найдено, вернуть исходное значение
+};
+
+// Функция преобразования формата даты
+export const formatDateString = (inputDate: string): string => {
+	const [day, month, year] = inputDate.split('-');
+	const formattedDate = `${day}.${month}.${year}`;
+	return formattedDate;
+};

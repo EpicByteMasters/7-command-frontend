@@ -20,6 +20,7 @@ export interface IUser {
 	};
 	supervisorId: number;
 	isSupervisor: boolean;
+	isMentor: boolean;
 }
 
 export type UserState = {
@@ -45,6 +46,7 @@ initialState = {
 		specialty: { name: '' }, // Обновлено для соответствия интерфейсу IUser
 		supervisorId: 0,
 		isSupervisor: false,
+		isMentor: false,
 	},
 	access_token: null,
 	isLoading: false,
@@ -134,6 +136,7 @@ export const userSlice = createSlice({
 			state.user.specialty = { name: action.payload.specialty.name };
 			state.user.supervisorId = action.payload.supervisorId;
 			state.user.isSupervisor = action.payload.isSupervisor;
+			state.user.isMentor = action.payload.isMentor;
 		},
 	},
 	extraReducers: (builder) => {
@@ -153,6 +156,7 @@ export const userSlice = createSlice({
 			state.user.specialty = { name: action.payload.specialty.name };
 			state.user.supervisorId = action.payload.supervisorId;
 			state.user.isSupervisor = action.payload.isSupervisor;
+			state.user.isMentor = action.payload.isMentor;
 		});
 	},
 });

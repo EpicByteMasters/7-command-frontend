@@ -133,8 +133,40 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
+export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
+	'iprs/getIprSupevisor',
+	async (id) => {
+		try {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				throw new Error('Token is missing in localStorage');
+			}
+
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/supervisor/${id}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			if (response.status === 200) {
+				return response.json();
+			} else {
+				throw new Error('Failed to fetch IPR data');
+			}
+		} catch (error) {
+			console.error('Error during fetching IPR data:', error);
+			throw error;
+		}
+	}
+);
+
 export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
-	'iprs/getIpr',
+	'iprs/getIprEmployee',
 	async (id) => {
 		try {
 			const token = localStorage.getItem('token');
@@ -249,6 +281,19 @@ export const iprsSlice = createSlice({
 		});
 		builder.addCase(createIPR.fulfilled, (state, action) => {
 			state.iprsData.push(action.payload);
+			state.isLoading = false;
+			state.error = '';
+		});
+		builder.addCase(getIprByIdBySupervisor.fulfilled, (state, action) => {
+			const iprData = action.payload;
+			const existingIndex = state.iprsData.findIndex(
+				(ipr) => ipr.id === iprData.id
+			);
+			if (existingIndex !== -1) {
+				state.iprsData[existingIndex] = iprData;
+			} else {
+				state.iprsData.push(iprData);
+			}
 			state.isLoading = false;
 			state.error = '';
 		});
