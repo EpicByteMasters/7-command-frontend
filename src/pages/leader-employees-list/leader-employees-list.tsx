@@ -100,124 +100,130 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 	};
 
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				{/* <NavBarMini isExecutive={isExecutive} /> */}
-				<NavBarMini />
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					{/* <NavBarMini isExecutive={isExecutive} /> */}
+					<NavBarMini />
 
-				<div className={styles.wrapper}>
-					<div className={styles.titleWrapper}>
-						<PageTitle title="План развития сотрудников" />
-						<ExclamationCircleSIcon fill={'#898889'} />
-					</div>
-					<div className={styles.dataWrapper}>
-						<LeadInfoBlock data={structureData} />
-						<LeadInfoBlock data={successData} />
-					</div>
-					<div className={styles.searchInputWrapper}>
-						<Input
-							size="s"
-							colors="default"
-							placeholder="Поиск по сотрудникам"
-							className={styles.input}
-							leftAddons={<MagnifierMIcon color="#898889" />}
-							type="text"
-							block={true}
-						/>
-					</div>
-
-					<div className={styles.filterTagsWrapper}>
-						<div className={styles.dropdown1}>
-							<button
-								onClick={onClick}
-								name="btnGoal"
-								className={styles.dropbtn1}
-							>
-								Цель
-								<div>
-									{chevron ? (
-										<ChevronDownSIcon></ChevronDownSIcon>
-									) : (
-										<ChevronUpSIcon></ChevronUpSIcon>
-									)}
-								</div>
-							</button>
-							{chevron ? (
-								<div className={styles.dropdownContent1}>
-									{chevron &&
-										OPTIONS_GOAL.map((goal, key) => {
-											return (
-												<p
-													key={goal.key}
-													onClick={() => {
-														setGoalValue(goal.content);
-														setChevron(!chevron);
-													}}
-												>
-													{goal.content}
-												</p>
-											);
-										})}
-								</div>
-							) : (
-								''
-							)}
+					<div className={styles.wrapper}>
+						<div className={styles.titleWrapper}>
+							<PageTitle title="План развития сотрудников" />
+							<ExclamationCircleSIcon fill={'#898889'} />
+						</div>
+						<div className={styles.dataWrapper}>
+							<LeadInfoBlock data={structureData} />
+							<LeadInfoBlock data={successData} />
+						</div>
+						<div className={styles.searchInputWrapper}>
+							<Input
+								size="s"
+								colors="default"
+								placeholder="Поиск по сотрудникам"
+								className={styles.input}
+								leftAddons={<MagnifierMIcon color="#898889" />}
+								type="text"
+								block={true}
+							/>
 						</div>
 
-						<div className={styles.dropdown2}>
-							<button
-								name="btnStatus"
-								onClick={onClick2}
-								className={styles.dropbtn2}
-							>
-								Статус
-								<div>
-									{chevron2 ? (
-										<ChevronDownSIcon></ChevronDownSIcon>
-									) : (
-										<ChevronUpSIcon></ChevronUpSIcon>
-									)}
-								</div>
-							</button>
-							{chevron2 ? (
-								<div className={styles.dropdownContent2}>
-									{chevron2 &&
-										OPTIONS_STATUS.map((status, key) => {
-											return (
-												<p
-													key={status.key}
-													onClick={() => {
-														setStatusValue(status.content.toLocaleLowerCase());
-														setChevron2(!chevron2);
-													}}
-												>
-													{status.content}
-												</p>
-											);
-										})}
-								</div>
-							) : (
-								''
-							)}
-						</div>
-					</div>
+						<div className={styles.filterTagsWrapper}>
+							<div className={styles.dropdown1}>
+								<button
+									onClick={onClick}
+									name="btnGoal"
+									className={styles.dropbtn1}
+								>
+									Цель
+									<div>
+										{chevron ? (
+											<ChevronDownSIcon></ChevronDownSIcon>
+										) : (
+											<ChevronUpSIcon></ChevronUpSIcon>
+										)}
+									</div>
+								</button>
+								{chevron ? (
+									<div className={styles.dropdownContent1}>
+										{chevron &&
+											OPTIONS_GOAL.map((goal, key) => {
+												return (
+													<p
+														key={goal.key}
+														onClick={() => {
+															setGoalValue(goal.content);
+															setChevron(!chevron);
+														}}
+													>
+														{goal.content}
+													</p>
+												);
+											})}
+									</div>
+								) : (
+									''
+								)}
+							</div>
 
-					{/* <EmployeesList
+							<div className={styles.dropdown2}>
+								<button
+									name="btnStatus"
+									onClick={onClick2}
+									className={styles.dropbtn2}
+								>
+									Статус
+									<div>
+										{chevron2 ? (
+											<ChevronDownSIcon></ChevronDownSIcon>
+										) : (
+											<ChevronUpSIcon></ChevronUpSIcon>
+										)}
+									</div>
+								</button>
+								{chevron2 ? (
+									<div className={styles.dropdownContent2}>
+										{chevron2 &&
+											OPTIONS_STATUS.map((status, key) => {
+												return (
+													<p
+														key={status.key}
+														onClick={() => {
+															setStatusValue(
+																status.content.toLocaleLowerCase()
+															);
+															setChevron2(!chevron2);
+														}}
+													>
+														{status.content}
+													</p>
+												);
+											})}
+									</div>
+								) : (
+									''
+								)}
+							</div>
+						</div>
+
+						{/* <EmployeesList
 						data={data}
 						ipr_id={ipr_id}
 						ipr_id2={ipr_id2}
 						goal={statusGoal}
 						status={statusValue}
 					/> */}
-					<EmployeesList
-						data={managerIprsList?.employees}
-						status={statusValue}
-						goal={statusGoal}
-					/>
+						<EmployeesList
+							data={managerIprsList?.employees}
+							status={statusValue}
+							goal={statusGoal}
+						/>
+					</div>
 				</div>
 			</div>
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

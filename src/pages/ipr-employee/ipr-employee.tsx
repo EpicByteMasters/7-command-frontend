@@ -27,29 +27,33 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
 	};
 
 	return (
-		<>
-			<Header />
-			<section className={styles.myPlan}>
-				<div className={styles.container}>
-					<BackButton />
-				</div>
-				<div className={styles.wrapper}>
-					<div className={styles.titleWrapper}>
-						<PageTitle title="Мой план развития"></PageTitle>
-						<Status view="soft" color={statusColor}>
-							{statusText}
-						</Status>
-					</div>
-					<Button view="secondary" size="m" className={styles.button}>
-						Сохранить
-					</Button>
-					<legend className={styles.blockTitle}>Общее описание</legend>
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<section className={styles.myPlan}>
 					<div className={styles.container}>
-						<Tasks isEmployee={true} />
+						<BackButton />
 					</div>
-				</div>
-			</section>
-			<FooterMain></FooterMain>
-		</>
+					<div className={styles.wrapper}>
+						<div className={styles.titleWrapper}>
+							<PageTitle title="Мой план развития"></PageTitle>
+							<Status view="soft" color={statusColor}>
+								{statusText}
+							</Status>
+						</div>
+						<Button view="secondary" size="m" className={styles.button}>
+							Сохранить
+						</Button>
+						<legend className={styles.blockTitle}>Общее описание</legend>
+						<div className={styles.container}>
+							<Tasks isEmployee={true} />
+						</div>
+					</div>
+				</section>
+			</div>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

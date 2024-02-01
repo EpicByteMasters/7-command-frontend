@@ -20,26 +20,30 @@ export const MentorPlan: React.FC<MentorProps> = ({
 	data,
 }) => {
 	return (
-		<>
-			<Header />
-			<section className={styles.myPlan}>
-				<div className={styles.container}>
-					<NavBarMini></NavBarMini>
-					<div className={styles.wrapper}>
-						<h1 className={styles.title}>Менторство сотрудников</h1>
-						<div className={styles.container}>
-							<MentorList
-								data={data}
-								ipr_id={ipr_id}
-								isMentor={isMentor}
-								isExecutive={isExecutive}
-								ipr_id4={ipr_id4}
-							/>
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<section className={styles.myPlan}>
+					<div className={styles.container}>
+						<NavBarMini></NavBarMini>
+						<div className={styles.wrapper}>
+							<h1 className={styles.title}>Менторство сотрудников</h1>
+							<div className={styles.container}>
+								<MentorList
+									data={data}
+									ipr_id={ipr_id}
+									isMentor={isMentor}
+									isExecutive={isExecutive}
+									ipr_id4={ipr_id4}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
-			</section>
-			<FooterMain></FooterMain>
-		</>
+				</section>
+			</div>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

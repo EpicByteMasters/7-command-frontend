@@ -14,20 +14,24 @@ interface EmployeeProps {
 
 export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee, ipr_id3 }) => {
 	return (
-		<>
-			<Header />
-			<section className={styles.myPlan}>
-				<div className={styles.container}>
-					<NavBarMini></NavBarMini>
-				</div>
-				<div className={styles.wrapper}>
-					<h1 className={styles.title}>Мой план развития</h1>
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<section className={styles.myPlan}>
 					<div className={styles.container}>
-						<Plan isEmployee={true} />
+						<NavBarMini></NavBarMini>
 					</div>
-				</div>
-			</section>
-			<FooterMain></FooterMain>
-		</>
+					<div className={styles.wrapper}>
+						<h1 className={styles.title}>Мой план развития</h1>
+						<div className={styles.container}>
+							<Plan isEmployee={true} />
+						</div>
+					</div>
+				</section>
+			</div>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };
