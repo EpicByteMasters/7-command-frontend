@@ -2,6 +2,7 @@ import styles from './page404.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
 import Header from '../../shared/header-component/header';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface PageProps {
 	error: string;
@@ -41,6 +42,7 @@ export const Page404: React.FC<PageProps> = ({
 					{button}
 				</Button>
 			</div>
+			<FooterMain></FooterMain>
 		</section>
 	);
 };
