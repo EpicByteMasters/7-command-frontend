@@ -74,7 +74,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	};
 
 	return (
-		<>
+		<div className={styles.generalFooterWrapper}>
 			<main className={styles.page}>
 				<div className={styles.container}>
 					<Header></Header>
@@ -109,7 +109,9 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					</div>
 				</div>
 			</main>
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

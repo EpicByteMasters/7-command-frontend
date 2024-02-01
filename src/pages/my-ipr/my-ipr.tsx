@@ -55,45 +55,49 @@ export const MyIpr: React.FC = () => {
 	};
 
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				<NavBarMini />
-				{modalOpen && (
-					<Modal
-						title="Выйти без сохранения?"
-						paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
-						button1="Выйти"
-						button2="Отмена"
-					></Modal>
-				)}
-				<div className={styles.iprDraft}>
-					<div className={styles.titleWrapper}>
-						<PageTitle title="Мой план развития" />
-						<Status view="soft" color={getStatusColor(status.name)}>
-							{status.name}
-						</Status>
-					</div>
-					<div className={styles.buttonsWrapper}>
-						<Button view="secondary" size="m" className={styles.buttonSave}>
-							Сохранить
-						</Button>
-					</div>
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					<NavBarMini />
+					{modalOpen && (
+						<Modal
+							title="Выйти без сохранения?"
+							paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
+							button1="Выйти"
+							button2="Отмена"
+						></Modal>
+					)}
+					<div className={styles.iprDraft}>
+						<div className={styles.titleWrapper}>
+							<PageTitle title="Мой план развития" />
+							<Status view="soft" color={getStatusColor(status.name)}>
+								{status.name}
+							</Status>
+						</div>
+						<div className={styles.buttonsWrapper}>
+							<Button view="secondary" size="m" className={styles.buttonSave}>
+								Сохранить
+							</Button>
+						</div>
 
-					<form className={styles2.form}>
-						<TasksOverview
-							isExecutive={false}
-							iprStatus={status.name}
-							handleGoalValuesChange={handleDataSubmit}
-						/>
-						<fieldset className={styles2.blockWrapper}>
-							<legend className={styles2.blockTitle}>Задачи</legend>
-							<Tasks isEmployee={true} />
-						</fieldset>
-					</form>
+						<form className={styles2.form}>
+							<TasksOverview
+								isExecutive={false}
+								iprStatus={status.name}
+								handleGoalValuesChange={handleDataSubmit}
+							/>
+							<fieldset className={styles2.blockWrapper}>
+								<legend className={styles2.blockTitle}>Задачи</legend>
+								<Tasks isEmployee={true} />
+							</fieldset>
+						</form>
+					</div>
 				</div>
 			</div>
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

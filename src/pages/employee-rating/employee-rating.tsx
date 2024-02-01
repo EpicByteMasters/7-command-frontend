@@ -33,65 +33,69 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 	};
 
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				{/* <NavBarMini isExecutive={isExecutive} /> */}
-				<NavBarMini />
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					{/* <NavBarMini isExecutive={isExecutive} /> */}
+					<NavBarMini />
 
-				<div className={styles.wrapper}>
-					<h2 className={styles.title}>План развития сотрудника</h2>
-					<div className={styles.employeeWrapper}>
-						<EmployeeInfoCard
-							name="Константинов Константин Игоревич"
-							position="Фронтенд-разработчик"
-							avatar={avatar}
-						/>
-					</div>
-					<div className={styles.btnContainer}>
-						<PickerButton
-							options={options}
-							view="secondary"
-							label="Выбрать статус"
-						></PickerButton>
-						<Button view="primary" onClick={handleSubmit}>
-							Завершить
-						</Button>
-					</div>
-					<h3 className={styles.subtitle}>Оценка выполнения</h3>
-					<div className={styles.formWrapper}>
-						<div className={styles.ratingWrapper}>
-							<div className={styles.rating}>
-								{Array.from({ length: 10 }, (_, index) => (
-									<div
-										key={index + 1}
-										onClick={() => handleRatingClick(index + 1)}
-										className={`${styles.ratingBtn} ${
-											selectedRating >= index + 1 ? styles.clicked : ''
-										}`}
-									>
-										{index + 1}
-									</div>
-								))}
-							</div>
-							<div className={styles.ratingSpan}>
-								<span>Есть над чем работать</span>
-								<span>Молодец!</span>
-							</div>
+					<div className={styles.wrapper}>
+						<h2 className={styles.title}>План развития сотрудника</h2>
+						<div className={styles.employeeWrapper}>
+							<EmployeeInfoCard
+								name="Константинов Константин Игоревич"
+								position="Фронтенд-разработчик"
+								avatar={avatar}
+							/>
 						</div>
-						<Textarea
-							label="Оцените достижение цели"
-							block={true}
-							minRows={3}
-							maxLength={96}
-							showCounter={true}
-							onChange={handleCommentChange}
-							allowOverflow={false}
-						/>
+						<div className={styles.btnContainer}>
+							<PickerButton
+								options={options}
+								view="secondary"
+								label="Выбрать статус"
+							></PickerButton>
+							<Button view="primary" onClick={handleSubmit}>
+								Завершить
+							</Button>
+						</div>
+						<h3 className={styles.subtitle}>Оценка выполнения</h3>
+						<div className={styles.formWrapper}>
+							<div className={styles.ratingWrapper}>
+								<div className={styles.rating}>
+									{Array.from({ length: 10 }, (_, index) => (
+										<div
+											key={index + 1}
+											onClick={() => handleRatingClick(index + 1)}
+											className={`${styles.ratingBtn} ${
+												selectedRating >= index + 1 ? styles.clicked : ''
+											}`}
+										>
+											{index + 1}
+										</div>
+									))}
+								</div>
+								<div className={styles.ratingSpan}>
+									<span>Есть над чем работать</span>
+									<span>Молодец!</span>
+								</div>
+							</div>
+							<Textarea
+								label="Оцените достижение цели"
+								block={true}
+								minRows={3}
+								maxLength={96}
+								showCounter={true}
+								onChange={handleCommentChange}
+								allowOverflow={false}
+							/>
+						</div>
 					</div>
 				</div>
+				<div className={styles.generalFooter}>
+					<FooterMain></FooterMain>
+				</div>
 			</div>
-			<FooterMain></FooterMain>
-		</>
+		</div>
 	);
 };

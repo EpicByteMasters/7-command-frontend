@@ -4,6 +4,7 @@
 	margin: 0 auto;
 	padding: 0;
 	width: 1280px;
+	flex: 1 0 auto;
 }
 .wrapper {
 	margin: 239px auto 356px auto;
@@ -35,4 +36,16 @@
 	justify-content: center;
 	align-items: center;
 	flex-shrink: 0;
+}
+
+// Footer
+
+.generalFooterWrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.generalFooter {
+	flex: 0 0 auto;
 }

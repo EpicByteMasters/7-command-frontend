@@ -14,7 +14,7 @@ export const MainPage = () => {
 	const [role, setRole] = useState<boolean>(true);
 
 	return (
-		<>
+		<div className={styles.generalFooterWrapper}>
 			{role ? <Header /> : <Header />}
 			<main className={styles.main}>
 				<div className={styles.container}>
@@ -36,8 +36,10 @@ export const MainPage = () => {
 						</div>
 					</div>
 				</div>
-				<FooterMain></FooterMain>
 			</main>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };
