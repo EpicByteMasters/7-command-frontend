@@ -116,7 +116,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 		}
 
 		const response = await fetch(
-			`${BASE_URL}/api/v1/mentor/iprs/ipr/employees/my_iprs`,
+			`${BASE_URL}/api/v1/mentor/iprs/ipr/employees/my-iprs`,
 			{
 				method: 'GET',
 				headers: {
@@ -147,7 +147,7 @@ export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
 			}
 
 			const response = await fetch(
-				`${BASE_URL}/api/v1/mentor/iprs/ipr/supervisor/${id}`,
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/supervisor`,
 				{
 					method: 'GET',
 					headers: {
@@ -179,7 +179,7 @@ export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
 			}
 
 			const response = await fetch(
-				`${BASE_URL}/api/v1/mentor/iprs/ipr/employee/${id}`,
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/employee`,
 				{
 					method: 'GET',
 					headers: {
