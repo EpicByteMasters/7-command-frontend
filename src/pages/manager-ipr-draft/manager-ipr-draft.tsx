@@ -101,7 +101,6 @@ export const ManagerIprDraft = ({
 			<div className={styles.generalFooterContainer}>
 				<Header />
 				<div className={styles.container}>
-					{/* <NavBarMini isExecutive={isExecutive} /> */}
 					<NavBarMini />
 
 					{modalOpen && (
@@ -156,10 +155,6 @@ export const ManagerIprDraft = ({
 									Отправить в работу
 								</Button>
 							)}
-
-							{/* <button onClick={onModalOpen} className={styles.trashCan}>
-							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
-						</button> */}
 
 							<Button
 								view="tertiary"
@@ -284,7 +279,6 @@ export const ManagerIprDraft = ({
 				) : (
 					''
 				)}
-				<FooterMain></FooterMain>
 			</div>
 			<div className={styles.generalFooter}>
 				<FooterMain></FooterMain>
