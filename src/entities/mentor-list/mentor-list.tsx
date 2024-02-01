@@ -225,6 +225,11 @@ export const MentorList: React.FC<MentorListProps> = ({
 											{status}
 										</Status>
 									</Table.TCell>
+									<Table.TCell>
+										<Button view="tertiary" size="xxs">
+											Открыть
+										</Button>
+									</Table.TCell>
 								</Table.TRow>
 							);
 						}

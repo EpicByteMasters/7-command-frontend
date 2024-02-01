@@ -1,45 +1,53 @@
 import styles from './navbar-main.module.scss';
-import { useAppSelector } from '../../shared/hooks/redux';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+
+//import { useAppSelector } from '../../shared/hooks/redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 import iconProfile from '../../images/navbar-icons-color/icon-user-account.svg';
 import iconCert from '../../images/navbar-icons-color/icon-certificate.svg';
 import iconVacation from '../../images/navbar-icons-color/icon-vacation.svg';
 import iconTarget from '../../images/navbar-icons-color/icon-target.svg';
 import iconRocket from '../../images/navbar-icons-color/icon-rocket.svg';
 import iconMore from '../../images/navbar-icons-color/icon-more.svg';
-interface ExecutiveProps {
-	// isMentor: boolean;
-}
-export const NavBarMain: React.FC<ExecutiveProps> = () => {
-	const navigate = useNavigate();
-	const location = useLocation();
-	const userData = useAppSelector((state) => state.user.user);
-	const isEmployee = userData.isSupervisor === false;
-	const isExecutive = userData.isSupervisor === true;
-	const id = userData.id === 6;
-	const id2 = userData.id === 16;
 
-	console.log('isExecutive: ', isExecutive);
-	console.log('isEmployee в навбаре: ', isEmployee);
-	console.log('userData: ', userData);
-	console.log('id: ', id);
-	console.log('id2: ', id2);
+export const NavBarMain: React.FC = () => {
+	const navigate = useNavigate();
+	// const location = useLocation();
+
+	// const userData = useAppSelector((state) => state.user.user);
+
+	// const isEmployee = userData.isSupervisor === false;
+	// const isExecutive = userData.isSupervisor === true;
+	// const isMentor = userData.isMentor === true;
+
+	// const id = userData.id === 6;
+	// const id2 = userData.id === 16;
+
+	// console.log('isExecutive Руководитель в Главном навбаре: ', isExecutive);
+	// console.log('isEmployee Работник в Главномнавбаре: ', isEmployee);
+	// console.log('isEmployee Ментор в Главном навбаре: ', isMentor);
+
+	// const onNavigate = () => {
+	// 	if (location.pathname === '/main' && isExecutive) {
+	// 		navigate('/service-iprs/myteam', { replace: false });
+	// 	}
+	// 	if (location.pathname === '/main' && isEmployee) {
+	// 		console.log('isEmployee', isEmployee);
+	// 		navigate('/service-iprs/my', { replace: false });
+	// 	}
+	// 	if (location.pathname === '/main' && id) {
+	// 		navigate('/service-iprs/mentor', { replace: true });
+	// 	}
+	// 	if (location.pathname === '/main' && id2) {
+	// 		navigate('/service-iprs/mentor', { replace: true });
+	// 	}
+	// };
+	//TODO кода данные в базе будут ок убрать моки id
 
 	const onNavigate = () => {
-		if (location.pathname === '/main' && isExecutive) {
-			navigate('/service-iprs/myteam', { replace: false });
-		}
-		if (location.pathname === '/main' && isEmployee) {
-			console.log('isEmployee', isEmployee);
-			navigate('/service-iprs/my', { replace: false });
-		}
-		if (location.pathname === '/main' && id) {
-			navigate('/service-iprs/mentor', { replace: true });
-		}
-		if (location.pathname === '/main' && id2) {
-			navigate('/service-iprs/mentor', { replace: true });
-		}
+		navigate('/service-iprs/my');
 	};
+
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab}>

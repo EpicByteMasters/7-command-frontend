@@ -7,6 +7,7 @@ import Header from '../../shared/header-component/header';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 interface RatingProps {
 	isExecutive?: boolean;
 }
@@ -90,6 +91,7 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 					</div>
 				</div>
 			</div>
+			<FooterMain></FooterMain>
 		</>
 	);
 };

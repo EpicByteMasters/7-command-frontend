@@ -8,6 +8,7 @@ import layout3 from '../../images/main-layout/card.png';
 import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 interface ManagerIprDraftProps {}
 export const MainPage = () => {
 	const [role, setRole] = useState<boolean>(true);
@@ -35,6 +36,7 @@ export const MainPage = () => {
 						</div>
 					</div>
 				</div>
+				<FooterMain></FooterMain>
 			</main>
 		</>
 	);
