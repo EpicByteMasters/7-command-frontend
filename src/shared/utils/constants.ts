@@ -375,7 +375,7 @@ export const objCompetence = [
 	{ id: 'PRODUCT_MARKETING', name: 'Продуктовый маркетинг', skillType: 'HARD' },
 	{
 		id: 'MANAGING_PL',
-		name: 'Бюджетирование продукта, управление P&L',
+		name: 'Бюджетирование продукта',
 		skillType: 'HARD',
 	},
 	{
@@ -461,7 +461,7 @@ export const objCompetence = [
 	},
 	{
 		id: 'NOTATIONS',
-		name: 'Нотации, методологии, инструменты',
+		name: 'Нотации - методологии - инструменты',
 		skillType: 'HARD',
 	},
 	{

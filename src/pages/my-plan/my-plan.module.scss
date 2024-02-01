@@ -3,8 +3,8 @@
 .myPlan {
 	display: flex;
 	flex-direction: row;
-	// gap: 119px;
 	margin: 40px 0 0;
+	height: 40%;
 }
 
 .title {
@@ -45,7 +45,7 @@
 
 	margin: 0;
 	padding: 0;
-	color: var(--metallic, #898889);
+	color: #898889;
 }
 
 // Footer

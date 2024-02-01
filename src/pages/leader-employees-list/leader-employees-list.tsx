@@ -111,7 +111,7 @@ export const LeaderEmployeesList: React.FC = () => {
 										{chevron ? (
 											<ChevronDownSIcon></ChevronDownSIcon>
 										) : (
-											<ChevronUpSIcon></ChevronUpSIcon>
+											<ChevronDownSIcon></ChevronDownSIcon>
 										)}
 									</div>
 								</button>
@@ -148,7 +148,7 @@ export const LeaderEmployeesList: React.FC = () => {
 										{chevron2 ? (
 											<ChevronDownSIcon></ChevronDownSIcon>
 										) : (
-											<ChevronUpSIcon></ChevronUpSIcon>
+											<ChevronDownSIcon></ChevronDownSIcon>
 										)}
 									</div>
 								</button>

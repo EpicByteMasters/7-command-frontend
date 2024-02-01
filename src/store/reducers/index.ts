@@ -3,6 +3,7 @@ import userReducer, { UserState } from './userSlice';
 import commonLibsReducer, { TCommonLibState } from './libSlice';
 import iprsReducer, { IPRSState } from './iprsSlice';
 import managerIprsReducer, { IPRSSliceState } from './managerIprSlice';
+import mentorIprsReducer from './mentorIprSlice';
 import formReducer, { IFormState } from './formSlice';
 
 export interface RootState {
@@ -10,7 +11,7 @@ export interface RootState {
 	commonLibs: TCommonLibState;
 	iprs: IPRSState;
 	managerIprs: IPRSSliceState;
-	form: IFormState;
+	mentorIprs: IPRSSliceState;
 }
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
 	commonLibs: commonLibsReducer,
 	iprs: iprsReducer,
 	managerIprs: managerIprsReducer,
+	mentorIprs: mentorIprsReducer,
 	form: formReducer,
 	// добавь другие срезы состояния
 });
