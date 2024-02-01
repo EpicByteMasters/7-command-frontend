@@ -189,6 +189,31 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		(page + 1) * perPage
 	);
 
+	//Popover
+	const [activeRowIndex, setActiveRowIndex] = useState<number | null>(null);
+	const popoverRef = useRef<HTMLDivElement>(null);
+
+	const handleMoreButtonClick = (rowIndex: number) => {
+		setActiveRowIndex(rowIndex === activeRowIndex ? null : rowIndex);
+	};
+
+	useEffect(() => {
+		const handleMouseDown = (event: MouseEvent) => {
+			if (
+				popoverRef.current &&
+				!popoverRef.current.contains(event.target as Node)
+			) {
+				setActiveRowIndex(null);
+			}
+		};
+
+		document.addEventListener('mousedown', handleMouseDown);
+
+		return () => {
+			document.removeEventListener('mousedown', handleMouseDown);
+		};
+	}, [popoverRef, setActiveRowIndex]);
+
 	return (
 		<>
 			<Table
@@ -240,26 +265,29 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				<Table.TBody>
 					{currentPageData && currentPageData.length > 0 ? (
 						currentPageData.map(
-							({
-								id,
-								firstName,
-								lastName,
-								middleName,
-								position_id,
-								specialty_id,
-								imageUrl,
-								goal,
-								date_of_end,
-								progress,
-								task_completed,
-								task_count,
-								status,
-							}) => {
+							(
+								{
+									id,
+									firstName,
+									lastName,
+									middleName,
+									position_id,
+									specialty_id,
+									imageUrl,
+									goal,
+									date_of_end,
+									progress,
+									task_completed,
+									task_count,
+									status,
+								},
+								rowIndex
+							) => {
 								const progressPercent = (task_completed / task_count) * 100;
 								const color = getStatusColor(status);
 								//TODO вставить в верстку аватарку
 								return (
-									<Table.TRow>
+									<Table.TRow key={id}>
 										<Table.TCell>
 											<Space size={2} align={'start'}>
 												<Typography.Text view="primary-small" tag="div">
@@ -314,9 +342,37 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											)}
 										</Table.TCell>
 										<Table.TCell>
-											<Button view="ghost">
+											<Button
+												view="ghost"
+												onClick={() => handleMoreButtonClick(rowIndex)}
+											>
 												<MoreMIcon style={{ fill: '#898889' }} />
 											</Button>
+											{activeRowIndex === rowIndex && (
+												<div
+													className={styles.popoverContainer}
+													ref={popoverRef}
+												>
+													<div className={styles.popoverButtons}>
+														<Button
+															className={styles.btnText}
+															view="ghost"
+															size="s"
+															onClick={() => console.log('del')}
+														>
+															Удалить
+														</Button>
+														<Button
+															className={styles.btnText}
+															view="ghost"
+															size="s"
+															onClick={() => console.log('hist')}
+														>
+															История
+														</Button>
+													</div>
+												</div>
+											)}
 										</Table.TCell>
 									</Table.TRow>
 								);
