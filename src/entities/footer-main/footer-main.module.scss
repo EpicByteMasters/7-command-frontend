@@ -3,7 +3,7 @@
 .footer {
 	margin: 57px auto 15px auto;
 	padding: 0;
-	width: 906px;
+	width: 1168px;
 	border-top: 1px solid #e7e7ea;
 	display: flex;
 	flex-direction: column;
@@ -14,7 +14,7 @@
 	padding: 0;
 	display: flex;
 	flex-direction: row;
-	gap: 95px;
+	gap: 150px;
 }
 
 .linksColumn {
@@ -40,7 +40,6 @@
 
 .supportWrapper {
 	border-top: 1px solid #e7e7ea;
-
 	margin: 0;
 	padding: 17px 0 0 0;
 	display: flex;
@@ -58,7 +57,7 @@
 	line-height: 20px;
 }
 .mobileColumn {
-	margin: 0;
+	margin: 0 0 0 50px;
 	padding: 0;
 	display: flex;
 	flex-direction: row;
@@ -126,7 +125,7 @@
 	line-height: 20px;
 }
 .socialWrapper {
-	margin: 0;
+	margin: 0 0 0 50px;
 	display: flex;
 	gap: 12px;
 }
