@@ -28,6 +28,7 @@ import {
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
 import { getIprByIdBySupervisor } from '../../store/reducers/iprsSlice';
+import { TIprStatusType } from '../../shared/utils/types';
 
 export interface IEmployeesListProps {
 	data: Employee[] | undefined;
@@ -64,15 +65,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		}
 	};
 
-	type TStatusType =
-		| 'DRAFT'
-		| 'IN_PROGRESS'
-		| 'COMPLETED'
-		| 'NOT_COMPLETED'
-		| 'CANCELED'
-		| 'NO_IPR';
-
-	const getStatusSortOrder = (status: TStatusType): string => {
+	const getStatusSortOrder = (status: TIprStatusType): string => {
 		const order = {
 			DRAFT: '0',
 			IN_PROGRESS: '1',
@@ -109,8 +102,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 
 					return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
 				} else if (sortColumn === 'status') {
-					const statusA = a.status as TStatusType;
-					const statusB = b.status as TStatusType;
+					const statusA = a.status as TIprStatusType;
+					const statusB = b.status as TIprStatusType;
 
 					const statusOrderA = getStatusSortOrder(statusA);
 					const statusOrderB = getStatusSortOrder(statusB);
@@ -149,9 +142,32 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		}
 	};
 
+	//pagination
+	const [page, setPage] = useState<number>(0);
+
+	const perPage = 5; // Фиксированное количество строк на странице
+	const handlePageChange = (pageIndex: number) => setPage(pageIndex);
+	const pagesCount = Math.ceil(sortedData.length / perPage);
+	const currentPageData = sortedData.slice(
+		page * perPage,
+		(page + 1) * perPage
+	);
+
 	return (
 		<>
-			<Table className={styles.table} wrapper={false}>
+			<Table
+				className={styles.table}
+				wrapper={false}
+				pagination={
+					<Table.Pagination
+						perPage={perPage}
+						currentPageIndex={page}
+						pagesCount={pagesCount}
+						onPageChange={handlePageChange}
+						hidePerPageSelect={true}
+					/>
+				}
+			>
 				<Table.THead>
 					<Table.THeadCell>
 						<div className={styles.sortBtn}>
@@ -186,8 +202,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{sortedData && sortedData.length > 0 ? (
-						sortedData.map(
+					{currentPageData && currentPageData.length > 0 ? (
+						currentPageData.map(
 							({
 								id,
 								firstName,
@@ -219,10 +235,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</Space>
 										</Table.TCell>
 										<Table.TCell>
-											{goal ? getValueById(goal, iprGoalsLib) : '-'}
+											{goal ? getValueById(goal, iprGoalsLib) : '—'}
 										</Table.TCell>
 										<Table.TCell>
-											{date_of_end ? formatDateString(date_of_end) : '-'}
+											{date_of_end ? formatDateString(date_of_end) : '—'}
 										</Table.TCell>
 										<Table.TCell>
 											{progress ? (
@@ -234,7 +250,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													className={styles.progressBar}
 												/>
 											) : (
-												'-'
+												'—'
 											)}
 										</Table.TCell>
 										<Table.TCell>
