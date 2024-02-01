@@ -10,7 +10,7 @@
 
 # О команде
 
-- Наталья - Team-lead - @UltraNata
+- Наталья Солнцева - Team-lead - @UltraNata
 - Ольга Аверьянова - @Olga_Averianova47
 - Дарья Матвеева - @DannyohDanny
 
