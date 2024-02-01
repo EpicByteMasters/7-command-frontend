@@ -20,6 +20,7 @@ import {
 	getManagerIprsList,
 	selectManagerList,
 } from '../../store/reducers/managerIprSlice';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface TableProps {
 	data: EmployeeGoalPlan[];
@@ -216,6 +217,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 					/>
 				</div>
 			</div>
+			<FooterMain></FooterMain>
 		</>
 	);
 };

@@ -5,6 +5,7 @@ import Header from '../../shared/header-component/header';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface RatingProps {
 	isExecutive?: boolean;
@@ -97,6 +98,7 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 					<TasksOverview isExecutive={false} iprStatus="" />
 				</div>
 			</div>
+			<FooterMain></FooterMain>
 		</>
 	);
 };
