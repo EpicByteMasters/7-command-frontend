@@ -88,7 +88,10 @@ export const MyIpr: React.FC = () => {
 						/>
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
-							<Tasks isEmployee={true} />
+							<Tasks
+								isEmployee={true}
+								handleTaskValuesChange={handleDataSubmit}
+							/>
 						</fieldset>
 					</form>
 				</div>

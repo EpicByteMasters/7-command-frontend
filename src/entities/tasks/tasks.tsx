@@ -28,9 +28,10 @@ import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
 
 interface TasksProps {
 	isEmployee: boolean;
+	handleTaskValuesChange?: any;
 }
 
-// interface ICoursesOption {
+// interface IEducation {
 // 	id: number;
 // 	name: string;
 // 	specialty: string;
@@ -63,7 +64,10 @@ interface IFilesForTask {
 	[taskId: string]: File[];
 }
 
-export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
+export const Tasks: React.FC<TasksProps> = ({
+	isEmployee,
+	handleTaskValuesChange,
+}) => {
 	const courses = useAppSelector(selectCommonLibsEducation);
 	console.log('optionCourses: ', courses);
 
@@ -122,6 +126,10 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 
 	console.log('taskValues из задач: ', taskValues);
 
+	const handleCallback = (): void => {
+		handleTaskValuesChange(taskValues);
+	};
+
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
 	const { id } = useParams<{ id: string }>();
@@ -138,40 +146,15 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	): void => {
 		const { name, value } = event.target;
 		setTaskValues((prevData) => ({ ...prevData, [name]: value }));
+		handleCallback();
 	};
-
-	// const handleCourseSelection = (
-	// 	selectedCourses: ICoursesOption[] | string
-	// ): void => {
-	// 	let selectedEducations: Education[] = [];
-
-	// 	if (typeof selectedCourses === 'string') {
-	// 		const courseNames = selectedCourses.split(',').map((name) => name.trim());
-
-	// 		selectedEducations = courseNames.map((name) => ({
-	// 			name,
-	// 			url: '',
-	// 			status: '',
-	// 		}));
-	// 	} else {
-	// 		selectedEducations = selectedCourses.map((course) => ({
-	// 			name: course.key,
-	// 			url: '',
-	// 			status: '',
-	// 		}));
-	// 	}
-
-	// 	setTaskValues((prevData) => ({
-	// 		...prevData,
-	// 		educations: selectedEducations,
-	// 	}));
-	// };
 
 	const tagValues = valueCourse.trim().split(',');
 
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
 		setTaskValues((prevData) => ({ ...prevData, endDate: value }));
+		handleCallback();
 	};
 
 	const chevronClick = (taskId: number) => {
