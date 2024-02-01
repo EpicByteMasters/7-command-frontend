@@ -46,6 +46,12 @@ interface FormData {
 	commentOfEmployee: string;
 }
 
+interface AttachmentFile {
+	name: string;
+	uploadDate: string;
+	size: number;
+}
+
 export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
 	const pickerOptions = [
@@ -73,6 +79,14 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		{}
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
+	const [files, setFiles] = useState<AttachmentFile[]>([]);
+
+	const handleAttach = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		payload: { files: AttachmentFile[] }
+	) => {
+		setFiles([...files, ...payload.files]);
+	};
 
 	console.log('taskValues из задач: ', taskValues);
 
@@ -217,15 +231,15 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const { status } = currentIpr;
 	const getStatusColor = (status: string) => {
 		switch (status) {
-			case 'черновик':
+			case 'ожидает проверки':
 				return 'purple';
-			case 'отменен':
+			case 'отменена':
 				return 'orange';
 			case 'в работе':
 				return 'blue';
-			case 'не выполнен':
+			case 'не выполнена':
 				return 'red';
-			case 'выполнен':
+			case 'выполнена':
 				return 'green';
 			case 'отсутствует':
 				return 'grey';
@@ -270,17 +284,31 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		<Table className={styles.table}>
 			<Table.TBody>
 				{tasksArrayForRender.map(
-					({ id, name, closeDate, description, status, supervisorComment }) => (
+					({
+						id,
+						name,
+						closeDate,
+						description,
+						taskStatus,
+						supervisorComment,
+					}) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
-									<CrossCircleMIcon color="#70707A" />
+									{!isEmployee &&
+										(taskStatus.name === 'Выполнена' ||
+											taskStatus.name === 'Не выполнена') && (
+											<CrossCircleMIcon color="#70707A" />
+										)}
 									{name}
 								</Table.TCell>
 								<Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
 								<Table.TCell>
-									<Status view="soft" color={getStatusColor(status)}>
-										{status}
+									<Status
+										view="soft"
+										color={getStatusColor(taskStatus.name.toLowerCase())}
+									>
+										{taskStatus.name}
 									</Status>
 								</Table.TCell>
 								<Table.TCell>
@@ -420,6 +448,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															</p>
 															<Attach
 																buttonContent="Добавить"
+																// value={files}
 																buttonProps={{
 																	style: {
 																		backgroundColor: 'transparent',
@@ -429,32 +458,21 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																	},
 																}}
 																size="m"
-																onChange={handleChange}
+																// onChange={handleAttach}
 																multiple={multiple}
 																fileClassName={styles.attachButton}
 																noFileText=""
 															/>
 														</div>
-														<FileUploadItem
-															name="Название файла.pdf"
-															uploadDate="22.01.2018"
-															size={45000}
-															showDelete={true}
-														/>
-														<FileUploadItem
-															name="Название файла.pdf"
-															uploadDate="22.01.2018"
-															uploadPercent={23.5678}
-															// uploadStatus="UPLOADING"
-															showDelete={true}
-														/>
-														<FileUploadItem
-															name="Название файла.jpg"
-															uploadDate="22.01.2018"
-															size={45000}
-															// uploadStatus="ERROR"
-															showDelete={true}
-														/>
+														{files.map((file, index) => (
+															<FileUploadItem
+																key={index}
+																name={file.name}
+																uploadDate={file.uploadDate}
+																size={file.size}
+																showDelete={true}
+															/>
+														))}
 														<Button
 															view="primary"
 															size="s"
