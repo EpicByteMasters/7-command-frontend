@@ -11,8 +11,15 @@ interface ICommonLibWithSkillType extends ICommonLib {
 	skillType: string;
 }
 
+export interface ICommonLibWithEducationType extends IEducation {
+	id: string;
+	name: string;
+	specialty: string;
+	urlLink: string;
+}
+
 interface IEducation {
-	id: number;
+	id: string;
 	name: string;
 	specialty: string;
 	urlLink: string;

@@ -80,19 +80,20 @@ export const MyIpr: React.FC = () => {
 								Сохранить
 							</Button>
 						</div>
-
-						<form className={styles2.form}>
-							<TasksOverview
-								isExecutive={false}
-								iprStatus={status.name}
-								handleGoalValuesChange={handleDataSubmit}
+					<form className={styles2.form}>
+						<TasksOverview
+							isExecutive={false}
+							iprStatus={status.name}
+							handleGoalValuesChange={handleDataSubmit}
+						/>
+						<fieldset className={styles2.blockWrapper}>
+							<legend className={styles2.blockTitle}>Задачи</legend>
+							<Tasks
+								isEmployee={true}
+								handleTaskValuesChange={handleDataSubmit}
 							/>
-							<fieldset className={styles2.blockWrapper}>
-								<legend className={styles2.blockTitle}>Задачи</legend>
-								<Tasks isEmployee={true} />
-							</fieldset>
-						</form>
-					</div>
+						</fieldset>
+					</form>
 				</div>
 			</div>
 			<div className={styles.generalFooter}>

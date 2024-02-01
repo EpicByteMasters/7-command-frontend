@@ -156,11 +156,15 @@ export const ManagerIprDraft = ({
 									Отправить в работу
 								</Button>
 							)}
-
-							{/* <button onClick={onModalOpen} className={styles.trashCan}>
-							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
-						</button> */}
-
+					<form className={styles2.form}>
+						<TasksOverview
+							handleGoalValuesChange={handleDataSubmit}
+							isExecutive={isExecutive}
+							iprStatus="черновик"
+						></TasksOverview>
+						<fieldset className={styles2.blockWrapper}>
+							<legend className={styles2.blockTitle}>Задачи</legend>
+						</fieldset>
 							<Button
 								view="tertiary"
 								size="s"
