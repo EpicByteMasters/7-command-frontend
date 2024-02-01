@@ -51,9 +51,78 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 
 	const [modalCreate, setModalCreate] = useState(false);
 
-	const handleSort = () => {
-		console.log('handleSort');
+	//sorting
+	const [sortColumn, setSortColumn] = useState<string | null>(null);
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+	const handleSort = (column: string) => {
+		if (sortColumn === column) {
+			setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+		} else {
+			setSortColumn(column);
+			setSortOrder('asc');
+		}
 	};
+
+	type TStatusType =
+		| 'DRAFT'
+		| 'IN_PROGRESS'
+		| 'COMPLETED'
+		| 'NOT_COMPLETED'
+		| 'CANCELED'
+		| 'NO_IPR';
+
+	const getStatusSortOrder = (status: TStatusType): string => {
+		const order = {
+			DRAFT: '0',
+			IN_PROGRESS: '1',
+			COMPLETED: '2',
+			NOT_COMPLETED: '3',
+			CANCELED: '4',
+			NO_IPR: '5',
+		};
+
+		return order[status] || '6';
+	};
+
+	const sortedData = data
+		? [...data].sort((a, b) => {
+				if (sortColumn === 'name') {
+					const fullNameA = `${a.lastName} ${a.firstName} ${a.middleName}`;
+					const fullNameB = `${b.lastName} ${b.firstName} ${b.middleName}`;
+
+					return sortOrder === 'asc'
+						? fullNameA.localeCompare(fullNameB)
+						: fullNameB.localeCompare(fullNameA);
+				} else if (sortColumn === 'date') {
+					const getDateValue = (dateString: string | undefined) => {
+						if (!dateString) {
+							return sortOrder === 'asc' ? Infinity : -Infinity;
+						}
+
+						const [day, month, year] = dateString.split('.');
+						return new Date(`${year}-${month}-${day}`).getTime();
+					};
+
+					const dateA = getDateValue(a.date_of_end);
+					const dateB = getDateValue(b.date_of_end);
+
+					return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+				} else if (sortColumn === 'status') {
+					const statusA = a.status as TStatusType;
+					const statusB = b.status as TStatusType;
+
+					const statusOrderA = getStatusSortOrder(statusA);
+					const statusOrderB = getStatusSortOrder(statusB);
+
+					return sortOrder === 'asc'
+						? statusOrderA.localeCompare(statusOrderB)
+						: statusOrderB.localeCompare(statusOrderA);
+				}
+
+				return 0;
+			})
+		: [];
 
 	const onClickToDraft = () => {
 		setModalCreate(!modalCreate);
@@ -89,7 +158,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 							<span>Сотрудник</span>
 							<ListDefaultSIcon
 								className={styles.sortIcon}
-								onClick={() => handleSort()}
+								onClick={() => handleSort('name')}
 							/>
 						</div>
 					</Table.THeadCell>
@@ -99,7 +168,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 							<span>Дата</span>
 							<ListDefaultSIcon
 								className={styles.sortIcon}
-								onClick={() => handleSort()}
+								onClick={() => handleSort('date')}
 							/>
 						</div>
 					</Table.THeadCell>
@@ -109,7 +178,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 							<span>Статус</span>
 							<ListDefaultSIcon
 								className={styles.sortIcon}
-								onClick={() => handleSort()}
+								onClick={() => handleSort('status')}
 							/>
 						</div>
 					</Table.THeadCell>
@@ -117,8 +186,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{data && data.length > 0 ? (
-						data.map(
+					{sortedData && sortedData.length > 0 ? (
+						sortedData.map(
 							({
 								id,
 								firstName,
