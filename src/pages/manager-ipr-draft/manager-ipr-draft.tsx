@@ -2,21 +2,20 @@ import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
 import React, { FC, ChangeEvent, useState, useCallback } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../shared/hooks/redux';
 import Header from '../../shared/header-component/header';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
-import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import avatar from '../../images/avatars/avatar_head-of-dept.png';
 import { Tasks } from '../../entities/tasks/tasks';
-import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
-import { useAppSelector } from '../../shared/hooks/redux';
 import { NewTask } from '../../entities/new-task/new-task';
 import { Notification } from '@alfalab/core-components/notification';
 import { FooterMain } from '../../entities/footer-main/footer-main';
+import avatar from '../../images/avatars/avatar_head-of-dept.png';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -241,7 +240,7 @@ export const ManagerIprDraft = ({
 							hasCloser={true}
 							badge={'positive'}
 							visible={isVisible}
-							offset={140}
+							offset={240}
 							autoCloseDelay={1500}
 							zIndex={10}
 							onClose={hideNotification}
@@ -266,7 +265,7 @@ export const ManagerIprDraft = ({
 							hasCloser={true}
 							badge={'positive'}
 							visible={isVisible2}
-							offset={140}
+							offset={240}
 							autoCloseDelay={1500}
 							zIndex={10}
 							onClose={hideNotification2}
@@ -280,9 +279,9 @@ export const ManagerIprDraft = ({
 					''
 				)}
 			</div>
-			<div className={styles.generalFooter}>
+			{/* <div className={styles.generalFooter}>
 				<FooterMain></FooterMain>
-			</div>
+			</div> */}
 		</div>
 	);
 };

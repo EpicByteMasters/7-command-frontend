@@ -8,6 +8,7 @@ import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
+import { Notification } from '@alfalab/core-components/notification';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
 
 import {
@@ -90,8 +91,9 @@ export const TasksOverview = ({
 	const [errorCompetence, setErrorCompetence] = useState<string>('');
 	const [errorComment, setErrorComment] = useState<string>('');
 	const [errorDescription, setErrorDescription] = useState<string>('');
+	const [isVisible, setIsVisible] = useState(false);
 
-	//получаем данные с Сервера
+	//Получаем данные текущегоИПР с Сервера
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	const { id } = useParams<{ id: string }>();
 	const currentIpr: any | undefined = iprData.find(
@@ -99,11 +101,15 @@ export const TasksOverview = ({
 	);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
 	console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
+
 	// console.log(currentIpr.goal, '!Competency');
 	// if (!currentIpr) {
 	// 	return <div>Ошибка не нашел Id</div>;
 	// }
 
+	//Уведомления
+	const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
+	const hideNotification = useCallback(() => setIsVisible(false), []);
 	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
 	// Поиск id Цели
@@ -149,6 +155,8 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueGoal(value);
+		setErrorGoal('');
+
 		// handleCallback();
 	};
 
@@ -157,6 +165,8 @@ export const TasksOverview = ({
 		{ value }: { value: string }
 	) => {
 		setValueRole(value);
+		setErrorRole('');
+
 		// handleCallback();
 	};
 
@@ -205,6 +215,7 @@ export const TasksOverview = ({
 	) => {
 		// setValueMentor(value);
 		handleCallback();
+		setErrorRole('');
 	};
 	// Обработка изменения импутов
 
@@ -217,6 +228,7 @@ export const TasksOverview = ({
 		if (!selected) {
 			setErrorGoal('Обязательное поле');
 			setValueGoal('');
+			toggleVisibility();
 		}
 	};
 
@@ -229,6 +241,7 @@ export const TasksOverview = ({
 		if (!selected) {
 			setErrorRole('Обязательное поле');
 			setValueRole('');
+			toggleVisibility();
 		}
 	};
 	const handleChangeMentor = ({
@@ -238,6 +251,7 @@ export const TasksOverview = ({
 	}) => {
 		setValueMentor(selected ? selected.key : '');
 		handleCallback();
+		toggleVisibility();
 	};
 
 	const handleChangeStartDate = (event: any, { value }: { value: string }) => {
@@ -275,6 +289,7 @@ export const TasksOverview = ({
 	) => {
 		setValueCompetence(value);
 		handleCallback();
+		setErrorCompetence('');
 	};
 	const inputValues: string[] = valueCompetence.split(', ');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
@@ -304,6 +319,7 @@ export const TasksOverview = ({
 			setErrorCompetence('');
 			if (!value) {
 				setErrorCompetence('Обязательное поле');
+				toggleVisibility();
 			}
 			return;
 		}
@@ -644,6 +660,30 @@ export const TasksOverview = ({
 				</React.Fragment>
 			</fieldset>
 			{/* )} */}
+			{isVisible ? (
+				<div className={styles2.containerNote}>
+					<Notification
+						title={'Не отправлено в работу'}
+						block={true}
+						colors={'default'}
+						titleClassName={styles2.title}
+						contentClassName={styles2.content}
+						hasCloser={true}
+						badge={'negative'}
+						visible={isVisible}
+						offset={240}
+						autoCloseDelay={2500}
+						zIndex={10}
+						onClose={hideNotification}
+						onCloseTimeout={hideNotification}
+						usePortal={true}
+					>
+						{'Заполните все обязательные поля'}
+					</Notification>
+				</div>
+			) : (
+				''
+			)}
 		</>
 	);
 };

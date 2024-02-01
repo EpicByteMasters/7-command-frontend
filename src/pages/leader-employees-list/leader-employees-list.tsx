@@ -140,7 +140,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 										{chevron ? (
 											<ChevronDownSIcon></ChevronDownSIcon>
 										) : (
-											<ChevronUpSIcon></ChevronUpSIcon>
+											<ChevronDownSIcon></ChevronDownSIcon>
 										)}
 									</div>
 								</button>
@@ -177,7 +177,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 										{chevron2 ? (
 											<ChevronDownSIcon></ChevronDownSIcon>
 										) : (
-											<ChevronUpSIcon></ChevronUpSIcon>
+											<ChevronDownSIcon></ChevronDownSIcon>
 										)}
 									</div>
 								</button>

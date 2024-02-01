@@ -1,9 +1,15 @@
 import styles from './mentor-plan.module.scss';
+import { useEffect, useState } from 'react';
 import Header from '../../shared/header-component/header';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { FooterMain } from '../../entities/footer-main/footer-main';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import {
+	getMentorIprsList,
+	selectMentorList,
+} from '../../store/reducers/mentorIprSlice';
 
 interface MentorProps {
 	data: EmployeeGoalPlan[];
@@ -19,6 +25,14 @@ export const MentorPlan: React.FC<MentorProps> = ({
 	ipr_id,
 	data,
 }) => {
+	const dispatch = useAppDispatch();
+	const mentorIprsList = useAppSelector(selectMentorList);
+
+	useEffect(() => {
+		dispatch(getMentorIprsList());
+	}, [dispatch]);
+
+	console.log('MENTOR_LIST_IPRS', mentorIprsList);
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
