@@ -23,11 +23,7 @@ export const MentorPlan: React.FC<MentorProps> = ({
 			<Header />
 			<section className={styles.myPlan}>
 				<div className={styles.container}>
-					{/* <NavBarMini
-						isMentor={isMentor}
-						isExecutive={isExecutive}
-					></NavBarMini> */}
-					<NavBarMini isMentor={isMentor}></NavBarMini>
+					<NavBarMini></NavBarMini>
 					<div className={styles.wrapper}>
 						<h1 className={styles.title}>Менторство сотрудников</h1>
 						<div className={styles.container}>

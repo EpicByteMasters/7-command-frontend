@@ -338,7 +338,7 @@ export const TasksOverview = ({
 	return (
 		<>
 			{!currentIpr ? (
-				<div>анные IPR отсутствуют или ещё не загружены с сервера</div>
+				<div>Данные IPR отсутствуют или ещё не загружены с сервера</div>
 			) : (
 				<fieldset className={styles2.blockWrapper}>
 					<React.Fragment key={id}>
