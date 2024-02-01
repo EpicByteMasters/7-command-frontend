@@ -59,9 +59,11 @@ interface FormData {
 	commentOfEmployee: string;
 }
 
-export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	// Логика работы с ключами с сервера - inputautocomplete
+interface IFilesForTask {
+	[taskId: string]: File[];
+}
 
+export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	const courses = useAppSelector(selectCommonLibsEducation);
 	console.log('optionCourses: ', courses);
 
@@ -79,7 +81,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		[courses]
 	);
 
-	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
+	// const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
 	const pickerOptions = [
 		{ key: 'В работе' },
 		{ key: 'Выполнена' },
@@ -105,13 +107,17 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		{}
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
-	const [files, setFiles] = useState<File[]>([]);
+	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
 
 	const handleAttach = (
+		taskId: number,
 		event: React.ChangeEvent<HTMLInputElement>,
 		payload: { files: File[] }
 	) => {
-		setFiles([...files, ...payload.files]);
+		setFilesForTask((prevFiles) => ({
+			...prevFiles,
+			[taskId]: [...(prevFiles[taskId] || []), ...payload.files],
+		}));
 	};
 
 	console.log('taskValues из задач: ', taskValues);
@@ -380,6 +386,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														block={true}
 														showCounter={true}
 														autosize={true}
+														disabled={isEmployee}
 													/>
 													<UniversalDateInput
 														block={true}
@@ -390,6 +397,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
+														disabled={isEmployee}
 														calendarProps={{
 															selectorView: 'month-only',
 														}}
@@ -413,37 +421,41 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxLength={96}
 													showCounter={true}
 													autosize={true}
+													disabled={isEmployee}
 												/>
-												<div className={styles.coursesWrapper}>
-													<InputAutocomplete
-														size="s"
-														name="course"
-														selected={selected}
-														options={getFilteredOptions()}
-														label="Тренинги и курсы"
-														placeholder="Начните вводить название"
-														onChange={handleChangeCourse}
-														onInput={handleInputCourse}
-														value={valueCourse}
-														Arrow={shownChevron ? Arrow : undefined}
-														multiple={multiple}
-														allowUnselect={true}
-														showEmptyOptionsList={true}
-														Option={BaseOption}
-														block={true}
-														closeOnSelect={true}
-														className={styles.inputCourses}
-														inputProps={{
-															onClear: () => setValueCourse(''),
-															clear: true,
-														}}
-													/>
-													<img
-														src={linkToCourses}
-														alt="ссылка на курсы"
-														className={styles.linkToCourses}
-													></img>
-												</div>
+												{!isEmployee && (
+													<div className={styles.coursesWrapper}>
+														<InputAutocomplete
+															size="s"
+															name="course"
+															selected={selected}
+															options={getFilteredOptions()}
+															label="Тренинги и курсы"
+															placeholder="Начните вводить название"
+															onChange={handleChangeCourse}
+															onInput={handleInputCourse}
+															value={valueCourse}
+															Arrow={shownChevron ? Arrow : undefined}
+															multiple={multiple}
+															allowUnselect={true}
+															showEmptyOptionsList={true}
+															Option={BaseOption}
+															block={true}
+															closeOnSelect={true}
+															className={styles.inputCourses}
+															inputProps={{
+																onClear: () => setValueCourse(''),
+																clear: true,
+															}}
+														/>
+														<img
+															src={linkToCourses}
+															alt="ссылка на курсы"
+															className={styles.linkToCourses}
+														/>
+													</div>
+												)}
+
 												<div className={styles.formRowTag}>
 													{valueCourse.length > 0
 														? tagValues.map((value: string, key: number) => {
@@ -463,13 +475,28 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															})
 														: ''}
 												</div>
+
+												<Textarea
+													fieldClassName={styles.textClass}
+													maxHeight={91}
+													label="Комментарий руководителя"
+													name="commentOfMentor"
+													value={supervisorComment}
+													onChange={handleInputChange}
+													labelView="inner"
+													size="m"
+													block={true}
+													maxLength={96}
+													showCounter={true}
+													autosize={true}
+													disabled={isEmployee}
+												/>
 												{isEmployee && (
 													<Textarea
 														fieldClassName={styles.textClass}
 														maxHeight={91}
-														label="Комментарий руководителя"
-														name="commentOfMentor"
-														value={supervisorComment}
+														label="Ваш комментарий"
+														name="commentOfEmployee"
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
@@ -479,19 +506,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														autosize={true}
 													/>
 												)}
-												<Textarea
-													fieldClassName={styles.textClass}
-													maxHeight={91}
-													label="Ваш комментарий"
-													name="commentOfEmployee"
-													onChange={handleInputChange}
-													labelView="inner"
-													size="m"
-													block={true}
-													maxLength={96}
-													showCounter={true}
-													autosize={true}
-												/>
 												{isEmployee && (
 													<div>
 														<div className={styles.attachWrapper}>
@@ -500,7 +514,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															</p>
 															<Attach
 																buttonContent="Добавить"
-																value={files}
+																value={filesForTask[id] || []}
 																buttonProps={{
 																	style: {
 																		backgroundColor: 'transparent',
@@ -510,31 +524,39 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																	},
 																}}
 																size="m"
-																onChange={handleAttach}
+																onChange={(event, payload) =>
+																	handleAttach(id, event, payload)
+																}
 																multiple={multiple}
 																fileClassName={styles.attachButton}
 																noFileText=""
+																disabled={taskStatus.name !== 'В работе'}
 															/>
 														</div>
-														{files.map((file, index) => (
-															<FileUploadItem
-																key={index}
-																name={file.name}
-																uploadDate="31.01.2024"
-																size={file.size}
-																showDelete={true}
-																downloadLink="/link"
-																className={styles.attachedFile}
-															/>
-														))}
+														{filesForTask[id] && (
+															<div>
+																{filesForTask[id].map((file, index) => (
+																	<FileUploadItem
+																		key={index}
+																		name={file.name}
+																		uploadDate="31.01.2024"
+																		size={file.size}
+																		showDelete={true}
+																		downloadLink="/link"
+																		className={styles.attachedFile}
+																	/>
+																))}
+															</div>
+														)}
 														<Button
 															view="primary"
 															size="s"
 															className={styles.button}
+															disabled={taskStatus.name !== 'В работе'}
 														>
 															Отправить на проверку
 														</Button>
-														{isExecutive && (
+														{!isEmployee && (
 															<div
 																style={{
 																	display: 'flex',
