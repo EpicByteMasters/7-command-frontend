@@ -12,6 +12,7 @@ import { PageTitle } from '../../shared/page-title/page-title';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { goalsData } from '../../shared/utils/constants';
 import { useAppSelector } from '../../shared/hooks/redux';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 export const MyIpr: React.FC = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -92,6 +93,7 @@ export const MyIpr: React.FC = () => {
 					</form>
 				</div>
 			</div>
+			<FooterMain></FooterMain>
 		</>
 	);
 };

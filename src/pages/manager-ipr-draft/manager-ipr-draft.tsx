@@ -16,6 +16,7 @@ import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { useAppSelector } from '../../shared/hooks/redux';
 import { NewTask } from '../../entities/new-task/new-task';
 import { Notification } from '@alfalab/core-components/notification';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface ManagerIprDraftProps {
 	statusText: string;
@@ -147,7 +148,7 @@ export const ManagerIprDraft = ({
 						) : (
 							<Button
 								view="primary"
-								size="m"
+								size="s"
 								className={styles.buttonSend}
 								onClick={toggleVisibility2}
 							>
@@ -155,9 +156,18 @@ export const ManagerIprDraft = ({
 							</Button>
 						)}
 
-						<button onClick={onModalOpen} className={styles.trashCan}>
+						{/* <button onClick={onModalOpen} className={styles.trashCan}>
 							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
-						</button>
+						</button> */}
+
+						<Button
+							view="tertiary"
+							size="s"
+							className={styles.buttonDelete}
+							onClick={onModalOpen}
+						>
+							Удалить
+						</Button>
 						{statusText === 'в работе' ? (
 							<div className={styles.btnSaveWrapper}>
 								<Button
@@ -235,8 +245,8 @@ export const ManagerIprDraft = ({
 						hasCloser={true}
 						badge={'positive'}
 						visible={isVisible}
-						offset={145}
-						autoCloseDelay={2000}
+						offset={140}
+						autoCloseDelay={1500}
 						zIndex={10}
 						onClose={hideNotification}
 						onCloseTimeout={hideNotification}
@@ -260,8 +270,8 @@ export const ManagerIprDraft = ({
 						hasCloser={true}
 						badge={'positive'}
 						visible={isVisible2}
-						offset={230}
-						autoCloseDelay={2000}
+						offset={140}
+						autoCloseDelay={1500}
 						zIndex={10}
 						onClose={hideNotification2}
 						onCloseTimeout={hideNotification2}
@@ -273,6 +283,7 @@ export const ManagerIprDraft = ({
 			) : (
 				''
 			)}
+			<FooterMain></FooterMain>
 		</>
 	);
 };

@@ -3,6 +3,7 @@ import Header from '../../shared/header-component/header';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
+import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface MentorProps {
 	data: EmployeeGoalPlan[];
@@ -38,6 +39,7 @@ export const MentorPlan: React.FC<MentorProps> = ({
 					</div>
 				</div>
 			</section>
+			<FooterMain></FooterMain>
 		</>
 	);
 };
