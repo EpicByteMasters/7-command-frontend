@@ -10,9 +10,9 @@
 
 # О команде
 
-- Наталья Солнцева - Team-lead - @UltraNata
-- Ольга Аверьянова - @Olga_Averianova47
-- Дарья Матвеева - @DannyohDanny
+- Наташа Солнцева - Team-lead - [@UltraNata](https://t.me/UltraNata)
+- Ольга Аверьянова - [@Olga_Averianova47](https://t.me/Olga_Averianova47)
+- Дарья Матвеева - [@DannyohDanny](https://t.me/DannyohDanny)
 
 # Ссылка на проект
 
