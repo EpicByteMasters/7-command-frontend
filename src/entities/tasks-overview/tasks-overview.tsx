@@ -73,9 +73,9 @@ export const TasksOverview = ({
 			? ''
 			: 'Ведение переговоров, Делегирование, Лидерство, Понимание бизнеса и структуры организации, Построение эффективных процессов, Публичные выступления, Стратегическое мышление, Управление конфликтами'
 	);
-	const [valueStartDate, setStartDate] = useState<string>('01.08.2024');
+	const [valueStartDate, setStartDate] = useState<string>('2024-08-01');
 	const [valueEndDate, setEndDate] = useState<string>(
-		isExecutive ? '' : '01.11.2024'
+		isExecutive ? '' : '2024-09-01'
 	);
 	const [valueDescription, setValueDescription] = useState<string>(
 		isExecutive
@@ -85,11 +85,11 @@ export const TasksOverview = ({
 	const [valueComment, setValueComment] = useState<string>('');
 
 	// Ошибки
-	const [error1, setError1] = useState<string>('');
-	const [error2, setError2] = useState<string>('');
-	const [error3, setError3] = useState<string>('');
-	const [error4, setError4] = useState<string>('');
-	const [error5, setError5] = useState<string>('');
+	const [errorGoal, setErrorGoal] = useState<string>('');
+	const [errorRole, setErrorRole] = useState<string>('');
+	const [errorCompetence, setErrorCompetence] = useState<string>('');
+	const [errorComment, setErrorComment] = useState<string>('');
+	const [errorDescription, setErrorDescription] = useState<string>('');
 
 	//получаем данные с Сервера
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
@@ -170,10 +170,12 @@ export const TasksOverview = ({
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
 			// handleCallback();
-			setError5('');
+			setErrorDescription('');
 		}
 		if (!target.value) {
-			setError5('Допустимы только кириллические символы и знаки препинания');
+			setErrorDescription(
+				'Допустимы только кириллические символы и знаки препинания'
+			);
 			return;
 		}
 	}
@@ -186,10 +188,12 @@ export const TasksOverview = ({
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);
 			// handleCallback();
-			setError4('');
+			setErrorComment('');
 		}
 		if (!target.value) {
-			setError4('Допустимы только кириллические символы и знаки препинания');
+			setErrorComment(
+				'Допустимы только кириллические символы и знаки препинания'
+			);
 			return;
 		}
 	}
@@ -203,25 +207,25 @@ export const TasksOverview = ({
 	// Обработка изменения импутов
 
 	const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
-		if (selected && !error1) {
+		if (selected && !errorGoal) {
 			setValueGoal(selected.key);
-			setError1('');
+			setErrorGoal('');
 			handleCallback();
 		}
 		if (!selected) {
-			setError1('Обязательное поле');
+			setErrorGoal('Обязательное поле');
 			setValueGoal('');
 		}
 	};
 
 	const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
-		if (selected && !error2) {
+		if (selected && !errorRole) {
 			setValueRole(selected.key);
 			handleCallback();
-			setError2('');
+			setErrorRole('');
 		}
 		if (!selected) {
-			setError2('Обязательное поле');
+			setErrorRole('Обязательное поле');
 			setValueRole('');
 		}
 	};
@@ -295,9 +299,9 @@ export const TasksOverview = ({
 				: '';
 			setValueCompetence(value);
 			handleCallback();
-			setError3('');
+			setErrorCompetence('');
 			if (!value) {
-				setError3('Обязательное поле');
+				setErrorCompetence('Обязательное поле');
 			}
 			return;
 		}
@@ -332,7 +336,16 @@ export const TasksOverview = ({
 				return '';
 		}
 	};
+	function convertDate(dateString: any) {
+		const parts = dateString.split('-');
+		const year = parts[0];
+		const month = parts[1];
+		const day = parts[2];
 
+		return `${day}.${month}.${year}`;
+	}
+
+	// console.log(convertedDate, 'DATE');
 	return (
 		<>
 			{/* {!currentIpr ? (
@@ -347,7 +360,7 @@ export const TasksOverview = ({
 						<div className={styles2.formRow}>
 							<div style={{ width: 496 }}>
 								<InputAutocomplete
-									error={error1}
+									error={errorGoal}
 									name="goal"
 									block={true}
 									closeOnSelect={true}
@@ -371,7 +384,7 @@ export const TasksOverview = ({
 							</div>
 							<div style={{ width: 496 }}>
 								<InputAutocomplete
-									error={error2}
+									error={errorRole}
 									name="role"
 									block={true}
 									closeOnSelect={true}
@@ -395,7 +408,7 @@ export const TasksOverview = ({
 						</div>
 						<div>
 							<InputAutocomplete
-								error={error3}
+								error={errorCompetence}
 								name="competence"
 								value={
 									isExecutive
@@ -432,7 +445,7 @@ export const TasksOverview = ({
 													size="xxs"
 													shape="rounded"
 													view="filled"
-													checked={true}
+													checked={false}
 													onClear={() => {
 														setValueCompetence('');
 													}}
@@ -466,7 +479,7 @@ export const TasksOverview = ({
 									}
 								)
 							: ''} */}
-							{valueCompetence.length > 0
+							{/* {valueCompetence.length > 0
 								? tagValues.map((value: string, key: number) => {
 										return (
 											<div key={value.length + 1} style={{ maxWidth: '319' }}>
@@ -488,7 +501,7 @@ export const TasksOverview = ({
 											</div>
 										);
 									})
-								: ''}
+								: ''} */}
 						</div>
 						<div className={styles2.formRow}>
 							<div>
@@ -535,7 +548,7 @@ export const TasksOverview = ({
 									view="date"
 									label="Дата создания"
 									size="s"
-									value={valueStartDate}
+									value={convertDate(valueStartDate)}
 									onChange={handleChangeStartDate}
 									picker={true}
 									Calendar={CalendarDesktop}
@@ -557,8 +570,7 @@ export const TasksOverview = ({
 									view="date"
 									label="Дата завершения"
 									size="s"
-									value={valueEndDate}
-									// onChange={handleChange}
+									value={isExecutive ? '' : convertDate(valueEndDate)}
 									onChange={handleChangeEndDate}
 									picker={true}
 									Calendar={CalendarDesktop}
@@ -579,7 +591,7 @@ export const TasksOverview = ({
 								}}
 							>
 								<Textarea
-									error={error5}
+									error={errorDescription}
 									name="description"
 									value={
 										isExecutive ? valueDescription : currentIpr.description
@@ -605,7 +617,7 @@ export const TasksOverview = ({
 							>
 								{isExecutive ? (
 									<Textarea
-										error={error4}
+										error={errorComment}
 										name="comment"
 										onChange={handleInputComment}
 										fieldClassName={styles2.textClass}

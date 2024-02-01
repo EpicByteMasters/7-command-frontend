@@ -56,49 +56,53 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 	//TODO прокинуть пропсом
 
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				<NavBarMini />
-				{/* <NavBarMini isExecutive={false} /> */}
-				<div className={styles.wrapper}>
-					<PageTitle title="Мой план развития" />
-					<h3 className={styles.subtitle}>Оценка от руководителя</h3>
-					<div className={styles.formWrapper}>
-						<div className={styles.ratingWrapper}>
-							<div className={styles.rating}>
-								{Array.from({ length: 10 }, (_, index) => (
-									<div
-										key={index + 1}
-										className={`${styles.ratingBtn} ${
-											index + 1 <= rating ? styles.clicked : ''
-										}`}
-									>
-										{index + 1}
-									</div>
-								))}
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					<NavBarMini />
+					{/* <NavBarMini isExecutive={false} /> */}
+					<div className={styles.wrapper}>
+						<PageTitle title="Мой план развития" />
+						<h3 className={styles.subtitle}>Оценка от руководителя</h3>
+						<div className={styles.formWrapper}>
+							<div className={styles.ratingWrapper}>
+								<div className={styles.rating}>
+									{Array.from({ length: 10 }, (_, index) => (
+										<div
+											key={index + 1}
+											className={`${styles.ratingBtn} ${
+												index + 1 <= rating ? styles.clicked : ''
+											}`}
+										>
+											{index + 1}
+										</div>
+									))}
+								</div>
+								<div className={styles.ratingSpan}>
+									<span>Есть над чем работать</span>
+									<span>Молодец!</span>
+								</div>
 							</div>
-							<div className={styles.ratingSpan}>
-								<span>Есть над чем работать</span>
-								<span>Молодец!</span>
-							</div>
+							<Textarea
+								//label="Оцените достижение цели"
+								block={true}
+								minRows={3}
+								maxLength={96}
+								showCounter={true}
+								onChange={handleCommentChange}
+								allowOverflow={false}
+								disabled={true}
+								value={textAreaValue}
+							/>
 						</div>
-						<Textarea
-							//label="Оцените достижение цели"
-							block={true}
-							minRows={3}
-							maxLength={96}
-							showCounter={true}
-							onChange={handleCommentChange}
-							allowOverflow={false}
-							disabled={true}
-							value={textAreaValue}
-						/>
+						<TasksOverview isExecutive={false} iprStatus="" />
 					</div>
-					<TasksOverview isExecutive={false} iprStatus="" />
 				</div>
 			</div>
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

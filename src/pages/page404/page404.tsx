@@ -28,21 +28,25 @@ export const Page404: React.FC<PageProps> = ({
 		}
 	};
 	return (
-		<section className={styles.container}>
-			<Header></Header>
-			<div className={styles.wrapper}>
-				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.paragraph}>{paragraph}</p>
-				<Button
-					view="primary"
-					size="m"
-					className={styles.button}
-					onClick={handleClick}
-				>
-					{button}
-				</Button>
+		<div className={styles.generalFooterWrapper}>
+			<section className={styles.container}>
+				<Header></Header>
+				<div className={styles.wrapper}>
+					<h1 className={styles.title}>{title}</h1>
+					<p className={styles.paragraph}>{paragraph}</p>
+					<Button
+						view="primary"
+						size="m"
+						className={styles.button}
+						onClick={handleClick}
+					>
+						{button}
+					</Button>
+				</div>
+			</section>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
 			</div>
-			<FooterMain></FooterMain>
-		</section>
+		</div>
 	);
 };

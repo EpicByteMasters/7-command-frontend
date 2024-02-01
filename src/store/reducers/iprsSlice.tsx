@@ -116,7 +116,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 		}
 
 		const response = await fetch(
-			`${BASE_URL}/api/v1/mentor/iprs/ipr/employees/my_iprs`,
+			`${BASE_URL}/api/v1/mentor/iprs/ipr/employees/my-iprs`,
 			{
 				method: 'GET',
 				headers: {

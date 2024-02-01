@@ -4,6 +4,7 @@
 	margin: 0 auto;
 	padding: 0;
 	width: 1224px;
+	flex: 1 0 auto;
 }
 
 .container {
@@ -91,4 +92,16 @@
 	margin: 0;
 	padding: 0;
 	width: 30px;
+}
+
+//Footer
+
+.generalFooterWrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.generalFooter {
+	flex: 0 0 auto;
 }
