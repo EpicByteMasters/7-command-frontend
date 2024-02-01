@@ -287,7 +287,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
 						labelView="inner"
 						size="m"
 						block={true}
-						maxLength={96}
+						maxLength={200}
 						showCounter={true}
 						autosize={true}
 					/>
@@ -301,7 +301,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
 					labelView="inner"
 					size="m"
 					block={true}
-					maxLength={96}
+					maxLength={200}
 					showCounter={true}
 					autosize={true}
 				/>
