@@ -100,7 +100,7 @@ export const TasksOverview = ({
 		(goal: any) => goal.id === Number(id)
 	);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
-	console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
+	// console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
 
 	// console.log(currentIpr.goal, '!Competency');
 	// if (!currentIpr) {

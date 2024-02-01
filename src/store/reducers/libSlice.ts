@@ -11,8 +11,15 @@ interface ICommonLibWithSkillType extends ICommonLib {
 	skillType: string;
 }
 
+export interface ICommonLibWithEducationType extends IEducation {
+	id: string;
+	name: string;
+	specialty: string;
+	urlLink: string;
+}
+
 interface IEducation {
-	id: number;
+	id: string;
 	name: string;
 	specialty: string;
 	urlLink: string;
@@ -46,23 +53,23 @@ export const fetchCommonLibs = createAsyncThunk<TCommonLibState>(
 	'commonLibs/fetch',
 	async () => {
 		try {
-			const positionsResponse = await fetch(`${BASE_URL}/api/v1/docs/position`);
-			const iprStatusResponse = await fetch(
-				`${BASE_URL}/api/v1/docs/ipr_status`
-			);
-			const iprGoalsResponse = await fetch(`${BASE_URL}/api/v1/docs/ipr_goal`);
-			const taskStatusResponse = await fetch(
-				`${BASE_URL}/api/v1/docs/task_status`
-			);
-			const specialtyResponse = await fetch(
-				`${BASE_URL}/api/v1/docs/specialty`
-			);
-			const iprCompetencyResponse = await fetch(
-				`${BASE_URL}/api/v1/docs/ipr_competency`
-			);
-			const educationResponse = await fetch(
-				`${BASE_URL}/api/v1/docs/education`
-			);
+			const [
+				positionsResponse,
+				iprStatusResponse,
+				iprGoalsResponse,
+				taskStatusResponse,
+				specialtyResponse,
+				iprCompetencyResponse,
+				educationResponse,
+			] = await Promise.all([
+				fetch(`${BASE_URL}/api/v1/docs/position`),
+				fetch(`${BASE_URL}/api/v1/docs/ipr_status`),
+				fetch(`${BASE_URL}/api/v1/docs/ipr_goal`),
+				fetch(`${BASE_URL}/api/v1/docs/task_status`),
+				fetch(`${BASE_URL}/api/v1/docs/specialty`),
+				fetch(`${BASE_URL}/api/v1/docs/ipr_competency`),
+				fetch(`${BASE_URL}/api/v1/docs/education`),
+			]);
 
 			if (
 				!positionsResponse.ok ||
@@ -75,13 +82,24 @@ export const fetchCommonLibs = createAsyncThunk<TCommonLibState>(
 			) {
 				throw new Error(`HTTP error!`);
 			}
-			const positions = await positionsResponse.json();
-			const iprStatus = await iprStatusResponse.json();
-			const iprGoals = await iprGoalsResponse.json();
-			const taskStatus = await taskStatusResponse.json();
-			const specialty = await specialtyResponse.json();
-			const iprCompetency = await iprCompetencyResponse.json();
-			const education = await educationResponse.json();
+
+			const [
+				positions,
+				iprStatus,
+				iprGoals,
+				taskStatus,
+				specialty,
+				iprCompetency,
+				education,
+			] = await Promise.all([
+				positionsResponse.json(),
+				iprStatusResponse.json(),
+				iprGoalsResponse.json(),
+				taskStatusResponse.json(),
+				specialtyResponse.json(),
+				iprCompetencyResponse.json(),
+				educationResponse.json(),
+			]);
 
 			return {
 				positions,

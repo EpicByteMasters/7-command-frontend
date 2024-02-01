@@ -1,11 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, ReactNode, useMemo } from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
 import { useParams } from 'react-router-dom';
 import styles from './tasks.module.scss';
-
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Status } from '@alfalab/core-components/status';
+import { BaseOption } from '@alfalab/core-components/select/components/base-option';
+import type { OptionShape } from '@alfalab/core-components/select/typings';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
@@ -19,16 +20,29 @@ import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
-import { courses } from '../../shared/utils/constants';
+// import { courses } from '../../shared/utils/constants';
 import { tasksData } from '../../shared/utils/constants';
+import type { ICommonLibWithEducationType } from '../../store/reducers/libSlice';
+
+import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
 
 interface TasksProps {
 	isEmployee: boolean;
+	handleTaskValuesChange?: any;
 }
 
-interface OptionShape {
-	key: string;
+// interface IEducation {
+// 	id: number;
+// 	name: string;
+// 	specialty: string;
+// 	urlLink: string;
+// }
+
+interface ICoursesOption extends OptionShape {
+	value: ICommonLibWithEducationType;
 }
+
+type TCoursenOptionProp = 'name' | 'specialty';
 
 interface Education {
 	name: string;
@@ -46,14 +60,32 @@ interface FormData {
 	commentOfEmployee: string;
 }
 
-interface AttachmentFile {
-	name: string;
-	uploadDate: string;
-	size: number;
+interface IFilesForTask {
+	[taskId: string]: File[];
 }
 
-export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
-	const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
+export const Tasks: React.FC<TasksProps> = ({
+	isEmployee,
+	handleTaskValuesChange,
+}) => {
+	const courses = useAppSelector(selectCommonLibsEducation);
+	console.log('optionCourses: ', courses);
+
+	//utils
+	const adaptCompetency = (
+		course: ICommonLibWithEducationType
+	): ICoursesOption => ({
+		key: course.specialty,
+		content: course.name.trim(),
+		value: course,
+	});
+
+	const courseOptionList = useMemo<ICoursesOption[]>(
+		() => courses.map((courseOption) => adaptCompetency(courseOption)),
+		[courses]
+	);
+
+	// const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
 	const pickerOptions = [
 		{ key: 'В работе' },
 		{ key: 'Выполнена' },
@@ -79,22 +111,29 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		{}
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
-	const [files, setFiles] = useState<AttachmentFile[]>([]);
+	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
 
 	const handleAttach = (
+		taskId: number,
 		event: React.ChangeEvent<HTMLInputElement>,
-		payload: { files: AttachmentFile[] }
+		payload: { files: File[] }
 	) => {
-		setFiles([...files, ...payload.files]);
+		setFilesForTask((prevFiles) => ({
+			...prevFiles,
+			[taskId]: [...(prevFiles[taskId] || []), ...payload.files],
+		}));
 	};
 
 	console.log('taskValues из задач: ', taskValues);
+
+	const handleCallback = (): void => {
+		handleTaskValuesChange(taskValues);
+	};
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
 	const { id } = useParams<{ id: string }>();
 	const currentIpr = iprData.find((goal) => goal.id === Number(id));
-	console.log('currentIpr: ', currentIpr);
 
 	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
@@ -107,94 +146,15 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 	): void => {
 		const { name, value } = event.target;
 		setTaskValues((prevData) => ({ ...prevData, [name]: value }));
+		handleCallback();
 	};
-
-	const optionsCourses: OptionShape[] = courses;
-
-	const handleInputCourse = (
-		event: ChangeEvent<HTMLInputElement> | null,
-		{ value }: { value: string }
-	) => {
-		setValueCourse(value);
-	};
-
-	const handleCourseSelection = (
-		selectedCourses: OptionShape[] | string
-	): void => {
-		let selectedEducations: Education[] = [];
-
-		if (typeof selectedCourses === 'string') {
-			const courseNames = selectedCourses.split(',').map((name) => name.trim());
-
-			selectedEducations = courseNames.map((name) => ({
-				name,
-				url: '',
-				status: '',
-			}));
-		} else {
-			selectedEducations = selectedCourses.map((course) => ({
-				name: course.key,
-				url: '',
-				status: '',
-			}));
-		}
-
-		setTaskValues((prevData) => ({
-			...prevData,
-			educations: selectedEducations,
-		}));
-	};
-
-	const inputValues: string[] = valueCourse.replace(/ /g, '').split(',');
-	const selectedOptions: OptionShape[] = optionsCourses.filter((option) =>
-		inputValues.includes(option.key.trim())
-	);
-
-	const selected: string[] | OptionShape = multiple
-		? selectedOptions.map((option) => option.key)
-		: optionsCourses.find((o) => o.key === inputValues[0]) || [];
 
 	const tagValues = valueCourse.trim().split(',');
-
-	const handleChangeCourse = ({
-		selected,
-		selectedMultiple,
-	}: {
-		selected: OptionShape | null;
-		selectedMultiple: OptionShape[] | null;
-	}): void => {
-		if (multiple) {
-			const value = selectedMultiple?.length
-				? selectedMultiple.map((option) => option.key).join(', ') // если добавить + ',' выводит лишний таг, убирается с клавиатуры
-				: '';
-			setValueCourse(value);
-			handleCourseSelection(value);
-			return;
-		}
-		setValueCourse(selected ? selected.key : '');
-	};
-
-	const matchOption = (optionsCourses: any, inputValue: any) =>
-		optionsCourses.key.toLowerCase().includes((inputValue || '').toLowerCase());
-
-	const getFilteredOptions = (): OptionShape[] => {
-		if (multiple) {
-			return optionsCourses.filter((option) => {
-				return (
-					selectedOptions.includes(option) ||
-					matchOption(option, inputValues[inputValues.length - 1])
-				);
-			});
-		}
-
-		return optionsCourses.some(({ key }) => key === valueCourse)
-			? optionsCourses
-			: optionsCourses.filter((option) => matchOption(option, valueCourse));
-	};
 
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
 		setTaskValues((prevData) => ({ ...prevData, endDate: value }));
+		handleCallback();
 	};
 
 	const chevronClick = (taskId: number) => {
@@ -280,6 +240,82 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 		return formattedDate;
 	}
 
+	function matchOption(option: ICoursesOption, inputValue: string) {
+		return (
+			isOptionMatchByProp(option, 'name', inputValue) ||
+			isOptionMatchByProp(option, 'specialty', inputValue)
+		);
+	}
+
+	function isOptionMatchByProp(
+		option: ICoursesOption,
+		prop: TCoursenOptionProp,
+		inputValue: string
+	) {
+		const optionPropValue = option.value[prop];
+
+		if (typeof optionPropValue !== 'string') {
+			return false;
+		}
+
+		return optionPropValue
+			.toLowerCase()
+			.includes((inputValue || '').toLowerCase());
+	}
+
+	//utils
+	function filerOption(option: ICoursesOption, inputValues: string[]) {
+		if (inputValues.includes(option.value.name.trim())) {
+			return true;
+		}
+
+		return (
+			typeof option?.value.name === 'string' &&
+			inputValues.includes(option.value.name.trim())
+		);
+	}
+
+	const inputValues = valueCourse.split(',').map((value) => value.trim());
+
+	const selectedOptions = courseOptionList.filter((course) =>
+		filerOption(course, inputValues)
+	);
+
+	function getOptionContent(option: OptionShape) {
+		return option.value.name;
+	}
+
+	function getOptionsInputValue(selectedMultiple: OptionShape[]) {
+		return selectedMultiple.map(getOptionContent).join(', ');
+	}
+
+	const makeMultipleValue = (selectedMultiple: OptionShape[]) =>
+		`${getOptionsInputValue(selectedMultiple)}, `;
+
+	const handleChangeCourse = ({
+		selectedMultiple,
+	}: {
+		selectedMultiple: OptionShape[];
+	}): void => {
+		setValueCourse(makeMultipleValue(selectedMultiple));
+	};
+
+	const handleInputCourse = (_: unknown, { value }: { value: string }) =>
+		setValueCourse(value);
+
+	const selected = selectedOptions.map((option) => option.value.specialty);
+
+	const getFilteredOptions = () => {
+		return inputValues.length === selected.length
+			? courseOptionList
+			: courseOptionList.filter((option) => {
+					return (
+						selectedOptions.includes(option) ||
+						matchOption(option, inputValues[inputValues.length - 1])
+					);
+				});
+	};
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -333,6 +369,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														block={true}
 														showCounter={true}
 														autosize={true}
+														disabled={isEmployee}
 													/>
 													<UniversalDateInput
 														block={true}
@@ -343,6 +380,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														onChange={handleChangeEndDate}
 														picker={true}
 														Calendar={CalendarDesktop}
+														disabled={isEmployee}
 														calendarProps={{
 															selectorView: 'month-only',
 														}}
@@ -366,32 +404,41 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 													maxLength={96}
 													showCounter={true}
 													autosize={true}
+													disabled={isEmployee}
 												/>
-												<div className={styles.coursesWrapper}>
-													<InputAutocomplete
-														name="course"
-														value={valueCourse}
-														block={true}
-														multiple={multiple}
-														allowUnselect={true}
-														closeOnSelect={true}
-														onChange={handleChangeCourse}
-														onInput={handleInputCourse}
-														options={getFilteredOptions()}
-														Arrow={shownChevron ? Arrow : undefined}
-														showEmptyOptionsList={true}
-														className={styles.inputCourses}
-														size="s"
-														label="Тренинги и курсы"
-														placeholder="Начните вводить название"
-													/>
+												{!isEmployee && (
+													<div className={styles.coursesWrapper}>
+														<InputAutocomplete
+															size="s"
+															name="course"
+															selected={selected}
+															options={getFilteredOptions()}
+															label="Тренинги и курсы"
+															placeholder="Начните вводить название"
+															onChange={handleChangeCourse}
+															onInput={handleInputCourse}
+															value={valueCourse}
+															Arrow={shownChevron ? Arrow : undefined}
+															multiple={multiple}
+															allowUnselect={true}
+															showEmptyOptionsList={true}
+															Option={BaseOption}
+															block={true}
+															closeOnSelect={true}
+															className={styles.inputCourses}
+															inputProps={{
+																onClear: () => setValueCourse(''),
+																clear: true,
+															}}
+														/>
+														<img
+															src={linkToCourses}
+															alt="ссылка на курсы"
+															className={styles.linkToCourses}
+														/>
+													</div>
+												)}
 
-													<img
-														src={linkToCourses}
-														alt="ссылка на курсы"
-														className={styles.linkToCourses}
-													></img>
-												</div>
 												<div className={styles.formRowTag}>
 													{valueCourse.length > 0
 														? tagValues.map((value: string, key: number) => {
@@ -411,13 +458,28 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															})
 														: ''}
 												</div>
+
+												<Textarea
+													fieldClassName={styles.textClass}
+													maxHeight={91}
+													label="Комментарий руководителя"
+													name="commentOfMentor"
+													value={supervisorComment}
+													onChange={handleInputChange}
+													labelView="inner"
+													size="m"
+													block={true}
+													maxLength={96}
+													showCounter={true}
+													autosize={true}
+													disabled={isEmployee}
+												/>
 												{isEmployee && (
 													<Textarea
 														fieldClassName={styles.textClass}
 														maxHeight={91}
-														label="Комментарий руководителя"
-														name="commentOfMentor"
-														value={supervisorComment}
+														label="Ваш комментарий"
+														name="commentOfEmployee"
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
@@ -427,19 +489,6 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 														autosize={true}
 													/>
 												)}
-												<Textarea
-													fieldClassName={styles.textClass}
-													maxHeight={91}
-													label="Ваш комментарий"
-													name="commentOfEmployee"
-													onChange={handleInputChange}
-													labelView="inner"
-													size="m"
-													block={true}
-													maxLength={96}
-													showCounter={true}
-													autosize={true}
-												/>
 												{isEmployee && (
 													<div>
 														<div className={styles.attachWrapper}>
@@ -448,7 +497,7 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 															</p>
 															<Attach
 																buttonContent="Добавить"
-																// value={files}
+																value={filesForTask[id] || []}
 																buttonProps={{
 																	style: {
 																		backgroundColor: 'transparent',
@@ -458,29 +507,39 @@ export const Tasks: React.FC<TasksProps> = ({ isEmployee }) => {
 																	},
 																}}
 																size="m"
-																// onChange={handleAttach}
+																onChange={(event, payload) =>
+																	handleAttach(id, event, payload)
+																}
 																multiple={multiple}
 																fileClassName={styles.attachButton}
 																noFileText=""
+																disabled={taskStatus.name !== 'В работе'}
 															/>
 														</div>
-														{files.map((file, index) => (
-															<FileUploadItem
-																key={index}
-																name={file.name}
-																uploadDate={file.uploadDate}
-																size={file.size}
-																showDelete={true}
-															/>
-														))}
+														{filesForTask[id] && (
+															<div>
+																{filesForTask[id].map((file, index) => (
+																	<FileUploadItem
+																		key={index}
+																		name={file.name}
+																		uploadDate="31.01.2024"
+																		size={file.size}
+																		showDelete={true}
+																		downloadLink="/link"
+																		className={styles.attachedFile}
+																	/>
+																))}
+															</div>
+														)}
 														<Button
 															view="primary"
 															size="s"
 															className={styles.button}
+															disabled={taskStatus.name !== 'В работе'}
 														>
 															Отправить на проверку
 														</Button>
-														{isExecutive && (
+														{!isEmployee && (
 															<div
 																style={{
 																	display: 'flex',

@@ -4,6 +4,7 @@ import commonLibsReducer, { TCommonLibState } from './libSlice';
 import iprsReducer, { IPRSState } from './iprsSlice';
 import managerIprsReducer, { IPRSSliceState } from './managerIprSlice';
 import mentorIprsReducer from './mentorIprSlice';
+import formReducer, { IFormState } from './formSlice';
 
 export interface RootState {
 	user: UserState; // тип состояния пользователя
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
 	iprs: iprsReducer,
 	managerIprs: managerIprsReducer,
 	mentorIprs: mentorIprsReducer,
-
+	form: formReducer,
 	// добавь другие срезы состояния
 });
 

@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 
 import { roleUrl, accessUrl } from '../shared/utils/urls';
 import { Page404 } from '../pages/page404/page404';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import {
 	fetchCommonLibs,
 	selectCommonLibsPositions,
@@ -58,19 +58,32 @@ function App() {
 	//console.log('userData в Апп: ', userData);
 	const isEmployee = userData.isSupervisor === true;
 
+	const isFetching = useRef(false);
+
+	//Загрузка библиотек useRef для отслеживания состояния выполнения запроса и предотвращения отправки дополнительных запросов, пока предыдущий еще не завершен
 	useEffect(() => {
 		if (
+			!isFetching.current &&
 			!loading &&
 			!error &&
-			positions.length === 0 &&
-			iprStatus.length === 0 &&
-			taskStatus.length === 0 &&
-			specialty.length === 0 &&
-			iprCompetency.length === 0 &&
-			education.length === 0
+			![
+				positions,
+				iprStatus,
+				taskStatus,
+				specialty,
+				iprCompetency,
+				education,
+			].some((lib) => lib.length !== 0)
 		) {
-			// Загрузка справочников, если они еще не загружены
-			dispatch(fetchCommonLibs());
+			isFetching.current = true;
+			dispatch(fetchCommonLibs())
+				.then(() => {
+					isFetching.current = false;
+				})
+				.catch((error) => {
+					isFetching.current = false;
+					console.error('Error during fetching common libs:', error);
+				});
 		}
 	}, [
 		dispatch,

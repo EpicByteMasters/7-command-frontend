@@ -16,6 +16,7 @@ import { FooterMain } from '../../entities/footer-main/footer-main';
 
 export const MyIpr: React.FC = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+
 	const onModalOpen = () => {
 		setModalOpen(!modalOpen);
 	};
@@ -80,7 +81,6 @@ export const MyIpr: React.FC = () => {
 								Сохранить
 							</Button>
 						</div>
-
 						<form className={styles2.form}>
 							<TasksOverview
 								isExecutive={false}
@@ -89,7 +89,10 @@ export const MyIpr: React.FC = () => {
 							/>
 							<fieldset className={styles2.blockWrapper}>
 								<legend className={styles2.blockTitle}>Задачи</legend>
-								<Tasks isEmployee={true} />
+								<Tasks
+									isEmployee={true}
+									handleTaskValuesChange={handleDataSubmit}
+								/>
 							</fieldset>
 						</form>
 					</div>

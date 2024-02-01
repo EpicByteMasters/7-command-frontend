@@ -33,6 +33,7 @@ export const MentorPlan: React.FC<MentorProps> = ({
 	}, [dispatch]);
 
 	console.log('MENTOR_LIST_IPRS', mentorIprsList);
+
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
@@ -44,6 +45,7 @@ export const MentorPlan: React.FC<MentorProps> = ({
 							<h1 className={styles.title}>Менторство сотрудников</h1>
 							<div className={styles.container}>
 								<MentorList
+									// mentorList={mentorIprsList}
 									data={data}
 									ipr_id={ipr_id}
 									isMentor={isMentor}
