@@ -49,7 +49,10 @@ interface Task {
 	id: number;
 	supervisorComment: string;
 	comment: string;
-	status: string;
+	taskStatus: {
+		id: string;
+		name: string;
+	};
 	file: File[];
 	education: Education[];
 }
