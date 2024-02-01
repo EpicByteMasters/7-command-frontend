@@ -165,7 +165,8 @@ export const TasksOverview = ({
 	): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		const regexp = /[а-я\d ,.]+/iu;
 
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
@@ -183,7 +184,8 @@ export const TasksOverview = ({
 	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		const regexp = /[а-я\d ,.]+/iu;
 
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);

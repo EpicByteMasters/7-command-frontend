@@ -8,25 +8,29 @@ import { FooterMain } from '../../entities/footer-main/footer-main';
 
 export const EmployeePlan: React.FC = () => {
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				{/* <NavBarMini isExecutive={true} /> */}
-				<NavBarMini />
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					{/* <NavBarMini isExecutive={true} /> */}
+					<NavBarMini />
 
-				<div className={styles.wrapper}>
-					<h2 className={styles.title}>План развития сотрудника</h2>
-					<div className={styles.employeeWrapper}>
-						<EmployeeInfoCard
-							name="Константинов Константин Игоревич"
-							position="Фронтенд-разработчик"
-							avatar={avatar}
-						/>
+					<div className={styles.wrapper}>
+						<h2 className={styles.title}>План развития сотрудника</h2>
+						<div className={styles.employeeWrapper}>
+							<EmployeeInfoCard
+								name="Константинов Константин Игоревич"
+								position="Фронтенд-разработчик"
+								avatar={avatar}
+							/>
+						</div>
+						<Plan />
 					</div>
-					<Plan />
 				</div>
 			</div>
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

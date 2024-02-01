@@ -56,3 +56,17 @@
 	font-size: 28px;
 	padding-bottom: 28px;
 }
+
+// Footer
+
+.generalFooterWrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.generalFooterContainer {
+	flex: 1 0 auto;
+}
+.generalFooter {
+	flex: 0 0 auto;
+}
