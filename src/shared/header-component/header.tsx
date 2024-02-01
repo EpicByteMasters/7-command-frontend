@@ -39,7 +39,7 @@ function Header({ error }: HeaderProps) {
 		<header className={styles.header}>
 			<div className={styles.container}>
 				<div className={styles.logo}>
-					<Link to={accessUrl[2].url}>
+					<Link to={accessUrl[3].url}>
 						<img src={logo} className={styles.logoImage} alt="alfa-logo" />
 					</Link>
 					<h1 className={styles.logoTitle}>Alfa People</h1>
