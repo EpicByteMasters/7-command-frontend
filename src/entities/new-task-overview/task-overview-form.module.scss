@@ -1,59 +1,6 @@
 @use '../../styles/mixins.scss';
 @import './../../styles/variables.scss';
 
-.iprDraft {
-	width: 1010px;
-}
-
-.title {
-	@include mixins.title_h1;
-	padding: 0;
-	margin: 0 0 12px;
-}
-
-.subtitle {
-	@include mixins.title_h2;
-}
-
-.container {
-	margin-top: 40px;
-	display: flex;
-	gap: 24px;
-}
-
-.titleWrapper {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
-
-.employeeWrapper {
-	margin-bottom: 28px;
-}
-
-.buttonsWrapper {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
-.buttonSave {
-	margin-top: 28px;
-	margin-bottom: 48px;
-}
-
-.buttonSend {
-	margin-right: 20px;
-}
-
-.paragraph {
-	@include mixins.text;
-
-	margin: 0;
-	padding: 0;
-	color: var(--metallic, #898889);
-}
-
 .container {
 	display: flex;
 	gap: 24px;
@@ -106,6 +53,8 @@
 		flex-direction: row;
 		gap: 24px;
 		flex-wrap: wrap;
+		position: relative;
+		display: flex;
 	}
 
 	.formRowTag {
@@ -122,18 +71,21 @@
 	height: 91px;
 }
 
-// Footer
-
-.generalFooterWrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+.inputMentor {
+	margin: 0;
+	padding: 0;
+	width: 496px;
+}
+.avatarMentor {
+	margin: 0;
+	padding: 0;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 12px;
+	left: 460px;
 }
 
-.generalFooterContainer {
-	flex: 1 0 auto;
-}
-
-.generalFooter {
-	flex: 0 0 auto;
+.inputCompetence {
+	width: 1016px;
 }

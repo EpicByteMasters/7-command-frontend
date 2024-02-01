@@ -97,93 +97,65 @@ export const ManagerIprDraft = ({
 	};
 
 	return (
-		<>
-			<Header />
-			<div className={styles.container}>
-				{/* <NavBarMini isExecutive={isExecutive} /> */}
-				<NavBarMini />
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<Header />
+				<div className={styles.container}>
+					{/* <NavBarMini isExecutive={isExecutive} /> */}
+					<NavBarMini />
 
-				{modalOpen && (
-					<Modal
-						title="Выйти без сохранения?"
-						paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
-						button1="Выйти"
-						button2="Отмена"
-					></Modal>
-				)}
-				<div className={styles.iprDraft}>
-					<div className={styles.titleWrapper}>
-						<h1 className={styles.title}>План развития сотрудника</h1>
-						{statusText && (
-							<Status view="soft" color={statusColor}>
-								{statusText}
-							</Status>
-						)}
-					</div>
-					<div className={styles.employeeWrapper}>
-						<EmployeeInfoCard
-							name="Сошнева Инна Павловна"
-							position="Руководитель направления"
-							avatar={avatar}
-						/>
-					</div>
-					<div className={styles.buttonsWrapper}>
-						<Button
-							onClick={toggleVisibility}
-							view="secondary"
-							size="s"
-							className={styles.buttonSave}
-						>
-							Сохранить
-						</Button>
-						{statusText === 'в работе' ? (
+					{modalOpen && (
+						<Modal
+							title="Выйти без сохранения?"
+							paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
+							button1="Выйти"
+							button2="Отмена"
+						></Modal>
+					)}
+					<div className={styles.iprDraft}>
+						<div className={styles.titleWrapper}>
+							<h1 className={styles.title}>План развития сотрудника</h1>
+							{statusText && (
+								<Status view="soft" color={statusColor}>
+									{statusText}
+								</Status>
+							)}
+						</div>
+						<div className={styles.employeeWrapper}>
+							<EmployeeInfoCard
+								name="Сошнева Инна Павловна"
+								position="Руководитель направления"
+								avatar={avatar}
+							/>
+						</div>
+						<div className={styles.buttonsWrapper}>
 							<Button
-								onClick={onClick}
-								view="primary"
+								onClick={toggleVisibility}
+								view="secondary"
 								size="s"
-								className={styles.buttonSend}
+								className={styles.buttonSave}
 							>
-								Подвести итоги
+								Сохранить
 							</Button>
-						) : (
-							<Button
-								view="primary"
-								size="s"
-								className={styles.buttonSend}
-								onClick={toggleVisibility2}
-							>
-								Отправить в работу
-							</Button>
-						)}
-
-						{/* <button onClick={onModalOpen} className={styles.trashCan}>
-							<TrashCanMIcon color="#EC2E13"></TrashCanMIcon>
-						</button> */}
-
-						<Button
-							view="tertiary"
-							size="s"
-							className={styles.buttonDelete}
-							onClick={onModalOpen}
-						>
-							Удалить
-						</Button>
-						{statusText === 'в работе' ? (
-							<div className={styles.btnSaveWrapper}>
+							{statusText === 'в работе' ? (
 								<Button
-									onClick={onModalDiscardOpen}
-									view="tertiary"
+									onClick={onClick}
+									view="primary"
 									size="s"
-									className={styles.buttonDiscard}
+									className={styles.buttonSend}
 								>
-									Отменить
+									Подвести итоги
 								</Button>
-							</div>
-						) : (
-							''
-						)}
-					</div>
-
+							) : (
+								<Button
+									view="primary"
+									size="s"
+									className={styles.buttonSend}
+									onClick={toggleVisibility2}
+								>
+									Отправить в работу
+								</Button>
+							)}
 					<form className={styles2.form}>
 						<TasksOverview
 							handleGoalValuesChange={handleDataSubmit}
@@ -193,96 +165,134 @@ export const ManagerIprDraft = ({
 						<fieldset className={styles2.blockWrapper}>
 							<legend className={styles2.blockTitle}>Задачи</legend>
 						</fieldset>
-
-						{newTask.map((item) => {
-							return (
-								<div>
-									<NewTask isEmployee={false}></NewTask>
+							<Button
+								view="tertiary"
+								size="s"
+								className={styles.buttonDelete}
+								onClick={onModalOpen}
+							>
+								Удалить
+							</Button>
+							{statusText === 'в работе' ? (
+								<div className={styles.btnSaveWrapper}>
+									<Button
+										onClick={onModalDiscardOpen}
+										view="tertiary"
+										size="s"
+										className={styles.buttonDiscard}
+									>
+										Отменить
+									</Button>
 								</div>
-							);
-						})}
+							) : (
+								''
+							)}
+						</div>
 
-						{/* {newTaskOpen && (
+						<form className={styles2.form}>
+							<TasksOverview
+								handleGoalValuesChange={handleDataSubmit}
+								isExecutive={isExecutive}
+								iprStatus="черновик"
+							></TasksOverview>
+							<fieldset className={styles2.blockWrapper}>
+								<legend className={styles2.blockTitle}>Задачи</legend>
+								<Tasks isEmployee={true} />
+							</fieldset>
+
+							{newTask.map((item) => {
+								return (
+									<div>
+										<NewTask isEmployee={false}></NewTask>
+									</div>
+								);
+							})}
+
+							{/* {newTaskOpen && (
 							<NewTask isEmployee={false} isExecutive={true}></NewTask>
 						)} */}
-						<ButtonDesktop
-							onClick={handleNewTaskOpen}
-							view="tertiary"
-							shape="rectangular"
-							size="s"
-							className={styles.buttonComponent}
-							nowrap={false}
-							colors="default"
+							<ButtonDesktop
+								onClick={handleNewTaskOpen}
+								view="tertiary"
+								shape="rectangular"
+								size="s"
+								className={styles.buttonComponent}
+								nowrap={false}
+								colors="default"
+							>
+								Добавить новую
+							</ButtonDesktop>
+						</form>
+					</div>
+				</div>
+				{modalDisacrd ? (
+					<Modal
+						title={'Отмена плана развития сотрудника'}
+						paragraph={
+							'Вы дейстивтельно хотите отменить индивидуальный план развития?'
+						}
+						button1={'Да'}
+						button2={'Нет'}
+					></Modal>
+				) : (
+					''
+				)}
+				{modalSave ? <Modal title={'Изменения сохранены'}></Modal> : ''}
+
+				{isVisible ? (
+					<div className={styles2.containerNote}>
+						<Notification
+							title={'Сохранено'}
+							block={true}
+							colors={'default'}
+							titleClassName={styles2.title}
+							contentClassName={styles2.content}
+							hasCloser={true}
+							badge={'positive'}
+							visible={isVisible}
+							offset={140}
+							autoCloseDelay={1500}
+							zIndex={10}
+							onClose={hideNotification}
+							onCloseTimeout={hideNotification}
+							usePortal={true}
 						>
-							Добавить новую
-						</ButtonDesktop>
-					</form>
-				</div>
+							{'План развития добавлен в общий список как черновик'}
+						</Notification>
+					</div>
+				) : (
+					''
+				)}
+
+				{isVisible2 ? (
+					<div className={styles2.containerNote}>
+						<Notification
+							title={'Отправлено в работу'}
+							block={true}
+							colors={'default'}
+							titleClassName={styles2.title}
+							contentClassName={styles2.content}
+							hasCloser={true}
+							badge={'positive'}
+							visible={isVisible2}
+							offset={140}
+							autoCloseDelay={1500}
+							zIndex={10}
+							onClose={hideNotification2}
+							onCloseTimeout={hideNotification2}
+							usePortal={true}
+						>
+							{'План развития отправлен сотруднику для исполнения'}
+						</Notification>
+					</div>
+				) : (
+					''
+				)}
+				<FooterMain></FooterMain>
 			</div>
-			{modalDisacrd ? (
-				<Modal
-					title={'Отмена плана развития сотрудника'}
-					paragraph={
-						'Вы дейстивтельно хотите отменить индивидуальный план развития?'
-					}
-					button1={'Да'}
-					button2={'Нет'}
-				></Modal>
-			) : (
-				''
-			)}
-			{modalSave ? <Modal title={'Изменения сохранены'}></Modal> : ''}
-
-			{isVisible ? (
-				<div className={styles2.containerNote}>
-					<Notification
-						title={'Сохранено'}
-						block={true}
-						colors={'default'}
-						titleClassName={styles2.title}
-						contentClassName={styles2.content}
-						hasCloser={true}
-						badge={'positive'}
-						visible={isVisible}
-						offset={140}
-						autoCloseDelay={1500}
-						zIndex={10}
-						onClose={hideNotification}
-						onCloseTimeout={hideNotification}
-						usePortal={true}
-					>
-						{'План развития добавлен в общий список как черновик'}
-					</Notification>
-				</div>
-			) : (
-				''
-			)}
-
-			{isVisible2 ? (
-				<div className={styles2.containerNote}>
-					<Notification
-						title={'Отправлено в работу'}
-						block={true}
-						colors={'default'}
-						titleClassName={styles2.title}
-						contentClassName={styles2.content}
-						hasCloser={true}
-						badge={'positive'}
-						visible={isVisible2}
-						offset={140}
-						autoCloseDelay={1500}
-						zIndex={10}
-						onClose={hideNotification2}
-						onCloseTimeout={hideNotification2}
-						usePortal={true}
-					>
-						{'План развития отправлен сотруднику для исполнения'}
-					</Notification>
-				</div>
-			) : (
-				''
-			)}
-			<FooterMain></FooterMain>
-		</>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
 	);
 };

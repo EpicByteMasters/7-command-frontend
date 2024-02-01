@@ -347,7 +347,7 @@ export const mentor = [
 export const objCompetence = [
 	{
 		id: 'PRODUCT_ANALYTICS',
-		name: 'Знания продуктовой аналитики, продуктовых исследований, UI/UX',
+		name: 'Знания продуктовой аналитики',
 		skillType: 'HARD',
 	},
 	{ id: 'BACKLOG', name: 'Ведение бэклога', skillType: 'HARD' },
