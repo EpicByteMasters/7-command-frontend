@@ -301,7 +301,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 														}}
 														alt="аватар"
 													></img>
-													<div style={{ marginLeft: '8px', width: '250px' }}>
+													<div style={{ marginLeft: '10px', width: '250px' }}>
 														<Typography.Text view="primary-small" tag="div">
 															{`${lastName} ${firstName} ${middleName}`}
 														</Typography.Text>
