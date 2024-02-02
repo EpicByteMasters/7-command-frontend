@@ -8,6 +8,7 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
+import { IprData } from '../../store/reducers/iprsSlice';
 
 import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
 
@@ -33,6 +34,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 
 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
 				console.log('Получили Ипр по id:', iprDataResult.payload);
+
 				navigate(
 					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
 				);
@@ -120,7 +122,7 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 								<div className={styles.tBtn}>
 									<Button
 										view="tertiary"
-										size="s"
+										size="xxs"
 										onClick={() => handleOpenButtonClick(id, status)}
 									>
 										Открыть

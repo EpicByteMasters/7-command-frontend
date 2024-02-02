@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './employees-list.module.scss';
 
-import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Status } from '@alfalab/core-components/status';
@@ -13,7 +12,6 @@ import { Table } from '@alfalab/core-components/table';
 import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
-import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { Modal } from '../modal/modal';
 import { Employee } from '../../store/reducers/managerIprSlice';
 import {
@@ -45,6 +43,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const navigate = useNavigate();
 
 	console.log('EmployeeList DATA', data);
+	console.log('EmployeeList DATA', goal);
+	console.log('EmployeeList DATA', status);
 
 	const positionsLib = useAppSelector(selectCommonLibsPositions);
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
@@ -78,67 +78,92 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		return order[status] || '6';
 	};
 
-	const sortedData = data
-		? [...data].sort((a, b) => {
-				if (sortColumn === 'name') {
-					const fullNameA = `${a.lastName} ${a.firstName} ${a.middleName}`;
-					const fullNameB = `${b.lastName} ${b.firstName} ${b.middleName}`;
+	// Filtered data
+	const [filteredData, setFilteredData] = useState<Employee[]>([]);
+	const [loading, setLoading] = useState(true);
 
-					return sortOrder === 'asc'
-						? fullNameA.localeCompare(fullNameB)
-						: fullNameB.localeCompare(fullNameA);
-				} else if (sortColumn === 'date') {
-					const getDateValue = (dateString: string | undefined) => {
-						if (!dateString) {
-							return sortOrder === 'asc' ? Infinity : -Infinity;
-						}
+	useEffect(() => {
+		const fetchData = async () => {
+			if (data && data.length > 0) {
+				let filteredResult = data;
 
-						const [day, month, year] = dateString.split('.');
-						return new Date(`${year}-${month}-${day}`).getTime();
-					};
-
-					const dateA = getDateValue(a.date_of_end);
-					const dateB = getDateValue(b.date_of_end);
-
-					return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-				} else if (sortColumn === 'status') {
-					const statusA = a.status as TIprStatusType;
-					const statusB = b.status as TIprStatusType;
-
-					const statusOrderA = getStatusSortOrder(statusA);
-					const statusOrderB = getStatusSortOrder(statusB);
-
-					return sortOrder === 'asc'
-						? statusOrderA.localeCompare(statusOrderB)
-						: statusOrderB.localeCompare(statusOrderA);
+				// Фильтрация по цели
+				if (goal) {
+					filteredResult = filteredResult.filter((item) => item.goal === goal);
 				}
 
-				return 0;
-			})
-		: [];
+				// Фильтрация по статусу
+				if (status) {
+					filteredResult = filteredResult.filter(
+						(item) => item.status === status
+					);
+				}
+
+				setFilteredData(filteredResult);
+				setLoading(false);
+			}
+		};
+
+		// Запускаем функцию получения данных
+		fetchData();
+	}, [data, goal, status]);
+
+	console.log('filteredData', filteredData);
+
+	// Sorted and filtered data
+	const sortedAndFilteredData = useMemo(() => {
+		if (!filteredData) return [];
+
+		return [...filteredData].sort((a, b) => {
+			if (sortColumn === 'name') {
+				const fullNameA = `${a.lastName} ${a.firstName} ${a.middleName}`;
+				const fullNameB = `${b.lastName} ${b.firstName} ${b.middleName}`;
+
+				return sortOrder === 'asc'
+					? fullNameA.localeCompare(fullNameB)
+					: fullNameB.localeCompare(fullNameA);
+			} else if (sortColumn === 'date') {
+				const getDateValue = (dateString: string | undefined) => {
+					if (!dateString) {
+						return sortOrder === 'asc' ? Infinity : -Infinity;
+					}
+
+					const [day, month, year] = dateString.split('.');
+					return new Date(`${year}-${month}-${day}`).getTime();
+				};
+
+				const dateA = getDateValue(a.date_of_end);
+				const dateB = getDateValue(b.date_of_end);
+
+				return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+			} else if (sortColumn === 'status') {
+				const statusA = a.status as TIprStatusType;
+				const statusB = b.status as TIprStatusType;
+
+				const statusOrderA = getStatusSortOrder(statusA);
+				const statusOrderB = getStatusSortOrder(statusB);
+
+				return sortOrder === 'asc'
+					? statusOrderA.localeCompare(statusOrderB)
+					: statusOrderB.localeCompare(statusOrderA);
+			}
+
+			return 0;
+		});
+	}, [filteredData, sortColumn, sortOrder]);
 
 	const onClickToDraft = () => {
 		setModalCreate(!modalCreate);
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const handleOpenButtonClick = async (id: number, status: any) => {
+	const handleOpenButtonClick = (id: number, status: string) => {
 		try {
-			const iprDataResult = await dispatch(getIprByIdBySupervisor(id));
-
-			if (getIprByIdBySupervisor.fulfilled.match(iprDataResult)) {
-				console.log('Получили Ипр по id:', iprDataResult.payload);
-				navigate(
-					`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-				);
-			} else {
-				console.error(
-					'!!!Error during fetching IPRS data:',
-					iprDataResult.error
-				);
-			}
+			navigate(
+				`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+			);
 		} catch (error) {
-			console.error('Error during fetching user data:', error);
+			console.error('Error during navigating:', error);
 		}
 	};
 
@@ -147,11 +172,36 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 
 	const perPage = 5; // Фиксированное количество строк на странице
 	const handlePageChange = (pageIndex: number) => setPage(pageIndex);
-	const pagesCount = Math.ceil(sortedData.length / perPage);
-	const currentPageData = sortedData.slice(
+	const pagesCount = Math.ceil(sortedAndFilteredData.length / perPage);
+	const currentPageData = sortedAndFilteredData.slice(
 		page * perPage,
 		(page + 1) * perPage
 	);
+
+	//Popover
+	const [activeRowIndex, setActiveRowIndex] = useState<number | null>(null);
+	const popoverRef = useRef<HTMLDivElement>(null);
+
+	const handleMoreButtonClick = (rowIndex: number) => {
+		setActiveRowIndex(rowIndex === activeRowIndex ? null : rowIndex);
+	};
+
+	useEffect(() => {
+		const handleMouseDown = (event: MouseEvent) => {
+			if (
+				popoverRef.current &&
+				!popoverRef.current.contains(event.target as Node)
+			) {
+				setActiveRowIndex(null);
+			}
+		};
+
+		document.addEventListener('mousedown', handleMouseDown);
+
+		return () => {
+			document.removeEventListener('mousedown', handleMouseDown);
+		};
+	}, [popoverRef, setActiveRowIndex]);
 
 	return (
 		<>
@@ -204,26 +254,29 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				<Table.TBody>
 					{currentPageData && currentPageData.length > 0 ? (
 						currentPageData.map(
-							({
-								id,
-								firstName,
-								lastName,
-								middleName,
-								position_id,
-								specialty_id,
-								imageUrl,
-								goal,
-								date_of_end,
-								progress,
-								task_completed,
-								task_count,
-								status,
-							}) => {
+							(
+								{
+									id,
+									firstName,
+									lastName,
+									middleName,
+									position_id,
+									specialty_id,
+									imageUrl,
+									goal,
+									date_of_end,
+									progress,
+									task_completed,
+									task_count,
+									status,
+								},
+								rowIndex
+							) => {
 								const progressPercent = (task_completed / task_count) * 100;
 								const color = getStatusColor(status);
 								//TODO вставить в верстку аватарку
 								return (
-									<Table.TRow>
+									<Table.TRow key={id}>
 										<Table.TCell>
 											<Space size={2} align={'start'}>
 												<Typography.Text view="primary-small" tag="div">
@@ -286,11 +339,39 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<div className={styles.tBtn}>
-												<Button view="ghost">
-													<MoreMIcon style={{ fill: '#898889' }} />
-												</Button>
-											</div>
+											<Button
+												view="ghost"
+												onClick={() => handleMoreButtonClick(rowIndex)}
+											>
+												<MoreMIcon style={{ fill: '#898889' }} />
+											</Button>
+											{activeRowIndex === rowIndex && (
+												<div
+													className={styles.popoverContainer}
+													ref={popoverRef}
+												>
+													<div className={styles.popoverButtons}>
+														<Button
+															className={styles.btnText}
+															view="ghost"
+															size="s"
+															onClick={() => console.log('del')}
+														>
+															Удалить
+														</Button>
+														<Button
+															className={styles.btnText}
+															view="ghost"
+															size="s"
+															onClick={() => {
+																navigate(`/service-iprs/myteam/history/${id}`); //TODO перейти на историю конкретного сотрудника
+															}}
+														>
+															История
+														</Button>
+													</div>
+												</div>
+											)}
 										</Table.TCell>
 									</Table.TRow>
 								);
@@ -361,99 +442,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 // 		}
 // 	};
 
-// 	// sorting
-
-// 	const handleSort = (column: string) => {
-// 		if (sortColumn === column) {
-// 			setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-// 		} else {
-// 			setSortColumn(column);
-// 			setSortOrder('asc');
-// 		}
-// 	};
-
-// 	const getStatusColor = (status: string) => {
-// 		switch (status) {
-// 			case 'черновик':
-// 				return 'purple';
-// 			case 'отменен':
-// 				return 'orange';
-// 			case 'в работе':
-// 				return 'blue';
-// 			case 'не выполнен':
-// 				return 'red';
-// 			case 'выполнен':
-// 				return 'green';
-// 			case 'отсутствует':
-// 				return 'grey';
-// 			default:
-// 				return 'blue';
-// 		}
-// 	};
-
-// 	type TStatusType =
-// 		| 'черновик'
-// 		| 'в работе'
-// 		| 'выполнен'
-// 		| 'не выполнен'
-// 		| 'отменен'
-// 		| 'отсутствует';
-
-// 	const getStatusSortOrder = (status: TStatusType): string => {
-// 		const order = {
-// 			черновик: '0',
-// 			'в работе': '1',
-// 			выполнен: '2',
-// 			'не выполнен': '3',
-// 			отменен: '4',
-// 			отсутствует: '5',
-// 		};
-
-// 		return order[status] || '6';
-// 	};
-
-// 	const sortedData = [...data].sort((a, b) => {
-// 		if (sortColumn === 'name') {
-// 			return sortOrder === 'asc'
-// 				? a.name.localeCompare(b.name)
-// 				: b.name.localeCompare(a.name);
-// 		} else if (sortColumn === 'date') {
-// 			const getDateValue = (dateString: string) => {
-// 				const [day, month, year] = dateString.split('.');
-// 				return new Date(`${year}-${month}-${day}`).getTime();
-// 			};
-
-// 			const dateA = getDateValue(a.date);
-// 			const dateB = getDateValue(b.date);
-
-// 			if (dateA === dateB) {
-// 				return 0;
-// 			}
-
-// 			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-// 		} else if (sortColumn === 'status') {
-// 			const statusA = a.status as TStatusType;
-// 			const statusB = b.status as TStatusType;
-
-// 			const statusOrderA = getStatusSortOrder(statusA);
-// 			const statusOrderB = getStatusSortOrder(statusB);
-
-// 			return sortOrder === 'asc'
-// 				? statusOrderA.localeCompare(statusOrderB)
-// 				: statusOrderB.localeCompare(statusOrderA);
-// 		}
-
-// 		return 0;
-// 	});
-
-// 	const perPage = 10; // Фиксированное количество строк на странице
-// 	const handlePageChange = (pageIndex: number) => setPage(pageIndex);
-// 	const pagesCount = Math.ceil(sortedData.length / perPage);
-// 	const currentPageData = sortedData.slice(
-// 		page * perPage,
-// 		(page + 1) * perPage
-// 	);
-
 // 	const onClickToIpr = () => {
 // 		navigate(`/service-iprs/ipr/3`, { replace: true });
 // 	};
@@ -461,10 +449,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 // 		setModalCreate(true);
 // 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 // 	};
-
-// 	// Фильтрация по цели/ по статусу
-// 	let resultGoal = sortedData.filter((data) => data.goal === goal);
-// 	let resultStatus = sortedData.filter((data) => data.status === status);
 
 // 	return (
 // 		<>

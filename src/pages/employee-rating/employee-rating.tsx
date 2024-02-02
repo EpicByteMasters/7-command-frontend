@@ -54,7 +54,7 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 								view="secondary"
 								label="Выбрать статус"
 							></PickerButton>
-							<Button view="primary" onClick={handleSubmit}>
+							<Button view="primary" size="m" onClick={handleSubmit}>
 								Завершить
 							</Button>
 						</div>

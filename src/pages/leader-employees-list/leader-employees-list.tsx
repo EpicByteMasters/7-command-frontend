@@ -21,13 +21,10 @@ import {
 	selectManagerList,
 } from '../../store/reducers/managerIprSlice';
 import { FooterMain } from '../../entities/footer-main/footer-main';
-
-interface TableProps {
-	data: EmployeeGoalPlan[];
-	isExecutive: boolean;
-	ipr_id: number;
-	ipr_id2: number;
-}
+import {
+	selectCommonLibsIPRGoals,
+	selectCommonLibsIPRStatus,
+} from '../../store/reducers/libSlice';
 
 const structureData = {
 	title: 'Вовлеченность команды',
@@ -47,14 +44,11 @@ const successData = {
 	],
 };
 
-export const LeaderEmployeesList: React.FC<TableProps> = ({
-	data,
-	isExecutive,
-	ipr_id,
-	ipr_id2,
-}) => {
+export const LeaderEmployeesList: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const managerIprsList = useAppSelector(selectManagerList);
+	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
+	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
 
 	useEffect(() => {
 		dispatch(getManagerIprsList());
@@ -62,29 +56,6 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 
 	console.log('MANAGER_LIST_IPRS', managerIprsList);
 
-	const contentLabel1 = <span>Цель</span>;
-	const contentLabel2 = <span>Статус</span>;
-
-	// ------------------------------
-	const OPTIONS_GOAL: { key: string; content: string }[] = [
-		{ key: '1', content: 'Карьерный рост' },
-		{ key: '2', content: 'Повышение грейда' },
-		{ key: '3', content: 'Соответствие занимаемой должности' },
-		{ key: '4', content: 'Развитие софт-скиллов' },
-		{ key: '5', content: 'Развитие хард-скиллов' },
-		{ key: '6', content: 'Смена специализации' },
-		{ key: '7', content: 'Смена команды' },
-		{ key: '8', content: 'Получение нового опыта' },
-	];
-
-	const OPTIONS_STATUS: { key: string; content: string }[] = [
-		{ key: '1', content: 'Не выполен' },
-		{ key: '2', content: 'В работе' },
-		{ key: '3', content: 'Выполнен' },
-		{ key: '4', content: 'Отменен' },
-		{ key: '5', content: 'Черновик' },
-		{ key: '6', content: 'Отсутствует' },
-	];
 	const [chevron, setChevron] = useState(false);
 	const [chevron2, setChevron2] = useState(false);
 	const [statusValue, setStatusValue] = useState<string>('');
@@ -98,7 +69,7 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 		setChevron2(!chevron2);
 		setStatusValue('');
 	};
-
+	//TODO шеврон закрывался по клику вне его без выбора
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
@@ -147,16 +118,16 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 								{chevron ? (
 									<div className={styles.dropdownContent1}>
 										{chevron &&
-											OPTIONS_GOAL.map((goal, key) => {
+											iprGoalsLib.map((goal, key) => {
 												return (
 													<p
-														key={goal.key}
+														key={goal.id}
 														onClick={() => {
-															setGoalValue(goal.content);
+															setGoalValue(goal.id);
 															setChevron(!chevron);
 														}}
 													>
-														{goal.content}
+														{goal.name}
 													</p>
 												);
 											})}
@@ -184,18 +155,16 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 								{chevron2 ? (
 									<div className={styles.dropdownContent2}>
 										{chevron2 &&
-											OPTIONS_STATUS.map((status, key) => {
+											iprStatusLib.map((status, key) => {
 												return (
 													<p
-														key={status.key}
+														key={status.id}
 														onClick={() => {
-															setStatusValue(
-																status.content.toLocaleLowerCase()
-															);
+															setStatusValue(status.id);
 															setChevron2(!chevron2);
 														}}
 													>
-														{status.content}
+														{status.name}
 													</p>
 												);
 											})}
@@ -205,7 +174,6 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 								)}
 							</div>
 						</div>
-
 						<EmployeesList
 							data={managerIprsList?.employees}
 							status={statusValue}

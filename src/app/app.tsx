@@ -111,17 +111,7 @@ function App() {
 			<Routes>
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
 				<Route path="/main" element={<MainPage></MainPage>} />
-				<Route
-					path={roleUrl[0].url}
-					element={
-						<LeaderEmployeesList
-							isExecutive={true}
-							data={testData}
-							ipr_id={ipr_id}
-							ipr_id2={ipr_id2}
-						/>
-					}
-				/>
+				<Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
 				{/* <Route
 					path="/service-iprs/myteam"
 					element={<LeaderEmployeesList data={testData} />}
@@ -249,7 +239,10 @@ function App() {
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 
-				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
+				<Route
+					path="/service-iprs/myteam/history/:id"
+					element={<EmployeePlan />}
+				/>
 				<Route
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}
