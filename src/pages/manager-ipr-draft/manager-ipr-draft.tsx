@@ -187,7 +187,6 @@ export const ManagerIprDraft = ({
 							></TasksOverview>
 							<fieldset className={styles2.blockWrapper}>
 								<legend className={styles2.blockTitle}>Задачи</legend>
-								<Tasks isEmployee={true} />
 							</fieldset>
 
 							{newTask.map((item) => {
