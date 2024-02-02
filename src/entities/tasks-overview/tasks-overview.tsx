@@ -466,7 +466,7 @@ export const TasksOverview = ({
 								block={true}
 								multiple={multiple}
 								allowUnselect={true}
-								closeOnSelect={true}
+								// closeOnSelect={false}
 								onChange={handleChangeCompetence}
 								onInput={handleInputCompetence}
 								options={getFilteredOptionsCompetence()}
@@ -493,7 +493,7 @@ export const TasksOverview = ({
 													size="xxs"
 													shape="rounded"
 													view="filled"
-													checked={false}
+													checked={true}
 													onClear={() => {
 														setValueCompetence('');
 													}}

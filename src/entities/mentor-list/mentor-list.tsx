@@ -16,23 +16,21 @@ import {
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
+import avatar from '../../images/avatars/avatar_mentor1.png';
 import {
 	formatDateString,
 	getStatusColor,
 	getValueById,
 } from '../../shared/utils/constants';
-import { getMentorIprsList } from '../../store/reducers/mentorIprSlice';
-import { TIprStatusType } from '../../shared/utils/types';
-import avatar from '../../images/avatars/avatar_mentor1.png';
-
 export interface MentorListProps {
-	data?: Mentor[] | undefined;
+	data: Mentor[] | undefined;
+	// mentorList?: [] | undefined;
 }
 
 export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 	const dispatch = useAppDispatch();
 
-	console.log('MENTOR - DATA', data);
+	// console.log('MENTOR - DATA', data);
 
 	const positionsLib = useAppSelector(selectCommonLibsPositions);
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
@@ -42,12 +40,6 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 	const [selectedEmployee, setSelectedEmployee] =
 		useState<EmployeeGoalPlan | null>(null);
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
-	const [sortColumn, setSortColumn] = useState<string | null>(null);
-	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-	const [page, setPage] = useState<number>(0);
-
-	const navigate = useNavigate();
-	const location = useLocation();
 
 	const closePopover = () => {
 		setPopoverVisible(false);
@@ -68,43 +60,6 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 	// 		closePopover();
 	// 	}
 	// };
-
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'черновик':
-				return 'purple';
-			case 'отменен':
-				return 'orange';
-			case 'в работе':
-				return 'blue';
-			case 'не выполнен':
-				return 'red';
-			case 'выполнен':
-				return 'green';
-			case 'отсутствует':
-				return 'grey';
-			default:
-				return 'blue';
-		}
-	};
-
-	// type TStatusType =
-	// 	| 'черновик'
-	// 	| 'в работе'
-	// 	| 'выполнен'
-	// 	| 'не выполнен'
-	// 	| 'отменен'
-	// 	| 'отсутствует';
-
-	// const getStatusSortOrder = (status: TStatusType): string => {
-	// 	const order = {
-	// 		черновик: '0',
-	// 		'в работе': '1',
-	// 		выполнен: '2',
-	// 		'не выполнен': '3',
-	// 		отменен: '4',
-	// 		отсутствует: '5',
-	// 	};
 
 	// 	return order[status] || '6';
 	// };
@@ -197,19 +152,27 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 				<Table.TBody>
 					{data?.map(
 						({
-							id,
-							name,
-							position,
+							date_of_end,
+							firstName,
 							goal,
-							date,
+							id,
+							imageUrl,
+							lastName,
+							middleName,
+							position_id,
 							progress,
-							taskAll,
-							taskDone,
+							specialty_id,
 							status,
+							task_completed,
+							task_count,
 						}) => {
-							const progressPercentage = `${progress}%`;
 							const color = getStatusColor(status);
 
+							function progressPerCent(data: any) {
+								const numberArr = data.split('/');
+								const perCent = (numberArr[0] / numberArr[1]) * 100;
+								return Math.round(perCent);
+							}
 							return (
 								<Table.TRow key={id}>
 									<Table.TCell>
@@ -232,28 +195,32 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 												></img>
 												<div style={{ marginLeft: '8px', width: '250px' }}>
 													<Typography.Text view="primary-small" tag="div">
-														{name}
+														{`${lastName} ${firstName} ${middleName}`}
 													</Typography.Text>
 													<Typography.Text
 														view="primary-small"
 														color="secondary"
 													>
-														{position}
+														{getValueById(position_id, positionsLib)}
 													</Typography.Text>
 												</div>
 											</div>
 										</Space>
 									</Table.TCell>
 									<Table.TCell>
-										<div className={styles.tCell}>{goal}</div>
+										<div className={styles.tCell}>
+											{getValueById(goal, iprGoalsLib)}
+										</div>
 									</Table.TCell>
 									<Table.TCell>
-										<div className={styles.tCell}>{date}</div>
+										<div className={styles.tCell}>
+											{formatDateString(date_of_end)}
+										</div>
 									</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={progress}
-											title={`${taskDone}/${taskAll}`}
+											value={progressPerCent(progress)}
+											title={progress}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -262,7 +229,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 									<Table.TCell>
 										<div className={styles.tCell}>
 											<Status view="soft" color={color}>
-												{status}
+												{getValueById(status, iprStatusLib)}
 											</Status>
 										</div>
 									</Table.TCell>

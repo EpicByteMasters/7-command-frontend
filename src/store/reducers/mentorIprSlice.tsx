@@ -3,15 +3,19 @@ import { BASE_URL } from '../../shared/utils/constants';
 import { RootState } from '../store';
 
 export interface Mentor {
-	id: number;
-	name: string;
-	position: string;
+	date_of_end: string;
+	firstName: string;
 	goal: string;
-	date: string;
-	progress: number;
-	taskAll: number;
-	taskDone: number;
+	id: number;
+	imageUrl: string;
+	lastName: string;
+	middleName: string;
+	position_id: string;
+	progress: string;
+	specialty_id: string;
 	status: string;
+	task_completed: number;
+	task_count: number;
 }
 
 interface MentorIPRSListResponse {

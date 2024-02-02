@@ -112,23 +112,15 @@ function App() {
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
 				<Route path="/main" element={<MainPage></MainPage>} />
 				<Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
-				{/* <Route
-					path="/service-iprs/myteam"
-					element={<LeaderEmployeesList data={testData} />}
-				/> */}
-				{/* <Route
-					path="/service-iprs/my"
-					element={<MyIpr statusText="Черновик" statusColor="purple"></MyIpr>}
-				/> */}
 				<Route
 					path="/service-iprs/mentor"
 					element={
 						<MentorPlan
-							data={mentorData}
-							isExecutive={true}
-							isMentor={true}
-							ipr_id4={4}
-							ipr_id={1}
+						// data={mentorData}
+						// isExecutive={true}
+						// isMentor={true}
+						// ipr_id4={4}
+						// ipr_id={1}
 						></MentorPlan>
 					}
 				/>
@@ -231,10 +223,6 @@ function App() {
 
 				{/* Футер - старые роуты */}
 
-				{/* <Route
-					path={roleUrl[1].url}
-					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
-				/> */}
 				<Route
 					path={'/notification1'}
 					element={
