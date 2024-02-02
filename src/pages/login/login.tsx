@@ -18,8 +18,8 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const isLoading = useAppSelector((state) => state.user.isLoading);
-	console.log('isLoading: ', isLoading);
+	// const isLoading = useAppSelector((state) => state.user.isLoading);
+
 	const [loadingStates, setLoadingStates] = useState<{
 		[key: string]: boolean;
 	}>({});

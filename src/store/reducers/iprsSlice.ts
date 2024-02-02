@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../shared/utils/constants';
+
 interface IprStatus {
 	id: string;
 	name: string;
@@ -230,7 +231,7 @@ export const createIPR = createAsyncThunk<any, IPRSCreatePayload>(
 				}
 			);
 
-			if (response.status === 200) {
+			if (response.status === 201) {
 				return response.json();
 			} else {
 				throw new Error('Failed to create IPR');
@@ -283,13 +284,14 @@ export const iprsSlice = createSlice({
 		clearIPRSData: (state, action: PayloadAction<IPRSState>) => {
 			return (state = action.payload);
 		},
+		createIPR: (state, action: any) => {},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(getIPRSData.fulfilled, (state, action) => {
 			state.iprsData = action.payload;
 		});
 		builder.addCase(createIPR.fulfilled, (state, action) => {
-			state.iprsData.push(action.payload);
+			state.openedIpr = action.payload;
 			state.isLoading = false;
 			state.error = '';
 		});

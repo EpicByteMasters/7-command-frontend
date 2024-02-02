@@ -25,9 +25,13 @@ import {
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
-import { getIprByIdBySupervisor } from '../../store/reducers/iprsSlice';
+import {
+	createIPR,
+	getIprByIdBySupervisor,
+} from '../../store/reducers/iprsSlice';
 import { TIprStatusType } from '../../shared/utils/types';
 import avatar from '../../images/avatars/avatar_mentor1.png';
+import { useDispatch } from 'react-redux';
 
 export interface IEmployeesListProps {
 	data: Employee[] | undefined;
@@ -42,6 +46,26 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const draft = useAppSelector((state) => state.iprs.openedIpr);
+
+	const fetchDataCreateDraft = async (userId: number) => {
+		try {
+			const resultAction = await dispatch(
+				createIPR({ employeeId: userId }) as any
+			);
+
+			if (createIPR.fulfilled.match(resultAction)) {
+				return resultAction.payload;
+				// const iprId = resultAction.payload.id;
+
+				// navigate(`/service-iprs/ipr/${iprId}`);
+			} else if (createIPR.rejected.match(resultAction)) {
+				console.error('Не удалось создать IPR:', resultAction.error.message);
+			}
+		} catch (error) {
+			console.error('Ошибка при создании IPR:', error);
+		}
+	};
 
 	console.log('EmployeeList DATA', data);
 	console.log('EmployeeList DATA', goal);
@@ -52,6 +76,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
 	const userData = useAppSelector((state) => state.user.user);
+	const userId = userData.id;
 
 	const isEmployee = userData.isSupervisor === false;
 	const isExecutive = userData.isSupervisor === true;
@@ -158,9 +183,12 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		});
 	}, [filteredData, sortColumn, sortOrder]);
 
-	const onClickToDraft = () => {
+	const onClickToCreateDraft = async (id: any) => {
 		setModalCreate(!modalCreate);
-		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
+		const createdDraft = await fetchDataCreateDraft(id);
+		console.log('createdDraft: ', createdDraft);
+		navigate(`/service-iprs/ipr/${createdDraft.id}`, { replace: true });
+		console.log('draft: ', draft);
 	};
 
 	const handleOpenButtonClick = (id: number, status: string) => {
@@ -359,7 +387,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													<Button
 														view="tertiary"
 														size="xxs"
-														onClick={onClickToDraft}
+														onClick={() => onClickToCreateDraft(id)}
 													>
 														Создать
 													</Button>

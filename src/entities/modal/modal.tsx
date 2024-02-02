@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 
 interface HeaderProps {
 	error?: string;
@@ -22,6 +24,7 @@ export const Modal = ({
 }: HeaderProps) => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const dispatch = useDispatch();
 
 	const [open, setOpen] = useState(true);
 
