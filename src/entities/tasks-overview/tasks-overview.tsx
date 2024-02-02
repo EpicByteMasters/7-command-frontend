@@ -93,6 +93,10 @@ export const TasksOverview = ({
 	const [errorDescription, setErrorDescription] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 
+	//Уведомления
+	const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
+	const hideNotification = useCallback(() => setIsVisible(false), []);
+
 	//Получаем данные текущегоИПР с Сервера
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	const { id } = useParams<{ id: string }>();
@@ -100,6 +104,7 @@ export const TasksOverview = ({
 		(goal: any) => goal.id === Number(id)
 	);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
+
 	// console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
 
 	// console.log(currentIpr.goal, '!Competency');
@@ -107,9 +112,6 @@ export const TasksOverview = ({
 	// 	return <div>Ошибка не нашел Id</div>;
 	// }
 
-	//Уведомления
-	const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
-	const hideNotification = useCallback(() => setIsVisible(false), []);
 	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
 	// Поиск id Цели
@@ -175,8 +177,8 @@ export const TasksOverview = ({
 	): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
-		const regexp = /[а-я\d ,.]+/iu;
+		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		// const regexp = /[а-я\d ,.]+/iu;
 
 		if (target.name === 'description' && regexp.test(target.value)) {
 			setValueDescription(target.value);
@@ -194,8 +196,8 @@ export const TasksOverview = ({
 	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
 		event.preventDefault();
 		const target = event.target as HTMLTextAreaElement;
-		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
-		const regexp = /[а-я\d ,.]+/iu;
+		const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+		// const regexp = /[а-я\d ,.]+/iu;
 
 		if (target.name === 'comment' && regexp.test(target.value)) {
 			setValueComment(target.value);

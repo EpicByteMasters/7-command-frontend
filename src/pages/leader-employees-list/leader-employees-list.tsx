@@ -206,13 +206,6 @@ export const LeaderEmployeesList: React.FC<TableProps> = ({
 							</div>
 						</div>
 
-						{/* <EmployeesList
-						data={data}
-						ipr_id={ipr_id}
-						ipr_id2={ipr_id2}
-						goal={statusGoal}
-						status={statusValue}
-					/> */}
 						<EmployeesList
 							data={managerIprsList?.employees}
 							status={statusValue}
