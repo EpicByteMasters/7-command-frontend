@@ -28,20 +28,20 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	};
 
 	const handleOpenButtonClick = async (id: number, status: any) => {
-		// try {
-		// 	const iprDataResult = await dispatch(getIprByIdByEmployee(id));
+		try {
+			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
-		// 	if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-		// 		console.log('Получили Ипр по id:', iprDataResult.payload);
-		navigate(
-			`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-		);
-		// 	} else {
-		// 		console.error('Error during fetching IPRS data:', iprDataResult.error);
-		// 	}
-		// } catch (error) {
-		// 	console.error('Error during fetching user data:', error);
-		// }
+			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+				console.log('Получили Ипр по id:', iprDataResult.payload);
+				navigate(
+					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+				);
+			} else {
+				console.error('Error during fetching IPRS data:', iprDataResult.error);
+			}
+		} catch (error) {
+			console.error('Error during fetching user data:', error);
+		}
 	};
 
 	const getStatusColor = (status: string) => {
@@ -91,9 +91,15 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 							onClick={() => handleRowClick(id)}
 							key={id}
 						>
-							<Table.TCell>{goal?.name}</Table.TCell>
-							<Table.TCell>{createDate}</Table.TCell>
-							<Table.TCell>{closeDate}</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>{goal?.name}</div>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>{createDate}</div>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>{closeDate}</div>
+							</Table.TCell>
 							<Table.TCell>
 								<CircularProgressBar
 									value={progress}
@@ -104,18 +110,22 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 								/>
 							</Table.TCell>
 							<Table.TCell>
-								<Status view="soft" color={getStatusColor(status.name)}>
-									{status.name}
-								</Status>
+								<div className={styles.tCell}>
+									<Status view="soft" color={getStatusColor(status.name)}>
+										{status.name}
+									</Status>
+								</div>
 							</Table.TCell>
 							<Table.TCell>
-								<Button
-									view="tertiary"
-									size="s"
-									onClick={() => handleOpenButtonClick(id, status)}
-								>
-									Открыть
-								</Button>
+								<div className={styles.tBtn}>
+									<Button
+										view="tertiary"
+										size="s"
+										onClick={() => handleOpenButtonClick(id, status)}
+									>
+										Открыть
+									</Button>
+								</div>
 							</Table.TCell>
 						</Table.TRow>
 					))}
