@@ -108,7 +108,7 @@ export const Tasks: React.FC<TasksProps> = ({
 		fetchIprData();
 	}, [dispatch, id]);
 
-	const IPR = useAppSelector((state) => state.iprs.iprsData);
+	const IPR = useAppSelector((state) => state.iprs.openedIpr);
 	console.log('IPR: ', IPR);
 
 	const courses = useAppSelector(selectCommonLibsEducation);
