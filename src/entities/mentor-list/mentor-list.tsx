@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './mentor-list.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Popover } from '@alfalab/core-components/popover';
@@ -10,19 +10,21 @@ import { Table } from '@alfalab/core-components/table';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { Mentor } from '../../store/reducers/mentorIprSlice';
 import { Space } from '@alfalab/core-components/space';
-import {
-	formatDateString,
-	getStatusColor,
-	getValueById,
-} from '../../shared/utils/constants';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
+import {
+	formatDateString,
+	getStatusColor,
+	getValueById,
+} from '../../shared/utils/constants';
 import { getMentorIprsList } from '../../store/reducers/mentorIprSlice';
 import { TIprStatusType } from '../../shared/utils/types';
+import avatar from '../../images/avatars/avatar_mentor1.png';
+
 export interface MentorListProps {
 	data?: Mentor[] | undefined;
 }
@@ -212,12 +214,34 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 								<Table.TRow key={id}>
 									<Table.TCell>
 										<Space size={2} align={'start'}>
-											<Typography.Text view="primary-small" tag="div">
-												{name}
-											</Typography.Text>
-											<Typography.Text view="primary-small" color="secondary">
-												{position}
-											</Typography.Text>
+											<div
+												className={styles.tCell}
+												style={{
+													display: 'flex',
+													flexDirection: 'row',
+													alignItems: 'center',
+												}}
+											>
+												<img
+													src={avatar}
+													style={{
+														width: '40px',
+														height: '40px',
+													}}
+													alt="аватар"
+												></img>
+												<div style={{ marginLeft: '8px', width: '250px' }}>
+													<Typography.Text view="primary-small" tag="div">
+														{name}
+													</Typography.Text>
+													<Typography.Text
+														view="primary-small"
+														color="secondary"
+													>
+														{position}
+													</Typography.Text>
+												</div>
+											</div>
 										</Space>
 									</Table.TCell>
 									<Table.TCell>

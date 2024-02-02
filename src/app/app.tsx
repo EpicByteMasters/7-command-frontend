@@ -49,10 +49,10 @@ function App() {
 	const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
 	const education = useAppSelector(selectCommonLibsEducation);
 
-	const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
-	const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
+	// const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
+	// const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
-	const ipr_id4: number = 4; // сценарий сотрудника с ИПР
+	// const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
 	const userData = useAppSelector((state) => state.user.user);
 	//console.log('userData в Апп: ', userData);
@@ -217,7 +217,17 @@ function App() {
 						></Page404>
 					}
 				/>
-				<Route path="/*" element={<></>} />
+				<Route
+					path="/*"
+					element={
+						<Page404
+							error={'Ошибка'}
+							title={'404'}
+							paragraph={'Что-то пошло не так'}
+							button={'Вернуться на главную'}
+						></Page404>
+					}
+				/>
 
 				{/* Футер - старые роуты */}
 

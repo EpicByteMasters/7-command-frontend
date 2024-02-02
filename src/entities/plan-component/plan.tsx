@@ -13,10 +13,15 @@ import { IprData } from '../../store/reducers/iprsSlice';
 import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
 
 interface PlanProps {
-	isEmployee?: boolean;
+	// isEmployee?: boolean;
 }
 
-export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
+export const Plan: React.FC<PlanProps> = ({}) => {
+	const userData = useAppSelector((state) => state.user.user);
+
+	const isEmployee = userData.isSupervisor === false;
+	const isExecutive = userData.isSupervisor === true;
+
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	const dispatch = useAppDispatch();
@@ -72,11 +77,11 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 
 	return (
 		<>
-			{!isEmployee && (
-				<Button view="primary" size="m" className={styles.button}>
+			{/* {isExecutive && (
+				<Button view="primary" size="s" className={styles.button}>
 					Создать новый план развития
 				</Button>
-			)}
+			)} */}
 			<Table className={styles.table} wrapper={false}>
 				<Table.THead>
 					<Table.THeadCell title="Цель">Цель</Table.THeadCell>

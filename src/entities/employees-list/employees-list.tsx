@@ -27,6 +27,7 @@ import {
 } from '../../store/reducers/libSlice';
 import { getIprByIdBySupervisor } from '../../store/reducers/iprsSlice';
 import { TIprStatusType } from '../../shared/utils/types';
+import avatar from '../../images/avatars/avatar_mentor1.png';
 
 export interface IEmployeesListProps {
 	data: Employee[] | undefined;
@@ -49,6 +50,11 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const positionsLib = useAppSelector(selectCommonLibsPositions);
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
 	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
+
+	const userData = useAppSelector((state) => state.user.user);
+
+	const isEmployee = userData.isSupervisor === false;
+	const isExecutive = userData.isSupervisor === true;
 
 	const [modalCreate, setModalCreate] = useState(false);
 
@@ -279,12 +285,34 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 									<Table.TRow key={id}>
 										<Table.TCell>
 											<Space size={2} align={'start'}>
-												<Typography.Text view="primary-small" tag="div">
-													{`${lastName} ${firstName} ${middleName}`}
-												</Typography.Text>
-												<Typography.Text view="primary-small" color="secondary">
-													{getValueById(position_id, positionsLib)}
-												</Typography.Text>
+												<div
+													className={styles.tCell}
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+													}}
+												>
+													<img
+														src={avatar}
+														style={{
+															width: '40px',
+															height: '40px',
+														}}
+														alt="аватар"
+													></img>
+													<div style={{ marginLeft: '8px', width: '250px' }}>
+														<Typography.Text view="primary-small" tag="div">
+															{`${lastName} ${firstName} ${middleName}`}
+														</Typography.Text>
+														<Typography.Text
+															view="primary-small"
+															color="secondary"
+														>
+															{getValueById(position_id, positionsLib)}
+														</Typography.Text>
+													</div>
+												</div>
 											</Space>
 										</Table.TCell>
 										<Table.TCell>
@@ -293,7 +321,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<div className={styles.tCell}>
+											<div
+												className={styles.tCell}
+												style={{ textAlign: 'center' }}
+											>
 												{date_of_end ? formatDateString(date_of_end) : '—'}
 											</div>
 										</Table.TCell>
@@ -307,7 +338,12 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													className={styles.progressBar}
 												/>
 											) : (
-												<div className={styles.tCell}>—</div>
+												<div
+													style={{ textAlign: 'center' }}
+													className={styles.tCell}
+												>
+													—
+												</div>
 											)}
 										</Table.TCell>
 										<Table.TCell>

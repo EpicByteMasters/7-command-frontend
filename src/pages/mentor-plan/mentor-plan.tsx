@@ -1,5 +1,5 @@
 import styles from './mentor-plan.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Header from '../../shared/header-component/header';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
