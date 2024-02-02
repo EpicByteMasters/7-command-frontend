@@ -339,12 +339,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<Button
-												view="ghost"
-												onClick={() => handleMoreButtonClick(rowIndex)}
-											>
-												<MoreMIcon style={{ fill: '#898889' }} />
-											</Button>
+											<div className={styles.tBtn}>
+												<Button
+													view="ghost"
+													onClick={() => handleMoreButtonClick(rowIndex)}
+												>
+													<MoreMIcon style={{ fill: '#898889' }} />
+												</Button>
+											</div>
 											{activeRowIndex === rowIndex && (
 												<div
 													className={styles.popoverContainer}
