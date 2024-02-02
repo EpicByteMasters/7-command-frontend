@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
@@ -7,8 +7,8 @@ import { User } from '../../shared/utils/users';
 import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
 import { getIPRSData } from '../../store/reducers/iprsSlice';
-import { Page404 } from '../page404/page404';
 import { FooterMain } from '../../entities/footer-main/footer-main';
+import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
 interface LoginProps {
 	users: User[];
@@ -73,6 +73,22 @@ export const Login: FC<LoginProps> = ({ users }) => {
 		}
 	};
 
+	const pickerOptions = React.useMemo(
+		() => [
+			{ key: '1', content: 'В работе' },
+			{ key: '3', content: 'Выполнена' },
+			{ key: '4', content: 'Не выполнена' },
+		],
+		[]
+	);
+
+	// const [selectedOption, setSelectedOption] = useState(''); // Состояние выбранной опции
+
+	// const handleSelectChange = (event: any) => {
+	// 	setSelectedOption(event.target.value);
+	// 	console.log(selectedOption); // Обновляем состояние выбранной опции
+	// };
+
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<main className={styles.page}>
@@ -109,6 +125,43 @@ export const Login: FC<LoginProps> = ({ users }) => {
 					</div>
 				</div>
 			</main>
+			{/* <div>
+				<select
+					value={selectedOption}
+					onChange={handleSelectChange}
+					style={{
+						display: 'flex',
+						height: '35px',
+						width: '130px',
+						backgroundColor: 'black',
+						color: 'white',
+						borderRadius: '6px',
+						padding: '0 6px',
+						margin: '5px;',
+						font: 'Inter',
+						fontSize: '14px',
+						fontWeight: '500',
+						lineHeight: '20px',
+						letterSpacing: '0em',
+						textAlign: 'left',
+						border: '9px solid black',
+					}}
+				>
+					<option
+						style={{
+							font: 'Inter',
+							fontWeight: '400',
+							fontSize: '20px',
+							backgroundColor: 'white',
+						}}
+						value="В работе"
+					>
+						В работе
+					</option>
+					<option value="Отклонен">Выполнена</option>
+					<option value="Сохранен">Отменена</option>
+				</select>
+			</div> */}
 			<div className={styles.generalFooter}>
 				<FooterMain></FooterMain>
 			</div>

@@ -186,7 +186,7 @@ export const Tasks: React.FC<TasksProps> = ({
 		return <div>Ошибка не нашел Id</div>;
 	}
 
-	console.log('currentIpr: ', currentIpr);
+	// console.log('currentIpr: ', currentIpr);
 
 	const tasksArrayForRender = IPR.task;
 
@@ -494,7 +494,6 @@ export const Tasks: React.FC<TasksProps> = ({
 												{/* )} */}
 
 												<div className={styles.formRowTag}>
-
 													{education.map((education) => (
 														<div key={education.education.id}>
 															<div
@@ -527,7 +526,6 @@ export const Tasks: React.FC<TasksProps> = ({
 																>
 																	<div className={styles.formCircle}>
 																		<CrossCircleMIcon />
-
 																	</div>
 																	{course.name}
 																</div>
@@ -622,13 +620,7 @@ export const Tasks: React.FC<TasksProps> = ({
 																	flexDirection: 'row',
 																	justifyContent: 'flex-end',
 																}}
-															>
-																<PickerButtonDesktop
-																	options={pickerOptions}
-																	view="primary"
-																	label="В работе"
-																/>
-															</div>
+															></div>
 														)}
 													</div>
 												)}
