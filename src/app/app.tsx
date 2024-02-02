@@ -239,7 +239,10 @@ function App() {
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 
-				<Route path="/service-iprs/myteam/history" element={<EmployeePlan />} />
+				<Route
+					path="/service-iprs/myteam/history/:id"
+					element={<EmployeePlan />}
+				/>
 				<Route
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}

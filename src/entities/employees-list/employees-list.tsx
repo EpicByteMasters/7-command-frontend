@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './employees-list.module.scss';
 
-import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Status } from '@alfalab/core-components/status';
@@ -158,23 +157,13 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const handleOpenButtonClick = async (id: number, status: any) => {
+	const handleOpenButtonClick = (id: number, status: string) => {
 		try {
-			const iprDataResult = await dispatch(getIprByIdBySupervisor(id));
-
-			if (getIprByIdBySupervisor.fulfilled.match(iprDataResult)) {
-				console.log('Получили Ипр по id:', iprDataResult.payload);
-				navigate(
-					`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-				);
-			} else {
-				console.error(
-					'!!!Error during fetching IPRS data:',
-					iprDataResult.error
-				);
-			}
+			navigate(
+				`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+			);
 		} catch (error) {
-			console.error('Error during fetching user data:', error);
+			console.error('Error during navigating:', error);
 		}
 	};
 
@@ -366,7 +355,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 															className={styles.btnText}
 															view="ghost"
 															size="s"
-															onClick={() => console.log('hist')}
+															onClick={() => {
+																navigate(`/service-iprs/myteam/history/${id}`); //TODO перейти на историю конкретного сотрудника
+															}}
 														>
 															История
 														</Button>
