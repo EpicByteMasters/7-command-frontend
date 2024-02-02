@@ -494,6 +494,9 @@ export const Tasks: React.FC<TasksProps> = ({
 																				<CrossCircleMIcon />
 																			</div>
 																			{value}
+																			{/* <button className={styles.buttonResult}>
+																				Посмотреть результат
+																			</button> */}
 																		</div>
 																	</div>
 																);

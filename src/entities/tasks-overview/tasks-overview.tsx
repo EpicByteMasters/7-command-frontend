@@ -361,7 +361,7 @@ export const TasksOverview = ({
 	}): void => {
 		if (multiple) {
 			const value = selectedMultiple?.length
-				? selectedMultiple.map((option) => option.key).join(',') + ' '
+				? selectedMultiple.map((option) => option.key).join(', ') + ',' // c запятой вываливается селект, но вываливается пустой таг, без запятой - для вызова селекта надо прописать запятую
 				: '';
 			setValueCompetence(value);
 			handleCallback();
@@ -486,7 +486,11 @@ export const TasksOverview = ({
 							{valueCompetence.length > 0
 								? tagValues.map((value: string, key: number) => {
 										return (
-											<div key={value.length + 1} style={{ maxWidth: '319' }}>
+											<div
+												key={value.length + 1}
+												style={{ maxWidth: '319' }}
+												className={styles2.filterTag}
+											>
 												<FilterTag
 													disabled={isExecutive ? false : true}
 													showClear={true}
