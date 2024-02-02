@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './login.module.scss';
 import Header from '../../shared/header-component/header';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { User } from '../../shared/utils/users';
 import { getUserData, logInUser } from '../../store/reducers/userSlice';
-import { useAppDispatch } from '../../shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { getIPRSData } from '../../store/reducers/iprsSlice';
 import { Page404 } from '../page404/page404';
 import { FooterMain } from '../../entities/footer-main/footer-main';
@@ -18,8 +18,18 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const isLoading = useAppSelector((state) => state.user.isLoading);
+	console.log('isLoading: ', isLoading);
+	const [loadingStates, setLoadingStates] = useState<{
+		[key: string]: boolean;
+	}>({});
+
 	const handleLogin = async (email: string, password: string) => {
 		try {
+			setLoadingStates((prevLoadingStates) => ({
+				...prevLoadingStates,
+				[email]: true,
+			}));
 			const loginAction = logInUser({ email, password });
 			const loginResult = await dispatch(loginAction);
 
@@ -70,6 +80,12 @@ export const Login: FC<LoginProps> = ({ users }) => {
 		} catch (error) {
 			console.error('Error during login:', error);
 			navigate('/207', { replace: true });
+		} finally {
+			// Устанавливаем состояние загрузки для конкретного пользователя в false
+			setLoadingStates((prevLoadingStates) => ({
+				...prevLoadingStates,
+				[email]: false,
+			}));
 		}
 	};
 
@@ -93,6 +109,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 										<div className={styles.link}>
 											<ButtonDesktop
+												loading={loadingStates[user.email]}
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"

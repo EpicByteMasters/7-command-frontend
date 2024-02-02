@@ -194,10 +194,23 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(logInUser.pending, (state) => {
+			state.isLoading = true;
+			state.error = ''; // Очищаем ошибку перед началом загрузки
+		});
+		builder.addCase(getUserData.pending, (state) => {
+			state.isLoading = true;
+			state.error = '';
+		});
+		builder.addCase(getUserById.pending, (state) => {
+			state.isLoading = true;
+			state.error = '';
+		});
 		builder.addCase(logInUser.fulfilled, (state, action) => {
 			console.log('Login successful:', action.payload);
 			localStorage.setItem('token', action.payload.access_token);
 			state.access_token = action.payload.access_token;
+			state.isLoading = false;
 		});
 		builder.addCase(getUserData.fulfilled, (state, action) => {
 			state.user.id = action.payload.id;
@@ -211,9 +224,23 @@ export const userSlice = createSlice({
 			state.user.supervisorId = action.payload.supervisorId;
 			state.user.isSupervisor = action.payload.isSupervisor;
 			state.user.isMentor = action.payload.isMentor;
+			state.isLoading = false;
 		});
 		builder.addCase(getUserById.fulfilled, (state, action) => {
 			state.selectedUser = action.payload;
+			state.isLoading = false;
+		});
+		builder.addCase(logInUser.rejected, (state, action) => {
+			state.isLoading = false; // Устанавливаем isLoading в false после ошибки загрузки
+			state.error = 'Ошибка во время входа в систему'; // Устанавливаем сообщение об ошибке
+		});
+		builder.addCase(getUserData.rejected, (state, action) => {
+			state.isLoading = false;
+			state.error = 'Ошибка при получении данных пользователя';
+		});
+		builder.addCase(getUserById.rejected, (state, action) => {
+			state.isLoading = false;
+			state.error = 'Ошибка при получении данных пользователя по ID';
 		});
 	},
 });
