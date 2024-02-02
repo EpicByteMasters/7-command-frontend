@@ -68,7 +68,6 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	const numberOfTasks = 10; // Replace with your dynamic data
 	const finishedTasks = 5; // Replace with your dynamic data
 	const progress = (finishedTasks / numberOfTasks) * 100;
-	const progressPercentage = `${finishedTasks}/${numberOfTasks}`;
 
 	return (
 		<>
@@ -87,50 +86,59 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{iprData.map(({ id, goal, closeDate, createDate, status }) => (
-						<Table.TRow
-							className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-							onClick={() => handleRowClick(id)}
-							key={id}
-						>
-							<Table.TCell>
-								<div className={styles.tCell}>{goal?.name}</div>
-							</Table.TCell>
-							<Table.TCell>
-								<div className={styles.tCell}>{createDate}</div>
-							</Table.TCell>
-							<Table.TCell>
-								<div className={styles.tCell}>{closeDate}</div>
-							</Table.TCell>
-							<Table.TCell>
-								<CircularProgressBar
-									value={progress}
-									title={progressPercentage}
-									size="s"
-									contentColor="primary"
-									className={styles.progressBar}
-								/>
-							</Table.TCell>
-							<Table.TCell>
-								<div className={styles.tCell}>
-									<Status view="soft" color={getStatusColor(status.name)}>
-										{status.name}
-									</Status>
-								</div>
-							</Table.TCell>
-							<Table.TCell>
-								<div className={styles.tBtn}>
-									<Button
-										view="tertiary"
-										size="xxs"
-										onClick={() => handleOpenButtonClick(id, status)}
-									>
-										Открыть
-									</Button>
-								</div>
-							</Table.TCell>
-						</Table.TRow>
-					))}
+					{iprData.map(
+						({
+							id,
+							goal,
+							closeDate,
+							createDate,
+							status,
+							taskCompleted,
+							taskCount,
+						}: IprData) => {
+							const progressPercentage = `${taskCount}/${taskCompleted}`;
+							const progress = (taskCompleted / taskCount) * 100;
+
+							return (
+								<Table.TRow
+									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
+									onClick={() => handleRowClick(id)}
+									key={id}
+								>
+									<Table.TCell>{goal?.name}</Table.TCell>
+									<Table.TCell>{createDate}</Table.TCell>
+									<Table.TCell>{closeDate}</Table.TCell>
+									<Table.TCell>
+										<CircularProgressBar
+											value={progress}
+											title={progressPercentage}
+											size="s"
+											contentColor="primary"
+											className={styles.progressBar}
+										/>
+									</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>
+											<Status view="soft" color={getStatusColor(status.name)}>
+												{status.name}
+											</Status>
+										</div>
+									</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tBtn}>
+											<Button
+												view="tertiary"
+												size="xxs"
+												onClick={() => handleOpenButtonClick(id, status)}
+											>
+												Открыть
+											</Button>
+										</div>
+									</Table.TCell>
+								</Table.TRow>
+							);
+						}
+					)}
 				</Table.TBody>
 			</Table>
 		</>
