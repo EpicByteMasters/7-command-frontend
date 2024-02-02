@@ -176,12 +176,15 @@ export const Tasks: React.FC<TasksProps> = ({
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
 	const currentIpr = iprData.find((goal: any) => goal.id === Number(id));
+	console.log('currentIpr: ', currentIpr);
 
 	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
 	}
 
-	const tasksArrayForRender = currentIpr.task;
+	console.log('currentIpr: ', currentIpr);
+
+	const tasksArrayForRender = IPR.task;
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

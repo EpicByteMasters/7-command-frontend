@@ -77,7 +77,7 @@ export interface IprData {
 
 export interface IPRSState {
 	iprsData: IprData[];
-	openedIpr: {};
+	openedIpr: any;
 	isLoading: boolean;
 	error: string | DeleteIprError; // Update the error type based on your requirements
 }
@@ -106,7 +106,9 @@ interface DeleteIprError {
 
 const initialState: IPRSState = {
 	iprsData: [],
-	openedIpr: {},
+	openedIpr: {
+		task: [],
+	},
 	isLoading: false,
 	error: '',
 };
@@ -307,6 +309,7 @@ export const iprsSlice = createSlice({
 		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			state.openedIpr = iprData;
+			// state.openedIpr = { ...state.openedIpr, task: iprData.task };
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id
 			);
