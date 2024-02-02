@@ -9,22 +9,35 @@ import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
-
+import { Mentor } from '../../store/reducers/mentorIprSlice';
+import {
+	formatDateString,
+	getStatusColor,
+	getValueById,
+} from '../../shared/utils/constants';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import {
+	selectCommonLibsIPRGoals,
+	selectCommonLibsIPRStatus,
+	selectCommonLibsPositions,
+} from '../../store/reducers/libSlice';
+import { getMentorIprsList } from '../../store/reducers/mentorIprSlice';
+import { TIprStatusType } from '../../shared/utils/types';
 export interface MentorListProps {
-	data: EmployeeGoalPlan[];
-	ipr_id: number;
-	ipr_id4: number;
-	isMentor: boolean;
-	isExecutive: boolean;
+	data?: Mentor[] | undefined;
+	status: string;
+	goal: string;
 }
 
-export const MentorList: React.FC<MentorListProps> = ({
-	data,
-	ipr_id,
-	ipr_id4,
-	isMentor,
-	isExecutive,
-}) => {
+export const MentorList: React.FC<MentorListProps> = ({ data }) => {
+	const dispatch = useAppDispatch();
+
+	console.log('MENTOR - DATA', data);
+
+	const positionsLib = useAppSelector(selectCommonLibsPositions);
+	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
+	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
+
 	const [popoverVisible, setPopoverVisible] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] =
 		useState<EmployeeGoalPlan | null>(null);
@@ -41,20 +54,20 @@ export const MentorList: React.FC<MentorListProps> = ({
 		setSelectedEmployee(null);
 	};
 
-	const handleDeleteClick = () => {
-		if (selectedEmployee) {
-			// Определяем индекс выбранного сотрудника в массиве данных
-			const index = data.findIndex((item) => item.id === selectedEmployee.id);
+	// const handleDeleteClick = () => {
+	// 	if (selectedEmployee) {
+	// 		// Определяем индекс выбранного сотрудника в массиве данных
+	// 		const index = data.findIndex((item) => item.id === selectedEmployee.id);
 
-			if (index !== -1) {
-				// Выводим информацию в консоль
-				console.log('Deleting employee:', selectedEmployee);
-			}
+	// 		if (index !== -1) {
+	// 			// Выводим информацию в консоль
+	// 			console.log('Deleting employee:', selectedEmployee);
+	// 		}
 
-			// Закрываем Popover
-			closePopover();
-		}
-	};
+	// 		// Закрываем Popover
+	// 		closePopover();
+	// 	}
+	// };
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
@@ -75,90 +88,90 @@ export const MentorList: React.FC<MentorListProps> = ({
 		}
 	};
 
-	type TStatusType =
-		| 'черновик'
-		| 'в работе'
-		| 'выполнен'
-		| 'не выполнен'
-		| 'отменен'
-		| 'отсутствует';
+	// type TStatusType =
+	// 	| 'черновик'
+	// 	| 'в работе'
+	// 	| 'выполнен'
+	// 	| 'не выполнен'
+	// 	| 'отменен'
+	// 	| 'отсутствует';
 
-	const getStatusSortOrder = (status: TStatusType): string => {
-		const order = {
-			черновик: '0',
-			'в работе': '1',
-			выполнен: '2',
-			'не выполнен': '3',
-			отменен: '4',
-			отсутствует: '5',
-		};
+	// const getStatusSortOrder = (status: TStatusType): string => {
+	// 	const order = {
+	// 		черновик: '0',
+	// 		'в работе': '1',
+	// 		выполнен: '2',
+	// 		'не выполнен': '3',
+	// 		отменен: '4',
+	// 		отсутствует: '5',
+	// 	};
 
-		return order[status] || '6';
-	};
+	// 	return order[status] || '6';
+	// };
 
-	const sortedData = [...data].sort((a, b) => {
-		if (sortColumn === 'name') {
-			return sortOrder === 'asc'
-				? a.name.localeCompare(b.name)
-				: b.name.localeCompare(a.name);
-		} else if (sortColumn === 'date') {
-			const getDateValue = (dateString: string) => {
-				const [day, month, year] = dateString.split('.');
-				return new Date(`${year}-${month}-${day}`).getTime();
-			};
+	// const sortedData = [...data].sort((a, b) => {
+	// 	if (sortColumn === 'name') {
+	// 		return sortOrder === 'asc'
+	// 			? a.name.localeCompare(b.name)
+	// 			: b.name.localeCompare(a.name);
+	// 	} else if (sortColumn === 'date') {
+	// 		const getDateValue = (dateString: string) => {
+	// 			const [day, month, year] = dateString.split('.');
+	// 			return new Date(`${year}-${month}-${day}`).getTime();
+	// 		};
 
-			const dateA = getDateValue(a.date);
-			const dateB = getDateValue(b.date);
+	// 		const dateA = getDateValue(a.date);
+	// 		const dateB = getDateValue(b.date);
 
-			if (dateA === dateB) {
-				return 0;
-			}
+	// 		if (dateA === dateB) {
+	// 			return 0;
+	// 		}
 
-			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-		} else if (sortColumn === 'status') {
-			const statusA = a.status as TStatusType;
-			const statusB = b.status as TStatusType;
+	// 		return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+	// 	} else if (sortColumn === 'status') {
+	// 		const statusA = a.status as TStatusType;
+	// 		const statusB = b.status as TStatusType;
 
-			const statusOrderA = getStatusSortOrder(statusA);
-			const statusOrderB = getStatusSortOrder(statusB);
+	// 		const statusOrderA = getStatusSortOrder(statusA);
+	// 		const statusOrderB = getStatusSortOrder(statusB);
 
-			return sortOrder === 'asc'
-				? statusOrderA.localeCompare(statusOrderB)
-				: statusOrderB.localeCompare(statusOrderA);
-		}
+	// 		return sortOrder === 'asc'
+	// 			? statusOrderA.localeCompare(statusOrderB)
+	// 			: statusOrderB.localeCompare(statusOrderA);
+	// 	}
 
-		return 0;
-	});
+	// 	return 0;
+	// });
 
-	const perPage = 10; // Фиксированное количество строк на странице
-	const handlePageChange = (pageIndex: number) => setPage(pageIndex);
-	const pagesCount = Math.ceil(sortedData.length / perPage);
-	const currentPageData = sortedData.slice(
-		page * perPage,
-		(page + 1) * perPage
-	);
+	// const perPage = 10; // Фиксированное количество строк на странице
+	// const handlePageChange = (pageIndex: number) => setPage(pageIndex);
+	// const pagesCount = Math.ceil(sortedData.length / perPage);
+	// const currentPageData = sortedData.slice(
+	// 	page * perPage,
+	// 	(page + 1) * perPage
+	// );
 
-	const onClickToIpr = () => {
-		navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
-	};
-	const onClickToDraft = () => {
-		navigate(`/service-iprs/ipr/${ipr_id4}`, { replace: true });
-	};
+	// const onClickToIpr = () => {
+	// 	// navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
+	// };
+	// const onClickToDraft = () => {
+	// 	// navigate(`/service-iprs/ipr/${ipr_id4}`, { replace: true });
+	// };
 
 	return (
 		<>
 			<Table
 				className={styles.table}
 				wrapper={false}
-				pagination={
-					<Table.Pagination
-						perPage={perPage}
-						currentPageIndex={page}
-						pagesCount={pagesCount}
-						onPageChange={handlePageChange}
-						hidePerPageSelect={true}
-					/>
-				}
+				// pagination={
+				// 	<Table.Pagination
+				// 	// perPage={perPage}
+				// 	// currentPageIndex={page}
+				// 	// pagesCount={pagesCount}
+				// 	// onPageChange={handlePageChange}
+				// 	// hidePerPageSelect={true}
+				// 	/>
+				// }
 			>
 				<Table.THead>
 					<Table.THeadCell>
@@ -182,7 +195,7 @@ export const MentorList: React.FC<MentorListProps> = ({
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{currentPageData.map(
+					{data?.map(
 						({
 							id,
 							name,
@@ -252,9 +265,9 @@ export const MentorList: React.FC<MentorListProps> = ({
 							gap: '36px',
 						}}
 					>
-						<Button view="ghost" size="s" onClick={handleDeleteClick}>
+						{/* <Button view="ghost" size="s" onClick={handleDeleteClick}>
 							Удалить
-						</Button>
+						</Button> */}
 						<Button
 							view="ghost"
 							size="s"
