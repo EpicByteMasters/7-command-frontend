@@ -448,38 +448,37 @@ export const Tasks: React.FC<TasksProps> = ({
 													autosize={true}
 													disabled={isEmployee}
 												/>
-												{!isEmployee && (
-													<div className={styles.coursesWrapper}>
-														<InputAutocomplete
-															size="s"
-															name="course"
-															selected={selected}
-															options={getFilteredOptions()}
-															label="Тренинги и курсы"
-															placeholder="Начните вводить название"
-															onChange={handleChangeCourse}
-															onInput={handleInputCourse}
-															value={valueCourse}
-															Arrow={shownChevron ? Arrow : undefined}
-															multiple={multiple}
-															allowUnselect={true}
-															showEmptyOptionsList={true}
-															Option={BaseOption}
-															block={true}
-															closeOnSelect={true}
-															className={styles.inputCourses}
-															inputProps={{
-																onClear: () => setValueCourse(''),
-																clear: true,
-															}}
-														/>
-														<img
-															src={linkToCourses}
-															alt="ссылка на курсы"
-															className={styles.linkToCourses}
-														/>
-													</div>
-												)}
+
+												<div className={styles.coursesWrapper}>
+													<InputAutocomplete
+														size="s"
+														name="course"
+														selected={selected}
+														options={getFilteredOptions()}
+														label="Тренинги и курсы"
+														placeholder="Начните вводить название"
+														onChange={handleChangeCourse}
+														onInput={handleInputCourse}
+														value={valueCourse}
+														Arrow={shownChevron ? Arrow : undefined}
+														multiple={multiple}
+														allowUnselect={true}
+														showEmptyOptionsList={true}
+														Option={BaseOption}
+														block={true}
+														closeOnSelect={true}
+														className={styles.inputCourses}
+														inputProps={{
+															onClear: () => setValueCourse(''),
+															clear: true,
+														}}
+													/>
+													<img
+														src={linkToCourses}
+														alt="ссылка на курсы"
+														className={styles.linkToCourses}
+													/>
+												</div>
 
 												<div className={styles.formRowTag}>
 													{valueCourse.length > 0

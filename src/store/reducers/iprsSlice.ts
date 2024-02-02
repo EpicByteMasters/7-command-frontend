@@ -69,6 +69,8 @@ export interface IprData {
 	mentor: Mentor;
 	description: string;
 	comment: string;
+	taskCompleted: number;
+	taskCount: number;
 	supervisorComment: string;
 	task: Task[];
 }
