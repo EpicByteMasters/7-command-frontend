@@ -42,7 +42,7 @@ interface Education {
 	};
 }
 
-interface Task {
+export interface Task {
 	name: string;
 	description: string;
 	closeDate: string;
@@ -57,7 +57,7 @@ interface Task {
 	education: Education[];
 }
 
-interface IprData {
+export interface IprData {
 	id: number;
 	status: IprStatus;
 	competency: Competency[];
@@ -75,6 +75,7 @@ interface IprData {
 
 export interface IPRSState {
 	iprsData: IprData[];
+	openedIpr: {};
 	isLoading: boolean;
 	error: string | DeleteIprError; // Update the error type based on your requirements
 }
@@ -103,6 +104,7 @@ interface DeleteIprError {
 
 const initialState: IPRSState = {
 	iprsData: [],
+	openedIpr: {},
 	isLoading: false,
 	error: '',
 };
@@ -302,6 +304,7 @@ export const iprsSlice = createSlice({
 		});
 		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
 			const iprData = action.payload;
+			state.openedIpr = iprData;
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id
 			);

@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useState, ReactNode, useMemo } from 'react';
+import React, {
+	ChangeEvent,
+	useState,
+	ReactNode,
+	useMemo,
+	useEffect,
+} from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
 import { useParams } from 'react-router-dom';
 import styles from './tasks.module.scss';
@@ -25,6 +31,12 @@ import { tasksData } from '../../shared/utils/constants';
 import type { ICommonLibWithEducationType } from '../../store/reducers/libSlice';
 
 import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
+import {
+	Task,
+	getIprByIdByEmployee,
+	IprData,
+} from '../../store/reducers/iprsSlice';
+import { useDispatch } from 'react-redux';
 
 interface TasksProps {
 	isEmployee: boolean;
@@ -68,6 +80,37 @@ export const Tasks: React.FC<TasksProps> = ({
 	isEmployee,
 	handleTaskValuesChange,
 }) => {
+	const dispatch = useDispatch();
+	const { id } = useParams<{ id: string }>();
+
+	useEffect(() => {
+		console.log('пришли в запрос на tasks');
+		const fetchIprData = async () => {
+			console.log('сделали запрос на tasks');
+			try {
+				const iprDataResult = await dispatch(
+					getIprByIdByEmployee(Number(id)) as any
+				);
+
+				if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+					console.log('Получили Ипр по id:', iprDataResult.payload);
+				} else {
+					console.error(
+						'Error during fetching IPRS data:',
+						iprDataResult.error
+					);
+				}
+			} catch (error) {
+				console.error('Error during fetching user data:', error);
+			}
+		};
+
+		fetchIprData();
+	}, [dispatch, id]);
+
+	const IPR = useAppSelector((state) => state.iprs.openedIpr);
+	console.log('IPR: ', IPR);
+
 	const courses = useAppSelector(selectCommonLibsEducation);
 	console.log('optionCourses: ', courses);
 
@@ -81,7 +124,7 @@ export const Tasks: React.FC<TasksProps> = ({
 	});
 
 	const courseOptionList = useMemo<ICoursesOption[]>(
-		() => courses.map((courseOption) => adaptCompetency(courseOption)),
+		() => courses.map((courseOption: any) => adaptCompetency(courseOption)),
 		[courses]
 	);
 
@@ -132,8 +175,7 @@ export const Tasks: React.FC<TasksProps> = ({
 
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
-	const { id } = useParams<{ id: string }>();
-	const currentIpr = iprData.find((goal) => goal.id === Number(id));
+	const currentIpr = iprData.find((goal: any) => goal.id === Number(id));
 
 	if (!currentIpr) {
 		return <div>Ошибка не нашел Id</div>;
@@ -327,7 +369,7 @@ export const Tasks: React.FC<TasksProps> = ({
 						description,
 						taskStatus,
 						supervisorComment,
-					}) => (
+					}: Task) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
