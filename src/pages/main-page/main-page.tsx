@@ -1,5 +1,4 @@
 import styles from './main-page.module.scss';
-import { useState } from 'react';
 import Header from '../../shared/header-component/header';
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
 import layout1 from '../../images/main-layout/top.png';
@@ -9,13 +8,11 @@ import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
 import { FooterMain } from '../../entities/footer-main/footer-main';
-interface ManagerIprDraftProps {}
-export const MainPage = () => {
-	const [role, setRole] = useState<boolean>(true);
 
+export const MainPage = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
-			{role ? <Header /> : <Header />}
+			<Header />
 			<main className={styles.main}>
 				<div className={styles.container}>
 					<NavBarMain />

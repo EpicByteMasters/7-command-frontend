@@ -1,7 +1,7 @@
 import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
-import React, { FC, ChangeEvent, useState, useCallback } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../shared/hooks/redux';
 import Header from '../../shared/header-component/header';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';

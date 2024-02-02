@@ -23,9 +23,11 @@ export const Page404: React.FC<PageProps> = ({
 		if (location.pathname === '/207') {
 			navigate('/', { replace: true });
 		}
-		if (location.pathname === ('/404' || '/505')) {
+		if (location.pathname === '/404' || '/505') {
 			navigate('/main', { replace: true });
 		}
+
+		navigate('/main', { replace: true });
 	};
 	return (
 		<div className={styles.generalFooterWrapper}>

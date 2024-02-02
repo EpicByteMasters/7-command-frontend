@@ -406,7 +406,7 @@ export const Tasks: React.FC<TasksProps> = ({
 								</Table.TCell>
 							</Table.TRow>
 							{expandedTasks[id] && (
-								<Table.TRow className={styles.row}>
+								<Table.TRow className={styles.row} withoutBorder={true}>
 									<Table.TCell colSpan={4}>
 										<Collapse expanded={expandedTasks[id]}>
 											<div className={styles.openedTask}>
@@ -494,6 +494,7 @@ export const Tasks: React.FC<TasksProps> = ({
 												{/* )} */}
 
 												<div className={styles.formRowTag}>
+
 													{education.map((education) => (
 														<div key={education.education.id}>
 															<div
@@ -526,6 +527,7 @@ export const Tasks: React.FC<TasksProps> = ({
 																>
 																	<div className={styles.formCircle}>
 																		<CrossCircleMIcon />
+
 																	</div>
 																	{course.name}
 																</div>
