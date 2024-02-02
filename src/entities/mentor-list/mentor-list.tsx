@@ -25,8 +25,6 @@ import { getMentorIprsList } from '../../store/reducers/mentorIprSlice';
 import { TIprStatusType } from '../../shared/utils/types';
 export interface MentorListProps {
 	data?: Mentor[] | undefined;
-	status: string;
-	goal: string;
 }
 
 export const MentorList: React.FC<MentorListProps> = ({ data }) => {
