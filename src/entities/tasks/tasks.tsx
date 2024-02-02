@@ -1,9 +1,9 @@
 import React, {
 	ChangeEvent,
-	useState,
 	ReactNode,
 	useMemo,
 	useEffect,
+	useState,
 } from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -85,6 +85,7 @@ export const Tasks: React.FC<TasksProps> = ({
 }) => {
 	const dispatch = useDispatch();
 	const { id } = useParams<{ id: string }>();
+	const [selectedOption, setSelectedOption] = useState(''); // Состояние выбранной опции Селекта
 
 	useEffect(() => {
 		console.log('пришли в запрос на tasks');
@@ -369,6 +370,10 @@ export const Tasks: React.FC<TasksProps> = ({
 		navigate(urlLink);
 	};
 
+	const handleSelectChange = (event: any) => {
+		setSelectedOption(event.target.value);
+		console.log(selectedOption); // Обновляем состояние выбранной опции выбора статуса - Селект
+	};
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -519,15 +524,27 @@ export const Tasks: React.FC<TasksProps> = ({
 													))}
 													{valueCourse.length > 0 &&
 														tagValues.map((course: any) => (
-															<div key={course.id}>
+															<div
+																className={styles.tagContainer}
+																key={course.id}
+															>
 																<div
 																	className={styles.formTag}
 																	onClick={onDeleteTag}
 																>
-																	<div className={styles.formCircle}>
+																	{course.name === 'Подготовка к IELTS' ? (
+																		<CheckmarkCircleMIcon fill={'#08C44D'} />
+																	) : (
 																		<CrossCircleMIcon />
-																	</div>
+																	)}
 																	{course.name}
+																	<Button
+																		size="xxs"
+																		view="tertiary"
+																		className={styles.buttonResult}
+																	>
+																		Посмотреть результат
+																	</Button>
 																</div>
 															</div>
 														))}
@@ -613,15 +630,44 @@ export const Tasks: React.FC<TasksProps> = ({
 														>
 															Отправить на проверку
 														</Button>
-														{!isEmployee && (
-															<div
+														{/* // Селектор статуса */}
+														<div>
+															<select
+																value={selectedOption}
+																onChange={handleSelectChange}
 																style={{
 																	display: 'flex',
-																	flexDirection: 'row',
-																	justifyContent: 'flex-end',
+																	height: '35px',
+																	width: '130px',
+																	backgroundColor: 'black',
+																	color: 'white',
+																	borderRadius: '6px',
+																	padding: '0 6px',
+																	margin: '5px;',
+																	font: 'Inter',
+																	fontSize: '14px',
+																	fontWeight: '500',
+																	lineHeight: '20px',
+																	letterSpacing: '0em',
+																	textAlign: 'left',
+																	border: '9px solid black',
 																}}
-															></div>
-														)}
+															>
+																<option
+																	style={{
+																		font: 'Inter',
+																		fontWeight: '400',
+																		fontSize: '20px',
+																		backgroundColor: 'white',
+																	}}
+																	value="В работе"
+																>
+																	В работе
+																</option>
+																<option value="Отклонен">Выполнена</option>
+																<option value="Сохранен">Отменена</option>
+															</select>
+														</div>
 													</div>
 												)}
 											</div>

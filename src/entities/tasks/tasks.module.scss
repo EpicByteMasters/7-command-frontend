@@ -135,3 +135,33 @@
 	padding: 10px;
 	z-index: 20;
 }
+
+.formRowTag {
+	margin-top: 16px;
+	display: flex;
+	flex-direction: column;
+	width: 952px;
+	background-color: #fff;
+	gap: 16px;
+}
+
+.tagContainer {
+	display: flex;
+	width: 952px;
+}
+.formTag {
+	padding: 0;
+	width: 952px;
+	border-radius: 8px;
+	background: #f2f3f5;
+	height: 48px;
+	display: flex;
+	padding: 8px 12px;
+	align-items: center;
+	gap: 8px;
+	display: flex;
+}
+
+.buttonResult {
+	margin: 0 0 0 auto;
+}
