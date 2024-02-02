@@ -21,10 +21,10 @@ import {
 	setSelectedUser,
 } from '../../store/reducers/userSlice';
 
-interface MentorProps {
-	// data: Mentor[] | undefined;
-}
-export const MentorPlan: React.FC<MentorProps> = ({}) => {
+// interface MentorProps {
+// 	// data: Mentor[] | undefined;
+// }
+export const MentorPlan: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const mentorIprsList = useAppSelector(selectMentorList);
 
