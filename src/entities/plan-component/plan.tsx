@@ -28,20 +28,20 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	};
 
 	const handleOpenButtonClick = async (id: number, status: any) => {
-		// try {
-		// 	const iprDataResult = await dispatch(getIprByIdByEmployee(id));
+		try {
+			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
-		// 	if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-		// 		console.log('Получили Ипр по id:', iprDataResult.payload);
-		navigate(
-			`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-		);
-		// 	} else {
-		// 		console.error('Error during fetching IPRS data:', iprDataResult.error);
-		// 	}
-		// } catch (error) {
-		// 	console.error('Error during fetching user data:', error);
-		// }
+			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+				console.log('Получили Ипр по id:', iprDataResult.payload);
+				navigate(
+					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+				);
+			} else {
+				console.error('Error during fetching IPRS data:', iprDataResult.error);
+			}
+		} catch (error) {
+			console.error('Error during fetching user data:', error);
+		}
 	};
 
 	const getStatusColor = (status: string) => {
