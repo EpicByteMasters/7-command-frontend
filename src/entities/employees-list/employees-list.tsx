@@ -235,10 +235,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</Space>
 										</Table.TCell>
 										<Table.TCell>
-											{goal ? getValueById(goal, iprGoalsLib) : '—'}
+											<div className={styles.tCell}>
+												{goal ? getValueById(goal, iprGoalsLib) : '—'}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											{date_of_end ? formatDateString(date_of_end) : '—'}
+											<div className={styles.tCell}>
+												{date_of_end ? formatDateString(date_of_end) : '—'}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
 											{progress ? (
@@ -250,37 +254,43 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													className={styles.progressBar}
 												/>
 											) : (
-												'—'
+												<div className={styles.tCell}>—</div>
 											)}
 										</Table.TCell>
 										<Table.TCell>
-											<Status view="soft" color={color}>
-												{getValueById(status, iprStatusLib)}
-											</Status>
+											<div className={styles.tCell}>
+												<Status view="soft" color={color}>
+													{getValueById(status, iprStatusLib)}
+												</Status>
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											{status === 'NO_IPR' ? (
-												<Button
-													view="tertiary"
-													size="xxs"
-													onClick={onClickToDraft}
-												>
-													Создать
-												</Button>
-											) : (
-												<Button
-													view="tertiary"
-													size="xxs"
-													onClick={() => handleOpenButtonClick(id, status)}
-												>
-													Открыть
-												</Button>
-											)}
+											<div className={styles.tBtn}>
+												{status === 'NO_IPR' ? (
+													<Button
+														view="tertiary"
+														size="xxs"
+														onClick={onClickToDraft}
+													>
+														Создать
+													</Button>
+												) : (
+													<Button
+														view="tertiary"
+														size="xxs"
+														onClick={() => handleOpenButtonClick(id, status)}
+													>
+														Открыть
+													</Button>
+												)}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<Button view="ghost">
-												<MoreMIcon style={{ fill: '#898889' }} />
-											</Button>
+											<div className={styles.tBtn}>
+												<Button view="ghost">
+													<MoreMIcon style={{ fill: '#898889' }} />
+												</Button>
+											</div>
 										</Table.TCell>
 									</Table.TRow>
 								);

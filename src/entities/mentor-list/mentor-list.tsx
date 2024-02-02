@@ -5,11 +5,11 @@ import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Status } from '@alfalab/core-components/status';
-import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { Mentor } from '../../store/reducers/mentorIprSlice';
+import { Space } from '@alfalab/core-components/space';
 import {
 	formatDateString,
 	getStatusColor,
@@ -220,8 +220,12 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 											</Typography.Text>
 										</Space>
 									</Table.TCell>
-									<Table.TCell>{goal}</Table.TCell>
-									<Table.TCell>{date}</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>{goal}</div>
+									</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>{date}</div>
+									</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
 											value={progress}
@@ -232,14 +236,18 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 										/>
 									</Table.TCell>
 									<Table.TCell>
-										<Status view="soft" color={color}>
-											{status}
-										</Status>
+										<div className={styles.tCell}>
+											<Status view="soft" color={color}>
+												{status}
+											</Status>
+										</div>
 									</Table.TCell>
 									<Table.TCell>
-										<Button view="tertiary" size="xxs">
-											Открыть
-										</Button>
+										<div className={styles.tBtn}>
+											<Button view="tertiary" size="xxs">
+												Открыть
+											</Button>
+										</div>
 									</Table.TCell>
 								</Table.TRow>
 							);

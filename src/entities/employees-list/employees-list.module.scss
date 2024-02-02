@@ -101,3 +101,15 @@
 		border: 1px solid gray;
 	}
 }
+.tCell {
+	margin: 13px 0 0 0;
+	vertical-align: middle;
+}
+.tBtn {
+	margin: 7px 0 0 0;
+	opacity: 1;
+}
+.tBtn:hover {
+	opacity: 0.6;
+	transform: 2s opacity ease-in-out;
+}
