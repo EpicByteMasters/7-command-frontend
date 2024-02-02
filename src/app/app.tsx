@@ -36,6 +36,7 @@ import {
 	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
 import { loadavg } from 'os';
+import { OpendIpr } from '../pages/opend-ipr/opend-ipr';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -245,6 +246,7 @@ function App() {
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}
 				/>
+				<Route path="/test/:id" element={<OpendIpr />} />
 			</Routes>
 		</div>
 	);

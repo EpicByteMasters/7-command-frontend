@@ -42,6 +42,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	console.log('EmployeeList DATA', data);
 	console.log('EmployeeList DATA', goal);
@@ -163,11 +164,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const handleOpenButtonClick = (id: number, status: string) => {
+	const handleOpenButtonClick = (id: number) => {
 		try {
-			navigate(
-				`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-			);
+			navigate(`/test/${id}`, { state: { location } });
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
@@ -367,7 +366,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													<Button
 														view="tertiary"
 														size="xxs"
-														onClick={() => handleOpenButtonClick(id, status)}
+														onClick={() => handleOpenButtonClick(id)}
 													>
 														Открыть
 													</Button>
