@@ -33,7 +33,6 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-
 				console.log('Получили Ипр по id:', iprDataResult.payload);
 
 				navigate(
@@ -88,7 +87,6 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-
 					{iprData.map(({ id, goal, closeDate, createDate, status }) => (
 						<Table.TRow
 							className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
@@ -122,20 +120,17 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 							</Table.TCell>
 							<Table.TCell>
 								<div className={styles.tBtn}>
-
 									<Button
 										view="tertiary"
-										size="s"
+										size="xxs"
 										onClick={() => handleOpenButtonClick(id, status)}
 									>
 										Открыть
 									</Button>
-
 								</div>
 							</Table.TCell>
 						</Table.TRow>
 					))}
-
 				</Table.TBody>
 			</Table>
 		</>
