@@ -339,7 +339,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<div className={styles.tBtn}>
+											<div className={styles.tBtnDot}>
 												<Button
 													view="ghost"
 													onClick={() => handleMoreButtonClick(rowIndex)}
