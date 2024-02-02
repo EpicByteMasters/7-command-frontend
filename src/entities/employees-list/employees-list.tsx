@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './employees-list.module.scss';
 
-import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Status } from '@alfalab/core-components/status';
@@ -158,23 +157,13 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const handleOpenButtonClick = async (id: number, status: any) => {
+	const handleOpenButtonClick = (id: number, status: string) => {
 		try {
-			const iprDataResult = await dispatch(getIprByIdBySupervisor(id));
-
-			if (getIprByIdBySupervisor.fulfilled.match(iprDataResult)) {
-				console.log('Получили Ипр по id:', iprDataResult.payload);
-				navigate(
-					`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-				);
-			} else {
-				console.error(
-					'!!!Error during fetching IPRS data:',
-					iprDataResult.error
-				);
-			}
+			navigate(
+				`/service-iprs/${status === 'IN_PROGRESS' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+			);
 		} catch (error) {
-			console.error('Error during fetching user data:', error);
+			console.error('Error during navigating:', error);
 		}
 	};
 
@@ -299,10 +288,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 											</Space>
 										</Table.TCell>
 										<Table.TCell>
-											{goal ? getValueById(goal, iprGoalsLib) : '—'}
+											<div className={styles.tCell}>
+												{goal ? getValueById(goal, iprGoalsLib) : '—'}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											{date_of_end ? formatDateString(date_of_end) : '—'}
+											<div className={styles.tCell}>
+												{date_of_end ? formatDateString(date_of_end) : '—'}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
 											{progress ? (
@@ -314,40 +307,46 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													className={styles.progressBar}
 												/>
 											) : (
-												'—'
+												<div className={styles.tCell}>—</div>
 											)}
 										</Table.TCell>
 										<Table.TCell>
-											<Status view="soft" color={color}>
-												{getValueById(status, iprStatusLib)}
-											</Status>
+											<div className={styles.tCell}>
+												<Status view="soft" color={color}>
+													{getValueById(status, iprStatusLib)}
+												</Status>
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											{status === 'NO_IPR' ? (
-												<Button
-													view="tertiary"
-													size="xxs"
-													onClick={onClickToDraft}
-												>
-													Создать
-												</Button>
-											) : (
-												<Button
-													view="tertiary"
-													size="xxs"
-													onClick={() => handleOpenButtonClick(id, status)}
-												>
-													Открыть
-												</Button>
-											)}
+											<div className={styles.tBtn}>
+												{status === 'NO_IPR' ? (
+													<Button
+														view="tertiary"
+														size="xxs"
+														onClick={onClickToDraft}
+													>
+														Создать
+													</Button>
+												) : (
+													<Button
+														view="tertiary"
+														size="xxs"
+														onClick={() => handleOpenButtonClick(id, status)}
+													>
+														Открыть
+													</Button>
+												)}
+											</div>
 										</Table.TCell>
 										<Table.TCell>
-											<Button
-												view="ghost"
-												onClick={() => handleMoreButtonClick(rowIndex)}
-											>
-												<MoreMIcon style={{ fill: '#898889' }} />
-											</Button>
+											<div className={styles.tBtnDot}>
+												<Button
+													view="ghost"
+													onClick={() => handleMoreButtonClick(rowIndex)}
+												>
+													<MoreMIcon style={{ fill: '#898889' }} />
+												</Button>
+											</div>
 											{activeRowIndex === rowIndex && (
 												<div
 													className={styles.popoverContainer}
@@ -366,7 +365,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 															className={styles.btnText}
 															view="ghost"
 															size="s"
-															onClick={() => console.log('hist')}
+															onClick={() => {
+																navigate(`/service-iprs/myteam/history/${id}`); //TODO перейти на историю конкретного сотрудника
+															}}
 														>
 															История
 														</Button>

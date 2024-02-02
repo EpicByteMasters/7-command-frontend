@@ -118,18 +118,22 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 										/>
 									</Table.TCell>
 									<Table.TCell>
-										<Status view="soft" color={getStatusColor(status.name)}>
-											{status.name}
-										</Status>
+										<div className={styles.tCell}>
+											<Status view="soft" color={getStatusColor(status.name)}>
+												{status.name}
+											</Status>
+										</div>
 									</Table.TCell>
 									<Table.TCell>
-										<Button
-											view="tertiary"
-											size="s"
-											onClick={() => handleOpenButtonClick(id, status)}
-										>
-											Открыть
-										</Button>
+										<div className={styles.tBtn}>
+											<Button
+												view="tertiary"
+												size="xxs"
+												onClick={() => handleOpenButtonClick(id, status)}
+											>
+												Открыть
+											</Button>
+										</div>
 									</Table.TCell>
 								</Table.TRow>
 							);

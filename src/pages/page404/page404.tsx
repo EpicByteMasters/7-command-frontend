@@ -36,7 +36,7 @@ export const Page404: React.FC<PageProps> = ({
 					<p className={styles.paragraph}>{paragraph}</p>
 					<Button
 						view="primary"
-						size="m"
+						size="s"
 						className={styles.button}
 						onClick={handleClick}
 					>
