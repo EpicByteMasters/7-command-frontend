@@ -12,7 +12,6 @@ export const EmployeePlan: React.FC = () => {
 			<div className={styles.generalFooterContainer}>
 				<Header />
 				<div className={styles.container}>
-					{/* <NavBarMini isExecutive={true} /> */}
 					<NavBarMini />
 
 					<div className={styles.wrapper}>

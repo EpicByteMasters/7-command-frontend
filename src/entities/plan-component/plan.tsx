@@ -33,7 +33,8 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-				// console.log('Получили Ипр по id:', iprDataResult.payload);
+				console.log('Получили Ипр по id:', iprDataResult.payload);
+
 				navigate(
 					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
 				);

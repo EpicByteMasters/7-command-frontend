@@ -1,4 +1,3 @@
-import styles from './tasks-overview.module.scss';
 import styles2 from './tasks-overview-form.module.scss';
 import React, { FC, ChangeEvent, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,7 +13,6 @@ import avatarMentor from '../../images/avatars/avatar_mentor1.png';
 import {
 	goal,
 	role,
-	competence,
 	mentor,
 	objCompetence,
 } from '../../shared/utils/constants';
@@ -93,6 +91,10 @@ export const TasksOverview = ({
 	const [errorDescription, setErrorDescription] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 
+	//Уведомления
+	const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
+	const hideNotification = useCallback(() => setIsVisible(false), []);
+
 	//Получаем данные текущегоИПР с Сервера
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	const { id } = useParams<{ id: string }>();
@@ -100,6 +102,7 @@ export const TasksOverview = ({
 		(goal: any) => goal.id === Number(id)
 	);
 	const [currentIpr2, setCurrentIpr] = useState(currentIpr);
+
 	// console.log(currentIpr, currentIpr2, '!STATE-CurrentIpr');
 
 	// console.log(currentIpr.goal, '!Competency');
@@ -107,15 +110,14 @@ export const TasksOverview = ({
 	// 	return <div>Ошибка не нашел Id</div>;
 	// }
 
-	//Уведомления
-	const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
-	const hideNotification = useCallback(() => setIsVisible(false), []);
 	// Значение Filter Tags без replace()
 	const tagValues = valueCompetence.trim().split(',');
+
 	// Поиск id Цели
 	const goalId: string | undefined = iprGoals.find(
 		(o) => o.name === valueGoal
 	)?.id;
+
 	// Поиск id Роли
 	const roleId: string | undefined = specialty.find(
 		(o) => o.name === valueRole
@@ -127,7 +129,7 @@ export const TasksOverview = ({
 	);
 	const idArray = result.map((item) => item.id);
 
-	// console.log(idArray, 'results');
+	// console.log(idArray, 'RESULTS ARRAY');
 
 	const taskValues = {
 		goal: goalId,
@@ -144,80 +146,25 @@ export const TasksOverview = ({
 		handleGoalValuesChange(taskValues);
 	};
 
-	// const [modalOpen, setModalOpen] = useState(false);
-
 	const matchOption = (option: OptionShape, inputValue: string): boolean =>
 		option.key.toLowerCase().includes((inputValue || '').toLowerCase());
 
-	// Обработка импутов
+	// Обработка импутов - Goal
 	const handleInputGoal = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
-		setValueGoal(value);
-		setErrorGoal('');
-
+		if (value) {
+			setValueGoal(value);
+			setErrorGoal('');
+			handleCallback();
+		}
+		if (errorGoal || !value) {
+			setErrorGoal('');
+			setValueGoal('');
+		}
 		// handleCallback();
 	};
-
-	const handleInputRole = (
-		event: ChangeEvent<HTMLInputElement> | null,
-		{ value }: { value: string }
-	) => {
-		setValueRole(value);
-		setErrorRole('');
-
-		// handleCallback();
-	};
-
-	function handleInputDescription(
-		event: ChangeEvent<HTMLTextAreaElement>
-	): void {
-		event.preventDefault();
-		const target = event.target as HTMLTextAreaElement;
-		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
-		const regexp = /[а-я\d ,.]+/iu;
-
-		if (target.name === 'description' && regexp.test(target.value)) {
-			setValueDescription(target.value);
-			// handleCallback();
-			setErrorDescription('');
-		}
-		if (!target.value) {
-			setErrorDescription(
-				'Допустимы только кириллические символы и знаки препинания'
-			);
-			return;
-		}
-	}
-
-	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
-		event.preventDefault();
-		const target = event.target as HTMLTextAreaElement;
-		// const regexp = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
-		const regexp = /[а-я\d ,.]+/iu;
-
-		if (target.name === 'comment' && regexp.test(target.value)) {
-			setValueComment(target.value);
-			// handleCallback();
-			setErrorComment('');
-		}
-		if (!target.value) {
-			setErrorComment(
-				'Допустимы только кириллические символы и знаки препинания'
-			);
-			return;
-		}
-	}
-	const handleInputMentor = (
-		event: ChangeEvent<HTMLInputElement> | null,
-		{ value }: { value: string }
-	) => {
-		// setValueMentor(value);
-		handleCallback();
-		setErrorRole('');
-	};
-	// Обработка изменения импутов
 
 	const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
 		if (selected && !errorGoal) {
@@ -229,6 +176,30 @@ export const TasksOverview = ({
 			setErrorGoal('Обязательное поле');
 			setValueGoal('');
 			toggleVisibility();
+		}
+	};
+
+	const getFilteredGoals = (): OptionShape[] => {
+		return optionsGoal.some(({ key }) => key === valueGoal)
+			? optionsGoal
+			: optionsGoal.filter((option) => matchOption(option, valueGoal));
+	};
+
+	// Обработка импутов - Role
+
+	const handleInputRole = (
+		event: ChangeEvent<HTMLInputElement> | null,
+		{ value }: { value: string }
+	) => {
+		if (value) {
+			setValueRole(value);
+			handleCallback();
+			setErrorRole('');
+		}
+		if (errorRole || !value) {
+			setValueRole('');
+			setErrorRole('');
+			// handleCallback();
 		}
 	};
 
@@ -244,6 +215,24 @@ export const TasksOverview = ({
 			toggleVisibility();
 		}
 	};
+
+	const getFilteredRoles = (): OptionShape[] => {
+		return optionsRole.some(({ key }) => key === valueRole)
+			? optionsRole
+			: optionsRole.filter((option) => matchOption(option, valueRole));
+	};
+
+	// Обработка импутов - Mentor
+
+	const handleInputMentor = (
+		event: ChangeEvent<HTMLInputElement> | null,
+		{ value }: { value: string }
+	) => {
+		// setValueMentor(value);
+		handleCallback();
+		setErrorRole('');
+	};
+
 	const handleChangeMentor = ({
 		selected,
 	}: {
@@ -254,6 +243,67 @@ export const TasksOverview = ({
 		toggleVisibility();
 	};
 
+	const getMentor = (id: number) => {
+		switch (id) {
+			case 5:
+				return 'Хорошёва Анна Дмитриевна';
+			case 4:
+				return 'Чаевская Евгения Владимировна';
+			case 2:
+				return 'Куприна Валентина Ивановна';
+			default:
+				return '';
+		}
+	};
+
+	// Обработка импутов - Description
+
+	function handleInputDescription(
+		event: ChangeEvent<HTMLTextAreaElement>
+	): void {
+		event.preventDefault();
+		const target = event.target as HTMLTextAreaElement;
+		const regexp = /[а-я\d ,.]+/iu;
+
+		if (target.name === 'description' && regexp.test(target.value)) {
+			setValueDescription(target.value);
+			handleCallback();
+		}
+		if (!target.value) {
+			setErrorDescription(
+				'Допустимы только латинские и кириллические буквы и символы, числа и знаки препинания'
+			);
+			setErrorDescription('');
+			setValueDescription('');
+
+			return;
+		}
+	}
+	// Обработка импутов - Comment
+
+	function handleInputComment(event: ChangeEvent<HTMLTextAreaElement>): void {
+		event.preventDefault();
+		const target = event.target as HTMLTextAreaElement;
+		const regexp = /[а-я\d ,.]+/iu;
+
+		if (target.name === 'comment' && regexp.test(target.value)) {
+			setValueComment(target.value);
+			handleCallback();
+		}
+		if (!target.value) {
+			setErrorComment(
+				'Допустимы только латинские и кириллические буквы и символы, числа и знаки препинания'
+			);
+			setValueComment('');
+
+			setErrorComment('');
+
+			return;
+		}
+	}
+
+	// Импуты для ДАТ
+
 	const handleChangeStartDate = (event: any, { value }: { value: string }) => {
 		// setStartDate(value);
 		var d = new Date(Date.now()).toLocaleString().split(',')[0];
@@ -263,33 +313,32 @@ export const TasksOverview = ({
 	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
 		setEndDate(value);
 	};
+
+	function convertDate(dateString: any) {
+		const parts = dateString.split('-');
+		const year = parts[0];
+		const month = parts[1];
+		const day = parts[2];
+
+		return `${day}.${month}.${year}`;
+	}
+
 	// Обработка фильтры поиска значения
 
-	const getFilteredGoals = (): OptionShape[] => {
-		return optionsGoal.some(({ key }) => key === valueGoal)
-			? optionsGoal
-			: optionsGoal.filter((option) => matchOption(option, valueGoal));
-	};
-
-	const getFilteredRoles = (): OptionShape[] => {
-		return optionsRole.some(({ key }) => key === valueRole)
-			? optionsRole
-			: optionsRole.filter((option) => matchOption(option, valueRole));
-	};
 	const getFilteredMentor = (): OptionShape[] => {
 		return optionsMentor.some(({ key }) => key === valueMentor)
 			? optionsMentor
 			: optionsMentor.filter((option) => matchOption(option, valueMentor));
 	};
 
-	// Все хендлеры для импута компетенции
+	// Все хендлеры для импута - Competence
 	const handleInputCompetence = (
 		event: ChangeEvent<HTMLInputElement> | null,
 		{ value }: { value: string }
 	) => {
 		setValueCompetence(value);
 		handleCallback();
-		setErrorCompetence('');
+		// setErrorCompetence('');
 	};
 	const inputValues: string[] = valueCompetence.split(', ');
 	const selectedOptions: OptionShape[] = optionsCompetence.filter((option) =>
@@ -342,28 +391,9 @@ export const TasksOverview = ({
 					matchOption(option, valueCompetence)
 				);
 	};
-	const getMentor = (id: number) => {
-		switch (id) {
-			case 5:
-				return 'Хорошёва Анна Дмитриевна';
-			case 4:
-				return 'Чаевская Евгения Владимировна';
-			case 2:
-				return 'Куприна Валентина Ивановна';
-			default:
-				return '';
-		}
-	};
-	function convertDate(dateString: any) {
-		const parts = dateString.split('-');
-		const year = parts[0];
-		const month = parts[1];
-		const day = parts[2];
-
-		return `${day}.${month}.${year}`;
-	}
 
 	// console.log(convertedDate, 'DATE');
+
 	return (
 		<>
 			{/* {!currentIpr ? (
