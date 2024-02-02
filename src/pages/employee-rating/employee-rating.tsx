@@ -37,7 +37,6 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 			<div className={styles.generalFooterContainer}>
 				<Header />
 				<div className={styles.container}>
-					{/* <NavBarMini isExecutive={isExecutive} /> */}
 					<NavBarMini />
 
 					<div className={styles.wrapper}>

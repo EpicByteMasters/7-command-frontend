@@ -279,9 +279,9 @@ export const ManagerIprDraft = ({
 					''
 				)}
 			</div>
-			{/* <div className={styles.generalFooter}>
+			<div className={styles.generalFooter}>
 				<FooterMain></FooterMain>
-			</div> */}
+			</div>
 		</div>
 	);
 };

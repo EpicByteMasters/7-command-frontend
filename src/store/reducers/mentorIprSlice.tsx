@@ -4,19 +4,14 @@ import { RootState } from '../store';
 
 export interface Mentor {
 	id: number;
-	first_name: string;
-	last_name: string;
-	middle_name: string;
-	position_id: string;
-	specialty_id: string;
+	name: string;
+	position: string;
 	goal: string;
-	date_of_end: string;
-	progress: string;
-	task_completed: number;
-	task_count: number;
+	date: string;
+	progress: number;
+	taskAll: number;
+	taskDone: number;
 	status: string;
-	total_count_iprs: number;
-	total_count_employees: number;
 }
 
 interface MentorIPRSListResponse {

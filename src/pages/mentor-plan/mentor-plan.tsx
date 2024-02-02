@@ -47,10 +47,10 @@ export const MentorPlan: React.FC<MentorProps> = ({
 								<MentorList
 									// mentorList={mentorIprsList}
 									data={data}
-									ipr_id={ipr_id}
-									isMentor={isMentor}
-									isExecutive={isExecutive}
-									ipr_id4={ipr_id4}
+									// ipr_id={ipr_id}
+									// isMentor={isMentor}
+									// isExecutive={isExecutive}
+									// ipr_id4={ipr_id4}
 								/>
 							</div>
 						</div>

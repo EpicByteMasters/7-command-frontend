@@ -33,7 +33,9 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-				// console.log('Получили Ипр по id:', iprDataResult.payload);
+
+				console.log('Получили Ипр по id:', iprDataResult.payload);
+
 				navigate(
 					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
 				);
@@ -86,31 +88,41 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{iprData.map(
-						({ id, goal, closeDate, createDate, status }: IprData) => (
-							<Table.TRow
-								className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-								onClick={() => handleRowClick(id)}
-								key={id}
-							>
-								<Table.TCell>{goal?.name}</Table.TCell>
-								<Table.TCell>{createDate}</Table.TCell>
-								<Table.TCell>{closeDate}</Table.TCell>
-								<Table.TCell>
-									<CircularProgressBar
-										value={progress}
-										title={progressPercentage}
-										size="s"
-										contentColor="primary"
-										className={styles.progressBar}
-									/>
-								</Table.TCell>
-								<Table.TCell>
+
+					{iprData.map(({ id, goal, closeDate, createDate, status }) => (
+						<Table.TRow
+							className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
+							onClick={() => handleRowClick(id)}
+							key={id}
+						>
+							<Table.TCell>
+								<div className={styles.tCell}>{goal?.name}</div>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>{createDate}</div>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>{closeDate}</div>
+							</Table.TCell>
+							<Table.TCell>
+								<CircularProgressBar
+									value={progress}
+									title={progressPercentage}
+									size="s"
+									contentColor="primary"
+									className={styles.progressBar}
+								/>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tCell}>
 									<Status view="soft" color={getStatusColor(status.name)}>
 										{status.name}
 									</Status>
-								</Table.TCell>
-								<Table.TCell>
+								</div>
+							</Table.TCell>
+							<Table.TCell>
+								<div className={styles.tBtn}>
+
 									<Button
 										view="tertiary"
 										size="s"
@@ -118,10 +130,12 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 									>
 										Открыть
 									</Button>
-								</Table.TCell>
-							</Table.TRow>
-						)
-					)}
+
+								</div>
+							</Table.TCell>
+						</Table.TRow>
+					))}
+
 				</Table.TBody>
 			</Table>
 		</>
