@@ -8,6 +8,7 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
+import { IprData } from '../../store/reducers/iprsSlice';
 
 import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
 
@@ -28,20 +29,20 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 	};
 
 	const handleOpenButtonClick = async (id: number, status: any) => {
-		// try {
-		// 	const iprDataResult = await dispatch(getIprByIdByEmployee(id));
+		try {
+			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
 
-		// 	if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-		// 		console.log('Получили Ипр по id:', iprDataResult.payload);
-		navigate(
-			`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-		);
-		// 	} else {
-		// 		console.error('Error during fetching IPRS data:', iprDataResult.error);
-		// 	}
-		// } catch (error) {
-		// 	console.error('Error during fetching user data:', error);
-		// }
+			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+				// console.log('Получили Ипр по id:', iprDataResult.payload);
+				navigate(
+					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
+				);
+			} else {
+				console.error('Error during fetching IPRS data:', iprDataResult.error);
+			}
+		} catch (error) {
+			console.error('Error during fetching user data:', error);
+		}
 	};
 
 	const getStatusColor = (status: string) => {
@@ -85,40 +86,42 @@ export const Plan: React.FC<PlanProps> = ({ isEmployee = true }) => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{iprData.map(({ id, goal, closeDate, createDate, status }) => (
-						<Table.TRow
-							className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-							onClick={() => handleRowClick(id)}
-							key={id}
-						>
-							<Table.TCell>{goal?.name}</Table.TCell>
-							<Table.TCell>{createDate}</Table.TCell>
-							<Table.TCell>{closeDate}</Table.TCell>
-							<Table.TCell>
-								<CircularProgressBar
-									value={progress}
-									title={progressPercentage}
-									size="s"
-									contentColor="primary"
-									className={styles.progressBar}
-								/>
-							</Table.TCell>
-							<Table.TCell>
-								<Status view="soft" color={getStatusColor(status.name)}>
-									{status.name}
-								</Status>
-							</Table.TCell>
-							<Table.TCell>
-								<Button
-									view="tertiary"
-									size="s"
-									onClick={() => handleOpenButtonClick(id, status)}
-								>
-									Открыть
-								</Button>
-							</Table.TCell>
-						</Table.TRow>
-					))}
+					{iprData.map(
+						({ id, goal, closeDate, createDate, status }: IprData) => (
+							<Table.TRow
+								className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
+								onClick={() => handleRowClick(id)}
+								key={id}
+							>
+								<Table.TCell>{goal?.name}</Table.TCell>
+								<Table.TCell>{createDate}</Table.TCell>
+								<Table.TCell>{closeDate}</Table.TCell>
+								<Table.TCell>
+									<CircularProgressBar
+										value={progress}
+										title={progressPercentage}
+										size="s"
+										contentColor="primary"
+										className={styles.progressBar}
+									/>
+								</Table.TCell>
+								<Table.TCell>
+									<Status view="soft" color={getStatusColor(status.name)}>
+										{status.name}
+									</Status>
+								</Table.TCell>
+								<Table.TCell>
+									<Button
+										view="tertiary"
+										size="s"
+										onClick={() => handleOpenButtonClick(id, status)}
+									>
+										Открыть
+									</Button>
+								</Table.TCell>
+							</Table.TRow>
+						)
+					)}
 				</Table.TBody>
 			</Table>
 		</>

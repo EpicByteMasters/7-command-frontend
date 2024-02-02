@@ -42,7 +42,7 @@ interface Education {
 	};
 }
 
-interface Task {
+export interface Task {
 	name: string;
 	description: string;
 	closeDate: string;
@@ -57,7 +57,7 @@ interface Task {
 	education: Education[];
 }
 
-interface IprData {
+export interface IprData {
 	id: number;
 	status: IprStatus;
 	competency: Competency[];
