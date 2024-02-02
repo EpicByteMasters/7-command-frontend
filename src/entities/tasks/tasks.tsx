@@ -6,7 +6,7 @@ import React, {
 	useEffect,
 } from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './tasks.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
@@ -57,9 +57,12 @@ interface ICoursesOption extends OptionShape {
 type TCoursenOptionProp = 'name' | 'specialty';
 
 interface Education {
-	name: string;
-	url: string;
-	status: string;
+	status: boolean;
+	education: {
+		id: number;
+		name: string;
+		urlLink: string;
+	};
 }
 
 interface FormData {
@@ -67,7 +70,7 @@ interface FormData {
 	name: string;
 	closeDate: string;
 	description: string;
-	educations: Education[];
+	education: Education[];
 	supervisorComment: string;
 	commentOfEmployee: string;
 }
@@ -141,7 +144,7 @@ export const Tasks: React.FC<TasksProps> = ({
 		name: '',
 		closeDate: '',
 		description: '',
-		educations: [],
+		education: [],
 		supervisorComment: '',
 		commentOfEmployee: '',
 	});
@@ -155,6 +158,7 @@ export const Tasks: React.FC<TasksProps> = ({
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
 	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
+	const navigate = useNavigate();
 
 	const handleAttach = (
 		taskId: number,
@@ -361,6 +365,10 @@ export const Tasks: React.FC<TasksProps> = ({
 				});
 	};
 
+	const navigateToUrl = (urlLink: string) => {
+		navigate(urlLink);
+	};
+
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
@@ -372,6 +380,7 @@ export const Tasks: React.FC<TasksProps> = ({
 						description,
 						taskStatus,
 						supervisorComment,
+						education,
 					}: Task) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
@@ -451,7 +460,7 @@ export const Tasks: React.FC<TasksProps> = ({
 													autosize={true}
 													disabled={isEmployee}
 												/>
-
+												{/* {!isEmployee && ( */}
 												<div className={styles.coursesWrapper}>
 													<InputAutocomplete
 														size="s"
@@ -482,25 +491,46 @@ export const Tasks: React.FC<TasksProps> = ({
 														className={styles.linkToCourses}
 													/>
 												</div>
+												{/* )} */}
 
 												<div className={styles.formRowTag}>
-													{valueCourse.length > 0
-														? tagValues.map((value: string, key: number) => {
-																return (
-																	<div key={value.length + 1}>
-																		<div
-																			className={styles.formTag}
-																			onClick={onDeleteTag}
-																		>
-																			<div className={styles.formCircle}>
-																				<CrossCircleMIcon />
-																			</div>
-																			{value}
-																		</div>
+													{education.map((education) => (
+														<div key={education.education.id}>
+															<div
+																className={styles.formTag}
+																onClick={onDeleteTag}
+															>
+																<div className={styles.formCircle}>
+																	<CrossCircleMIcon />
+																</div>
+																{education.education.name}
+																<Button
+																	size="xxs"
+																	view="tertiary"
+																	style={{ marginLeft: '550px' }}
+																	onClick={() =>
+																		navigateToUrl(education.education.urlLink)
+																	}
+																>
+																	Посмотреть результат
+																</Button>
+															</div>
+														</div>
+													))}
+													{valueCourse.length > 0 &&
+														tagValues.map((course: any) => (
+															<div key={course.id}>
+																<div
+																	className={styles.formTag}
+																	onClick={onDeleteTag}
+																>
+																	<div className={styles.formCircle}>
+																		<CrossCircleMIcon />
 																	</div>
-																);
-															})
-														: ''}
+																	{course.name}
+																</div>
+															</div>
+														))}
 												</div>
 
 												<Textarea
