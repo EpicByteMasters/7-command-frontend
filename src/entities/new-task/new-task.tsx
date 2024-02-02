@@ -263,7 +263,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
 					{valueCourse.length > 0
 						? tagValues.map((value: string, key: number) => {
 								return (
-									<div key={value.length + 1}>
+									<div className={styles.tagContainer} key={value.length + 1}>
 										<div className={styles.formTag} onClick={onDeleteTag}>
 											{value === 'Подготовка к IELTS' ? (
 												<CheckmarkCircleMIcon fill={'#08C44D'} />
@@ -271,6 +271,13 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
 												<CrossCircleMIcon />
 											)}
 											{value}
+											<Button
+												size="xxs"
+												view="tertiary"
+												className={styles.buttonResult}
+											>
+												Отправить результат
+											</Button>
 										</div>
 									</div>
 								);

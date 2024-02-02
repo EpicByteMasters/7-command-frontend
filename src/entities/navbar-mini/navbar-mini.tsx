@@ -1,7 +1,7 @@
 import styles from './navbar-mini.module.scss';
 
 import { useAppSelector } from '../../shared/hooks/redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { TwoUsersMIcon } from '@alfalab/icons-glyph/TwoUsersMIcon';
 import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
@@ -11,6 +11,8 @@ import { roleUrl } from '../../shared/utils/urls';
 import { BackButton } from '../backbutton/backbutton';
 
 export const NavBarMini: React.FC = ({}) => {
+	const location = useLocation();
+
 	const userData = useAppSelector((state) => state.user.user);
 
 	const isEmployee = userData.isSupervisor === false;
@@ -20,10 +22,21 @@ export const NavBarMini: React.FC = ({}) => {
 	// console.log('isExecutive Руководитель в Мини навбаре: ', isExecutive);
 	// console.log('isEmployee Работник в Мини навбаре: ', isEmployee);
 	// console.log('isEmployee Ментор в Мини навбаре: ', isMentor);
+	let isActive = false;
+
+	if (location.pathname === '/service-iprs/myteam') {
+		isActive = true;
+	}
+	if (location.pathname === '/service-iprs/my') {
+		isActive = true;
+	}
+	if (location.pathname === '/service-iprs/mentor') {
+		isActive = true;
+	}
 
 	return (
 		<aside className={styles.aside}>
-			<nav className={styles.navtab}>
+			<nav className={styles.navtab} id="#nav">
 				<ul className={styles.list}>
 					<li className={styles.item}>
 						<BackButton

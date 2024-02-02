@@ -24,7 +24,7 @@ export const MyPlan: React.FC<EmployeeProps> = ({ isEmployee, ipr_id3 }) => {
 					<div className={styles.wrapper}>
 						<h1 className={styles.title}>Мой план развития</h1>
 						<div className={styles.container}>
-							<Plan isEmployee={true} />
+							<Plan />
 						</div>
 					</div>
 				</section>
