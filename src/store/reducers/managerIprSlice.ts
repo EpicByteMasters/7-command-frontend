@@ -7,15 +7,14 @@ export interface Employee {
 	firstName: string;
 	lastName: string;
 	middleName: string;
-	position_id: string;
-	specialty_id: string;
 	imageUrl: string;
-	goal: string;
-	date_of_end: string;
-	progress: string;
-	task_completed: number;
-	task_count: number;
-	status: string;
+	positionId: string;
+	goalId: string;
+	statusIid: string;
+	taskCount: number;
+	taskCompleted: number;
+	iprId: number;
+	dateOfEnd: string;
 }
 
 interface ManagerIPRSListResponse {

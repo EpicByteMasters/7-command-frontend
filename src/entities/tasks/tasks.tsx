@@ -33,7 +33,7 @@ import type { ICommonLibWithEducationType } from '../../store/reducers/libSlice'
 import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
 import {
 	Task,
-	getIprByIdByEmployee,
+	getIprByIdByEmployeeArr,
 	IprData,
 } from '../../store/reducers/iprsSlice';
 import { useDispatch } from 'react-redux';
@@ -92,10 +92,10 @@ export const Tasks: React.FC<TasksProps> = ({
 			console.log('сделали запрос на tasks');
 			try {
 				const iprDataResult = await dispatch(
-					getIprByIdByEmployee(Number(id)) as any
+					getIprByIdByEmployeeArr(Number(id)) as any
 				);
 
-				if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+				if (getIprByIdByEmployeeArr.fulfilled.match(iprDataResult)) {
 					console.log('Получили Ипр по id:', iprDataResult.payload);
 				} else {
 					console.error(
@@ -494,7 +494,6 @@ export const Tasks: React.FC<TasksProps> = ({
 												{/* )} */}
 
 												<div className={styles.formRowTag}>
-
 													{education.map((education) => (
 														<div key={education.education.id}>
 															<div
@@ -527,7 +526,6 @@ export const Tasks: React.FC<TasksProps> = ({
 																>
 																	<div className={styles.formCircle}>
 																		<CrossCircleMIcon />
-
 																	</div>
 																	{course.name}
 																</div>

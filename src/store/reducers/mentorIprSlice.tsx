@@ -3,19 +3,18 @@ import { BASE_URL } from '../../shared/utils/constants';
 import { RootState } from '../store';
 
 export interface Mentor {
-	dateOfEnd: string;
-	firstName: string;
-	goalId: string;
 	id: number;
-	imageUrl: string;
+	firstName: string;
 	lastName: string;
 	middleName: string;
-	position_id: string;
-	progress: string;
-	specialty_id: string;
-	statusId: string;
+	positionId: string;
+	imageUrl: string;
+	iprId: number;
+	goalId: string;
+	dateOfEnd: string;
 	taskCompleted: number;
 	taskCount: number;
+	statusIid: string;
 }
 
 interface MentorIPRSListResponse {
@@ -47,7 +46,7 @@ export const getMentorIprsList = createAsyncThunk<MentorIPRSListResponse>(
 				throw new Error('Токен отсутствует в localStorage');
 			}
 
-			const res = await fetch(`${BASE_URL}/api/v1/mentι/iprs/?take=-1&skip=0`, {
+			const res = await fetch(`${BASE_URL}/api/v1/menti/iprs/?take=-1&skip=0`, {
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${token}`,

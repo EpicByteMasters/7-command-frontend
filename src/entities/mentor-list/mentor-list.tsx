@@ -37,9 +37,14 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
 	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
-	const handleOpenButtonClick = (id: number) => {
+	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', idIpr);
+		console.log(
+			'ID пользователя переданное из строчки таблицы',
+			selectedUserId
+		);
 		try {
-			navigate(`/test/${id}`, { state: { location } });
+			navigate(`/test/${idIpr}`, { state: { location, selectedUserId } });
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
@@ -72,21 +77,20 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 				<Table.TBody>
 					{data?.map(
 						({
-							dateOfEnd,
-							firstName,
-							goalId,
 							id,
-							imageUrl,
+							firstName,
 							lastName,
 							middleName,
-							position_id,
-							progress,
-							specialty_id,
-							statusId,
+							positionId,
+							imageUrl,
+							iprId,
+							goalId,
+							dateOfEnd,
 							taskCompleted,
 							taskCount,
+							statusIid,
 						}) => {
-							const color = getStatusColor(statusId);
+							const color = getStatusColor(statusIid);
 							const persent = (taskCompleted / taskCount) * 100;
 							const [day, month, year] = dateOfEnd.split('-');
 							const formatedDate = `${day}.${month}.${year}`;
@@ -119,7 +123,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 														view="primary-small"
 														color="secondary"
 													>
-														{getValueById(position_id, positionsLib)}
+														{getValueById(positionId, positionsLib)}
 													</Typography.Text>
 												</div>
 											</div>
@@ -145,7 +149,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 									<Table.TCell>
 										<div className={styles.tCell}>
 											<Status view="soft" color={color}>
-												{getValueById(statusId, iprStatusLib)}
+												{getValueById(statusIid, iprStatusLib)}
 											</Status>
 										</div>
 									</Table.TCell>
@@ -154,7 +158,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 											<Button
 												view="tertiary"
 												size="xxs"
-												onClick={() => handleOpenButtonClick(id)}
+												onClick={() => handleOpenButtonClick(iprId, id)}
 											>
 												Открыть
 											</Button>

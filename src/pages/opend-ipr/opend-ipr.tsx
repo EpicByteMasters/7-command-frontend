@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
 import styles from './opend-ipr.module.scss';
-
-import { FooterMain } from '../../entities/footer-main/footer-main';
-import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import Header from '../../shared/header-component/header';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
-import { PageTitle } from '../../shared/page-title/page-title';
-import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
-import { RootState } from '../../store/store';
-import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
-import { getFullName, getStatusColor } from '../../shared/utils/constants';
 
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 
+import { FooterMain } from '../../entities/footer-main/footer-main';
+import NavBarMini from '../../entities/navbar-mini/navbar-mini';
+import { PageTitle } from '../../shared/page-title/page-title';
+import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
+
+import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
+import { RootState } from '../../store/store';
+
+import { getFullName, getStatusColor } from '../../shared/utils/constants';
+
 import {
 	getIprByIdByEmployee,
 	getIprByIdBySupervisor,
-} from '../../store/reducers/iprsSlice';
+} from '../../store/reducers/iprSlice';
+
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { Tasks } from '../../entities/tasks/tasks';
 
@@ -28,11 +30,14 @@ export const OpendIpr: React.FC = () => {
 	const location = useLocation();
 
 	const { id } = useParams<{ id: string }>();
+	const selectedUserId = location.state?.selectedUserId;
+	console.log('selectedUserId in OPEND IPR', selectedUserId);
 
 	const isLoading = useAppSelector((state: RootState) => state.user.isLoading);
 	const selectedUser = useAppSelector((state) => state.user.selectedUser);
 	const userData = useAppSelector((state) => state.user.user);
-	const opendIpr = useAppSelector((state) => state.iprs.iprsData);
+	const opendIpr = useAppSelector((state) => state.ipr.ipr);
+
 	const isLoadingIpr = useAppSelector((state) => state.iprs.isLoading);
 
 	console.log('OPEND IPR', opendIpr);
@@ -55,7 +60,7 @@ export const OpendIpr: React.FC = () => {
 	}, [location]);
 
 	useEffect(() => {
-		dispatch(getUserById(Number(id)));
+		dispatch(getUserById(selectedUserId));
 		return () => {
 			dispatch(setSelectedUser(null));
 		};
@@ -103,20 +108,20 @@ export const OpendIpr: React.FC = () => {
 		fetchIprData();
 	}, [dispatch, id, prevLocation]);
 
-	useEffect(() => {
-		if (opendIpr.length > 0) {
-			const iprStatusName = opendIpr[0].status.name;
-			const iprStatusId = opendIpr[0].status.id;
-			console.log(
-				'!!!!!!!!!!!iprStatusName!!!!!!!!!!!!!!!!!!!!!!',
-				iprStatusName
-			);
-			setIprStatusName(iprStatusName);
-			setIprStatusId(iprStatusId);
-		} else {
-			console.log('opendIpr is empty');
-		}
-	}, [opendIpr]);
+	// useEffect(() => {
+	// 	if (opendIprEmployee.length > 0) {
+	// 		const iprStatusName = opendIprEmployee?.status;
+
+	// 		console.log(
+	// 			'!!!!!!!!!!!iprStatusName!!!!!!!!!!!!!!!!!!!!!!',
+	// 			iprStatusName
+	// 		);
+	// 		setIprStatusName(iprStatusName);
+	// 		setIprStatusId(iprStatusId);
+	// 	} else {
+	// 		console.log('opendIpr is empty');
+	// 	}
+	// }, [opendIpr]);
 
 	// Если данные еще загружаются, показываем заглушку
 	if (isLoading) {
@@ -172,9 +177,9 @@ export const OpendIpr: React.FC = () => {
 						<div className={styles.titleContainer}>
 							<PageTitle title={pageTitle} />
 							{/* статус */}
-							{iprStatusName ? (
-								<Status view="soft" color={getStatusColor(iprStatusId)}>
-									{iprStatusName}
+							{opendIpr?.status ? (
+								<Status view="soft" color={getStatusColor(opendIpr.status.id)}>
+									{opendIpr.status.name}
 								</Status>
 							) : (
 								<Status view="soft">статус не пришел</Status>
@@ -256,22 +261,26 @@ export const OpendIpr: React.FC = () => {
 							)
 						) : null}
 						{/* Общее описание */}
-						<div className={styles.taskOverviewWrapper}>
-							<TasksOverview
-								isExecutive={isExecutive}
-								iprStatus={iprStatusName}
-								handleGoalValuesChange={handleDataSubmit}
-							/>
-						</div>
+						{opendIpr ? (
+							<div className={styles.taskOverviewWrapper}>
+								<TasksOverview
+									isExecutive={isExecutive}
+									iprStatus={opendIpr.status.id}
+									handleGoalValuesChange={handleDataSubmit}
+								/>
+							</div>
+						) : (
+							<div>данные об ИПР загружаюся</div>
+						)}
 
 						{/* Задачи */}
-						<fieldset className={styles.blockWrapper}>
+						{/* <fieldset className={styles.blockWrapper}>
 							<legend className={styles.blockTitle}>Задачи</legend>
 							<Tasks
 								isEmployee={isEmployee}
 								handleTaskValuesChange={handleDataSubmit}
 							/>
-						</fieldset>
+						</fieldset> */}
 					</div>
 				</div>
 			</div>
