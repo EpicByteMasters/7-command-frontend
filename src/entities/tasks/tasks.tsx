@@ -1,117 +1,94 @@
-import React, {
-	ChangeEvent,
-	useState,
-	ReactNode,
-	useMemo,
-	useEffect,
-} from 'react';
-import { useAppSelector } from '../../shared/hooks/redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import styles from './tasks.module.scss';
-import { Table } from '@alfalab/core-components/table';
-import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
-import { Status } from '@alfalab/core-components/status';
-import { BaseOption } from '@alfalab/core-components/select/components/base-option';
-import type { OptionShape } from '@alfalab/core-components/select/typings';
-import { Textarea } from '@alfalab/core-components/textarea';
-import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
-import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
-import { Collapse } from '@alfalab/core-components/collapse';
-import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
-import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
-import linkToCourses from '../../images/link-gotocourses.png';
-import { Attach } from '@alfalab/core-components/attach';
-import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
-import { Button } from '@alfalab/core-components/button';
-import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
-// import { courses } from '../../shared/utils/constants';
-import { tasksData } from '../../shared/utils/constants';
-import type { ICommonLibWithEducationType } from '../../store/reducers/libSlice';
+import React, { FC, ChangeEvent, useState, useMemo } from 'react';
 
-import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
-import { Task, IprData } from '../../store/reducers/iprsSlice';
-import {
-	getIprByIdByEmployee,
-	IIprData,
-	ITask,
-} from '../../store/reducers/iprSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 
-interface TasksProps {
-	isEmployee: boolean;
-	handleTaskValuesChange?: any;
-}
+// -----------------------------------------------------------------------------
 
-// interface IEducation {
-// 	id: number;
-// 	name: string;
-// 	specialty: string;
-// 	urlLink: string;
-// }
+import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-interface ICoursesOption extends OptionShape {
-	value: ICommonLibWithEducationType;
-}
+import { Table } from '@alfalab/core-components/table';
+import { Button } from '@alfalab/core-components/button';
+import { Status } from '@alfalab/core-components/status';
+import { BaseOption } from '@alfalab/core-components/select/components/base-option';
+import { Textarea } from '@alfalab/core-components/textarea';
+import { Arrow } from '@alfalab/core-components/select/components/arrow';
+import { Attach } from '@alfalab/core-components/attach';
+import { Collapse } from '@alfalab/core-components/collapse';
+import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 
-type TCoursenOptionProp = 'name' | 'specialty';
+import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 
-interface Education {
-	status: boolean;
-	education: {
-		id: number;
-		name: string;
-		urlLink: string;
-	};
-}
+import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
+import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
-interface FormData {
-	id: number;
-	name: string;
-	closeDate: string;
-	description: string;
-	education: Education[];
-	supervisorComment: string;
-	commentOfEmployee: string;
-}
+import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 
-interface IFilesForTask {
-	[taskId: string]: File[];
-}
+import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
+import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 
-export const Tasks: React.FC<TasksProps> = ({
+// -----------------------------------------------------------------------------
+
+import type { IIprData, ITask } from '../../store/reducers/iprSlice';
+
+// -----------------------------------------------------------------------------
+
+import { getIprByIdByEmployee } from '../../store/reducers/iprSlice';
+
+import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
+
+// -----------------------------------------------------------------------------
+
+import { useAppSelector } from '../../shared/hooks/redux';
+
+// -----------------------------------------------------------------------------
+
+import type {
+	ITasksProps,
+	IEducation,
+	IFormData,
+	ICoursesOption,
+	IEducationTypeDTO,
+	IFilesForTask,
+} from './type';
+
+// ----------------------------------------------------------------------------
+
+import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
+
+// ----------------------------------------------------------------------------
+
+import {
+	getArrLastEl,
+	isCourseSelectedOption,
+	isCourseFilteredOption,
+	formatDateToCustomFormat,
+} from './util';
+
+// ----------------------------------------------------------------------------
+
+import linkToCourses from '../../images/link-gotocourses.png';
+import styles from './tasks.module.scss';
+
+// ----------------------------------------------------------------------------
+
+// utils
+const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
+	key: course.specialty,
+	content: course.name.trim(),
+	value: course,
+});
+
+// ----------------------------------------------------------------------------
+
+export const Tasks: FC<ITasksProps> = ({
 	isEmployee,
 	handleTaskValuesChange,
 }) => {
 	const dispatch = useDispatch();
 	const { id } = useParams<{ id: string }>();
-
-	// useEffect(() => {
-	// 	console.log('пришли в запрос на tasks');
-	// 	const fetchIprData = async () => {
-	// 		console.log('сделали запрос на tasks');
-	// 		try {
-	// 			const iprDataResult = await dispatch(
-	// 				getIprByIdByEmployee(Number(id)) as any
-	// 			);
-
-	// 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-	// 				console.log('Получили Ипр по id:', iprDataResult.payload);
-	// 			} else {
-	// 				console.error(
-	// 					'Error during fetching IPRS data:',
-	// 					iprDataResult.error
-	// 				);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error during fetching user data:', error);
-	// 		}
-	// 	};
-
-	// 	fetchIprData();
-	// }, [dispatch, id]);
 
 	const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
@@ -120,29 +97,9 @@ export const Tasks: React.FC<TasksProps> = ({
 	const courses = useAppSelector(selectCommonLibsEducation);
 	console.log('optionCourses: ', courses);
 
-	//utils
-	const adaptCompetency = (
-		course: ICommonLibWithEducationType
-	): ICoursesOption => ({
-		key: course.specialty,
-		content: course.name.trim(),
-		value: course,
-	});
+	//#region State
 
-	const courseOptionList = useMemo<ICoursesOption[]>(
-		() => courses.map((courseOption: any) => adaptCompetency(courseOption)),
-		[courses]
-	);
-
-	// const isExecutive = useAppSelector((state) => state.user.user.isSupervisor);
-	const pickerOptions = [
-		{ key: 'В работе' },
-		{ key: 'Выполнена' },
-		{ key: 'Не выполнена' },
-		{ key: 'Отменена' },
-	];
-
-	const [taskValues, setTaskValues] = React.useState<FormData>({
+	const [taskValues, setTaskValues] = React.useState<IFormData>({
 		id: 0,
 		name: '',
 		closeDate: '',
@@ -152,8 +109,8 @@ export const Tasks: React.FC<TasksProps> = ({
 		commentOfEmployee: '',
 	});
 
-	const [shownChevron, setShownChevron] = React.useState(true);
-	const [multiple, setMultiple] = React.useState(true);
+	const [shownChevron, setShownChevron] = useState(true);
+	const [multiple, setMultiple] = useState(true);
 	const [progress, setProgress] = useState<number | undefined>(0);
 	const [valueCourse, setValueCourse] = useState<string>('');
 	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
@@ -163,9 +120,51 @@ export const Tasks: React.FC<TasksProps> = ({
 	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
 	const navigate = useNavigate();
 
+	//#endregion
+
+	//#region Computed
+
+	/** Опции тренингов и курсов */
+	const courseOptionList = useMemo<ICoursesOption[]>(
+		() => courses.map((courseOption) => adaptCompetency(courseOption)),
+		[courses]
+	);
+
+	/** Введённые значения */
+	const inputValues: string[] = useMemo(
+		() => valueCourse.split(',').map((value) => value.trim()),
+		[valueCourse]
+	);
+
+	/** Последнее ведённое значение */
+	const coursesInputLastValue = useMemo(
+		() => getArrLastEl(inputValues),
+		[inputValues]
+	);
+
+	/** Выбранные опции */
+	const optionsSelected = useMemo(
+		() =>
+			courseOptionList.filter((course) =>
+				isCourseSelectedOption(course, inputValues)
+			),
+		[courseOptionList, inputValues]
+	);
+
+	/** Фильтрованные опции курсов */
+	const filteredOptions = useMemo(
+		() =>
+			courseOptionList.filter((option) =>
+				isCourseFilteredOption(optionsSelected, option, coursesInputLastValue)
+			),
+		[optionsSelected, coursesInputLastValue]
+	);
+
+	//#endregion
+
 	const handleAttach = (
 		taskId: number,
-		event: React.ChangeEvent<HTMLInputElement>,
+		event: ChangeEvent<HTMLInputElement>,
 		payload: { files: File[] }
 	) => {
 		setFilesForTask((prevFiles) => ({
@@ -263,76 +262,15 @@ export const Tasks: React.FC<TasksProps> = ({
 
 	console.log('tasksArrayForRender: ', tasksArrayForRender);
 
-	function formatDateToCustomFormat(dateString: any) {
-		console.log('dateString: ', dateString);
-		const months = [
-			'января',
-			'февраля',
-			'марта',
-			'апреля',
-			'мая',
-			'июня',
-			'июля',
-			'августа',
-			'сентября',
-			'октября',
-			'ноября',
-			'декабря',
-		];
-
-		const [year, month, day] = dateString.split('-').map(Number);
-
-		const formattedDate = `${day} ${months[month - 1]}`;
-
-		return `до ${formattedDate}`;
-	}
-
 	function formatDate(inputDate: string): string {
 		const [year, month, day] = inputDate.split('-');
 		const formattedDate: string = `${day}.${month}.${year}`;
 		return formattedDate;
 	}
 
-	function matchOption(option: ICoursesOption, inputValue: string) {
-		return (
-			isOptionMatchByProp(option, 'name', inputValue) ||
-			isOptionMatchByProp(option, 'specialty', inputValue)
-		);
-	}
-
-	function isOptionMatchByProp(
-		option: ICoursesOption,
-		prop: TCoursenOptionProp,
-		inputValue: string
-	) {
-		const optionPropValue = option.value[prop];
-
-		if (typeof optionPropValue !== 'string') {
-			return false;
-		}
-
-		return optionPropValue
-			.toLowerCase()
-			.includes((inputValue || '').toLowerCase());
-	}
-
 	//utils
-	function filerOption(option: ICoursesOption, inputValues: string[]) {
-		if (inputValues.includes(option.value.name.trim())) {
-			return true;
-		}
 
-		return (
-			typeof option?.value.name === 'string' &&
-			inputValues.includes(option.value.name.trim())
-		);
-	}
-
-	const inputValues = valueCourse.split(',').map((value) => value.trim());
-
-	const selectedOptions = courseOptionList.filter((course) =>
-		filerOption(course, inputValues)
-	);
+	/** Массив введённых */
 
 	function getOptionContent(option: OptionShape) {
 		return option.value.name;
@@ -345,6 +283,24 @@ export const Tasks: React.FC<TasksProps> = ({
 	const makeMultipleValue = (selectedMultiple: OptionShape[]) =>
 		`${getOptionsInputValue(selectedMultiple)}, `;
 
+	//#region Cources
+
+	/** Фильтрованные и выбранные опциии для выпадающего списка */
+	const getFilteredOptionsCourses = () =>
+		inputValues.length === selected.length ? courseOptionList : filteredOptions;
+
+	// Data
+	// --------------------------------------------------------------------------
+
+	/** Выбранные опции для компоннета */
+	const selected = courseOptionList
+		.filter((course) => isCourseSelectedOption(course, inputValues))
+		.map((option) => option.value.name);
+
+	// hadlers
+	// --------------------------------------------------------------------------
+
+	/** Обработчик выбора опции */
 	const handleChangeCourse = ({
 		selectedMultiple,
 	}: {
@@ -353,21 +309,14 @@ export const Tasks: React.FC<TasksProps> = ({
 		setValueCourse(makeMultipleValue(selectedMultiple));
 	};
 
+	/** Обработчик ввода в поле */
 	const handleInputCourse = (_: unknown, { value }: { value: string }) =>
 		setValueCourse(value);
 
-	const selected = selectedOptions.map((option) => option.value.specialty);
+	/** Обработчик очистки */
+	const onCoursesInputClear = () => setValueCourse('');
 
-	const getFilteredOptions = () => {
-		return inputValues.length === selected.length
-			? courseOptionList
-			: courseOptionList.filter((option) => {
-					return (
-						selectedOptions.includes(option) ||
-						matchOption(option, inputValues[inputValues.length - 1])
-					);
-				});
-	};
+	//#endregion
 
 	const navigateToUrl = (urlLink: string) => {
 		navigate(urlLink);
@@ -470,23 +419,23 @@ export const Tasks: React.FC<TasksProps> = ({
 													<InputAutocomplete
 														size="s"
 														name="course"
-														selected={selected}
-														options={getFilteredOptions()}
 														label="Тренинги и курсы"
 														placeholder="Начните вводить название"
-														onChange={handleChangeCourse}
-														onInput={handleInputCourse}
-														value={valueCourse}
-														Arrow={shownChevron ? Arrow : undefined}
-														multiple={multiple}
-														allowUnselect={true}
-														showEmptyOptionsList={true}
-														Option={BaseOption}
+														className={styles.inputCourses}
 														block={true}
 														closeOnSelect={true}
-														className={styles.inputCourses}
+														showEmptyOptionsList={true}
+														Option={BaseOption}
+														Arrow={shownChevron ? Arrow : undefined}
+														multiple={multiple}
+														options={getFilteredOptionsCourses()}
+														selected={selected}
+														onChange={handleChangeCourse}
+														onInput={handleInputCourse}
+														allowUnselect={true}
+														value={valueCourse}
 														inputProps={{
-															onClear: () => setValueCourse(''),
+															onClear: onCoursesInputClear,
 															clear: true,
 														}}
 													/>
@@ -627,7 +576,7 @@ export const Tasks: React.FC<TasksProps> = ({
 																}}
 															>
 																<PickerButtonDesktop
-																	options={pickerOptions}
+																	options={PICKER_OPTIONS}
 																	view="primary"
 																	label="В работе"
 																/>

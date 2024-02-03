@@ -7,14 +7,19 @@ interface ICommonLib {
 	name: string;
 }
 
-interface ICommonLibWithSkillType extends ICommonLib {
+export interface ICommonLibWithSkillType extends ICommonLib {
 	skillType: string;
 }
 
 export interface ICommonLibWithEducationType extends IEducation {
 	id: string;
+
+	/** По этому ищем */
 	name: string;
+
+	/** Отдаём на бек */
 	specialty: string;
+
 	urlLink: string;
 }
 

@@ -35,6 +35,8 @@ import {
 	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
 import { MyPlan } from '../pages/my-plan/my-plan';
+import { getUserData } from '../store/reducers/userSlice';
+import { getIPRSData } from '../store/reducers/iprsSlice';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -53,11 +55,6 @@ function App() {
 	const ipr_id3: number = 3; // сценарий сотрудника с ИПР
 	// const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
-	const userData = useAppSelector((state) => state.user.user);
-
-	const isFetching = useRef(false);
-
-	//Загрузка библиотек useRef для отслеживания состояния выполнения запроса и предотвращения отправки дополнительных запросов, пока предыдущий еще не завершен
 	useEffect(() => {
 		if (
 			!isFetching.current &&
@@ -93,8 +90,37 @@ function App() {
 		iprCompetency,
 		education,
 	]);
+	const isFetching = useRef(false);
 
-	// Вывод в консоль данных библиотек
+	useEffect(() => {
+		console.log('useEffect: ', useEffect);
+		const getUser = async () => {
+			try {
+				const token = localStorage.getItem('token');
+				if (!token) {
+					console.error('Token is missing in localStorage');
+					return;
+				}
+				// Получаем данные пользователя
+				const userDataResult = await dispatch(getUserData());
+
+				if (getUserData.fulfilled.match(userDataResult)) {
+					console.log('Пришел юзер', userDataResult.payload);
+				} else {
+					console.error('не пришел юзер:', userDataResult.error);
+				}
+			} catch (error) {
+				console.error('ошибка с токеном что-то:', error);
+			}
+		};
+		getUser(); // Вызываем getUser при монтировании компонента
+	}, []);
+
+	const userData = useAppSelector((state) => state.user.user);
+
+	//Загрузка библиотек useRef для отслеживания состояния выполнения запроса и предотвращения отправки дополнительных запросов, пока предыдущий еще не завершен
+
+	//Вывод в консоль данных библиотек
 	// console.log('Библиотека Positions:', positions);
 	// console.log('Библиотека IPR Status:', iprStatus);
 	// console.log('Библиотека IPR Goals:', iprGoals);
@@ -113,49 +139,6 @@ function App() {
 				<Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
 				<Route path="/service-iprs/mentor" element={<MentorPlan />} />
 				<Route path="/test/:id" element={<OpendIpr />} />
-
-				{/* Роуты сценариев */}
-
-				{/* Сценарий 1 план развития сотрудника - в работе */}
-
-				{/* <Route
-					path="/service-iprs/ipr/0"
-					element={
-						<ManagerIprDraft
-							ipr_id={0}
-							isExecutive={true}
-							statusColor="blue"
-							statusText="в работе"
-						/>
-					}
-				/>
-				{/* Сценарий 2 Создать черновик - заполненная форма*/}
-				{/* <Route
-					path="/service-iprs/ipr/2"
-					element={
-						<ManagerIprDraft
-							ipr_id={2}
-							isExecutive={true}
-							statusColor="purple"
-							statusText="черновик"
-						/>
-					}
-				/> */}
-
-				{/* Сценарий 3 - Сотрудник - ИПР в работе */}
-
-				{/* <Route
-					path="/service-iprs/ipr/3"
-					element={
-						<ManagerIprDraft
-							ipr_id={1}
-							isExecutive={false}
-							statusColor="blue"
-							statusText="в работе"
-						/>
-					}
-				/> */}
-
 				<Route
 					path="/service-iprs/my-ipr-rating/:id"
 					element={<MyIprRating />}
