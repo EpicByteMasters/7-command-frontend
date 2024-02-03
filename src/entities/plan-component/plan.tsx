@@ -24,9 +24,14 @@ export const Plan: React.FC = () => {
 		setActiveGoalId(id);
 	};
 
-	const handleOpenButtonClick = (id: number) => {
+	const handleOpenButtonClick = (id: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', id);
+		console.log(
+			'ID пользователя переданное из строчки таблицы',
+			selectedUserId
+		);
 		try {
-			navigate(`/test/${id}`, { state: { location } });
+			navigate(`/test/${id}`, { state: { location, selectedUserId } });
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
@@ -117,7 +122,7 @@ export const Plan: React.FC = () => {
 											<Button
 												view="tertiary"
 												size="xxs"
-												onClick={() => handleOpenButtonClick(id)}
+												onClick={() => handleOpenButtonClick(id, userData.id)}
 											>
 												Открыть
 											</Button>

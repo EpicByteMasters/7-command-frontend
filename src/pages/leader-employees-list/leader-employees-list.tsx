@@ -16,11 +16,14 @@ import { EmployeesList } from '../../entities/employees-list/employees-list';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+
+import { FooterMain } from '../../entities/footer-main/footer-main';
+
 import {
 	getManagerIprsList,
 	selectManagerList,
 } from '../../store/reducers/managerIprSlice';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,

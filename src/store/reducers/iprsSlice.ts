@@ -142,7 +142,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
-export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
+export const getIprByIdBySupervisorArr = createAsyncThunk<IprData, number>(
 	'iprs/getIprSupevisor',
 	async (id) => {
 		try {
@@ -174,7 +174,7 @@ export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
 	}
 );
 
-export const getIprByIdByEmployee = createAsyncThunk<IprData, number>(
+export const getIprByIdByEmployeeArr = createAsyncThunk<IprData, number>(
 	'iprs/getIprEmployee',
 	async (id) => {
 		try {
@@ -293,7 +293,7 @@ export const iprsSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 		});
-		builder.addCase(getIprByIdBySupervisor.fulfilled, (state, action) => {
+		builder.addCase(getIprByIdBySupervisorArr.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			const existingIndex = state.iprsData.findIndex(
 				(ipr) => ipr.id === iprData.id
@@ -306,7 +306,7 @@ export const iprsSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 		});
-		builder.addCase(getIprByIdByEmployee.fulfilled, (state, action) => {
+		builder.addCase(getIprByIdByEmployeeArr.fulfilled, (state, action) => {
 			const iprData = action.payload;
 			state.openedIpr = iprData;
 			// state.openedIpr = { ...state.openedIpr, task: iprData.task };
