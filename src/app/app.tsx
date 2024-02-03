@@ -13,15 +13,12 @@ import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
-<<<<<<< HEAD
-import { Tasks } from '../entities/tasks/tasks';
-=======
 import { NotificationCard } from '../entities/notification-green/notification';
 import { Page404 } from '../pages/page404/page404';
 import Header from '../shared/header-component/header';
 import { OpendIpr } from '../pages/opend-ipr/opend-ipr';
+import { Tasks } from '../entities/tasks/tasks';
 
->>>>>>> b5298dd1027874fded8862d847ab9eff6b34d4c0
 // data
 import users from '../shared/utils/users';
 import { roleUrl, accessUrl } from '../shared/utils/urls';

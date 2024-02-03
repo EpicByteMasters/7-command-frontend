@@ -541,7 +541,7 @@ export const Tasks: React.FC<TasksProps> = ({
 																		<CheckmarkCircleMIcon fill={'#08C44D'} />
 																	) : (
 																		<CrossCircleMIcon />
-																
+																	)}
 																	{course.name}
 																	<Button
 																		size="xxs"
@@ -550,8 +550,8 @@ export const Tasks: React.FC<TasksProps> = ({
 																	>
 																		Посмотреть результат
 																	</Button>
-																
-															
+																</div>
+															</div>
 														))}
 												</div>
 
