@@ -1,7 +1,7 @@
 import styles from './page404.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import { Button } from '@alfalab/core-components/button';
-import Header from '../../shared/header-component/header';
 import { FooterMain } from '../../entities/footer-main/footer-main';
 
 interface PageProps {
@@ -32,7 +32,6 @@ export const Page404: React.FC<PageProps> = ({
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<section className={styles.container}>
-				<Header></Header>
 				<div className={styles.wrapper}>
 					<h1 className={styles.title}>{title}</h1>
 					<p className={styles.paragraph}>{paragraph}</p>

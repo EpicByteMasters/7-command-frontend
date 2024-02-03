@@ -1,18 +1,20 @@
 import styles from './my-ipr.module.scss';
 import styles2 from './my-ipr.module.scss';
+
 import { useState } from 'react';
-import Header from '../../shared/header-component/header';
 import { useParams } from 'react-router-dom';
+
 import { Button } from '@alfalab/core-components/button';
 import { Status } from '@alfalab/core-components/status';
+
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { PageTitle } from '../../shared/page-title/page-title';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import { goalsData } from '../../shared/utils/constants';
-import { useAppSelector } from '../../shared/hooks/redux';
 import { FooterMain } from '../../entities/footer-main/footer-main';
+
+import { useAppSelector } from '../../shared/hooks/redux';
 
 export const MyIpr: React.FC = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -58,7 +60,6 @@ export const MyIpr: React.FC = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 					{modalOpen && (

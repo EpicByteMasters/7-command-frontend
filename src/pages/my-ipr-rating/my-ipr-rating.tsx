@@ -1,7 +1,8 @@
 import styles from './my-ipr-rating.module.scss';
-import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
-import Header from '../../shared/header-component/header';
+
+import { Textarea } from '@alfalab/core-components/textarea';
+
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
@@ -58,7 +59,6 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 					{/* <NavBarMini isExecutive={false} /> */}
