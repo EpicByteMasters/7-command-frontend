@@ -16,6 +16,7 @@ export const Plan: React.FC = () => {
 
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData:', iprData);
 	const navigate = useNavigate(); // Changed to useNavigate
 
 	console.log('iprData в tasks: ', iprData);
@@ -89,6 +90,7 @@ export const Plan: React.FC = () => {
 							taskCompleted,
 							taskCount,
 						}: IprData) => {
+							console.log('taskCount:', taskCount);
 							const progressTitle = `${taskCompleted}/${taskCount}`;
 							const progressValue = (taskCompleted / taskCount) * 100;
 
@@ -103,8 +105,8 @@ export const Plan: React.FC = () => {
 									<Table.TCell>{formatDateRevert(closeDate)}</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={progressValue}
-											title={progressTitle}
+											value={progressValue || 0}
+											title={progressTitle || ''}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
