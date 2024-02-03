@@ -1,20 +1,24 @@
 import styles from './manager-ipr-draft.module.scss';
 import styles2 from './manager-ipr-form-styles.module.scss';
+
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../shared/hooks/redux';
-import Header from '../../shared/header-component/header';
+
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
-import { Button } from '@alfalab/core-components/button';
-import { Status, StatusProps } from '@alfalab/core-components/status';
-import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { NewTask } from '../../entities/new-task/new-task';
-import { Notification } from '@alfalab/core-components/notification';
 import { FooterMain } from '../../entities/footer-main/footer-main';
+
+import { Button } from '@alfalab/core-components/button';
+import { Status, StatusProps } from '@alfalab/core-components/status';
+import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
+
+import { Notification } from '@alfalab/core-components/notification';
+
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
 
 interface ManagerIprDraftProps {
@@ -98,7 +102,6 @@ export const ManagerIprDraft = ({
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 

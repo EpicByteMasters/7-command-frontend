@@ -1,28 +1,27 @@
 import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
+import { useEffect, useRef } from 'react';
 
 // components
 import { Login } from '../pages/login/login';
 import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
-import { MyPlan } from '../pages/my-plan/my-plan';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 import { MainPage } from '../pages/main-page/main-page';
-import { ManagerIprDraft } from '../pages/manager-ipr-draft/manager-ipr-draft';
 import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
 import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
 import { MyIpr } from '../pages/my-ipr/my-ipr';
 import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
 import { NotificationCard } from '../entities/notification-green/notification';
+import { Page404 } from '../pages/page404/page404';
+import Header from '../shared/header-component/header';
+import { OpendIpr } from '../pages/opend-ipr/opend-ipr';
+
 // data
 import users from '../shared/utils/users';
-import { testData } from '../shared/utils/test-users';
-import { mentorData } from '../shared/utils/test-users';
-import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
-
 import { roleUrl, accessUrl } from '../shared/utils/urls';
-import { Page404 } from '../pages/page404/page404';
-import { useEffect, useRef } from 'react';
+
 import {
 	fetchCommonLibs,
 	selectCommonLibsPositions,
@@ -35,8 +34,7 @@ import {
 	selectCommonLibsIPRCompetency,
 	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
-import { loadavg } from 'os';
-import { OpendIpr } from '../pages/opend-ipr/opend-ipr';
+import { MyPlan } from '../pages/my-plan/my-plan';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -56,8 +54,6 @@ function App() {
 	// const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
 	const userData = useAppSelector((state) => state.user.user);
-	//console.log('userData в Апп: ', userData);
-	const isEmployee = userData.isSupervisor === true;
 
 	const isFetching = useRef(false);
 
@@ -99,43 +95,30 @@ function App() {
 	]);
 
 	// Вывод в консоль данных библиотек
-	console.log('Библиотека Positions:', positions);
-	console.log('Библиотека IPR Status:', iprStatus);
-	console.log('Библиотека IPR Goals:', iprGoals);
-	console.log('Библиотека Task status:', taskStatus);
-	console.log('Библиотека specialty:', specialty);
-	console.log('Библиотека iprCompetency:', iprCompetency);
-	console.log('Библиотека Task education:', education);
+	// console.log('Библиотека Positions:', positions);
+	// console.log('Библиотека IPR Status:', iprStatus);
+	// console.log('Библиотека IPR Goals:', iprGoals);
+	// console.log('Библиотека Task status:', taskStatus);
+	// console.log('Библиотека specialty:', specialty);
+	// console.log('Библиотека iprCompetency:', iprCompetency);
+	// console.log('Библиотека Task education:', education);
 
 	return (
 		<div className={styles.container__main}>
+			<Header />
 			<Routes>
 				<Route path={accessUrl[2].url} element={<Login users={users} />} />
 				<Route path="/main" element={<MainPage></MainPage>} />
+				<Route path={roleUrl[1].url} element={<MyPlan />} />
 				<Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
-				<Route
-					path="/service-iprs/mentor"
-					element={
-						<MentorPlan
-						// data={mentorData}
-						// isExecutive={true}
-						// isMentor={true}
-						// ipr_id4={4}
-						// ipr_id={1}
-						></MentorPlan>
-					}
-				/>
-
-				<Route
-					path={roleUrl[1].url}
-					element={<MyPlan isEmployee={true} ipr_id3={ipr_id3} />}
-				/>
+				<Route path="/service-iprs/mentor" element={<MentorPlan />} />
+				<Route path="/test/:id" element={<OpendIpr />} />
 
 				{/* Роуты сценариев */}
 
 				{/* Сценарий 1 план развития сотрудника - в работе */}
 
-				<Route
+				{/* <Route
 					path="/service-iprs/ipr/0"
 					element={
 						<ManagerIprDraft
@@ -147,7 +130,7 @@ function App() {
 					}
 				/>
 				{/* Сценарий 2 Создать черновик - заполненная форма*/}
-				<Route
+				{/* <Route
 					path="/service-iprs/ipr/2"
 					element={
 						<ManagerIprDraft
@@ -157,11 +140,11 @@ function App() {
 							statusText="черновик"
 						/>
 					}
-				/>
+				/> */}
 
 				{/* Сценарий 3 - Сотрудник - ИПР в работе */}
 
-				<Route
+				{/* <Route
 					path="/service-iprs/ipr/3"
 					element={
 						<ManagerIprDraft
@@ -171,7 +154,7 @@ function App() {
 							statusText="в работе"
 						/>
 					}
-				/>
+				/> */}
 
 				<Route
 					path="/service-iprs/my-ipr-rating/:id"
@@ -246,7 +229,6 @@ function App() {
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}
 				/>
-				<Route path="/test/:id" element={<OpendIpr />} />
 			</Routes>
 		</div>
 	);

@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { RootState } from '../../store/store';
 
-import Header from '../../shared/header-component/header';
-
 import { Plan } from '../../entities/plan-component/plan';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
@@ -57,7 +55,6 @@ export const EmployeePlan: React.FC = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 					<div className={styles.wrapper}>

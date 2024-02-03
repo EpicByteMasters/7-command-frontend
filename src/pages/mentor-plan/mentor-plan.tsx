@@ -2,7 +2,6 @@ import styles from './mentor-plan.module.scss';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
-import Header from '../../shared/header-component/header';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
@@ -25,7 +24,6 @@ export const MentorPlan: React.FC = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<section className={styles.myPlan}>
 					<div className={styles.container}>
 						<NavBarMini></NavBarMini>

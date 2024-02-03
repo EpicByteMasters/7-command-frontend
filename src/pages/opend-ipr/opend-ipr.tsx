@@ -166,7 +166,6 @@ export const OpendIpr: React.FC = () => {
 	) : (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 					<div>
