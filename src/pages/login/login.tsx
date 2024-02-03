@@ -44,18 +44,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 						if (getUserData.fulfilled.match(userDataResult)) {
 							console.log('User data received:', userDataResult.payload);
-							// добываем ИПРы
-							const iprsDataResult = await dispatch(getIPRSData());
-
-							if (getIPRSData.fulfilled.match(iprsDataResult)) {
-								console.log('IPRS data received:', iprsDataResult.payload);
-							} else {
-								console.error(
-									'Error during fetching IPRS data:',
-									iprsDataResult.error
-								);
-								navigate('/404', { replace: true });
-							}
 							navigate('/main', { replace: true });
 							console.log('Login successful. Token and data received.');
 						} else {

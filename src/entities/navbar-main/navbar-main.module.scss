@@ -35,7 +35,7 @@
 	flex-direction: row;
 	height: 40px;
 	align-items: center;
-	margin-left: -10px;
+	margin-left: -5px;
 	&:not(:nth-of-type(5)) {
 		pointer-events: none;
 	}
