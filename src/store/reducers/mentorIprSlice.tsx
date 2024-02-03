@@ -24,13 +24,13 @@ interface MentorIPRSListResponse {
 	total_count_iprs: number;
 }
 
-export type IPRSSliceState = {
+export type MentorSliceState = {
 	mentorIPRSList: MentorIPRSListResponse | null;
 	isLoading: boolean;
 	error: string;
 };
 
-const initialState: IPRSSliceState = {
+const initialState: MentorSliceState = {
 	mentorIPRSList: null,
 	isLoading: false,
 	error: '',
