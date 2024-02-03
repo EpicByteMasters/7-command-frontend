@@ -350,7 +350,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 										<Table.TCell>
 											<div className={styles.tCell}>
 												<Status view="soft" color={color}>
-													{getValueById(status, iprStatusLib)}
+													{getValueById(statusIid, iprStatusLib)}
 												</Status>
 											</div>
 										</Table.TCell>
