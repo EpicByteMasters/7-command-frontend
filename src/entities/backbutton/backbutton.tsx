@@ -8,6 +8,7 @@ interface ButtonProps {
 	isExecutive?: boolean;
 	isEmployee?: boolean;
 	isMentor?: boolean;
+	className?: string;
 }
 export const BackButton: React.FC<ButtonProps> = ({
 	isExecutive,
