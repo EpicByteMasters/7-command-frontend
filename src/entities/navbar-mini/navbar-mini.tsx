@@ -37,16 +37,20 @@ export const NavBarMini: React.FC = ({}) => {
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab} id="#nav">
+				<BackButton
+					className={styles.btnBack}
+					isExecutive={isExecutive}
+					isEmployee={isEmployee}
+					isMentor={isMentor}
+				/>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<BackButton
-							isExecutive={isExecutive}
-							isEmployee={isEmployee}
-							isMentor={isMentor}
-						/>
-					</li>
-					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[1].url}>
+						<NavLink
+							className={({ isActive }) =>
+								[isActive ? styles.active : '', styles.link].join(' ')
+							}
+							to={roleUrl[1].url}
+						>
 							<RocketMIcon
 								fill="currentColor"
 								className={styles.icon}
