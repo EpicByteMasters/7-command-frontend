@@ -1,7 +1,7 @@
 import styles from './plan.module.scss';
 
 import React, { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Table } from '@alfalab/core-components/table';
@@ -10,22 +10,12 @@ import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { IprData } from '../../store/reducers/iprsSlice';
 
-import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
-
-interface PlanProps {
-	// isEmployee?: boolean;
-}
-
-export const Plan: React.FC<PlanProps> = ({}) => {
+export const Plan: React.FC = () => {
 	const userData = useAppSelector((state) => state.user.user);
 	const location = useLocation();
 
-	const isEmployee = userData.isSupervisor === false;
-	const isExecutive = userData.isSupervisor === true;
-
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate(); // Changed to useNavigate
 
 	console.log('iprData в tasks: ', iprData);
@@ -34,19 +24,11 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 		setActiveGoalId(id);
 	};
 
-	const handleOpenButtonClick = async (id: number, status: any) => {
+	const handleOpenButtonClick = (id: number) => {
 		try {
-			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
-
-			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-				console.log('Получили Ипр по id:', iprDataResult.payload);
-
-				navigate(`/test/${id}`, { state: { location } });
-			} else {
-				console.error('Error during fetching IPRS data:', iprDataResult.error);
-			}
+			navigate(`/test/${id}`, { state: { location } });
 		} catch (error) {
-			console.error('Error during fetching user data:', error);
+			console.error('Error during navigating:', error);
 		}
 	};
 
@@ -135,7 +117,7 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 											<Button
 												view="tertiary"
 												size="xxs"
-												onClick={() => handleOpenButtonClick(id, status)}
+												onClick={() => handleOpenButtonClick(id)}
 											>
 												Открыть
 											</Button>
