@@ -1,0 +1,41 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.subtitle {
+	@include mixins.title_h2;
+	margin: 0 0 28px 0;
+}
+
+.formWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	padding: 28px;
+	border-radius: 8px;
+	background: $baseColorWhite;
+	box-shadow:
+		0px 0px 1px 0px rgba(0, 0, 0, 0.16),
+		0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.ratingWrapper {
+	display: flex;
+	flex-direction: column;
+	max-width: fit-content;
+}
+
+.rating {
+	padding-bottom: 12px;
+	display: flex;
+	gap: 4px;
+}
+
+.ratingSpan {
+	color: $baseColorBlack;
+	font-family: 'Inter';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+	display: flex;
+	justify-content: space-between;
+}

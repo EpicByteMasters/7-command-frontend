@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react';
 
 // components
 import { Login } from '../pages/login/login';
-import { EmployeeRatingPage } from '../pages/employee-rating/employee-rating';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 import { MainPage } from '../pages/main-page/main-page';
 import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
@@ -225,10 +224,10 @@ function App() {
 					path="/service-iprs/myteam/history/:id"
 					element={<EmployeePlan />}
 				/>
-				<Route
+				{/* <Route
 					path="/iprs/rating"
 					element={<EmployeeRatingPage isExecutive={true} />}
-				/>
+				/> */}
 			</Routes>
 		</div>
 	);
