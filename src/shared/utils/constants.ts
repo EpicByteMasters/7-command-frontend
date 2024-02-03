@@ -1,5 +1,8 @@
+import { IUser } from '../../store/reducers/userSlice';
+
 /* eslint-disable no-useless-escape */
-export const BASE_URL = 'https://granpri.ru';
+//export const BASE_URL = 'https://granpri.ru';
+export const BASE_URL = 'http://213.171.6.128:81';
 
 export const username = 'user4@example.com';
 export const password = 'string';
@@ -576,4 +579,9 @@ export const formatDateString = (inputDate: string): string => {
 	const [day, month, year] = inputDate.split('-');
 	const formattedDate = `${day}.${month}.${year}`;
 	return formattedDate;
+};
+
+// Функция для объединения ФИО в одну строку
+export const getFullName = (user: IUser): string => {
+	return `${user.surname} ${user.firstName} ${user.patronymic}`;
 };
