@@ -100,9 +100,19 @@ export const Plan: React.FC = () => {
 									onClick={() => handleRowClick(id)}
 									key={id}
 								>
-									<Table.TCell>{goal?.name}</Table.TCell>
-									<Table.TCell>{formatDateRevert(createDate)}</Table.TCell>
-									<Table.TCell>{formatDateRevert(closeDate)}</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>{goal?.name}</div>
+									</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>
+											{formatDateRevert(createDate)}
+										</div>
+									</Table.TCell>
+									<Table.TCell>
+										<div className={styles.tCell}>
+											{formatDateRevert(closeDate)}
+										</div>
+									</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
 											value={progressValue || 0}

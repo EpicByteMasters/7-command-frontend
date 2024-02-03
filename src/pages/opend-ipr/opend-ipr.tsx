@@ -248,6 +248,9 @@ export const OpendIpr: React.FC = () => {
 											view="secondary"
 											size="s"
 											className={styles.buttonSave}
+											// onClick={
+											// 	() => handleDataSubmit()
+											// }
 										>
 											Сохранить
 										</Button>
@@ -278,13 +281,14 @@ export const OpendIpr: React.FC = () => {
 								{/* Общее описание //TODO этот падает */}
 								<div className={styles.taskOverviewWrapper}>
 									{currentIpr ? (
+										<TasksOverview
+											isExecutive={isManager}
+											iprStatus={currentIpr?.status.id}
+											handleGoalValuesChange={handleDataSubmit}
+										/>
+									) : (
 										<></>
-									) : /*<TasksOverview
-									isExecutive={isManager}
-									iprStatus={currentIpr.status.id}
-									handleGoalValuesChange={handleDataSubmit}
-							/>*/
-									null}
+									)}
 								</div>
 								{/* Задачи //TODO на находит какой то id */}
 								<div className={styles.tasksWrapper}>

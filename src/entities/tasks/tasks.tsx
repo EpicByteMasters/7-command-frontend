@@ -1,6 +1,7 @@
-import React, { FC, ChangeEvent, useState, useMemo } from 'react';
-
+import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
+// -----------------------------------------------------------------------------
 
 import { useDispatch } from 'react-redux';
 
@@ -10,18 +11,20 @@ import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import { Table } from '@alfalab/core-components/table';
 import { Button } from '@alfalab/core-components/button';
+import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
+
 import { Status } from '@alfalab/core-components/status';
-import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 import { Textarea } from '@alfalab/core-components/textarea';
+
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { Attach } from '@alfalab/core-components/attach';
 import { Collapse } from '@alfalab/core-components/collapse';
-import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
+import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 
+import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
-import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 
@@ -71,12 +74,13 @@ import {
 
 import linkToCourses from '../../images/link-gotocourses.png';
 import styles from './tasks.module.scss';
+import { getStatusColor } from '../../shared/utils/constants';
 
 // ----------------------------------------------------------------------------
 
 // utils
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
-	key: course.specialty,
+	key: course.id,
 	content: course.name.trim(),
 	value: course,
 });
@@ -99,7 +103,7 @@ export const Tasks: FC<ITasksProps> = ({
 
 	//#region State
 
-	const [taskValues, setTaskValues] = React.useState<IFormData>({
+	const [taskValues, setTaskValues] = useState<IFormData>({
 		id: 0,
 		name: '',
 		closeDate: '',
@@ -132,7 +136,11 @@ export const Tasks: FC<ITasksProps> = ({
 
 	/** Введённые значения */
 	const inputValues: string[] = useMemo(
-		() => valueCourse.split(',').map((value) => value.trim()),
+		() =>
+			valueCourse
+				.split(',')
+				.map((value) => value.trim())
+				.filter((value) => Boolean(value)),
 		[valueCourse]
 	);
 
@@ -160,6 +168,25 @@ export const Tasks: FC<ITasksProps> = ({
 		[optionsSelected, coursesInputLastValue]
 	);
 
+	/** Подставнока текущего выбранного образования в курсы */
+	useEffect(() => {
+		const taskList = iprCurrentData?.task;
+
+		if (!taskList) {
+			return;
+		}
+
+		const educationList = taskList.map((task) => task.education);
+
+		const educationInnerList = educationList.map((education) =>
+			education.map((education) => education.education.name)
+		);
+
+		const educationNameList = educationInnerList.flat();
+
+		setValueCourse(`${educationNameList.join(',')}, `);
+	}, [iprCurrentData]);
+
 	//#endregion
 
 	const handleAttach = (
@@ -178,17 +205,6 @@ export const Tasks: FC<ITasksProps> = ({
 	const handleCallback = (): void => {
 		handleTaskValuesChange(taskValues);
 	};
-
-	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData в tasks: ', iprData);
-	const currentIpr = iprData.find((goal: any) => goal.id === Number(id));
-	console.log('currentIpr: ', currentIpr);
-
-	if (!currentIpr) {
-		return <div>Ошибка не нашел Id</div>;
-	}
-
-	console.log('currentIpr: ', currentIpr);
 
 	const tasksArrayForRender = iprCurrentData?.task;
 	console.log('tasksArrayForRender', tasksArrayForRender);
@@ -232,32 +248,16 @@ export const Tasks: FC<ITasksProps> = ({
 		simulateProgress();
 	};
 
-	const onDeleteTag = (event: React.MouseEvent<HTMLDivElement>) => {
-		const clickedTagValue = event.currentTarget.textContent;
-		const updatedTagValues = tagValues.filter(
-			(value) => value !== clickedTagValue
+	/**
+	 * Удаление курса
+	 * @param key - Кулюч удаляемого курса
+	 */
+	const onDeleteTag = (key: string) => {
+		const filteredOptions = optionsSelected.filter(
+			(option) => option.key !== key
 		);
 
-		setValueCourse(updatedTagValues.join(', '));
-	};
-	const { status } = currentIpr;
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'ожидает проверки':
-				return 'purple';
-			case 'отменена':
-				return 'orange';
-			case 'в работе':
-				return 'blue';
-			case 'не выполнена':
-				return 'red';
-			case 'выполнена':
-				return 'green';
-			case 'отсутствует':
-				return 'grey';
-			default:
-				return 'blue';
-		}
+		setValueCourse(makeMultipleValue(filteredOptions));
 	};
 
 	console.log('tasksArrayForRender: ', tasksArrayForRender);
@@ -280,22 +280,29 @@ export const Tasks: FC<ITasksProps> = ({
 		return selectedMultiple.map(getOptionContent).join(', ');
 	}
 
-	const makeMultipleValue = (selectedMultiple: OptionShape[]) =>
-		`${getOptionsInputValue(selectedMultiple)}, `;
+	const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
+		// console.log({ selectedMultiple })
+		return `${getOptionsInputValue(selectedMultiple)}, `;
+	};
 
 	//#region Cources
 
 	/** Фильтрованные и выбранные опциии для выпадающего списка */
-	const getFilteredOptionsCourses = () =>
-		inputValues.length === selected.length ? courseOptionList : filteredOptions;
+	const getFilteredOptionsCourses = () => {
+		console.log({ inputValues, selected });
+
+		return inputValues.length === selected.length
+			? courseOptionList
+			: filteredOptions;
+	};
 
 	// Data
 	// --------------------------------------------------------------------------
 
 	/** Выбранные опции для компоннета */
-	const selected = courseOptionList
-		.filter((course) => isCourseSelectedOption(course, inputValues))
-		.map((option) => option.value.name);
+	const selected = courseOptionList.filter((course) =>
+		isCourseSelectedOption(course, inputValues)
+	);
 
 	// hadlers
 	// --------------------------------------------------------------------------
@@ -305,8 +312,11 @@ export const Tasks: FC<ITasksProps> = ({
 		selectedMultiple,
 	}: {
 		selectedMultiple: OptionShape[];
-	}): void => {
-		setValueCourse(makeMultipleValue(selectedMultiple));
+	}) => {
+		const value = selectedMultiple.length
+			? selectedMultiple.map((option) => option.content).join(', ') + ', '
+			: '';
+		setValueCourse(value);
 	};
 
 	/** Обработчик ввода в поле */
@@ -348,10 +358,7 @@ export const Tasks: FC<ITasksProps> = ({
 								</Table.TCell>
 								<Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
 								<Table.TCell>
-									<Status
-										view="soft"
-										color={getStatusColor(taskStatus.name.toLowerCase())}
-									>
+									<Status view="soft" color={getStatusColor(taskStatus.id)}>
 										{taskStatus.name}
 									</Status>
 								</Table.TCell>
@@ -423,7 +430,6 @@ export const Tasks: FC<ITasksProps> = ({
 														placeholder="Начните вводить название"
 														className={styles.inputCourses}
 														block={true}
-														closeOnSelect={true}
 														showEmptyOptionsList={true}
 														Option={BaseOption}
 														Arrow={shownChevron ? Arrow : undefined}
@@ -448,40 +454,36 @@ export const Tasks: FC<ITasksProps> = ({
 												{/* )} */}
 
 												<div className={styles.formRowTag}>
-													{education.map((education) => (
-														<div key={education.education.id}>
+													{optionsSelected.length > 0 &&
+														optionsSelected.map((course: OptionShape) => (
 															<div
-																className={styles.formTag}
-																onClick={onDeleteTag}
+																key={course.key}
+																className={styles.tagContainer}
 															>
-																<div className={styles.formCircle}>
-																	<CrossCircleMIcon />
-																</div>
-																{education.education.name}
-																<Button
-																	size="xxs"
-																	view="tertiary"
-																	style={{ marginLeft: '550px' }}
-																	onClick={() =>
-																		navigateToUrl(education.education.urlLink)
-																	}
-																>
-																	Посмотреть результат
-																</Button>
-															</div>
-														</div>
-													))}
-													{valueCourse.length > 0 &&
-														tagValues.map((course: any) => (
-															<div key={course.id}>
 																<div
 																	className={styles.formTag}
-																	onClick={onDeleteTag}
+																	onClick={() => onDeleteTag(course.key)}
 																>
 																	<div className={styles.formCircle}>
 																		<CrossCircleMIcon />
 																	</div>
-																	{course.name}
+
+																	{course.content}
+
+																	{course.value.urlLink !==
+																		'https://testlink_empty.com' && (
+																		<Button
+																			size="xxs"
+																			view="tertiary"
+																			style={{ marginLeft: '550px' }}
+																			className={styles.buttonResult}
+																			onClick={() =>
+																				navigateToUrl(course.value.urlLink)
+																			}
+																		>
+																			Посмотреть результат
+																		</Button>
+																	)}
 																</div>
 															</div>
 														))}
