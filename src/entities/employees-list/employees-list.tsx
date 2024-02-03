@@ -295,7 +295,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													}}
 												>
 													<img
-														src={avatar}
+														src={imageUrl}
 														style={{
 															width: '40px',
 															height: '40px',
