@@ -7,7 +7,7 @@ import iconProfile from '../../images/navbar-icons-color/icon-user-account.svg';
 import iconCert from '../../images/navbar-icons-color/icon-certificate.svg';
 import iconVacation from '../../images/navbar-icons-color/icon-vacation.svg';
 import iconTarget from '../../images/navbar-icons-color/icon-target.svg';
-import iconRocket from '../../images/navbar-icons-color/icon-rocket.svg';
+import iconRocket from '../../images/navbar-icons-color/icon-rocket.png';
 import iconMore from '../../images/navbar-icons-color/icon-more.svg';
 
 export const NavBarMain: React.FC = () => {
@@ -55,25 +55,29 @@ export const NavBarMain: React.FC = () => {
 					<h6 className={styles.title}>Сервисы </h6>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
-							<img src={iconProfile} alt="иконка"></img>
+							<img src={iconProfile} className={styles.icon} alt="иконка"></img>
 							Профиль
 						</NavLink>
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
-							<img src={iconCert} alt="иконка"></img>
+							<img src={iconCert} className={styles.icon} alt="иконка"></img>
 							Пройти обучение
 						</NavLink>
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
-							<img src={iconVacation} alt="иконка"></img>
+							<img
+								src={iconVacation}
+								className={styles.icon}
+								alt="иконка"
+							></img>
 							Спланировать отпуск
 						</NavLink>
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
-							<img src={iconTarget} alt="иконка"></img>
+							<img src={iconTarget} className={styles.icon} alt="иконка"></img>
 							Квартиальные цели
 						</NavLink>
 					</li>
@@ -90,8 +94,12 @@ export const NavBarMain: React.FC = () => {
 					</li>
 					<li className={styles.item}>
 						<NavLink className={styles.link} to="#">
-							<img className={styles.icon} src={iconMore} alt="иконка"></img>
-							<span className={styles.title}>еще 33</span>
+							<img
+								className={[styles.icon, styles.iconMore].join(' ')}
+								src={iconMore}
+								alt="иконка"
+							></img>
+							<span className={styles.titleMore}>ещё 33</span>
 						</NavLink>
 					</li>
 				</ul>

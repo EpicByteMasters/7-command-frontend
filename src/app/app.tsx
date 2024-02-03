@@ -34,8 +34,6 @@ import {
 	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
 import { MyPlan } from '../pages/my-plan/my-plan';
-import { getUserData } from '../store/reducers/userSlice';
-import { getMyIprsData } from '../store/reducers/iprsSlice';
 
 function App() {
 	const dispatch = useAppDispatch();

@@ -15,19 +15,14 @@ export const Plan: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const userData = useAppSelector((state) => state.user.user);
+	const iprData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData:', iprData);
+	const navigate = useNavigate(); // Changed to useNavigate
 
-	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
+	console.log('iprData в tasks: ', iprData);
 
-	const iprsArrData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData:', iprsArrData);
-
-	const handleRowClick = (id: number) => {
-		setActiveGoalId(id);
-	};
-
-	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
-		console.log('ID ИПР переданное из строчки таблицы', idIpr);
+	const handleOpenButtonClick = (id: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', id);
 		console.log(
 			'ID пользователя переданное из строчки таблицы',
 			selectedUserId
@@ -97,8 +92,7 @@ export const Plan: React.FC = () => {
 
 							return (
 								<Table.TRow
-									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-									onClick={() => handleRowClick(id)}
+									className={`${styles.row} ${status.id === 'IN_PROGRESS' ? styles.active : ''}`}
 									key={id}
 								>
 									<Table.TCell>{goal?.name}</Table.TCell>
