@@ -11,10 +11,10 @@ export interface Mentor {
 	imageUrl: string;
 	iprId: number;
 	goalId: string;
-	dateOfEnd: string;
+	dateOfEnd: string | null;
 	taskCompleted: number;
 	taskCount: number;
-	statusIid: string;
+	statusId: string;
 }
 
 interface MentorIPRSListResponse {

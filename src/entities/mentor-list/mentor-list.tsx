@@ -88,15 +88,20 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 							dateOfEnd,
 							taskCompleted,
 							taskCount,
-							statusIid,
+							statusId,
 						}) => {
-							const color = getStatusColor(statusIid);
+							const color = getStatusColor(statusId);
 							const persent = (taskCompleted / taskCount) * 100;
-							const [day, month, year] = dateOfEnd.split('-');
+							let day, month, year;
+
+							if (dateOfEnd) {
+								[day, month, year] = dateOfEnd.split('-');
+							}
+
 							const formatedDate = `${day}.${month}.${year}`;
 
 							return (
-								<Table.TRow key={id}>
+								<Table.TRow key={iprId}>
 									<Table.TCell>
 										<Space size={2} align={'start'}>
 											<div
@@ -135,12 +140,16 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 										</div>
 									</Table.TCell>
 									<Table.TCell>
-										<div className={styles.tCell}>{formatedDate}</div>
+										{dateOfEnd === null ? (
+											'-'
+										) : (
+											<div className={styles.tCell}>{formatedDate}</div>
+										)}
 									</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={persent}
-											title={`${taskCompleted}/${taskCount}`}
+											value={persent || 0}
+											title={`${taskCompleted}/${taskCount}` || ''}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -149,7 +158,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 									<Table.TCell>
 										<div className={styles.tCell}>
 											<Status view="soft" color={color}>
-												{getValueById(statusIid, iprStatusLib)}
+												{getValueById(statusId, iprStatusLib)}
 											</Status>
 										</div>
 									</Table.TCell>

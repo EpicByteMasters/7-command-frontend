@@ -274,13 +274,13 @@ export const OpendIpr: React.FC = () => {
 						)}
 
 						{/* Задачи */}
-						{/* <fieldset className={styles.blockWrapper}>
+						<fieldset className={styles.blockWrapper}>
 							<legend className={styles.blockTitle}>Задачи</legend>
 							<Tasks
 								isEmployee={isEmployee}
 								handleTaskValuesChange={handleDataSubmit}
 							/>
-						</fieldset> */}
+						</fieldset>
 					</div>
 				</div>
 			</div>
