@@ -1,14 +1,16 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import styles from './login.module.scss';
-import Header from '../../shared/header-component/header';
+
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import { User } from '../../shared/utils/users';
-import { getUserData, logInUser } from '../../store/reducers/userSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
 import { getIPRSData } from '../../store/reducers/iprsSlice';
 import { FooterMain } from '../../entities/footer-main/footer-main';
 import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
+
+import { User } from '../../shared/utils/users';
+import { getUserData, logInUser } from '../../store/reducers/userSlice';
 
 interface LoginProps {
 	users: User[];
@@ -77,7 +79,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 		<div className={styles.generalFooterWrapper}>
 			<main className={styles.page}>
 				<div className={styles.container}>
-					<Header></Header>
 					<div className={styles.wrapper}>
 						<ul className={styles.list}>
 							<h3 className={styles.header}>Сотрудник</h3>

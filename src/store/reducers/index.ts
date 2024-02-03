@@ -2,8 +2,9 @@ import { combineReducers } from '@reduxjs/toolkit';
 import userReducer, { UserState } from './userSlice';
 import commonLibsReducer, { TCommonLibState } from './libSlice';
 import iprsReducer, { IPRSState } from './iprsSlice';
+import iprReducer, { TIprDataState } from './iprSlice';
 import managerIprsReducer, { IPRSSliceState } from './managerIprSlice';
-import mentorIprsReducer from './mentorIprSlice';
+import mentorIprsReducer, { MentorSliceState } from './mentorIprSlice';
 import formReducer, { IFormState } from './formSlice';
 
 export interface RootState {
@@ -11,7 +12,8 @@ export interface RootState {
 	commonLibs: TCommonLibState;
 	iprs: IPRSState;
 	managerIprs: IPRSSliceState;
-	mentorIprs: IPRSSliceState;
+	mentorIprs: MentorSliceState;
+	ipr: TIprDataState;
 }
 
 const rootReducer = combineReducers({
@@ -21,6 +23,7 @@ const rootReducer = combineReducers({
 	managerIprs: managerIprsReducer,
 	mentorIprs: mentorIprsReducer,
 	form: formReducer,
+	ipr: iprReducer,
 	// добавь другие срезы состояния
 });
 

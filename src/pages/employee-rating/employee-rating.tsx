@@ -3,7 +3,6 @@ import { Button } from '@alfalab/core-components/button';
 import { PickerButton } from '@alfalab/core-components/picker-button';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { ChangeEvent, useState } from 'react';
-import Header from '../../shared/header-component/header';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import avatar from '../../images/avatar.png';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
@@ -35,7 +34,6 @@ export const EmployeeRatingPage: React.FC<RatingProps> = ({ isExecutive }) => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					<NavBarMini />
 

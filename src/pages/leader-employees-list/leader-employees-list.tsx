@@ -9,18 +9,21 @@ import { ChevronUpSIcon } from '@alfalab/icons-glyph/ChevronUpSIcon';
 import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
 
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import Header from '../../shared/header-component/header';
+
 import { LeadInfoBlock } from '../../entities/lead-info-block/lead-info-block';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeesList } from '../../entities/employees-list/employees-list';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+
+import { FooterMain } from '../../entities/footer-main/footer-main';
+
 import {
 	getManagerIprsList,
 	selectManagerList,
 } from '../../store/reducers/managerIprSlice';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
@@ -73,7 +76,6 @@ export const LeaderEmployeesList: React.FC = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
 			<div className={styles.generalFooterContainer}>
-				<Header />
 				<div className={styles.container}>
 					{/* <NavBarMini isExecutive={isExecutive} /> */}
 					<NavBarMini />

@@ -1,15 +1,19 @@
-import { useState, ChangeEvent } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './header.module.scss';
+
+import { useState, ChangeEvent, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import { MagnifierMIcon } from '@alfalab/icons-glyph/MagnifierMIcon';
 import { Input } from '@alfalab/core-components/input';
 import { BellMIcon } from '@alfalab/icons-glyph/BellMIcon';
 import { Circle } from '@alfalab/core-components/icon-view/circle';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
+
 import { accessUrl } from '../../shared/utils/urls';
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
+
 import { useAppSelector } from '../hooks/redux';
 
 interface HeaderProps {
@@ -34,6 +38,10 @@ function Header({ error }: HeaderProps) {
 	const handleOpen = () => {
 		setExitBtnOpen(!exitBtnOpen);
 	};
+
+	useEffect(() => {
+		setExitBtnOpen(false);
+	}, [location.pathname]);
 
 	return (
 		<header className={styles.header}>
@@ -68,10 +76,14 @@ function Header({ error }: HeaderProps) {
 					onChange={handleSearchChange}
 					type="text"
 				/>
-				<Circle backgroundColor="#F2F3F5" size={40}>
-					<BellMIcon fill="#0E0E0E" className={styles.icon} />
-				</Circle>
 
+				{location.pathname === '/' ? (
+					''
+				) : (
+					<Circle backgroundColor="#F2F3F5" size={40}>
+						<BellMIcon fill="#0E0E0E" className={styles.icon} />
+					</Circle>
+				)}
 				{location.pathname === '/' ? (
 					''
 				) : (
@@ -82,9 +94,13 @@ function Header({ error }: HeaderProps) {
 					/>
 				)}
 
-				<button onClick={handleOpen} className={styles.dotsActionBtn}>
-					<MoreMIcon className={styles.dotsActionBtn} />
-				</button>
+				{location.pathname === '/' ? (
+					''
+				) : (
+					<button onClick={handleOpen} className={styles.dotsActionBtn}>
+						<MoreMIcon className={styles.dotsActionBtn} />
+					</button>
+				)}
 			</div>
 			{exitBtnOpen ? (
 				<Button

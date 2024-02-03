@@ -1,8 +1,8 @@
 import styles from './plan.module.scss';
 
 import React, { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
-import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../shared/hooks/redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
@@ -10,21 +10,13 @@ import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { IprData } from '../../store/reducers/iprsSlice';
 
-import { getIprByIdByEmployee } from '../../store/reducers/iprsSlice';
-
-interface PlanProps {
-	// isEmployee?: boolean;
-}
-
-export const Plan: React.FC<PlanProps> = ({}) => {
+export const Plan: React.FC = () => {
 	const userData = useAppSelector((state) => state.user.user);
-
-	const isEmployee = userData.isSupervisor === false;
-	const isExecutive = userData.isSupervisor === true;
+	const location = useLocation();
 
 	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	const dispatch = useAppDispatch();
+	console.log('iprData:', iprData);
 	const navigate = useNavigate(); // Changed to useNavigate
 
 	console.log('iprData в tasks: ', iprData);
@@ -33,21 +25,16 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 		setActiveGoalId(id);
 	};
 
-	const handleOpenButtonClick = async (id: number, status: any) => {
+	const handleOpenButtonClick = (id: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', id);
+		console.log(
+			'ID пользователя переданное из строчки таблицы',
+			selectedUserId
+		);
 		try {
-			const iprDataResult = await dispatch(getIprByIdByEmployee(id));
-
-			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-				console.log('Получили Ипр по id:', iprDataResult.payload);
-
-				navigate(
-					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-				);
-			} else {
-				console.error('Error during fetching IPRS data:', iprDataResult.error);
-			}
+			navigate(`/test/${id}`, { state: { location, selectedUserId } });
 		} catch (error) {
-			console.error('Error during fetching user data:', error);
+			console.error('Error during navigating:', error);
 		}
 	};
 
@@ -70,9 +57,11 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 		}
 	};
 
-	const numberOfTasks = 10; // Replace with your dynamic data
-	const finishedTasks = 5; // Replace with your dynamic data
-	const progress = (finishedTasks / numberOfTasks) * 100;
+	const formatDateRevert = (inputDate: string): string => {
+		const [year, month, day] = inputDate.split('-');
+		const formattedDate = `${day}.${month}.${year}`;
+		return formattedDate;
+	};
 
 	return (
 		<>
@@ -101,8 +90,9 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 							taskCompleted,
 							taskCount,
 						}: IprData) => {
-							const progressPercentage = `${taskCount}/${taskCompleted}`;
-							const progress = (taskCompleted / taskCount) * 100;
+							console.log('taskCount:', taskCount);
+							const progressTitle = `${taskCompleted}/${taskCount}`;
+							const progressValue = (taskCompleted / taskCount) * 100;
 
 							return (
 								<Table.TRow
@@ -111,12 +101,12 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 									key={id}
 								>
 									<Table.TCell>{goal?.name}</Table.TCell>
-									<Table.TCell>{createDate}</Table.TCell>
-									<Table.TCell>{closeDate}</Table.TCell>
+									<Table.TCell>{formatDateRevert(createDate)}</Table.TCell>
+									<Table.TCell>{formatDateRevert(closeDate)}</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={progress}
-											title={progressPercentage}
+											value={progressValue || 0}
+											title={progressTitle || ''}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -134,7 +124,7 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 											<Button
 												view="tertiary"
 												size="xxs"
-												onClick={() => handleOpenButtonClick(id, status)}
+												onClick={() => handleOpenButtonClick(id, userData.id)}
 											>
 												Открыть
 											</Button>

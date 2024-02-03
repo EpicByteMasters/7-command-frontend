@@ -18,8 +18,8 @@ export interface User {
 const users: User[] = [
 	{
 		id: 1,
-		name: 'Хорошёва Анна Викторовна',
-		position: 'Руководитель 1',
+		name: 'Ратилайнен Михаил Хейнович',
+		position: 'Руководитель',
 		pic: head1,
 		role: 'myteam',
 		email: 'user4@example.com',
@@ -27,8 +27,8 @@ const users: User[] = [
 	},
 	{
 		id: 2,
-		name: 'Иванов Пётр Александрович',
-		position: 'Руководитель 2',
+		name: 'Лебедев Арсений Артемьевич',
+		position: 'Руководитель',
 		pic: head2,
 		role: 'myteam',
 		email: 'user5@example.com',
@@ -37,7 +37,7 @@ const users: User[] = [
 	{
 		id: 3,
 		name: 'Кириллов Константин Соломонович',
-		position: 'Сотрудник 1',
+		position: 'Сотрудник',
 		pic: employee1,
 		role: 'my',
 		email: 'user@example.com',
@@ -46,7 +46,7 @@ const users: User[] = [
 	{
 		id: 4,
 		name: 'Евсеев Антон Иванович',
-		position: 'Сотрудник 2',
+		position: 'Сотрудник',
 		pic: employee2,
 		role: 'my',
 		email: 'user2@example.com',
@@ -54,17 +54,17 @@ const users: User[] = [
 	},
 	{
 		id: 5,
-		name: 'Чаевская Евгения Владимировна',
-		position: 'Ментор 1',
+		name: 'Мармелодова Софья Семеновна',
+		position: 'Ментор',
 		pic: mentor1,
 		role: 'mentor',
-		email: 'user3@example.com',
-		password: 'string',
+		email: 'user15@example.com',
+		password: 'password',
 	},
 	{
 		id: 6,
-		name: 'Куприна Валентина Ивановна',
-		position: 'Ментор 2',
+		name: 'Довлатов Сергей Донатович',
+		position: 'Ментор',
 		pic: mentor2,
 		role: 'mentor',
 		email: 'user6@example.com',

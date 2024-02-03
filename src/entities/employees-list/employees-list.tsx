@@ -19,13 +19,13 @@ import {
 	getStatusColor,
 	getValueById,
 } from '../../shared/utils/constants';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
-import { getIprByIdBySupervisor } from '../../store/reducers/iprsSlice';
+
 import { TIprStatusType } from '../../shared/utils/types';
 import avatar from '../../images/avatars/avatar_mentor1.png';
 
@@ -40,7 +40,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	status,
 	goal,
 }) => {
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -53,9 +52,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
 	const userData = useAppSelector((state) => state.user.user);
-
-	const isEmployee = userData.isSupervisor === false;
-	const isExecutive = userData.isSupervisor === true;
 
 	const [modalCreate, setModalCreate] = useState(false);
 
@@ -96,13 +92,15 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 
 				// Фильтрация по цели
 				if (goal) {
-					filteredResult = filteredResult.filter((item) => item.goal === goal);
+					filteredResult = filteredResult.filter(
+						(item) => item.goalId === goal
+					);
 				}
 
 				// Фильтрация по статусу
 				if (status) {
 					filteredResult = filteredResult.filter(
-						(item) => item.status === status
+						(item) => item.statusIid === status
 					);
 				}
 
@@ -139,13 +137,13 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 					return new Date(`${year}-${month}-${day}`).getTime();
 				};
 
-				const dateA = getDateValue(a.date_of_end);
-				const dateB = getDateValue(b.date_of_end);
+				const dateA = getDateValue(a.dateOfEnd);
+				const dateB = getDateValue(b.dateOfEnd);
 
 				return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
 			} else if (sortColumn === 'status') {
-				const statusA = a.status as TIprStatusType;
-				const statusB = b.status as TIprStatusType;
+				const statusA = a.statusIid as TIprStatusType;
+				const statusB = b.statusIid as TIprStatusType;
 
 				const statusOrderA = getStatusSortOrder(statusA);
 				const statusOrderB = getStatusSortOrder(statusB);
@@ -164,9 +162,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const handleOpenButtonClick = (id: number) => {
+	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', idIpr);
+		console.log(
+			'ID пользователя переданное из строчки таблицы',
+			selectedUserId
+		);
 		try {
-			navigate(`/test/${id}`, { state: { location } });
+			navigate(`/test/${idIpr}`, { state: { location, selectedUserId } });
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
@@ -265,20 +268,19 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 									firstName,
 									lastName,
 									middleName,
-									position_id,
-									specialty_id,
 									imageUrl,
-									goal,
-									date_of_end,
-									progress,
-									task_completed,
-									task_count,
-									status,
+									positionId,
+									goalId,
+									statusIid,
+									taskCount,
+									taskCompleted,
+									iprId,
+									dateOfEnd,
 								},
 								rowIndex
 							) => {
-								const progressPercent = (task_completed / task_count) * 100;
-								const color = getStatusColor(status);
+								const progressPercent = (taskCompleted / taskCount) * 100;
+								const color = getStatusColor(statusIid);
 								//TODO вставить в верстку аватарку
 								return (
 									<Table.TRow key={id}>
@@ -293,7 +295,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													}}
 												>
 													<img
-														src={avatar}
+														src={imageUrl}
 														style={{
 															width: '40px',
 															height: '40px',
@@ -308,7 +310,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 															view="primary-small"
 															color="secondary"
 														>
-															{getValueById(position_id, positionsLib)}
+															{getValueById(positionId, positionsLib)}
 														</Typography.Text>
 													</div>
 												</div>
@@ -324,14 +326,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 												className={styles.tCell}
 												style={{ textAlign: 'center' }}
 											>
-												{date_of_end ? formatDateString(date_of_end) : '—'}
+												{dateOfEnd ? formatDateString(dateOfEnd) : '—'}
 											</div>
 										</Table.TCell>
 										<Table.TCell>
-											{progress ? (
+											{progressPercent ? (
 												<CircularProgressBar
 													value={progressPercent}
-													title={`${task_completed}/${task_count}`}
+													title={`${taskCompleted}/${taskCount}`}
 													size="s"
 													contentColor="primary"
 													className={styles.progressBar}
@@ -348,7 +350,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 										<Table.TCell>
 											<div className={styles.tCell}>
 												<Status view="soft" color={color}>
-													{getValueById(status, iprStatusLib)}
+													{getValueById(statusIid, iprStatusLib)}
 												</Status>
 											</div>
 										</Table.TCell>
@@ -366,7 +368,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 													<Button
 														view="tertiary"
 														size="xxs"
-														onClick={() => handleOpenButtonClick(id)}
+														onClick={() => handleOpenButtonClick(iprId, id)}
 													>
 														Открыть
 													</Button>
@@ -435,435 +437,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	);
 };
 
-// export const EmployeesList: React.FC<IEmployeesListProps> = ({
-// 	data,
-// 	goal,
-// 	status,
-// }) => {
-// 	const [popoverVisible, setPopoverVisible] = useState(false);
-// 	const [selectedEmployee, setSelectedEmployee] =
-// 		useState<EmployeeGoalPlan | null>(null);
-// 	const buttonRef = useRef<HTMLButtonElement | null>(null);
-// 	const popoverRef = useRef<HTMLDivElement | null>(null);
-// 	const [sortColumn, setSortColumn] = useState<string | null>(null);
-// 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-// 	const [page, setPage] = useState<number>(0);
-// 	const navigate = useNavigate();
-// 	const location = useLocation();
-
-// 	// 	popover
-// 	const [modalDelete, setModalDelete] = useState(false);
-// 	const [modalCreate, setModalCreate] = useState(false);
-// 	const handleMoreIconClick = (employee: EmployeeGoalPlan) => {
-// 		setPopoverVisible(true);
-// 		setSelectedEmployee(employee);
-// 	};
-
-// 	const closePopover = () => {
-// 		setPopoverVisible(false);
-// 		setSelectedEmployee(null);
-// 	};
-
-// 	const handleDeleteClick = () => {
-// 		if (selectedEmployee) {
-// 			// Определяем индекс выбранного сотрудника в массиве данных
-// 			const index = data.findIndex((item) => item.id === selectedEmployee.id);
-
-// 			if (index !== -1) {
-// 				// Выводим информацию в консоль
-// 				console.log('Deleting employee:', selectedEmployee);
-// 			}
-
-// 			// Закрываем Popover
-// 			closePopover();
-// 		}
-// 	};
-
-// 	const onClickToIpr = () => {
-// 		navigate(`/service-iprs/ipr/3`, { replace: true });
-// 	};
-// 	const onClickToDraft = () => {
-// 		setModalCreate(true);
-// 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
-// 	};
-
-// 	return (
-// 		<>
-// 			<Table
-// 				className={styles.table}
-// 				wrapper={false}
-// 				pagination={
-// 					<Table.Pagination
-// 						perPage={perPage}
-// 						currentPageIndex={page}
-// 						pagesCount={pagesCount}
-// 						onPageChange={handlePageChange}
-// 						hidePerPageSelect={true}
-// 					/>
-// 				}
-// 			>
-// 				<Table.THead>
-// 					<Table.THeadCell>
-// 						<div className={styles.sortBtn}>
-// 							<span>Сотрудник</span>
-// 							<ListDefaultSIcon
-// 								className={styles.sortIcon}
-// 								onClick={() => handleSort('name')}
-// 							/>
-// 						</div>
-// 					</Table.THeadCell>
-// 					<Table.THeadCell>Цель</Table.THeadCell>
-// 					<Table.THeadCell>
-// 						<div className={styles.sortBtn}>
-// 							<span>Дата</span>
-// 							<ListDefaultSIcon
-// 								className={styles.sortIcon}
-// 								onClick={() => handleSort('date')}
-// 							/>
-// 						</div>
-// 					</Table.THeadCell>
-// 					<Table.THeadCell>Прогресс</Table.THeadCell>
-// 					<Table.THeadCell>
-// 						<div className={styles.sortBtn}>
-// 							<span>Статус</span>
-// 							<ListDefaultSIcon
-// 								className={styles.sortIcon}
-// 								onClick={() => handleSort('status')}
-// 							/>
-// 						</div>
-// 					</Table.THeadCell>
-// 					<Table.THeadCell title="Пустая"></Table.THeadCell>
-// 					<Table.THeadCell title="Пустая"></Table.THeadCell>
-// 				</Table.THead>
-// 				<Table.TBody>
-// 					{!goal && !status
-// 						? currentPageData.map(
-// 								({
-// 									id,
-// 									name,
-// 									position,
-// 									goal,
-// 									date,
-// 									progress,
-// 									taskAll,
-// 									taskDone,
-// 									status,
-// 								}) => {
-// 									const progressPercentage = `${progress}%`;
-// 									const color = getStatusColor(status);
-
-// 									return (
-// 										<Table.TRow key={id}>
-// 											<Table.TCell>
-// 												<Space size={2} align={'start'}>
-// 													<Typography.Text view="primary-small" tag="div">
-// 														{name}
-// 													</Typography.Text>
-// 													<Typography.Text
-// 														view="primary-small"
-// 														color="secondary"
-// 													>
-// 														{position}
-// 													</Typography.Text>
-// 												</Space>
-// 											</Table.TCell>
-// 											<Table.TCell>{goal}</Table.TCell>
-// 											<Table.TCell>{date}</Table.TCell>
-// 											<Table.TCell>
-// 												<CircularProgressBar
-// 													value={progress}
-// 													title={`${taskDone}/${taskAll}`}
-// 													size="s"
-// 													contentColor="primary"
-// 													className={styles.progressBar}
-// 												/>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Status view="soft" color={color}>
-// 													{status}
-// 												</Status>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												{status ===
-// 												('отсутствует' ||
-// 													'в работе' ||
-// 													'выполнен' ||
-// 													'не выполнен' ||
-// 													'отменен') ? (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToDraft}
-// 													>
-// 														Создать
-// 													</Button>
-// 												) : (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToIpr}
-// 													>
-// 														Открыть
-// 													</Button>
-// 												)}
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Button
-// 													view="ghost"
-// 													ref={buttonRef}
-// 													onClick={() =>
-// 														handleMoreIconClick({
-// 															id,
-// 															name,
-// 															position,
-// 															goal,
-// 															date,
-// 															progress,
-// 															taskAll,
-// 															taskDone,
-// 															status,
-// 														})
-// 													}
-// 												>
-// 													<MoreMIcon style={{ fill: '#898889' }} />
-// 												</Button>
-// 											</Table.TCell>
-// 										</Table.TRow>
-// 									);
-// 								}
-// 							)
-// 						: ''}
-// 					{goal
-// 						? resultGoal.map(
-// 								({
-// 									id,
-// 									name,
-// 									position,
-// 									goal,
-// 									date,
-// 									progress,
-// 									taskAll,
-// 									taskDone,
-// 									status,
-// 								}) => {
-// 									const progressPercentage = `${progress}%`;
-// 									const color = getStatusColor(status);
-
-// 									return (
-// 										<Table.TRow key={id}>
-// 											<Table.TCell>
-// 												<Space size={2} align={'start'}>
-// 													<Typography.Text view="primary-small" tag="div">
-// 														{name}
-// 													</Typography.Text>
-// 													<Typography.Text
-// 														view="primary-small"
-// 														color="secondary"
-// 													>
-// 														{position}
-// 													</Typography.Text>
-// 												</Space>
-// 											</Table.TCell>
-// 											<Table.TCell>{goal}</Table.TCell>
-// 											<Table.TCell>{date}</Table.TCell>
-// 											<Table.TCell>
-// 												<CircularProgressBar
-// 													value={progress}
-// 													title={`${taskDone}/${taskAll}`}
-// 													size="s"
-// 													contentColor="primary"
-// 													className={styles.progressBar}
-// 												/>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Status view="soft" color={color}>
-// 													{status}
-// 												</Status>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												{status ===
-// 												('отсутствует' ||
-// 													'в работе' ||
-// 													'выполнен' ||
-// 													'не выполнен' ||
-// 													'отменен') ? (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToDraft}
-// 													>
-// 														Создать
-// 													</Button>
-// 												) : (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToIpr}
-// 													>
-// 														Открыть
-// 													</Button>
-// 												)}
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Button
-// 													view="ghost"
-// 													ref={buttonRef}
-// 													onClick={() =>
-// 														handleMoreIconClick({
-// 															id,
-// 															name,
-// 															position,
-// 															goal,
-// 															date,
-// 															progress,
-// 															taskAll,
-// 															taskDone,
-// 															status,
-// 														})
-// 													}
-// 												>
-// 													<MoreMIcon style={{ fill: '#898889' }} />
-// 												</Button>
-// 											</Table.TCell>
-// 										</Table.TRow>
-// 									);
-// 								}
-// 							)
-// 						: ''}
-
-// 					{status
-// 						? resultStatus.map(
-// 								({
-// 									id,
-// 									name,
-// 									position,
-// 									goal,
-// 									date,
-// 									progress,
-// 									taskAll,
-// 									taskDone,
-// 									status,
-// 								}) => {
-// 									const progressPercentage = `${progress}%`;
-// 									const color = getStatusColor(status);
-
-// 									return (
-// 										<Table.TRow key={id}>
-// 											<Table.TCell>
-// 												<Space size={2} align={'start'}>
-// 													<Typography.Text view="primary-small" tag="div">
-// 														{name}
-// 													</Typography.Text>
-// 													<Typography.Text
-// 														view="primary-small"
-// 														color="secondary"
-// 													>
-// 														{position}
-// 													</Typography.Text>
-// 												</Space>
-// 											</Table.TCell>
-// 											<Table.TCell>{goal}</Table.TCell>
-// 											<Table.TCell>{date}</Table.TCell>
-// 											<Table.TCell>
-// 												<CircularProgressBar
-// 													value={progress}
-// 													title={`${taskDone}/${taskAll}`}
-// 													size="s"
-// 													contentColor="primary"
-// 													className={styles.progressBar}
-// 												/>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Status view="soft" color={color}>
-// 													{status}
-// 												</Status>
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												{status ===
-// 												('отсутствует' ||
-// 													'в работе' ||
-// 													'выполнен' ||
-// 													'не выполнен' ||
-// 													'отменен') ? (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToDraft}
-// 													>
-// 														Создать
-// 													</Button>
-// 												) : (
-// 													<Button
-// 														view="tertiary"
-// 														size="xxs"
-// 														onClick={onClickToIpr}
-// 													>
-// 														Открыть
-// 													</Button>
-// 												)}
-// 											</Table.TCell>
-// 											<Table.TCell>
-// 												<Button
-// 													view="ghost"
-// 													ref={buttonRef}
-// 													onClick={() =>
-// 														handleMoreIconClick({
-// 															id,
-// 															name,
-// 															position,
-// 															goal,
-// 															date,
-// 															progress,
-// 															taskAll,
-// 															taskDone,
-// 															status,
-// 														})
-// 													}
-// 												>
-// 													<MoreMIcon style={{ fill: '#898889' }} />
-// 												</Button>
-// 											</Table.TCell>
-// 										</Table.TRow>
-// 									);
-// 								}
-// 							)
-// 						: ''}
-// 				</Table.TBody>
-// 			</Table>
-
-// 			<Popover
-// 				anchorElement={buttonRef.current}
-// 				open={popoverVisible}
-// 				position="bottom"
-// 				className={styles.container}
-// 			>
-// 				<div className={styles.btnWrapper}>
-// 					<Button
-// 						className={styles.btnText}
-// 						view="ghost"
-// 						size="s"
-// 						onClick={() => {
-// 							handleDeleteClick();
-// 							setModalDelete(!modalDelete);
-// 						}}
-// 					>
-// 						Удалить
-// 					</Button>
-
-// 					<Button
-// 						className={styles.btnText}
-// 						view="ghost"
-// 						size="s"
-// 						onClick={() => {
-// 							navigate('/service-iprs/myteam/history', { replace: true });
-// 							closePopover();
-// 							console.log('History clicked');
-// 						}}
-// 					>
-// 						История
-// 					</Button>
-// 				</div>
-// 			</Popover>
 // 			{modalDelete ? (
 // 				<Modal
 // 					title="Удаление плана развития"

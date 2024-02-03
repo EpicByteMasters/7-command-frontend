@@ -31,11 +31,13 @@ import { tasksData } from '../../shared/utils/constants';
 import type { ICommonLibWithEducationType } from '../../store/reducers/libSlice';
 
 import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
+import { Task, IprData } from '../../store/reducers/iprsSlice';
 import {
-	Task,
 	getIprByIdByEmployee,
-	IprData,
-} from '../../store/reducers/iprsSlice';
+	IIprData,
+	ITask,
+} from '../../store/reducers/iprSlice';
+
 import { useDispatch } from 'react-redux';
 
 interface TasksProps {
@@ -87,33 +89,34 @@ export const Tasks: React.FC<TasksProps> = ({
 	const { id } = useParams<{ id: string }>();
 	const [selectedOption, setSelectedOption] = useState(''); // Состояние выбранной опции Селекта
 
-	useEffect(() => {
-		console.log('пришли в запрос на tasks');
-		const fetchIprData = async () => {
-			console.log('сделали запрос на tasks');
-			try {
-				const iprDataResult = await dispatch(
-					getIprByIdByEmployee(Number(id)) as any
-				);
+	// useEffect(() => {
+	// 	console.log('пришли в запрос на tasks');
+	// 	const fetchIprData = async () => {
+	// 		console.log('сделали запрос на tasks');
+	// 		try {
+	// 			const iprDataResult = await dispatch(
+	// 				getIprByIdByEmployee(Number(id)) as any
+	// 			);
 
-				if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
-					console.log('Получили Ипр по id:', iprDataResult.payload);
-				} else {
-					console.error(
-						'Error during fetching IPRS data:',
-						iprDataResult.error
-					);
-				}
-			} catch (error) {
-				console.error('Error during fetching user data:', error);
-			}
-		};
+	// 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
+	// 				console.log('Получили Ипр по id:', iprDataResult.payload);
+	// 			} else {
+	// 				console.error(
+	// 					'Error during fetching IPRS data:',
+	// 					iprDataResult.error
+	// 				);
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Error during fetching user data:', error);
+	// 		}
+	// 	};
 
-		fetchIprData();
-	}, [dispatch, id]);
+	// 	fetchIprData();
+	// }, [dispatch, id]);
 
-	const IPR = useAppSelector((state) => state.iprs.openedIpr);
-	console.log('IPR: ', IPR);
+	const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
+
+	console.log('IPR: ', iprCurrentData);
 
 	const courses = useAppSelector(selectCommonLibsEducation);
 	console.log('optionCourses: ', courses);
@@ -189,7 +192,8 @@ export const Tasks: React.FC<TasksProps> = ({
 
 	// console.log('currentIpr: ', currentIpr);
 
-	const tasksArrayForRender = IPR.task;
+	const tasksArrayForRender = iprCurrentData?.task;
+	console.log('tasksArrayForRender', tasksArrayForRender);
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -377,16 +381,17 @@ export const Tasks: React.FC<TasksProps> = ({
 	return (
 		<Table className={styles.table}>
 			<Table.TBody>
-				{tasksArrayForRender.map(
+				{tasksArrayForRender?.map(
 					({
 						id,
 						name,
-						closeDate,
-						description,
 						taskStatus,
+						description,
 						supervisorComment,
+						closeDate,
 						education,
-					}: Task) => (
+						comment,
+					}: ITask) => (
 						<React.Fragment key={id}>
 							<Table.TRow className={styles.row}>
 								<Table.TCell className={styles.cellWithIcon}>
@@ -536,7 +541,7 @@ export const Tasks: React.FC<TasksProps> = ({
 																		<CheckmarkCircleMIcon fill={'#08C44D'} />
 																	) : (
 																		<CrossCircleMIcon />
-																	)}
+																
 																	{course.name}
 																	<Button
 																		size="xxs"
@@ -545,8 +550,8 @@ export const Tasks: React.FC<TasksProps> = ({
 																	>
 																		Посмотреть результат
 																	</Button>
-																</div>
-															</div>
+																
+															
 														))}
 												</div>
 

@@ -1,18 +1,18 @@
 import styles from './main-page.module.scss';
-import Header from '../../shared/header-component/header';
+
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
+import { FooterMain } from '../../entities/footer-main/footer-main';
+
 import layout1 from '../../images/main-layout/top.png';
 import layout2 from '../../images/main-layout/main-news.png';
 import layout3 from '../../images/main-layout/card.png';
 import layout4 from '../../images/main-layout/cards.png';
 import layout5 from '../../images/main-layout/cards-1.png';
 import layout6 from '../../images/main-layout/button.png';
-import { FooterMain } from '../../entities/footer-main/footer-main';
 
 export const MainPage = () => {
 	return (
 		<div className={styles.generalFooterWrapper}>
-			<Header />
 			<main className={styles.main}>
 				<div className={styles.container}>
 					<NavBarMain />

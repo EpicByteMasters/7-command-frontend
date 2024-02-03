@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styles from './mentor-list.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Popover } from '@alfalab/core-components/popover';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { Status } from '@alfalab/core-components/status';
@@ -10,57 +9,50 @@ import { Table } from '@alfalab/core-components/table';
 import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { Mentor } from '../../store/reducers/mentorIprSlice';
 import { Space } from '@alfalab/core-components/space';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
-import avatar from '../../images/avatars/avatar_mentor1.png';
+
+//import avatar from '../../images/avatars/avatar_mentor1.png';
+
 import {
 	formatDateString,
 	getStatusColor,
 	getValueById,
 } from '../../shared/utils/constants';
+
 export interface MentorListProps {
 	data: Mentor[] | undefined;
-	// mentorList?: [] | undefined;
 }
 
 export const MentorList: React.FC<MentorListProps> = ({ data }) => {
-	const dispatch = useAppDispatch();
-
-	// console.log('MENTOR - DATA', data);
+	//console.log('MENTOR - DATA', data);
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const positionsLib = useAppSelector(selectCommonLibsPositions);
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
 	const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
-	const [popoverVisible, setPopoverVisible] = useState(false);
-	const [selectedEmployee, setSelectedEmployee] =
-		useState<EmployeeGoalPlan | null>(null);
-	const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-	const closePopover = () => {
-		setPopoverVisible(false);
-		setSelectedEmployee(null);
+	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', idIpr);
+		console.log(
+			'ID пользователя переданное из строчки таблицы',
+			selectedUserId
+		);
+		try {
+			navigate(`/test/${idIpr}`, { state: { location, selectedUserId } });
+		} catch (error) {
+			console.error('Error during navigating:', error);
+		}
 	};
 
 	return (
 		<>
-			<Table
-				className={styles.table}
-				wrapper={false}
-				// pagination={
-				// 	<Table.Pagination
-				// 	// perPage={perPage}
-				// 	// currentPageIndex={page}
-				// 	// pagesCount={pagesCount}
-				// 	// onPageChange={handlePageChange}
-				// 	// hidePerPageSelect={true}
-				// 	/>
-				// }
-			>
+			<Table className={styles.table} wrapper={false}>
 				<Table.THead>
 					<Table.THeadCell>
 						<div className={styles.sortBtn}>
@@ -85,29 +77,31 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 				<Table.TBody>
 					{data?.map(
 						({
-							date_of_end,
-							firstName,
-							goal,
 							id,
-							imageUrl,
+							firstName,
 							lastName,
 							middleName,
-							position_id,
-							progress,
-							specialty_id,
-							status,
-							task_completed,
-							task_count,
+							positionId,
+							imageUrl,
+							iprId,
+							goalId,
+							dateOfEnd,
+							taskCompleted,
+							taskCount,
+							statusId,
 						}) => {
-							const color = getStatusColor(status);
+							const color = getStatusColor(statusId);
+							const persent = (taskCompleted / taskCount) * 100;
+							let day, month, year;
 
-							function progressPerCent(data: any) {
-								const numberArr = data.split('/');
-								const perCent = (numberArr[0] / numberArr[1]) * 100;
-								return Math.round(perCent);
+							if (dateOfEnd) {
+								[day, month, year] = dateOfEnd.split('-');
 							}
+
+							const formatedDate = `${day}.${month}.${year}`;
+
 							return (
-								<Table.TRow key={id}>
+								<Table.TRow key={iprId}>
 									<Table.TCell>
 										<Space size={2} align={'start'}>
 											<div
@@ -119,7 +113,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 												}}
 											>
 												<img
-													src={avatar}
+													src={imageUrl}
 													style={{
 														width: '40px',
 														height: '40px',
@@ -134,7 +128,7 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 														view="primary-small"
 														color="secondary"
 													>
-														{getValueById(position_id, positionsLib)}
+														{getValueById(positionId, positionsLib)}
 													</Typography.Text>
 												</div>
 											</div>
@@ -142,18 +136,20 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 									</Table.TCell>
 									<Table.TCell>
 										<div className={styles.tCell}>
-											{getValueById(goal, iprGoalsLib)}
+											{getValueById(goalId, iprGoalsLib)}
 										</div>
 									</Table.TCell>
 									<Table.TCell>
-										<div className={styles.tCell}>
-											{formatDateString(date_of_end)}
-										</div>
+										{dateOfEnd === null ? (
+											'-'
+										) : (
+											<div className={styles.tCell}>{formatedDate}</div>
+										)}
 									</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={progressPerCent(progress)}
-											title={progress}
+											value={persent || 0}
+											title={`${taskCompleted}/${taskCount}` || ''}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}
@@ -162,13 +158,17 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 									<Table.TCell>
 										<div className={styles.tCell}>
 											<Status view="soft" color={color}>
-												{getValueById(status, iprStatusLib)}
+												{getValueById(statusId, iprStatusLib)}
 											</Status>
 										</div>
 									</Table.TCell>
 									<Table.TCell>
 										<div className={styles.tBtn}>
-											<Button view="tertiary" size="xxs">
+											<Button
+												view="tertiary"
+												size="xxs"
+												onClick={() => handleOpenButtonClick(iprId, id)}
+											>
 												Открыть
 											</Button>
 										</div>
@@ -179,38 +179,6 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 					)}
 				</Table.TBody>
 			</Table>
-
-			{selectedEmployee && (
-				<Popover
-					anchorElement={buttonRef.current}
-					open={popoverVisible}
-					position="bottom"
-				>
-					<div
-						style={{
-							padding: '15px',
-							width: '100px',
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '36px',
-						}}
-					>
-						{/* <Button view="ghost" size="s" onClick={handleDeleteClick}>
-							Удалить
-						</Button> */}
-						<Button
-							view="ghost"
-							size="s"
-							onClick={() => {
-								closePopover();
-								console.log('History clicked');
-							}}
-						>
-							История
-						</Button>
-					</div>
-				</Popover>
-			)}
 		</>
 	);
 };
