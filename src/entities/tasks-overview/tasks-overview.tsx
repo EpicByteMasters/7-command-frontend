@@ -43,6 +43,8 @@ export const TasksOverview = ({
 		{ key: 'Не выполнена' },
 		{ key: 'Отменена' },
 	];
+	console.log('!!!!!!!!!!!!!!!!!!!isExecutive', isExecutive);
+
 	// Преобразование объекта с данными комптенций в массив с key:value
 	const newObj = objCompetence.map((item) => ({ key: item.name }));
 	// Подключение БД данных по знаячениям импутов

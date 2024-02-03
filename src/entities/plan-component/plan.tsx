@@ -2,7 +2,7 @@ import styles from './plan.module.scss';
 
 import React, { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../shared/hooks/redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
@@ -18,6 +18,7 @@ interface PlanProps {
 
 export const Plan: React.FC<PlanProps> = ({}) => {
 	const userData = useAppSelector((state) => state.user.user);
+	const location = useLocation();
 
 	const isEmployee = userData.isSupervisor === false;
 	const isExecutive = userData.isSupervisor === true;
@@ -40,9 +41,7 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 			if (getIprByIdByEmployee.fulfilled.match(iprDataResult)) {
 				console.log('Получили Ипр по id:', iprDataResult.payload);
 
-				navigate(
-					`/service-iprs/${isEmployee && status.name.toLowerCase() === 'в работе' ? 'my-ipr' : 'my-ipr-rating'}/${id}`
-				);
+				navigate(`/test/${id}`, { state: { location } });
 			} else {
 				console.error('Error during fetching IPRS data:', iprDataResult.error);
 			}
@@ -70,9 +69,11 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 		}
 	};
 
-	const numberOfTasks = 10; // Replace with your dynamic data
-	const finishedTasks = 5; // Replace with your dynamic data
-	const progress = (finishedTasks / numberOfTasks) * 100;
+	const formatDateRevert = (inputDate: string): string => {
+		const [year, month, day] = inputDate.split('-');
+		const formattedDate = `${day}.${month}.${year}`;
+		return formattedDate;
+	};
 
 	return (
 		<>
@@ -101,8 +102,8 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 							taskCompleted,
 							taskCount,
 						}: IprData) => {
-							const progressPercentage = `${taskCount}/${taskCompleted}`;
-							const progress = (taskCompleted / taskCount) * 100;
+							const progressTitle = `${taskCompleted}/${taskCount}`;
+							const progressValue = (taskCompleted / taskCount) * 100;
 
 							return (
 								<Table.TRow
@@ -111,12 +112,12 @@ export const Plan: React.FC<PlanProps> = ({}) => {
 									key={id}
 								>
 									<Table.TCell>{goal?.name}</Table.TCell>
-									<Table.TCell>{createDate}</Table.TCell>
-									<Table.TCell>{closeDate}</Table.TCell>
+									<Table.TCell>{formatDateRevert(createDate)}</Table.TCell>
+									<Table.TCell>{formatDateRevert(closeDate)}</Table.TCell>
 									<Table.TCell>
 										<CircularProgressBar
-											value={progress}
-											title={progressPercentage}
+											value={progressValue}
+											title={progressTitle}
 											size="s"
 											contentColor="primary"
 											className={styles.progressBar}

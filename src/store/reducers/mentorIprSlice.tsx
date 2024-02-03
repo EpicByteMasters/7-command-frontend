@@ -3,9 +3,9 @@ import { BASE_URL } from '../../shared/utils/constants';
 import { RootState } from '../store';
 
 export interface Mentor {
-	date_of_end: string;
+	dateOfEnd: string;
 	firstName: string;
-	goal: string;
+	goalId: string;
 	id: number;
 	imageUrl: string;
 	lastName: string;
@@ -13,24 +13,22 @@ export interface Mentor {
 	position_id: string;
 	progress: string;
 	specialty_id: string;
-	status: string;
-	task_completed: number;
-	task_count: number;
+	statusId: string;
+	taskCompleted: number;
+	taskCount: number;
 }
 
 interface MentorIPRSListResponse {
 	employees: Mentor[];
-	total_count_employee: number;
-	total_count_iprs: number;
 }
 
-export type IPRSSliceState = {
+export type MentorSliceState = {
 	mentorIPRSList: MentorIPRSListResponse | null;
 	isLoading: boolean;
 	error: string;
 };
 
-const initialState: IPRSSliceState = {
+const initialState: MentorSliceState = {
 	mentorIPRSList: null,
 	isLoading: false,
 	error: '',
