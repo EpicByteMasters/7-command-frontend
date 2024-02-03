@@ -143,7 +143,7 @@ export const getIPRSData = createAsyncThunk<any>('iprs/getData', async () => {
 	}
 });
 
-export const getIprByIdBySupervisor = createAsyncThunk<IprData, number>(
+export const getIprByIdBySupervisor: any = createAsyncThunk<IprData, number>(
 	'iprs/getIprSupevisor',
 	async (id) => {
 		try {
