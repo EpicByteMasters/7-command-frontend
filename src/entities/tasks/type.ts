@@ -1,7 +1,7 @@
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-import type { ICommonLibWithEducationType as IEducationTypeDTO } from '@/store/reducers/libSlice';
-import type { IIprData } from '@/store/reducers/iprSlice';
+import type { ICommonLibWithEducationType as IEducationTypeDTO } from '../../store/reducers/libSlice';
+import type { IIprData } from '../../store/reducers/iprSlice';
 
 interface ITasksProps {
   isEmployee: boolean;
