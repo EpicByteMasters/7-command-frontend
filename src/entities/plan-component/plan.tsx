@@ -8,31 +8,26 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { IprData } from '../../store/reducers/iprsSlice';
+import { IIprData } from '../../store/reducers/iprSlice';
+import { IIpr } from '../../store/reducers/iprsSlice';
 
 export const Plan: React.FC = () => {
-	const userData = useAppSelector((state) => state.user.user);
+	const navigate = useNavigate();
 	const location = useLocation();
 
-	const [activeGoalId, setActiveGoalId] = useState<number | null>(null);
-	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData:', iprData);
-	const navigate = useNavigate(); // Changed to useNavigate
+	const userData = useAppSelector((state) => state.user.user);
 
-	console.log('iprData в tasks: ', iprData);
+	const iprsArrData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData:', iprsArrData);
 
-	const handleRowClick = (id: number) => {
-		setActiveGoalId(id);
-	};
-
-	const handleOpenButtonClick = (id: number, selectedUserId: number) => {
-		console.log('ID ИПР переданное из строчки таблицы', id);
+	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', idIpr);
 		console.log(
 			'ID пользователя переданное из строчки таблицы',
 			selectedUserId
 		);
 		try {
-			navigate(`/test/${id}`, { state: { location, selectedUserId } });
+			navigate(`/test/${idIpr}`, { state: { location, selectedUserId } });
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
@@ -80,7 +75,7 @@ export const Plan: React.FC = () => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{iprData.map(
+					{iprsArrData.map(
 						({
 							id,
 							goal,
@@ -89,15 +84,14 @@ export const Plan: React.FC = () => {
 							status,
 							taskCompleted,
 							taskCount,
-						}: IprData) => {
+						}: IIpr) => {
 							console.log('taskCount:', taskCount);
 							const progressTitle = `${taskCompleted}/${taskCount}`;
 							const progressValue = (taskCompleted / taskCount) * 100;
 
 							return (
 								<Table.TRow
-									className={`${styles.row} ${id === activeGoalId ? styles.active : ''}`}
-									onClick={() => handleRowClick(id)}
+									className={`${styles.row} ${status.id === 'IN_PROGRESS' ? styles.active : ''}`}
 									key={id}
 								>
 									<Table.TCell>{goal?.name}</Table.TCell>

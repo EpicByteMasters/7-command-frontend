@@ -10,6 +10,8 @@ import { Circle } from '@alfalab/core-components/icon-view/circle';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
+import { Notifications } from 'entities/notifications/notifications';
+
 import { accessUrl } from '../../shared/utils/urls';
 import avatar from '../../images/avatar.png';
 import logo from '../../images/alfa-logo.svg';
@@ -21,7 +23,7 @@ interface HeaderProps {
 }
 function Header({ error }: HeaderProps) {
 	const userData = useAppSelector((state) => state.user.user);
-	console.log('userData in header: ', userData);
+	//console.log('userData in header: ', userData);
 
 	const [searchValue, setSearchValue] = useState<string>('');
 
@@ -35,8 +37,14 @@ function Header({ error }: HeaderProps) {
 	const [logOut, setLogOut] = useState(false);
 	const [exitBtnOpen, setExitBtnOpen] = useState(false);
 
+	const [isOpenedNotifications, setIsOpenedNotifications] = useState(false);
+
 	const handleOpen = () => {
 		setExitBtnOpen(!exitBtnOpen);
+	};
+
+	const openNotifications = () => {
+		setIsOpenedNotifications(true);
 	};
 
 	useEffect(() => {
@@ -80,9 +88,19 @@ function Header({ error }: HeaderProps) {
 				{location.pathname === '/' ? (
 					''
 				) : (
-					<Circle backgroundColor="#F2F3F5" size={40}>
-						<BellMIcon fill="#0E0E0E" className={styles.icon} />
-					</Circle>
+					<div onClick={openNotifications}>
+						<Circle backgroundColor="#F2F3F5" size={40}>
+							<BellMIcon fill="#0E0E0E" className={styles.icon} />
+						</Circle>
+					</div>
+				)}
+				{isOpenedNotifications ? (
+					<Notifications
+						open={isOpenedNotifications}
+						close={() => setIsOpenedNotifications(false)}
+					/>
+				) : (
+					''
 				)}
 				{location.pathname === '/' ? (
 					''

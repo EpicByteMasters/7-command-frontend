@@ -8,29 +8,19 @@ interface ButtonProps {
 	isExecutive?: boolean;
 	isEmployee?: boolean;
 	isMentor?: boolean;
+	className?: string;
 }
 export const BackButton: React.FC<ButtonProps> = ({
 	isExecutive,
 	isEmployee,
 	isMentor,
+	className,
 }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [modal, setModal] = useState(false);
 
 	const goBack = () => {
-		// if (location.pathname === '/service-iprs/myteam') {
-		// 	navigate('/main', { replace: true });
-		// }
-		// if (location.pathname === '/service-iprs/my') {
-		// 	navigate('/main', { replace: true });
-		// }
-		// if (
-		// 	(location.pathname === '/service-iprs/mentor' && isMentor) ||
-		// 	isExecutive
-		// ) {
-		// 	navigate('/main', { replace: true });
-		// }
 		navigate(-1);
 	};
 
@@ -70,8 +60,8 @@ export const BackButton: React.FC<ButtonProps> = ({
 					paragraph={
 						'Чтобы не потерять данные, вернитесь и сохраните изменения'
 					}
-					button1={'Выйти'}
-					button2={'Отмена'}
+					confirmButtonLabel={'Отмена'}
+					cancelButtonLabel={'Выйти'}
 				></Modal>
 			) : (
 				''

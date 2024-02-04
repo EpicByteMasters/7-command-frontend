@@ -5,7 +5,8 @@ import styles from './login.module.scss';
 
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { useAppDispatch } from '../../shared/hooks/redux';
-import { getIPRSData } from '../../store/reducers/iprsSlice';
+import { getMyIprsData } from '../../store/reducers/iprsSlice';
+import { Page404 } from '../page404/page404';
 import { FooterMain } from '../../entities/footer-main/footer-main';
 import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
@@ -20,8 +21,16 @@ export const Login: FC<LoginProps> = ({ users }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const [loadingStates, setLoadingStates] = useState<{
+		[key: string]: boolean;
+	}>({});
+
 	const handleLogin = async (email: string, password: string) => {
 		try {
+			setLoadingStates((prevLoadingStates) => ({
+				...prevLoadingStates,
+				[email]: true,
+			}));
 			const loginAction = logInUser({ email, password });
 			const loginResult = await dispatch(loginAction);
 
@@ -36,18 +45,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 						if (getUserData.fulfilled.match(userDataResult)) {
 							console.log('User data received:', userDataResult.payload);
-							// добываем ИПРы
-							const iprsDataResult = await dispatch(getIPRSData());
-
-							if (getIPRSData.fulfilled.match(iprsDataResult)) {
-								console.log('IPRS data received:', iprsDataResult.payload);
-							} else {
-								console.error(
-									'Error during fetching IPRS data:',
-									iprsDataResult.error
-								);
-								navigate('/404', { replace: true });
-							}
 							navigate('/main', { replace: true });
 							console.log('Login successful. Token and data received.');
 						} else {
@@ -55,7 +52,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 								'Error during fetching user data:',
 								userDataResult.error
 							);
-							navigate('/404', { replace: true });
+							// navigate('/404', { replace: true });
 						}
 					} catch (userDataError) {
 						console.error('Error during fetching user data:', userDataError);
@@ -72,6 +69,12 @@ export const Login: FC<LoginProps> = ({ users }) => {
 		} catch (error) {
 			console.error('Error during login:', error);
 			navigate('/207', { replace: true });
+		} finally {
+			// Устанавливаем состояние загрузки для конкретного пользователя в false
+			setLoadingStates((prevLoadingStates) => ({
+				...prevLoadingStates,
+				[email]: false,
+			}));
 		}
 	};
 
@@ -94,6 +97,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 										<div className={styles.link}>
 											<ButtonDesktop
+												loading={loadingStates[user.email]}
 												view="tertiary"
 												shape="rectangular"
 												size="xxs"

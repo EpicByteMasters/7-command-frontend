@@ -160,6 +160,39 @@ export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>(
 	}
 );
 
+export const deleteIprById = createAsyncThunk<string, number>(
+	'ipr/deleteIpr',
+	async (id) => {
+		try {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				throw new Error('Token is missing in localStorage');
+			}
+
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/delete`,
+				{
+					method: 'PATCH',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			if (response.status === 200) {
+				// Успешное удаление и в ответе нет ничего
+				return '';
+			} else {
+				throw new Error('Failed to delete IPR');
+			}
+		} catch (error) {
+			console.error('Error during deleting IPR:', error);
+			throw error;
+		}
+	}
+);
+
 // Редьюсер
 const iprSlice = createSlice({
 	name: 'ipr',
@@ -194,8 +227,91 @@ const iprSlice = createSlice({
 			.addCase(getIprByIdByEmployee.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = 'Failed to fetch employee IPR data';
+			})
+			.addCase(deleteIprById.pending, (state) => {
+				state.isLoading = true;
+				state.error = '';
+			})
+			.addCase(deleteIprById.fulfilled, (state) => {
+				// Успешное удаление, обнуляем данные
+				state.ipr = null;
+				state.isLoading = false;
+			})
+			.addCase(deleteIprById.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.error.message ?? 'Failed to delete IPR';
 			});
 	},
 });
 
 export default iprSlice.reducer;
+
+// export const createIPR = createAsyncThunk<any, IPRSCreatePayload>(
+// 	'iprs/create',
+// 	async (payload) => {
+// 		try {
+// 			const token = localStorage.getItem('token');
+
+// 			if (!token) {
+// 				throw new Error('Token is missing in localStorage');
+// 			}
+
+// 			const response = await fetch(
+// 				`${BASE_URL}/api/v1/mentor/iprs/ipr/create`,
+// 				{
+// 					method: 'POST',
+// 					headers: {
+// 						Authorization: `Bearer ${token}`,
+// 						'Content-Type': 'application/json',
+// 					},
+// 					body: JSON.stringify({
+// 						employeeId: payload.employeeId,
+// 					}),
+// 				}
+// 			);
+
+// 			if (response.status === 200) {
+// 				return response.json();
+// 			} else {
+// 				throw new Error('Failed to create IPR');
+// 			}
+// 		} catch (error) {
+// 			console.error('Error during creating IPR:', error);
+// 			throw error;
+// 		}
+// 	}
+// );
+
+// export const deleteIpr = createAsyncThunk<
+// 	void,
+// 	number,
+// 	{ rejectValue: DeleteIprError }
+// >('iprs/deleteIpr', async (iprId, { rejectWithValue }) => {
+// 	try {
+// 		const token = localStorage.getItem('token');
+
+// 		if (!token) {
+// 			throw new Error('Token is missing in localStorage');
+// 		}
+
+// 		const response = await fetch(
+// 			`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}`,
+// 			{
+// 				method: 'DELETE',
+// 				headers: {
+// 					Authorization: `Bearer ${token}`,
+// 				},
+// 			}
+// 		);
+
+// 		if (response.status === 204) {
+// 			// успешное удаление и в ответе нет ничего
+// 			return;
+// 		} else {
+// 			throw new Error('Failed to delete IPR');
+// 		}
+// 	} catch (error: any) {
+// 		console.error('Error during deleting IPR:', error);
+// 		return rejectWithValue({ message: error.message } as DeleteIprError);
+// 	}
+// });
