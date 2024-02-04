@@ -1,106 +1,106 @@
 @use '../../styles/mixins.scss';
 
 .main {
-	margin: 0 auto;
-	padding: 0;
-	width: 1224px;
-	flex: 1 0 auto;
+  margin: 0 auto;
+  padding: 0;
+  width: 1224px;
+  flex: 1 0 auto;
 }
 
 .container {
-	margin: 0 auto;
-	margin-top: 40px;
-	display: flex;
-	flex-direction: row;
-	max-width: 1224px;
-	width: 100%;
+  margin: 0 auto;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  max-width: 1224px;
+  width: 100%;
 }
 
 .paragraph {
-	@include mixins.text;
-	margin: 0;
-	padding: 0;
-	color: #898889;
+  @include mixins.text;
+  margin: 0;
+  padding: 0;
+  color: #898889;
 }
 
 .contentWrapper {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .contentWrapper {
-	margin: 0 0 0 auto;
-	padding: 0;
+  margin: 0 0 0 auto;
+  padding: 0;
 }
 
 .titleWrapper {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: row;
-	margin-bottom: 20px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
 }
 .title {
-	height: 40px;
-	width: 447px;
+  height: 40px;
+  width: 447px;
 }
 .headerWrapper {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: row;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .cardsWrapper {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 .news {
-	height: 300px;
-	width: 600px;
+  height: 300px;
+  width: 600px;
 }
 .card {
-	width: 288px;
-	margin-left: 20px;
-	background-position: center;
+  width: 288px;
+  margin-left: 20px;
+  background-position: center;
 }
 
 .cards {
-	margin-top: 24px;
-	height: 300px;
-	width: 900px;
+  margin-top: 24px;
+  height: 300px;
+  width: 900px;
 }
 .buttonWrapper {
-	padding: 0;
-	margin: 44px auto;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
+  padding: 0;
+  margin: 44px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 .button {
-	height: 36px;
-	width: 118px;
+  height: 36px;
+  width: 118px;
 }
 
 .icon:nth-of-type(5) {
-	margin: 0;
-	padding: 0;
-	width: 30px;
+  margin: 0;
+  padding: 0;
+  width: 30px;
 }
 
 //Footer
 
 .generalFooterWrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .generalFooter {
-	flex: 0 0 auto;
+  flex: 0 0 auto;
 }

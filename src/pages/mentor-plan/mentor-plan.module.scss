@@ -1,47 +1,47 @@
 @import './../../styles/variables.scss';
 
 .container {
-	display: flex;
-	gap: 24px;
-	margin-top: 40px;
-	height: 40%;
+  display: flex;
+  gap: 24px;
+  margin-top: 40px;
+  height: 40%;
 }
 
 .wrapper {
-	flex-grow: 1;
+  flex-grow: 1;
 }
 
 .dataWrapper {
-	display: flex;
-	justify-content: space-between;
-	padding-bottom: 24px;
-	padding-top: 26px;
-	gap: 24px;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  padding-top: 26px;
+  gap: 24px;
 }
 
 .dataWrapper > * {
-	width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
+  width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
 }
 
 .searchInputWrapper {
-	padding-bottom: 28px;
+  padding-bottom: 28px;
 }
 
 .filterTagsWrapper {
-	display: flex;
-	gap: 16px;
-	padding-bottom: 32px;
+  display: flex;
+  gap: 16px;
+  padding-bottom: 32px;
 }
 // Footer
 
 .generalFooterWrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .generalFooterContainer {
-	flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 .generalFooter {
-	flex: 0 0 auto;
+  flex: 0 0 auto;
 }

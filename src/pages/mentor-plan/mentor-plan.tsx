@@ -6,39 +6,36 @@ import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 import { FooterMain } from '../../shared/footer-main/footer-main';
-import {
-	getMentorIprsList,
-	selectMentorList,
-} from '../../store/reducers/mentorIprSlice';
+import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
 
 export const MentorPlan: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const mentorIprsList = useAppSelector(selectMentorList);
+  const dispatch = useAppDispatch();
+  const mentorIprsList = useAppSelector(selectMentorList);
 
-	useEffect(() => {
-		dispatch(getMentorIprsList());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getMentorIprsList());
+  }, [dispatch]);
 
-	console.log('MENTOR_LIST_IPRS', mentorIprsList);
+  console.log('MENTOR_LIST_IPRS', mentorIprsList);
 
-	return (
-		<div className={styles.generalFooterWrapper}>
-			<div className={styles.generalFooterContainer}>
-				<section className={styles.myPlan}>
-					<div className={styles.container}>
-						<NavBarMini></NavBarMini>
-						<div className={styles.wrapper}>
-							<h1 className={styles.title}>Менторство сотрудников</h1>
-							<div className={styles.container}>
-								<MentorList data={mentorIprsList?.employees} />
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
-			<div className={styles.generalFooter}>
-				<FooterMain></FooterMain>
-			</div>
-		</div>
-	);
+  return (
+    <div className={styles.generalFooterWrapper}>
+      <div className={styles.generalFooterContainer}>
+        <section className={styles.myPlan}>
+          <div className={styles.container}>
+            <NavBarMini></NavBarMini>
+            <div className={styles.wrapper}>
+              <h1 className={styles.title}>Менторство сотрудников</h1>
+              <div className={styles.container}>
+                <MentorList data={mentorIprsList?.employees} />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div className={styles.generalFooter}>
+        <FooterMain></FooterMain>
+      </div>
+    </div>
+  );
 };

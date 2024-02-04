@@ -1,51 +1,51 @@
 @use '../../styles/mixins.scss';
 
 .container {
-	margin: 0 auto;
-	padding: 0;
-	width: 1280px;
-	flex: 1 0 auto;
+  margin: 0 auto;
+  padding: 0;
+  width: 1280px;
+  flex: 1 0 auto;
 }
 .wrapper {
-	margin: 239px auto 356px auto;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 500px;
+  margin: 239px auto 356px auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
 }
 .title {
-	margin: 0 auto 20px auto;
-	padding: 0;
-	@include mixins.title_h1;
+  margin: 0 auto 20px auto;
+  padding: 0;
+  @include mixins.title_h1;
 }
 .paragraph {
-	margin: 0 auto 40px auto;
+  margin: 0 auto 40px auto;
 
-	padding: 0;
-	@include mixins.input_txt;
+  padding: 0;
+  @include mixins.input_txt;
 }
 .button {
-	margin: 0 auto;
-	padding: 0;
-	@include mixins.button_txt;
-	color: #fff;
-	display: inline-flex;
-	height: 48px;
-	padding: 0px 24px;
-	justify-content: center;
-	align-items: center;
-	flex-shrink: 0;
+  margin: 0 auto;
+  padding: 0;
+  @include mixins.button_txt;
+  color: #fff;
+  display: inline-flex;
+  height: 48px;
+  padding: 0px 24px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 // Footer
 
 .generalFooterWrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .generalFooter {
-	flex: 0 0 auto;
+  flex: 0 0 auto;
 }

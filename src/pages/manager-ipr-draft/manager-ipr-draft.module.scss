@@ -1,97 +1,97 @@
 @use '../../styles/mixins.scss';
 
 .iprDraft {
-	width: 1010px;
+  width: 1010px;
 }
 
 .title {
-	@include mixins.title_h1;
-	padding: 0;
-	margin: 0 0 12px;
+  @include mixins.title_h1;
+  padding: 0;
+  margin: 0 0 12px;
 }
 
 .subtitle {
-	@include mixins.title_h2;
+  @include mixins.title_h2;
 }
 
 .container {
-	margin-top: 40px;
-	display: flex;
-	gap: 24px;
-	height: 1400px;
+  margin-top: 40px;
+  display: flex;
+  gap: 24px;
+  height: 1400px;
 }
 
 .titleWrapper {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .employeeWrapper {
-	margin-bottom: 28px;
+  margin-bottom: 28px;
 }
 
 .buttonsWrapper {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin: 0 0 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 0 48px;
 }
 
 .buttonSave {
-	margin-right: 20px;
-	padding: 10px;
+  margin-right: 20px;
+  padding: 10px;
 }
 
 .buttonSend {
-	width: 200px;
-	margin-right: 18px;
-	padding: 10px;
+  width: 200px;
+  margin-right: 18px;
+  padding: 10px;
 }
 
 .buttonDiscard {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .buttonDelete {
-	margin: 0 0 0 570px;
-	padding: 0;
-	display: flex;
-	align-self: flex-end;
+  margin: 0 0 0 570px;
+  padding: 0;
+  display: flex;
+  align-self: flex-end;
 }
 .trashCan {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 
-	border: none;
-	background-color: transparent;
-	cursor: 'pointer';
+  border: none;
+  background-color: transparent;
+  cursor: 'pointer';
 }
 .btnSaveWrapper {
-	display: flex;
-	justify-content: flex-end;
-	width: 700px;
+  display: flex;
+  justify-content: flex-end;
+  width: 700px;
 }
 .paragraph {
-	@include mixins.text;
+  @include mixins.text;
 
-	margin: 0;
-	padding: 0;
-	color: var(--metallic, #898889);
+  margin: 0;
+  padding: 0;
+  color: var(--metallic, #898889);
 }
 
 .buttonComponent {
-	margin-bottom: 64pc;
+  margin-bottom: 64pc;
 }
 // Footer
 .generalFooterWrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .generalFooterContainer {
-	flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 .generalFooter {
-	flex: 0 0 auto;
+  flex: 0 0 auto;
 }
