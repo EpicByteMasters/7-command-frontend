@@ -12,7 +12,6 @@ import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 //-----------------------------------------------------------------------------
 import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
 import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
@@ -22,8 +21,8 @@ import { getFullName, getStatusColor } from '../../shared/utils/constants';
 import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
-import IprStatusDoc from 'type/ipr-status-name';
-import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from 'util/ipr-status';
+import IprStatusDoc from '../../type/ipr-status-name';
+import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
 //-----------------------------------------------------------------------------
 
 export const OpendIpr: FC = () => {
@@ -153,7 +152,7 @@ export const OpendIpr: FC = () => {
               )}
             </div>
             {/* инфа о пользователе */}
-            {selectedUser ? (
+            {selectedUser && !isEmployee && (
               <div className={styles.employeeInfoCardWrapper}>
                 <EmployeeInfoCard
                   name={getFullName(selectedUser)}
@@ -161,9 +160,8 @@ export const OpendIpr: FC = () => {
                   avatar={selectedUser.imageUrl}
                 />
               </div>
-            ) : (
-              <div>Данные о пользователе не получены</div>
             )}
+
             {/* если подведение итогов кнопка, то рендерим экран Оценки */}
             {isConclusion ? (
               <EmployeeRatingPicker withBtn />
@@ -261,9 +259,7 @@ export const OpendIpr: FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain />
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };
