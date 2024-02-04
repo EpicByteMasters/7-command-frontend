@@ -259,20 +259,6 @@ export const Tasks: FC<ITasksProps> = ({
 		handleTaskValuesChange(taskValues);
 	};
 
-<<<<<<< HEAD
-	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData в tasks: ', iprData);
-	const currentIpr = iprData.find((goal: any) => goal.id === Number(id));
-	console.log('currentIpr: ', currentIpr);
-
-	if (!currentIpr) {
-		return <div>Ошибка не нашел Id</div>;
-	}
-
-	// console.log('currentIpr: ', currentIpr);
-
-=======
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 	const tasksArrayForRender = iprCurrentData?.task;
 	console.log('tasksArrayForRender', tasksArrayForRender);
 
@@ -497,38 +483,6 @@ export const Tasks: FC<ITasksProps> = ({
 														disabled={isEmployee}
 													/>
 
-<<<<<<< HEAD
-												<div className={styles.formRowTag}>
-													{education.map((education) => (
-														<div key={education.education.id}>
-															<div
-																className={styles.formTag}
-																onClick={onDeleteTag}
-															>
-																<div className={styles.formCircle}>
-																	<CrossCircleMIcon />
-																</div>
-																{education.education.name}
-																<Button
-																	size="xxs"
-																	view="tertiary"
-																	style={{ marginLeft: '550px' }}
-																	onClick={() =>
-																		navigateToUrl(education.education.urlLink)
-																	}
-																>
-																	Посмотреть результат
-																</Button>
-															</div>
-														</div>
-													))}
-													{valueCourse.length > 0 &&
-														tagValues.map((course: any) => (
-															<div
-																className={styles.tagContainer}
-																key={course.id}
-															>
-=======
 													<div className={styles.coursesWrapper}>
 														<InputAutocomplete
 															size="s"
@@ -562,26 +516,10 @@ export const Tasks: FC<ITasksProps> = ({
 													<div className={styles.formRowTag}>
 														{optionsSelected.length > 0 &&
 															optionsSelected.map((course: OptionShape) => (
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 																<div
 																	key={course.key}
 																	className={styles.tagContainer}
 																>
-<<<<<<< HEAD
-																	{course.name === 'Подготовка к IELTS' ? (
-																		<CheckmarkCircleMIcon fill={'#08C44D'} />
-																	) : (
-																		<CrossCircleMIcon />
-																	)}
-																	{course.name}
-																	<Button
-																		size="xxs"
-																		view="tertiary"
-																		className={styles.buttonResult}
-																	>
-																		Посмотреть результат
-																	</Button>
-=======
 																	<div
 																		className={styles.formTag}
 																		onClick={() => onDeleteTag(course.key)}
@@ -596,7 +534,6 @@ export const Tasks: FC<ITasksProps> = ({
 																			course={course as ICoursesOption}
 																		/>
 																	</div>
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 																</div>
 															))}
 													</div>
@@ -682,13 +619,6 @@ export const Tasks: FC<ITasksProps> = ({
 														>
 															Отправить на проверку
 														</Button>
-<<<<<<< HEAD
-														{/* // Селектор статуса */}
-														<div>
-															<select
-																value={selectedOption}
-																onChange={handleSelectChange}
-=======
 														<ButtonDesktop
 															// onClick={handleNewTaskOpen}
 															view="tertiary"
@@ -702,7 +632,6 @@ export const Tasks: FC<ITasksProps> = ({
 														</ButtonDesktop>
 														{!isEmployee && (
 															<div
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 																style={{
 																	display: 'flex',
 																	height: '35px',
@@ -721,23 +650,6 @@ export const Tasks: FC<ITasksProps> = ({
 																	border: '9px solid black',
 																}}
 															>
-<<<<<<< HEAD
-																<option
-																	style={{
-																		font: 'Inter',
-																		fontWeight: '400',
-																		fontSize: '20px',
-																		backgroundColor: 'white',
-																	}}
-																	value="В работе"
-																>
-																	В работе
-																</option>
-																<option value="Отклонен">Выполнена</option>
-																<option value="Сохранен">Отменена</option>
-															</select>
-														</div>
-=======
 																<div>
 																	<select
 																		value={selectedStatusOption}
@@ -756,7 +668,6 @@ export const Tasks: FC<ITasksProps> = ({
 																</div>
 															</div>
 														)}
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 													</div>
 												</div>
 											</Collapse>
