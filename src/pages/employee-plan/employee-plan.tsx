@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { Plan } from '../../entities/plan-component/plan';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import getFullName from '../../util/get-user-full-name';
 
@@ -74,9 +73,7 @@ export const EmployeePlan = () => {
           </div>
         </div>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };

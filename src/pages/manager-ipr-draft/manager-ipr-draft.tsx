@@ -9,7 +9,6 @@ import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-inf
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { NewTask } from '../../entities/new-task/new-task';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import { Button } from '@alfalab/core-components/button';
 import { Status, StatusProps } from '@alfalab/core-components/status';
@@ -235,9 +234,7 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
           ''
         )}
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };

@@ -12,7 +12,6 @@ import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 //-----------------------------------------------------------------------------
 import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
 import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
@@ -261,9 +260,7 @@ export const OpendIpr: FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain />
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };

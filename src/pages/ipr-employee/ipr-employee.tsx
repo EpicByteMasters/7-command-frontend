@@ -8,7 +8,6 @@ import { PageTitle } from '../../shared/page-title/page-title';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { tasksData } from '../../shared/utils/constants';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 
 interface IPREmployeeProps {}
 
@@ -48,9 +47,7 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
           </div>
         </section>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };

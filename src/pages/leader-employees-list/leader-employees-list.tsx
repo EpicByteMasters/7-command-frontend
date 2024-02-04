@@ -17,8 +17,6 @@ import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
-import { FooterMain } from '../../shared/footer-main/footer-main';
-
 import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
 
 import { selectCommonLibsIPRGoals, selectCommonLibsIPRStatus } from '../../store/reducers/libSlice';
@@ -154,9 +152,7 @@ export const LeaderEmployeesList: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };
