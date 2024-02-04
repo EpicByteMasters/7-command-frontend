@@ -2,6 +2,7 @@ import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 import { useEffect, useRef } from 'react';
+import { getUserData } from '../store/reducers/userSlice';
 
 // components
 import { Login } from '../pages/login/login';

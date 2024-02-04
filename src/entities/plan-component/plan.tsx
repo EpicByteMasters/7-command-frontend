@@ -15,14 +15,13 @@ export const Plan: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData:', iprData);
-	const navigate = useNavigate(); // Changed to useNavigate
+	const userData = useAppSelector((state) => state.user.user);
 
-	console.log('iprData в tasks: ', iprData);
+	const iprsArrData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData:', iprsArrData);
 
-	const handleOpenButtonClick = (id: number, selectedUserId: number) => {
-		console.log('ID ИПР переданное из строчки таблицы', id);
+	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+		console.log('ID ИПР переданное из строчки таблицы', idIpr);
 		console.log(
 			'ID пользователя переданное из строчки таблицы',
 			selectedUserId

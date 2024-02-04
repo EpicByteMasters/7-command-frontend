@@ -23,12 +23,14 @@ export interface IIpr {
 
 export interface IprsArrState {
 	iprsData: IIpr[];
+	iprsHistoryData: IIpr[];
 	isLoading: boolean;
 	error: string;
 }
 
 const initialState: IprsArrState = {
 	iprsData: [],
+	iprsHistoryData: [],
 	isLoading: false,
 	error: '',
 };
@@ -93,76 +95,6 @@ export const getIprsEmployeeHistory = createAsyncThunk<any, number>(
 		}
 	}
 );
-
-// export const createIPR = createAsyncThunk<any, IPRSCreatePayload>(
-// 	'iprs/create',
-// 	async (payload) => {
-// 		try {
-// 			const token = localStorage.getItem('token');
-
-// 			if (!token) {
-// 				throw new Error('Token is missing in localStorage');
-// 			}
-
-// 			const response = await fetch(
-// 				`${BASE_URL}/api/v1/mentor/iprs/ipr/create`,
-// 				{
-// 					method: 'POST',
-// 					headers: {
-// 						Authorization: `Bearer ${token}`,
-// 						'Content-Type': 'application/json',
-// 					},
-// 					body: JSON.stringify({
-// 						employeeId: payload.employeeId,
-// 					}),
-// 				}
-// 			);
-
-// 			if (response.status === 200) {
-// 				return response.json();
-// 			} else {
-// 				throw new Error('Failed to create IPR');
-// 			}
-// 		} catch (error) {
-// 			console.error('Error during creating IPR:', error);
-// 			throw error;
-// 		}
-// 	}
-// );
-
-// export const deleteIpr = createAsyncThunk<
-// 	void,
-// 	number,
-// 	{ rejectValue: DeleteIprError }
-// >('iprs/deleteIpr', async (iprId, { rejectWithValue }) => {
-// 	try {
-// 		const token = localStorage.getItem('token');
-
-// 		if (!token) {
-// 			throw new Error('Token is missing in localStorage');
-// 		}
-
-// 		const response = await fetch(
-// 			`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}`,
-// 			{
-// 				method: 'DELETE',
-// 				headers: {
-// 					Authorization: `Bearer ${token}`,
-// 				},
-// 			}
-// 		);
-
-// 		if (response.status === 204) {
-// 			// успешное удаление и в ответе нет ничего
-// 			return;
-// 		} else {
-// 			throw new Error('Failed to delete IPR');
-// 		}
-// 	} catch (error: any) {
-// 		console.error('Error during deleting IPR:', error);
-// 		return rejectWithValue({ message: error.message } as DeleteIprError);
-// 	}
-// });
 
 export const iprsSlice = createSlice({
 	name: 'iprs',

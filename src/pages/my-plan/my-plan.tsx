@@ -6,7 +6,7 @@ import { Plan } from '../../entities/plan-component/plan';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { FooterMain } from '../../entities/footer-main/footer-main';
 
-import { getIPRSData } from '../../store/reducers/iprsSlice';
+import { getMyIprsData } from '../../store/reducers/iprsSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
 
 export const MyPlan: React.FC = () => {
@@ -16,7 +16,7 @@ export const MyPlan: React.FC = () => {
 	useEffect(() => {
 		// добываем ИПРы
 		const iprsDataResult = async () => {
-			return await dispatch(getIPRSData());
+			return await dispatch(getMyIprsData());
 		};
 
 		iprsDataResult().catch(() => navigate('/404', { replace: true }));
