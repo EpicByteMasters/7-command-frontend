@@ -25,7 +25,8 @@ import {
 import { formatDateString, getStatusColor, getValueById } from '../../shared/utils/constants';
 
 import { TIprStatusType } from '../../shared/utils/types';
-import { deleteIprById } from '../../store/reducers/iprSlice';
+import { createIpr, deleteIprById } from '../../store/reducers/iprSlice';
+import { async } from 'q';
 
 export interface IEmployeesListProps {
   data: Employee[] | undefined;
@@ -46,7 +47,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
 
   const [modalCreate, setModalCreate] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+
   const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
+  const [creatingIprUserId, setCreatingIprUserId] = useState<number | null>(null);
 
   //sorting
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -210,6 +213,24 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
     setDeletingItemId(null);
   };
 
+  //-----------------------------------------CREATE IPR-------------------------------------------
+  const onClickToCreate = (userId: number) => {
+    console.log('onClickToCreate ID', userId);
+    setCreatingIprUserId(userId);
+    setModalCreate(!modalCreate);
+  };
+
+  const handleCreate = async (userId: number) => {
+    console.log('create IPR USer Id', userId);
+
+    if (userId) {
+      await dispatch(createIpr(userId));
+      dispatch(getManagerIprsList());
+    }
+
+    setCreatingIprUserId(null);
+  };
+
   return (
     <>
       <Table
@@ -282,6 +303,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center',
+                            width: '300px',
                           }}
                         >
                           <img
@@ -304,10 +326,17 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </Space>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell}>{goalId ? getValueById(goalId, iprGoalsLib) : '—'}</div>
+                      <div
+                        className={styles.tCell}
+                        style={{
+                          width: '200px',
+                        }}
+                      >
+                        {goalId ? getValueById(goalId, iprGoalsLib) : '—'}
+                      </div>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell} style={{ textAlign: 'center' }}>
+                      <div className={styles.tCell} style={{ textAlign: 'center', width: '75' }}>
                         {dateOfEnd ? formatDateString(dateOfEnd) : '—'}
                       </div>
                     </Table.TCell>
@@ -327,7 +356,12 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       )}
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell}>
+                      <div
+                        className={styles.tCell}
+                        style={{
+                          width: '110px',
+                        }}
+                      >
                         <Status view="soft" color={getStatusColor(statusId)}>
                           {getValueById(statusId, iprStatusLib) || 'отсутвует'}
                         </Status>
@@ -336,7 +370,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                     <Table.TCell>
                       <div className={styles.tBtn}>
                         {statusId === 'NO_IPR' ? (
-                          <Button view="tertiary" size="xxs" onClick={onClickToDraft}>
+                          <Button view="tertiary" size="xxs" onClick={() => onClickToCreate(id)}>
                             Создать
                           </Button>
                         ) : (
@@ -373,15 +407,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                               >
                                 Отменить
                               </Button>
-                            ) : statusId === 'NO_IPR' ? (
-                              <Button
-                                className={styles.btnText}
-                                view="ghost"
-                                size="s"
-                                //onClick={() => onClickToDelete(iprId)}
-                              >
-                                Создать
-                              </Button>
                             ) : null}
 
                             <Button
@@ -415,6 +440,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
           paragraph={'Вы можете создать черновик и вернуться к нему позже'}
           confirmButtonLabel={'Создать'}
           cancelButtonLabel={'Отмена'}
+          onConfirm={() => handleCreate(Number(creatingIprUserId))}
         ></Modal>
       ) : (
         ''
