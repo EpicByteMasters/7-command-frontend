@@ -203,7 +203,6 @@ function App() {
 					}
 				></Route>
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
-				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
 			</Routes>
 		</div>
 	);
