@@ -3,12 +3,12 @@ import styles from './ipr-employee.module.scss';
 import { Tasks } from '../../entities/tasks/tasks';
 import { useParams } from 'react-router-dom';
 
-import { BackButton } from '../../entities/backbutton/backbutton';
+import { BackButton } from '../../shared/backbutton/backbutton';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { Status, StatusProps } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { tasksData } from '../../shared/utils/constants';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 interface IPREmployeeProps {}
 
@@ -45,7 +45,7 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
 						</Button>
 						<legend className={styles.blockTitle}>Общее описание</legend>
 						<div className={styles.container}>
-							<Tasks isEmployee={true} />
+							{/* <Tasks isEmployee={true} /> */}
 						</div>
 					</div>
 				</section>

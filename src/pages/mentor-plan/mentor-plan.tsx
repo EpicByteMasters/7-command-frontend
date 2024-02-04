@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 import {
 	getMentorIprsList,
 	selectMentorList,

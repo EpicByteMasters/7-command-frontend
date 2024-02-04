@@ -17,7 +17,7 @@ import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import {
 	getManagerIprsList,

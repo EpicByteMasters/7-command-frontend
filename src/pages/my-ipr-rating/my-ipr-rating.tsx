@@ -6,7 +6,7 @@ import { Textarea } from '@alfalab/core-components/textarea';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 interface RatingProps {
 	isExecutive?: boolean;
@@ -96,7 +96,7 @@ export const MyIprRating: React.FC<RatingProps> = ({ isExecutive }) => {
 								value={textAreaValue}
 							/>
 						</div>
-						<TasksOverview isExecutive={false} iprStatus="" />
+						{/* <TasksOverview isExecutive={false} iprStatus="" /> */}
 					</div>
 				</div>
 			</div>

@@ -8,7 +8,7 @@ import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
 
 import { roleUrl } from '../../shared/utils/urls';
-import { BackButton } from '../backbutton/backbutton';
+import { BackButton } from '../../shared/backbutton/backbutton';
 
 export const NavBarMini: React.FC = ({}) => {
 	const location = useLocation();
@@ -50,6 +50,7 @@ export const NavBarMini: React.FC = ({}) => {
 								[isActive ? styles.active : '', styles.link].join(' ')
 							}
 							to={roleUrl[1].url}
+							replace
 						>
 							<RocketMIcon
 								fill="currentColor"
@@ -66,6 +67,7 @@ export const NavBarMini: React.FC = ({}) => {
 									[isActive ? styles.active : '', styles.link].join(' ')
 								}
 								to={roleUrl[0].url}
+								replace
 							>
 								<TwoUsersMIcon
 									fill="currentColor"
@@ -83,6 +85,7 @@ export const NavBarMini: React.FC = ({}) => {
 									[isActive ? styles.active : '', styles.link].join(' ')
 								}
 								to={roleUrl[2].url}
+								replace
 							>
 								<UserStarMIcon
 									fill="currentColor"

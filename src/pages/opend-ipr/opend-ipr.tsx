@@ -1,19 +1,19 @@
 import styles from './opend-ipr.module.scss';
-//--------------------------------------------------------------
+//-----------------------------------------------------------------------------
 import { useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
-//--------------------------------------------------------------
+//-----------------------------------------------------------------------------
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
-//--------------------------------------------------------------
+//-----------------------------------------------------------------------------
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
-import { FooterMain } from '../../entities/footer-main/footer-main';
-//--------------------------------------------------------------
+import { FooterMain } from '../../shared/footer-main/footer-main';
+//-----------------------------------------------------------------------------
 import {
 	getManagerIprsList,
 	selectManagerList,
@@ -27,12 +27,15 @@ import {
 	getIprByIdBySupervisor,
 } from '../../store/reducers/iprSlice';
 import { getFullName, getStatusColor } from '../../shared/utils/constants';
-//--------------------------------------------------------------
+//-----------------------------------------------------------------------------
 import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
+import IprStatusDoc from 'type/ipr-status-name';
+import { isCompletedIpr, isDraftIpr, isInProgressIpr } from 'util/ipr-status';
+//-----------------------------------------------------------------------------
 
-export const OpendIpr: React.FC = () => {
+export const OpendIpr: FC = () => {
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const [pageTitle, setPageTitle] = useState('');
@@ -49,6 +52,9 @@ export const OpendIpr: React.FC = () => {
 	const [isManager, setIsManager] = useState(false);
 	const [isMentor, setIsMentor] = useState(false);
 	const [isConclusion, setConclusion] = useState(false);
+
+	const taskValues = useAppSelector((state) => state.ipr.taskValues);
+	const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
 	console.log('USER DATA in OPENED IPR', userData);
 
@@ -191,76 +197,82 @@ export const OpendIpr: React.FC = () => {
 						) : (
 							<div className={styles.owerviewWrapper}>
 								{/* кнопки */}
-								{isEmployee && currentIpr?.status.name === 'В работе' ? (
+								{isEmployee && isInProgressIpr(currentIpr?.status.name) ? (
 									<div className={styles.buttonsWrapper}>
 										<Button
 											view="secondary"
-											size="s"
+											size="xxs"
 											className={styles.buttonSave}
+											onClick={() => {
+												console.log({ taskValues });
+											}}
 										>
-											Сохранить111
+											Сохранить1
 										</Button>
 									</div>
-								) : isManager && currentIpr?.status.name === 'В работе' ? (
+								) : isManager && isInProgressIpr(currentIpr?.status.name) ? (
 									<div className={styles.buttonsWrapper}>
 										<Button
 											view="secondary"
-											size="s"
+											size="xxs"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить2
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="primary"
+											size="xxs"
 											className={styles.buttonSave}
 										>
 											Подвести итоги
 										</Button>
 									</div>
-								) : isManager && currentIpr?.status.name === 'Черновик' ? (
+								) : isManager && isDraftIpr(currentIpr?.status.name) ? (
 									<div className={styles.buttonsWrapper}>
 										<Button
 											view="secondary"
-											size="s"
+											size="xxs"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить3
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="primary"
+											size="xxs"
 											className={styles.buttonSave}
 										>
 											Отправить в работу
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="tertiary"
+											size="xxs"
 											className={styles.buttonDelete}
 										>
 											Удалить
 										</Button>
 									</div>
-								) : isMentor && currentIpr?.status.name === 'В работе' ? (
+								) : isMentor && isInProgressIpr(currentIpr?.status.name) ? (
 									<div className={styles.buttonsWrapper}>
 										<Button
 											view="secondary"
-											size="s"
+											size="xxs"
 											className={styles.buttonSave}
+											// onClick={
+											// 	() => handleDataSubmit()
+											// }
 										>
-											Сохранить
+											Сохранить5
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="primary"
+											size="xxs"
 											className={styles.buttonSend}
 										>
 											Отправить в работу
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="tertiary"
+											size="xxs"
 											className={styles.buttonDiscard}
 										>
 											Отменить
@@ -268,9 +280,9 @@ export const OpendIpr: React.FC = () => {
 									</div>
 								) : null}
 								{/* Оценка для работника с выполненным ИПР*/}
-								{isEmployee && currentIpr?.status.name === 'Выполнен' ? (
+								{isEmployee && isCompletedIpr(currentIpr?.status.name) ? (
 									<Raiting title="Оценка от руководителя" isDisabled />
-								) : isManager && currentIpr?.status.name === 'Выполнен' ? (
+								) : isManager && isCompletedIpr(currentIpr?.status.name) ? (
 									<Raiting title="Оценка выполнения" isDisabled />
 								) : (
 									<></>
@@ -278,19 +290,24 @@ export const OpendIpr: React.FC = () => {
 								{/* Общее описание //TODO этот падает */}
 								<div className={styles.taskOverviewWrapper}>
 									{currentIpr ? (
+										<TasksOverview
+											isExecutive={isManager}
+											iprStatus={currentIpr?.status.id}
+											handleGoalValuesChange={handleDataSubmit}
+										/>
+									) : (
 										<></>
-									) : /*<TasksOverview
-									isExecutive={isManager}
-									iprStatus={currentIpr.status.id}
-									handleGoalValuesChange={handleDataSubmit}
-							/>*/
-									null}
+									)}
 								</div>
-								{/* Задачи //TODO на находит какой то id */}
 								<div className={styles.tasksWrapper}>
 									<Tasks
 										isEmployee={isEmployee}
 										handleTaskValuesChange={handleDataSubmit}
+										iprCurrentData={
+											isDraftIpr(currentIpr?.status.name)
+												? null
+												: iprCurrentData
+										}
 									/>
 								</div>
 							</div>
