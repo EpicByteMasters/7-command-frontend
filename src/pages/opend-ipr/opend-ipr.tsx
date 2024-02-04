@@ -198,7 +198,7 @@ export const OpendIpr: React.FC = () => {
 											size="s"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить111
 										</Button>
 									</div>
 								) : isManager && currentIpr?.status.name === 'В работе' ? (

@@ -54,6 +54,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const userData = useAppSelector((state) => state.user.user);
 
 	const [modalCreate, setModalCreate] = useState(false);
+	const [modalDelete, setModalDelete] = useState(false);
 
 	//sorting
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -160,6 +161,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 	const onClickToDraft = () => {
 		setModalCreate(!modalCreate);
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
+	};
+
+	const onClickToDelete = () => {
+		setModalDelete(!modalDelete);
 	};
 
 	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
@@ -394,7 +399,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 															className={styles.btnText}
 															view="ghost"
 															size="s"
-															onClick={() => console.log('del')}
+															onClick={onClickToDelete}
 														>
 															Удалить
 														</Button>
@@ -433,30 +438,16 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 			) : (
 				''
 			)}
+			{modalDelete ? (
+				<Modal
+					title="Удаление плана развития"
+					paragraph={'Вы действительно хотите удалить план развития?'}
+					button1={'Удалить'}
+					button2={'Отмена'}
+				></Modal>
+			) : (
+				''
+			)}
 		</>
 	);
 };
-
-// 			{modalDelete ? (
-// 				<Modal
-// 					title="Удаление плана развития"
-// 					paragraph={'Вы действительно хотите удалить план развития?'}
-// 					button1={'Удалить'}
-// 					button2={'Отмена'}
-// 				></Modal>
-// 			) : (
-// 				''
-// 			)}
-// 			{modalCreate ? (
-// 				<Modal
-// 					title="Создать новый план развития"
-// 					paragraph={'Вы можете создать черновик и вернуться к нему позже'}
-// 					button1={'Создать'}
-// 					button2={'Отмена'}
-// 				></Modal>
-// 			) : (
-// 				''
-// 			)}
-// 		</>
-// 	);
-// };
