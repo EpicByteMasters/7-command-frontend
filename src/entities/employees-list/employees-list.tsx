@@ -14,20 +14,22 @@ import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { Modal } from '../modal/modal';
 import { Employee } from '../../store/reducers/managerIprSlice';
-import {
-	formatDateString,
-	getStatusColor,
-	getValueById,
-} from '../../shared/utils/constants';
-import { useAppSelector } from '../../shared/hooks/redux';
+
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
 	selectCommonLibsIPRGoals,
 	selectCommonLibsIPRStatus,
 	selectCommonLibsPositions,
 } from '../../store/reducers/libSlice';
 
+import {
+	formatDateString,
+	getStatusColor,
+	getValueById,
+} from '../../shared/utils/constants';
+
 import { TIprStatusType } from '../../shared/utils/types';
-import avatar from '../../images/avatars/avatar_mentor1.png';
+import { deleteIprById } from '../../store/reducers/iprSlice';
 
 export interface IEmployeesListProps {
 	data: Employee[] | undefined;
@@ -42,10 +44,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	console.log('EmployeeList DATA', data);
-	console.log('EmployeeList DATA', goal);
-	console.log('EmployeeList DATA', status);
+	const dispatch = useAppDispatch();
 
 	const positionsLib = useAppSelector(selectCommonLibsPositions);
 	const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
@@ -55,6 +54,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 
 	const [modalCreate, setModalCreate] = useState(false);
 	const [modalDelete, setModalDelete] = useState(false);
+	const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
 
 	//sorting
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -114,8 +114,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		fetchData();
 	}, [data, goal, status]);
 
-	console.log('filteredData', filteredData);
-
 	// Sorted and filtered data
 	const sortedAndFilteredData = useMemo(() => {
 		if (!filteredData) return [];
@@ -163,10 +161,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		// navigate(`/service-iprs/ipr/${ipr_id2}`, { replace: true });
 	};
 
-	const onClickToDelete = () => {
-		setModalDelete(!modalDelete);
-	};
-
 	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
 		console.log('ID ИПР переданное из строчки таблицы', idIpr);
 		console.log(
@@ -191,7 +185,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 		(page + 1) * perPage
 	);
 
-	//Popover
+	//--------------------------------------------PopOver---------------------------------------
 	const [activeRowIndex, setActiveRowIndex] = useState<number | null>(null);
 	const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -215,6 +209,25 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 			document.removeEventListener('mousedown', handleMouseDown);
 		};
 	}, [popoverRef, setActiveRowIndex]);
+
+	//--------------------------------------------DELETE IPR--------------------------------------
+	const onClickToDelete = (idIprtoDelete: number) => {
+		console.log('onClickToDelete ID', idIprtoDelete);
+		setDeletingItemId(idIprtoDelete);
+		setModalDelete(!modalDelete);
+	};
+
+	const handleDelete = (id: number | null) => {
+		console.log('id to delete', id);
+		if (id) {
+			// Вызываем функцию удаления из редьюсера, передавая id IPR
+			//console.log('вызываем функцию удаления!!!!!!!!!!!!!!!!!!!!!!');
+			dispatch(deleteIprById(id));
+		}
+
+		// Сбрасываем состояние deletingItemId после удаления
+		setDeletingItemId(null);
+	};
 
 	return (
 		<>
@@ -399,7 +412,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 															className={styles.btnText}
 															view="ghost"
 															size="s"
-															onClick={onClickToDelete}
+															onClick={() => onClickToDelete(iprId)}
 														>
 															Удалить
 														</Button>
@@ -432,8 +445,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				<Modal
 					title="Создать новый план развития"
 					paragraph={'Вы можете создать черновик и вернуться к нему позже'}
-					button1={'Создать'}
-					button2={'Отмена'}
+					confirmButtonLabel={'Создать'}
+					cancelButtonLabel={'Отмена'}
 				></Modal>
 			) : (
 				''
@@ -442,8 +455,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
 				<Modal
 					title="Удаление плана развития"
 					paragraph={'Вы действительно хотите удалить план развития?'}
-					button1={'Удалить'}
-					button2={'Отмена'}
+					confirmButtonLabel={'Удалить'}
+					cancelButtonLabel={'Отмена'}
+					onConfirm={() => handleDelete(Number(deletingItemId))}
 				></Modal>
 			) : (
 				''
