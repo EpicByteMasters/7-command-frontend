@@ -70,7 +70,6 @@ const getCompetencyInitValues = (competencyList?: ICompetency[]) => {
 
   return makeInputValue(competencyList.map((conpetence: ICompetency) => conpetence.competencyRel.name));
 };
-
 interface IProps {
   isExecutive: boolean;
   iprStatus: string;
@@ -428,6 +427,9 @@ export const TasksOverview: FC<IProps> = ({
       ? optionsMentor
       : optionsMentor.filter((option) => isOptionMatch(option, valueMentor));
 
+  const valueTags = getCompetencyInitValues(iprCurrentData?.competency);
+  const valueTagArr = Array.from(valueTags.split(','));
+  const clearValueTags = valueTagArr.filter((item) => item.length > 1);
   return (
     <fieldset className={styles2.blockWrapper}>
       <legend className={styles2.blockTitle} onClick={handleCallback}>
@@ -511,10 +513,10 @@ export const TasksOverview: FC<IProps> = ({
           ></InputAutocomplete>
         </div>
         <div className={styles2.formRowTag}>
-          {selectedCompetenceOptions.length
-            ? selectedCompetenceOptions.map((competence) => {
+          {valueTagArr.length
+            ? clearValueTags.map((competence) => {
                 return (
-                  <div key={competence.key} style={{ maxWidth: '319' }}>
+                  <div style={{ maxWidth: '319' }}>
                     <FilterTag
                       // disabled={isExecutive ? false : true}
                       showClear={true}
@@ -522,9 +524,10 @@ export const TasksOverview: FC<IProps> = ({
                       shape="rounded"
                       view="filled"
                       checked={true}
-                      onClear={() => clearCompetenceTag(competence)}
+                      // onClear={() => clearCompetenceTag(competence)}
                     >
-                      {competence.content}
+                      {competence}
+                      {/* {competence.content} */}
                     </FilterTag>
                   </div>
                 );

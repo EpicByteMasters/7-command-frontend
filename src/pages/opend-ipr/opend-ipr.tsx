@@ -126,6 +126,7 @@ export const OpendIpr: FC = () => {
   }, [dispatch, isIprIdFoundInManagerList, id]);
 
   console.log('CURRENT IPR OPEND', currentIpr);
+  console.log('Current role', myCurrentRole);
 
   const handleDataSubmit = (goalData: any, taskData: any) => {
     // Здесь вы можете отправить оба набора данных на сервер

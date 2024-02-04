@@ -603,7 +603,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
-      {newTaskOpen && <NewTask></NewTask>}
+      {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
     </>
   );
 };
