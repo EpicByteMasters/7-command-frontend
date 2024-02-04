@@ -355,7 +355,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   };
 
   return (
-    <>
+    <div className={styles.taskBlock}>
       <legend className={styles.blockTitle} onClick={handleCallback}>
         Задачи
       </legend>
@@ -605,6 +605,6 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
         Добавить новую
       </ButtonDesktop>
       {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
-    </>
+    </div>
   );
 };

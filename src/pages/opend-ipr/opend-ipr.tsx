@@ -152,7 +152,7 @@ export const OpendIpr: FC = () => {
               )}
             </div>
             {/* инфа о пользователе */}
-            {selectedUser ? (
+            {selectedUser && !isEmployee && (
               <div className={styles.employeeInfoCardWrapper}>
                 <EmployeeInfoCard
                   name={getFullName(selectedUser)}
@@ -160,9 +160,8 @@ export const OpendIpr: FC = () => {
                   avatar={selectedUser.imageUrl}
                 />
               </div>
-            ) : (
-              <div>Данные о пользователе не получены</div>
             )}
+
             {/* если подведение итогов кнопка, то рендерим экран Оценки */}
             {isConclusion ? (
               <EmployeeRatingPicker withBtn />
