@@ -1,7 +1,7 @@
 import { Reducer, combineReducers } from '@reduxjs/toolkit';
 import userReducer, { UserState } from './userSlice';
 import commonLibsReducer, { TCommonLibState } from './libSlice';
-import iprsReducer, { IPRSState } from './iprsSlice';
+import iprsReducer, { IprsArrState } from './iprsSlice';
 import iprReducer, { TIprDataState } from './iprSlice';
 import managerIprsReducer, { IPRSSliceState } from './managerIprSlice';
 import mentorIprsReducer, { MentorSliceState } from './mentorIprSlice';
@@ -10,7 +10,7 @@ import formReducer, { IFormState } from './formSlice';
 export interface RootState {
 	user: Reducer<UserState>; // тип состояния пользователя
 	commonLibs: Reducer<TCommonLibState>;
-	iprs: Reducer<IPRSState>;
+	iprs: Reducer<IprsArrState>;
 	managerIprs: Reducer<IPRSSliceState>;
 	mentorIprs: Reducer<MentorSliceState>;
 	form: Reducer<IFormState>;

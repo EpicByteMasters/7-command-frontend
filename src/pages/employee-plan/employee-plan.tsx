@@ -1,7 +1,7 @@
 import styles from './employee-plan.module.scss';
 
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { RootState } from '../../store/store';
@@ -17,12 +17,15 @@ import {
 	setSelectedUser,
 } from '../../store/reducers/userSlice';
 import { selectCommonLibsPositions } from '../../store/reducers/libSlice';
+import { getIprsEmployeeHistory } from '../../store/reducers/iprsSlice';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
 export const EmployeePlan: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const dispatch = useAppDispatch();
 	const selectedUser = useAppSelector((state) => state.user.selectedUser);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(getUserById(Number(id)));
@@ -30,6 +33,15 @@ export const EmployeePlan: React.FC = () => {
 			dispatch(setSelectedUser(null));
 		};
 	}, [dispatch, id]);
+
+	useEffect(() => {
+		// добываем ИПРы
+		const iprsDataResult = async () => {
+			return await dispatch(getIprsEmployeeHistory(Number(id)));
+		};
+
+		iprsDataResult().catch(() => navigate('/404', { replace: true }));
+	}, []);
 
 	const isLoading = useSelector((state: RootState) => state.user.isLoading);
 

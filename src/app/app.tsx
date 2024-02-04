@@ -2,6 +2,7 @@ import styles from './app.module.scss';
 import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 import { useEffect, useRef } from 'react';
+import { getUserData } from '../store/reducers/userSlice';
 
 // components
 import { Login } from '../pages/login/login';
@@ -34,8 +35,6 @@ import {
 	selectCommonLibsEducation,
 } from '../store/reducers/libSlice';
 import { MyPlan } from '../pages/my-plan/my-plan';
-import { getUserData } from '../store/reducers/userSlice';
-import { getIPRSData } from '../store/reducers/iprsSlice';
 
 function App() {
 	const dispatch = useAppDispatch();

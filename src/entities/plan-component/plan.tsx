@@ -8,17 +8,17 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { IprData } from '../../store/reducers/iprsSlice';
+import { IIprData } from '../../store/reducers/iprSlice';
+import { IIpr } from '../../store/reducers/iprsSlice';
 
 export const Plan: React.FC = () => {
-	const userData = useAppSelector((state) => state.user.user);
+	const navigate = useNavigate();
 	const location = useLocation();
 
-	const iprData = useAppSelector((state) => state.iprs.iprsData);
-	console.log('iprData:', iprData);
-	const navigate = useNavigate(); // Changed to useNavigate
+	const userData = useAppSelector((state) => state.user.user);
 
-	console.log('iprData в tasks: ', iprData);
+	const iprsArrData = useAppSelector((state) => state.iprs.iprsData);
+	console.log('iprData:', iprsArrData);
 
 	const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
 		console.log('ID ИПР переданное из строчки таблицы', idIpr);
@@ -75,7 +75,7 @@ export const Plan: React.FC = () => {
 					<Table.THeadCell title="Пустая"></Table.THeadCell>
 				</Table.THead>
 				<Table.TBody>
-					{iprData.map(
+					{iprsArrData.map(
 						({
 							id,
 							goal,
@@ -84,7 +84,7 @@ export const Plan: React.FC = () => {
 							status,
 							taskCompleted,
 							taskCount,
-						}: IprData) => {
+						}: IIpr) => {
 							console.log('taskCount:', taskCount);
 							const progressTitle = `${taskCompleted}/${taskCount}`;
 							const progressValue = (taskCompleted / taskCount) * 100;
