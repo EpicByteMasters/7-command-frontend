@@ -93,11 +93,7 @@ function Header({ error }: HeaderProps) {
             </Circle>
           </div>
         )}
-        {isOpenedNotifications ? (
-          <Notifications open={isOpenedNotifications} close={() => setIsOpenedNotifications(false)} />
-        ) : (
-          ''
-        )}
+        {isOpenedNotifications ? <Notifications close={() => setIsOpenedNotifications(false)} /> : ''}
         {location.pathname === '/' ? (
           ''
         ) : (
