@@ -151,14 +151,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
   };
 
   const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
-    console.log('ID ИПР переданное из строчки таблицы', idIpr);
-    console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
+    //console.log('ID ИПР переданное из строчки таблицы', idIpr);
+    //console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
         state: { location, selectedUserId },
       });
     } catch (error) {
-      console.error('Error during navigating:', error);
+      //console.error('Error during navigating:', error);
     }
   };
 
@@ -194,13 +194,13 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
 
   //--------------------------------------------DELETE IPR--------------------------------------
   const onClickToDelete = (idIprtoDelete: number) => {
-    console.log('onClickToDelete ID', idIprtoDelete);
+    // console.log('onClickToDelete ID', idIprtoDelete);
     setDeletingItemId(idIprtoDelete);
     setModalDelete(!modalDelete);
   };
 
   const handleDelete = async (id: number | null) => {
-    console.log('id to delete', id);
+    //console.log('id to delete', id);
 
     if (id) {
       // Вызываем функцию удаления из редьюсера, передавая id IPR
@@ -215,13 +215,13 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
 
   //-----------------------------------------CREATE IPR-------------------------------------------
   const onClickToCreate = (userId: number) => {
-    console.log('onClickToCreate ID', userId);
+    //console.log('onClickToCreate ID', userId);
     setCreatingIprUserId(userId);
     setModalCreate(!modalCreate);
   };
 
   const handleCreate = async (userId: number) => {
-    console.log('create IPR USer Id', userId);
+    // console.log('create IPR USer Id', userId);
 
     if (userId) {
       await dispatch(createIpr(userId));
@@ -291,7 +291,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                 rowIndex
               ) => {
                 const progressPercent = (taskCompleted / taskCount) * 100;
-                console.log('progressPercent', progressPercent);
+                //  console.log('progressPercent', progressPercent);
                 //TODO вставить в верстку аватарку
                 return (
                   <Table.TRow key={id}>

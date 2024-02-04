@@ -4,17 +4,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
 import { RootState } from '../../store/store';
+import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
+import { getIprsEmployeeHistory } from '../../store/reducers/iprsSlice';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
 import { Plan } from '../../entities/plan-component/plan';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
 import { FooterMain } from '../../shared/footer-main/footer-main';
 
-import { getUserById, IUser, setSelectedUser } from '../../store/reducers/userSlice';
-// import { selectCommonLibsPositions } from '../../store/reducers/libSlice';
-import { getIprsEmployeeHistory } from '../../store/reducers/iprsSlice';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import getFullName from 'util/get-user-full-name';
 
 export const EmployeePlan = () => {
   const { id } = useParams<{ id: string }>();
@@ -51,12 +52,7 @@ export const EmployeePlan = () => {
     return <p>Невозможно получить данные о пользователе.</p>;
   }
 
-  console.log('SELECTED__USER', selectedUser);
-
-  // Функция для объединения ФИО в одну строку
-  const getFullName = (user: IUser): string => {
-    return `${user.surname} ${user.firstName} ${user.patronymic}`;
-  };
+  //console.log('SELECTED__USER History', selectedUser);
 
   const fullName = getFullName(selectedUser);
 
@@ -68,7 +64,11 @@ export const EmployeePlan = () => {
           <div className={styles.wrapper}>
             <h2 className={styles.title}>План развития сотрудника</h2>
             <div className={styles.employeeWrapper}>
-              <EmployeeInfoCard name={fullName} position={selectedUser.position.name} avatar={selectedUser.imageUrl} />
+              <EmployeeInfoCard
+                name={fullName}
+                position={selectedUser.position?.name}
+                avatar={selectedUser?.imageUrl}
+              />
             </div>
             <Plan />
           </div>
