@@ -39,10 +39,10 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
   const [modalDisacrd, setDiscardOpen] = useState(false);
   const [modalSave, setSaveOpen] = useState(false);
   const [taskValues, setTaskValues] = useState('');
-  const [newTaskOpen, setNewTaskOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
   const [newTask, setNewTask] = useState<Task[]>([]);
+  const [newTaskOpen, setNewTaskOpen] = useState(false);
 
   //---------------------------
   const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);

@@ -32,6 +32,13 @@ interface IFormData {
   commentOfEmployee: string;
 }
 
+interface Task {
+  taskTitle: string;
+  closeDate: string;
+  description: string;
+  courses: string;
+  comment: string;
+}
 // interface IEducation {
 // 	id: number;
 // 	name: string;
@@ -47,4 +54,4 @@ interface IFilesForTask {
   [taskId: string]: File[];
 }
 
-export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask };
+export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, Task };
