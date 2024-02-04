@@ -50,6 +50,8 @@ export const OpendIpr: React.FC = () => {
 	const [isMentor, setIsMentor] = useState(false);
 	const [isConclusion, setConclusion] = useState(false);
 
+	const taskValues = useAppSelector((state) => state.ipr.taskValues);
+
 	console.log('USER DATA in OPENED IPR', userData);
 
 	useEffect(() => {
@@ -198,7 +200,7 @@ export const OpendIpr: React.FC = () => {
 											size="s"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить1
 										</Button>
 									</div>
 								) : isManager && currentIpr?.status.name === 'В работе' ? (
@@ -208,7 +210,7 @@ export const OpendIpr: React.FC = () => {
 											size="s"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить2
 										</Button>
 										<Button
 											view="secondary"
@@ -225,7 +227,7 @@ export const OpendIpr: React.FC = () => {
 											size="s"
 											className={styles.buttonSave}
 										>
-											Сохранить
+											Сохранить3
 										</Button>
 										<Button
 											view="secondary"
@@ -246,24 +248,24 @@ export const OpendIpr: React.FC = () => {
 									<div className={styles.buttonsWrapper}>
 										<Button
 											view="secondary"
-											size="s"
+											size="xxs"
 											className={styles.buttonSave}
 											// onClick={
 											// 	() => handleDataSubmit()
 											// }
 										>
-											Сохранить
+											Сохранить5
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="primary"
+											size="xxs"
 											className={styles.buttonSend}
 										>
 											Отправить в работу
 										</Button>
 										<Button
-											view="secondary"
-											size="s"
+											view="tertiary"
+											size="xxs"
 											className={styles.buttonDiscard}
 										>
 											Отменить

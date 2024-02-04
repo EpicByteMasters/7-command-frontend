@@ -46,7 +46,7 @@ export const NavBarMini: React.FC = ({}) => {
 						/>
 					</li>
 					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[1].url}>
+						<NavLink className={styles.link} to={roleUrl[1].url} replace>
 							<RocketMIcon
 								fill="currentColor"
 								className={styles.icon}
@@ -57,7 +57,7 @@ export const NavBarMini: React.FC = ({}) => {
 
 					{isExecutive ? (
 						<li className={styles.item}>
-							<NavLink className={styles.link} to={roleUrl[0].url}>
+							<NavLink className={styles.link} to={roleUrl[0].url} replace>
 								<TwoUsersMIcon
 									fill="currentColor"
 									className={styles.icon}
@@ -69,7 +69,7 @@ export const NavBarMini: React.FC = ({}) => {
 
 					{isMentor ? (
 						<li className={styles.item}>
-							<NavLink className={styles.link} to={roleUrl[2].url}>
+							<NavLink className={styles.link} to={roleUrl[2].url} replace>
 								<UserStarMIcon
 									fill="currentColor"
 									className={styles.icon}

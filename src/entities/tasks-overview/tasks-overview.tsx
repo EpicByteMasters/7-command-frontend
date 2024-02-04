@@ -24,6 +24,8 @@ import {
 	selectCommonLibsIPRCompetency,
 } from '../../store/reducers/libSlice';
 
+import { setTaskValues } from '../../store/reducers/iprSlice';
+
 import { goal, mentor, role } from '../../shared/utils/constants';
 
 import { useAppSelector } from '../../shared/hooks/redux';
@@ -316,6 +318,9 @@ export const TasksOverview = ({
 
 	const handleCallback = () => {
 		console.log({ taskValues });
+
+		setTaskValues(taskValues);
+
 		handleGoalValuesChange(taskValues);
 	};
 

@@ -22,13 +22,18 @@ import { INPUT_TAG_DELIMETER } from './const';
 // 	return `${year}.${month}.${day}`;
 // };
 
-const convertDate = (dateString: any) => {
-	const parts = dateString.split('-');
-	const year = parts[0];
-	const month = parts[1];
-	const day = parts[2];
+// const convertDate = (dateString: any) => {
+// 	const parts = dateString.split('-');
+// 	const year = parts[0];
+// 	const month = parts[1];
+// 	const day = parts[2];
 
-	return `${day}.${month}.${year}`;
+// 	return `${day}.${month}.${year}`;
+// };
+const convertDate = (inputDate: string): string => {
+	const [day, month, year] = inputDate.split('-');
+	const formattedDate = `${day}.${month}.${year}`;
+	return formattedDate;
 };
 
 // Преобразовывем модель компетиций полученных по сети в совместимую с компонентом

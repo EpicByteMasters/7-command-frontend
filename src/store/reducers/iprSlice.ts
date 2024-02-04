@@ -63,6 +63,7 @@ export type TIprDataState = {
 	ipr: IIprData | null;
 	isLoading: boolean;
 	error: string;
+	taskValues: unknown | null;
 };
 
 export const initialIprData: IIprData = {
@@ -160,15 +161,23 @@ export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>(
 	}
 );
 
+const initialState: TIprDataState = {
+	ipr: null,
+	isLoading: false,
+	error: '',
+	taskValues: null,
+};
+
 // Редьюсер
 const iprSlice = createSlice({
 	name: 'ipr',
-	initialState: {
-		ipr: null,
-		isLoading: false,
-		error: '',
-	} as TIprDataState,
-	reducers: {},
+	initialState,
+	reducers: {
+		setTaskValues: (state, { payload }: PayloadAction<unknown>) => {
+			console.log({ payload });
+			state.taskValues = payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getIprByIdBySupervisor.pending, (state) => {
@@ -197,5 +206,7 @@ const iprSlice = createSlice({
 			});
 	},
 });
+
+export const { setTaskValues } = iprSlice.actions;
 
 export default iprSlice.reducer;
