@@ -66,8 +66,8 @@ export const MyIpr: React.FC = () => {
 						<Modal
 							title="Выйти без сохранения?"
 							paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
-							button1="Выйти"
-							button2="Отмена"
+							confirmButtonLabel="Выйти"
+							cancelButtonLabel="Отмена"
 						></Modal>
 					)}
 					<div className={styles.iprDraft}>

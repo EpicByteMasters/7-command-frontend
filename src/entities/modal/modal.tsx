@@ -1,50 +1,48 @@
 import styles from './modal.module.scss';
-
+//--------------------------------------------------------------
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+//---------------------------------------------------------------
 import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
 
-interface HeaderProps {
+interface ModalProps {
 	error?: string;
 	title?: string;
 	paragraph?: string;
-	button1?: string;
-	button2?: string;
+	confirmButtonLabel?: string;
+	cancelButtonLabel?: string;
+	onConfirm?: (id?: number) => void;
+	onCancel?: () => void;
 }
 
 export const Modal = ({
 	error,
 	title,
 	paragraph,
-	button1,
-	button2,
-}: HeaderProps) => {
-	const navigate = useNavigate();
-	const location = useLocation();
-
+	confirmButtonLabel,
+	cancelButtonLabel,
+	onConfirm,
+	onCancel,
+}: ModalProps) => {
 	const [open, setOpen] = useState(true);
 
 	const handleOpen = () => setOpen(true);
 
 	const handleClose = () => setOpen(false);
 
-	const handleButton2 = () => {
+	const handleCancelButton = () => {
+		if (onCancel) {
+			onCancel();
+		}
 		setOpen(false);
 	};
 
-	const handleButton1 = () => {
-		if (location.pathname === '/service-iprs/ipr/1') {
-			navigate('/service-iprs/myteam');
+	const handleConfirmButton = () => {
+		console.log(onConfirm);
+		if (onConfirm) {
+			console.log(onConfirm);
+			onConfirm();
 		}
-		if (location.pathname === '/service-iprs/ipr/2') {
-			navigate('/service-iprs/myteam');
-		}
-		if (location.pathname === '/service-iprs/myteam' && button1 === 'Создать') {
-			navigate('/service-iprs/ipr/2');
-		}
-
-		// navigate('/', { replace: true });
 		setOpen(false);
 	};
 
@@ -65,16 +63,16 @@ export const Modal = ({
 						layout={'center'}
 						gap={24}
 						primary={
-							button1 && (
-								<Button view="primary" size="s" onClick={handleButton1}>
-									{button1}
+							confirmButtonLabel && (
+								<Button view="primary" size="s" onClick={handleConfirmButton}>
+									{confirmButtonLabel}
 								</Button>
 							)
 						}
 						secondary={
-							button2 && (
-								<Button view="secondary" size="s" onClick={handleButton2}>
-									{button2}
+							cancelButtonLabel && (
+								<Button view="secondary" size="s" onClick={handleCancelButton}>
+									{cancelButtonLabel}
 								</Button>
 							)
 						}
