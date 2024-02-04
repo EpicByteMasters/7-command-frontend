@@ -1,4 +1,4 @@
-import { IUser } from '@/store/reducers/userSlice';
+import { IUser } from '../store/reducers/userSlice';
 
 /** Получение полного имени пользователя, игнорируя отсутствие отчества */
 
