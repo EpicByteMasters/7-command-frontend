@@ -167,6 +167,38 @@ const initialState: TIprDataState = {
 	error: '',
 	taskValues: null,
 };
+export const deleteIprById = createAsyncThunk<string, number>(
+	'ipr/deleteIpr',
+	async (id) => {
+		try {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				throw new Error('Token is missing in localStorage');
+			}
+
+			const response = await fetch(
+				`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/delete`,
+				{
+					method: 'PATCH',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			if (response.status === 200) {
+				// Успешное удаление и в ответе нет ничего
+				return '';
+			} else {
+				throw new Error('Failed to delete IPR');
+			}
+		} catch (error) {
+			console.error('Error during deleting IPR:', error);
+			throw error;
+		}
+	}
+);
 
 // Редьюсер
 const iprSlice = createSlice({
@@ -203,6 +235,19 @@ const iprSlice = createSlice({
 			.addCase(getIprByIdByEmployee.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = 'Failed to fetch employee IPR data';
+			})
+			.addCase(deleteIprById.pending, (state) => {
+				state.isLoading = true;
+				state.error = '';
+			})
+			.addCase(deleteIprById.fulfilled, (state) => {
+				// Успешное удаление, обнуляем данные
+				state.ipr = null;
+				state.isLoading = false;
+			})
+			.addCase(deleteIprById.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.error.message ?? 'Failed to delete IPR';
 			});
 	},
 });
