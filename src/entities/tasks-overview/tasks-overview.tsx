@@ -44,11 +44,13 @@ import {
   getLastInputValue,
   isOptionMatch,
   isValidInputValue,
-  getCompetitionOptionName,
+  // getCompetitionOptionName,
+  formatDateForInput,
   formatDate,
 } from './utils';
 
 import { getMentorName } from '../../util';
+import { isDraftIpr } from '../../util/ipr-status';
 
 /** Сообщение о необходимости заполнения поля */
 const requiredInputMessage = (inputName: string) => `${inputName} является обязательным для заполенния`;
@@ -157,20 +159,41 @@ export const TasksOverview: FC<IProps> = ({
    * Выбранные опции
    */
   const selectedCompetenceOptions = useMemo<OptionCompetitionShape[]>(() => {
-    return competenceOptionList.filter((competenceOption) =>
-      getInputValues(valueCompetence.toLocaleLowerCase()).includes(
-        getCompetitionOptionName(competenceOption).toLowerCase() || ''
-      )
-    );
+    try {
+      const inputValueList = getInputValues(valueCompetence.toLowerCase());
+
+      const filteredOptions = competenceOptionList.filter((competenceOption) => {
+        if (typeof competenceOption.content !== 'string') {
+          return false;
+        }
+
+        const isValueContainsOption = inputValueList.includes(competenceOption.content.toLowerCase());
+
+        return isValueContainsOption;
+      });
+
+      console.log('kek', valueCompetence.split(','));
+
+      console.log({ valueCompetence, inputValueList, filteredOptions }, 'DAT');
+
+      return filteredOptions;
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
   }, [valueCompetence, competenceOptionList]);
 
   /**
    * Список идентификаторов выбранных компетиций
    */
-  const selectedCompetenceIdList = useMemo<string[]>(
-    () => selectedCompetenceOptions.map((option) => option.value?.id as string),
-    [selectedCompetenceOptions]
-  );
+  const selectedCompetenceIdList = useMemo<string[]>(() => {
+    try {
+      return selectedCompetenceOptions.map((option) => option.value?.id as string);
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  }, [selectedCompetenceOptions]);
 
   /**
    * Отфильтрованные компетиции, включая выбранные
@@ -196,12 +219,12 @@ export const TasksOverview: FC<IProps> = ({
    * Отмена выбора через тег
    * @param {Object} competenceOption - Значение поля ввода
    */
-  const clearCompetenceTag = (competenceOption: OptionCompetitionShape) => {
-    // Оставляем все опции кроме удаляемой
-    const filtered = selectedCompetenceOptions.filter((option) => option.key !== competenceOption.key);
+  // const clearCompetenceTag = (competenceOption: OptionCompetitionShape) => {
+  //   // Оставляем все опции кроме удаляемой
+  //   const filtered = selectedCompetenceOptions.filter((option) => option.key !== competenceOption.key);
 
-    setCompetenceValue(makeInputValue(filtered.map((option) => getCompetitionOptionName(option))));
-  };
+  //   setCompetenceValue(makeInputValue(filtered.map((option) => getCompetitionOptionName(option))));
+  // };
 
   /**
    * Валидация поля при изменениях
@@ -280,7 +303,7 @@ export const TasksOverview: FC<IProps> = ({
       competence: selectedCompetenceIdList,
       createDate: valueStartDate,
       closeDate: valueEndDate,
-      mentorId: iprCurrentData?.mentor.id,
+      mentorId: iprCurrentData?.mentor.id || -1,
       description: valueDescription,
       comment: valueComment,
       iprStatus: iprStatus,
@@ -427,9 +450,10 @@ export const TasksOverview: FC<IProps> = ({
       ? optionsMentor
       : optionsMentor.filter((option) => isOptionMatch(option, valueMentor));
 
-  const valueTags = getCompetencyInitValues(iprCurrentData?.competency);
-  const valueTagArr = Array.from(valueTags.split(','));
-  const clearValueTags = valueTagArr.filter((item) => item.length > 1);
+  // Обработка вывода тагов
+  // const valueTags = getCompetencyInitValues(iprCurrentData?.competency);
+  // const valueTagArr = Array.from(valueTags.split(',').filter((item) => item.length > 1));
+
   return (
     <fieldset className={styles2.blockWrapper}>
       <legend className={styles2.blockTitle} onClick={handleCallback}>
@@ -513,21 +537,23 @@ export const TasksOverview: FC<IProps> = ({
           ></InputAutocomplete>
         </div>
         <div className={styles2.formRowTag}>
-          {valueTagArr.length
-            ? clearValueTags.map((competence) => {
+          {selectedCompetenceOptions.length
+            ? selectedCompetenceOptions.map((competence) => {
                 return (
-                  <div style={{ maxWidth: '319' }}>
+                  <div key={competence.key} style={{ maxWidth: '319' }}>
                     <FilterTag
-                      // disabled={isExecutive ? false : true}
+                      disabled={isExecutive ? false : true}
                       showClear={true}
                       size="xxs"
                       shape="rounded"
                       view="filled"
                       checked={true}
-                      // onClear={() => clearCompetenceTag(competence)}
+                      onClear={() => {
+                        // clearCompetenceTag();
+                        // setValueTag([]);
+                      }}
                     >
-                      {competence}
-                      {/* {competence.content} */}
+                      {competence.content}
                     </FilterTag>
                   </div>
                 );
@@ -557,7 +583,7 @@ export const TasksOverview: FC<IProps> = ({
               disabled={isExecutive ? false : true}
             ></InputAutocomplete>
 
-            {!isExecutive && iprStatus === 'черновик' ? (
+            {!isExecutive && isDraftIpr(iprStatus) ? (
               <img className={styles2.avatarMentor} src={avatarMentor} alt="avatar"></img>
             ) : (
               ''
@@ -571,7 +597,7 @@ export const TasksOverview: FC<IProps> = ({
               view="date"
               label="Дата создания"
               size="s"
-              value={formatDate(valueStartDate)}
+              value={isExecutive ? valueStartDate : formatDate(valueStartDate)}
               onChange={handleChangeStartDate}
               picker={true}
               Calendar={CalendarDesktop}

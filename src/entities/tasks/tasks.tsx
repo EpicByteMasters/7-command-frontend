@@ -123,7 +123,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   // -------------------------------------------------------------------------------------
 
-  console.log('IPR: ', iprCurrentData);
+  console.log('Ипр который пришел в задачи: ', iprCurrentData);
 
   const courses = useAppSelector(selectCommonLibsEducation);
   console.log('optionCourses: ', courses);

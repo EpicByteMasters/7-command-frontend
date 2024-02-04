@@ -37,7 +37,7 @@ export const OpendIpr: FC = () => {
   const managerIprsList = useAppSelector(selectManagerList);
   const menteeIprList = useAppSelector(selectMentorList);
   const isLoadingIpr = useAppSelector((state) => state.ipr.isLoading);
-  const currentIpr = useAppSelector((state) => state.ipr.ipr);
+  // const currentIpr = useAppSelector((state) => state.ipr.ipr);
   const selectedUser = useAppSelector((state) => state.user.selectedUser);
   const [isEmployee, setIsEmployee] = useState(false);
   const [isManager, setIsManager] = useState(false);
@@ -125,7 +125,7 @@ export const OpendIpr: FC = () => {
     fetchIprData();
   }, [dispatch, isIprIdFoundInManagerList, id]);
 
-  console.log('CURRENT IPR OPEND', currentIpr);
+  console.log('CURRENT IPR OPEND', iprCurrentData);
   console.log('Current role', myCurrentRole);
 
   const handleDataSubmit = (goalData: any, taskData: any) => {
@@ -144,9 +144,9 @@ export const OpendIpr: FC = () => {
               {/* Заголовок */}
               <PageTitle title={pageTitle} />
               {/* Статус */}
-              {currentIpr?.status ? (
-                <Status view="soft" color={getStatusColor(currentIpr?.status.id)}>
-                  {currentIpr.status.name}
+              {iprCurrentData?.status ? (
+                <Status view="soft" color={getStatusColor(iprCurrentData?.status.id)}>
+                  {iprCurrentData.status.name}
                 </Status>
               ) : (
                 <Status view="soft">статус не пришел</Status>
@@ -170,7 +170,7 @@ export const OpendIpr: FC = () => {
             ) : (
               <div className={styles.owerviewWrapper}>
                 {/* кнопки */}
-                {isEmployee && isInProgressIpr(currentIpr?.status.name) ? (
+                {isEmployee && isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button
                       view="secondary"
@@ -183,7 +183,7 @@ export const OpendIpr: FC = () => {
                       Сохранить1
                     </Button>
                   </div>
-                ) : isManager && isInProgressIpr(currentIpr?.status.name) ? (
+                ) : isManager && isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button view="secondary" size="xxs" className={styles.buttonSave}>
                       Сохранить2
@@ -192,7 +192,7 @@ export const OpendIpr: FC = () => {
                       Подвести итоги
                     </Button>
                   </div>
-                ) : isManager && isDraftIpr(currentIpr?.status.name) ? (
+                ) : isManager && isDraftIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button view="secondary" size="xxs" className={styles.buttonSave}>
                       Сохранить3
@@ -204,7 +204,7 @@ export const OpendIpr: FC = () => {
                       Удалить
                     </Button>
                   </div>
-                ) : isMentor && isInProgressIpr(currentIpr?.status.name) ? (
+                ) : isMentor && isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button
                       view="secondary"
@@ -224,33 +224,37 @@ export const OpendIpr: FC = () => {
                     </Button>
                   </div>
                 ) : null}
-                {/* Оценка для работника с выполненным ИПР*/}
-                {isEmployee && (isCompletedIpr(currentIpr?.status.id) || isNotCompletedIpr(currentIpr?.status.id)) ? (
+                {isEmployee &&
+                (isCompletedIpr(iprCurrentData?.status.id) || isNotCompletedIpr(iprCurrentData?.status.id)) ? (
                   <Raiting title="Оценка от руководителя" isDisabled />
-                ) : isManager && (isCompletedIpr(currentIpr?.status.id) || isNotCompletedIpr(currentIpr?.status.id)) ? (
+                ) : isManager &&
+                  (isCompletedIpr(iprCurrentData?.status.id) || isNotCompletedIpr(iprCurrentData?.status.id)) ? (
                   <Raiting title="Оценка выполнения" isDisabled />
                 ) : (
                   <></>
                 )}
-                {/* Общее описание //TODO этот падает */}
                 <div className={styles.taskOverviewWrapper}>
-                  {currentIpr ? (
+                  {iprCurrentData ? (
                     <TasksOverview
                       isExecutive={isManager}
-                      iprStatus={currentIpr?.status.id}
+                      iprStatus={iprCurrentData.status.id}
                       handleGoalValuesChange={handleDataSubmit}
-                      iprCurrentData={isDraftIpr(currentIpr?.status.name) ? null : iprCurrentData}
+                      iprCurrentData={isDraftIpr(iprCurrentData.status.id) ? null : iprCurrentData}
                     />
                   ) : (
                     <></>
                   )}
                 </div>
                 <div className={styles.tasksWrapper}>
-                  <Tasks
-                    isEmployee={isEmployee}
-                    handleTaskValuesChange={handleDataSubmit}
-                    iprCurrentData={isDraftIpr(currentIpr?.status.name) ? null : iprCurrentData}
-                  />
+                  {iprCurrentData ? (
+                    <Tasks
+                      isEmployee={isEmployee}
+                      handleTaskValuesChange={handleDataSubmit}
+                      iprCurrentData={isDraftIpr(iprCurrentData?.status.id) ? null : iprCurrentData}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             )}

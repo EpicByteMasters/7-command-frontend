@@ -10,6 +10,7 @@ import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 import { IIprData } from '../../store/reducers/iprSlice';
 import { IIpr } from '../../store/reducers/iprsSlice';
+import IprStatusDoc from '../../type/ipr-status-name';
 
 export const Plan: React.FC = () => {
   const navigate = useNavigate();
@@ -34,27 +35,28 @@ export const Plan: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'черновик':
+      case IprStatusDoc.Draft:
         return 'purple';
-      case 'отменен':
+      case IprStatusDoc.Canceled:
         return 'orange';
-      case 'в работе':
+      case IprStatusDoc.InProgress:
         return 'blue';
-      case 'не выполнен':
+      case IprStatusDoc.NotCompleted.toLowerCase():
         return 'red';
-      case 'выполнен':
+      case IprStatusDoc.Completed:
         return 'green';
-      case 'отсутствует':
+      case IprStatusDoc.NoIpr:
         return 'grey';
       default:
-        return 'blue';
+        return 'grey';
     }
   };
 
   const formatDateRevert = (inputDate: string): string => {
+    console.log({ inputDate }, 'INPUTDATE');
     const [year, month, day] = inputDate.split('-');
     const formattedDate = `${day}.${month}.${year}`;
-    return formattedDate;
+    return formattedDate || '';
   };
 
   return (
@@ -101,7 +103,7 @@ export const Plan: React.FC = () => {
                 </Table.TCell>
                 <Table.TCell>
                   <div className={styles.tCell}>
-                    <Status view="soft" color={getStatusColor(status.name)}>
+                    <Status view="soft" color={getStatusColor(status.id)}>
                       {status.name}
                     </Status>
                   </div>

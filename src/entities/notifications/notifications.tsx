@@ -5,7 +5,7 @@ import { Backdrop } from '@alfalab/core-components/backdrop';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 
 export const Notifications = ({ close }: any) => {
-  const [notificationsList, setNotificationsList] = useState([1, 2, 3]);
+  const [notificationsList] = useState([1, 2, 3]);
 
   return (
     <>
