@@ -9,6 +9,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	--font-family-system: system-ui, -apple-system, 'Segoe UI', Roboto,
 		'Helvetica Neue', Helvetica, sans-serif;
+	padding: 0 calc(20px - (100vw - 100%)) 0 0;
 }
 
 code {

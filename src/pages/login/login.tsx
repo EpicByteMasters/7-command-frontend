@@ -5,7 +5,7 @@ import styles from './login.module.scss';
 
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { useAppDispatch } from '../../shared/hooks/redux';
-import { getIPRSData } from '../../store/reducers/iprsSlice';
+import { getMyIprsData } from '../../store/reducers/iprsSlice';
 import { Page404 } from '../page404/page404';
 import { FooterMain } from '../../entities/footer-main/footer-main';
 
@@ -44,18 +44,6 @@ export const Login: FC<LoginProps> = ({ users }) => {
 
 						if (getUserData.fulfilled.match(userDataResult)) {
 							console.log('User data received:', userDataResult.payload);
-							// добываем ИПРы
-							const iprsDataResult = await dispatch(getIPRSData());
-
-							if (getIPRSData.fulfilled.match(iprsDataResult)) {
-								console.log('IPRS data received:', iprsDataResult.payload);
-							} else {
-								console.error(
-									'Error during fetching IPRS data:',
-									iprsDataResult.error
-								);
-								navigate('/404', { replace: true });
-							}
 							navigate('/main', { replace: true });
 							console.log('Login successful. Token and data received.');
 						} else {

@@ -37,16 +37,21 @@ export const NavBarMini: React.FC = ({}) => {
 	return (
 		<aside className={styles.aside}>
 			<nav className={styles.navtab} id="#nav">
+				<BackButton
+					className={styles.btnBack}
+					isExecutive={isExecutive}
+					isEmployee={isEmployee}
+					isMentor={isMentor}
+				/>
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<BackButton
-							isExecutive={isExecutive}
-							isEmployee={isEmployee}
-							isMentor={isMentor}
-						/>
-					</li>
-					<li className={styles.item}>
-						<NavLink className={styles.link} to={roleUrl[1].url} replace>
+						<NavLink
+							className={({ isActive }) =>
+								[isActive ? styles.active : '', styles.link].join(' ')
+							}
+							to={roleUrl[1].url}
+							replace
+						>
 							<RocketMIcon
 								fill="currentColor"
 								className={styles.icon}
@@ -57,7 +62,13 @@ export const NavBarMini: React.FC = ({}) => {
 
 					{isExecutive ? (
 						<li className={styles.item}>
-							<NavLink className={styles.link} to={roleUrl[0].url} replace>
+							<NavLink
+								className={({ isActive }) =>
+									[isActive ? styles.active : '', styles.link].join(' ')
+								}
+								to={roleUrl[0].url}
+								replace
+							>
 								<TwoUsersMIcon
 									fill="currentColor"
 									className={styles.icon}
@@ -69,7 +80,13 @@ export const NavBarMini: React.FC = ({}) => {
 
 					{isMentor ? (
 						<li className={styles.item}>
-							<NavLink className={styles.link} to={roleUrl[2].url} replace>
+							<NavLink
+								className={({ isActive }) =>
+									[isActive ? styles.active : '', styles.link].join(' ')
+								}
+								to={roleUrl[2].url}
+								replace
+							>
 								<UserStarMIcon
 									fill="currentColor"
 									className={styles.icon}
