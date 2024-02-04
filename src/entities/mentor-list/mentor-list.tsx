@@ -44,7 +44,9 @@ export const MentorList: React.FC<MentorListProps> = ({ data }) => {
 			selectedUserId
 		);
 		try {
-			navigate(`/test/${idIpr}`, { state: { location, selectedUserId } });
+			navigate(`/service-iprs/ipr/${idIpr}`, {
+				state: { location, selectedUserId },
+			});
 		} catch (error) {
 			console.error('Error during navigating:', error);
 		}
