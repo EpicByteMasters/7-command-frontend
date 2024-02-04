@@ -32,7 +32,7 @@ interface IFormData {
   commentOfEmployee: string;
 }
 
-interface Task {
+interface INewTask {
   taskTitle: string;
   closeDate: string;
   description: string;
@@ -54,4 +54,4 @@ interface IFilesForTask {
   [taskId: string]: File[];
 }
 
-export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, Task };
+export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, INewTask };

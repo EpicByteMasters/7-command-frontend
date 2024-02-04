@@ -15,7 +15,7 @@ import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { NotificationCard } from '../notification-green/notification';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 interface TaskProps {
-  isEmployee: boolean;
+  isEmployee?: boolean;
   isExecutive?: boolean;
 }
 

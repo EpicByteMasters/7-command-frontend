@@ -15,7 +15,6 @@ import { NotificationCard } from '../entities/notification-green/notification';
 import { Page404 } from '../pages/page404/page404';
 import Header from '../shared/header-component/header';
 import { OpendIpr } from '../pages/opend-ipr/opend-ipr';
-import { Tasks } from '../entities/tasks/tasks';
 
 // data
 import users from '../shared/utils/users';

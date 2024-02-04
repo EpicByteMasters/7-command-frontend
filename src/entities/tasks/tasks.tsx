@@ -8,7 +8,6 @@ import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import { Table } from '@alfalab/core-components/table';
 import { Button } from '@alfalab/core-components/button';
-import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
 import { Status } from '@alfalab/core-components/status';
 import { Textarea } from '@alfalab/core-components/textarea';
@@ -52,7 +51,7 @@ import type {
   ICoursesOption,
   IEducationTypeDTO,
   IFilesForTask,
-  Task,
+  INewTask,
 } from './type';
 
 // ----------------------------------------------------------------------------
@@ -150,7 +149,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
   const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
   const [localArrayTask, setLocalArrayTask] = useState<ITask[]>([]);
-  const [newTask, setNewTask] = useState<Task[]>([]);
+  const [newTask, setNewTask] = useState<INewTask[]>([]);
   const [newTaskOpen, setNewTaskOpen] = useState(false);
 
   useEffect(() => {
