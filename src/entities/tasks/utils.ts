@@ -18,7 +18,7 @@ function formatDateToCustomFormat(dateString?: string) {
 
   const [year, month, day] = dateString.split('-').map(Number);
 
-  const formattedDate = `${day} ${MONTH_FULL_NAME_LIST[month - 1]}`;
+  const formattedDate = `${day} ${getArrLastEl(MONTH_FULL_NAME_LIST)}`;
 
   return `до ${formattedDate}`;
 }

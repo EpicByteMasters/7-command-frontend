@@ -531,17 +531,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
                             >
                               Отправить на проверку
                             </Button>
-                            <ButtonDesktop
-                              // onClick={handleNewTaskOpen}
-                              view="tertiary"
-                              shape="rectangular"
-                              size="s"
-                              className={styles.buttonComponent}
-                              nowrap={false}
-                              colors="default"
-                            >
-                              Добавить новую
-                            </ButtonDesktop>
+
                             {!isEmployee && (
                               <div
                                 style={{
@@ -576,6 +566,17 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
           )}
         </Table.TBody>
       </Table>
+      <ButtonDesktop
+        // onClick={handleNewTaskOpen}
+        view="tertiary"
+        shape="rectangular"
+        size="s"
+        className={styles.buttonComponent}
+        nowrap={false}
+        colors="default"
+      >
+        Добавить новую
+      </ButtonDesktop>
     </>
   );
 };

@@ -238,6 +238,7 @@ export const OpendIpr: FC = () => {
                       isExecutive={isManager}
                       iprStatus={currentIpr?.status.id}
                       handleGoalValuesChange={handleDataSubmit}
+                      iprCurrentData={isDraftIpr(currentIpr?.status.name) ? null : iprCurrentData}
                     />
                   ) : (
                     <></>

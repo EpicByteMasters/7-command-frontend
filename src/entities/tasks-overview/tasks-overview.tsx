@@ -2,14 +2,14 @@
 // Import
 // @TODO: @/ import resolve instead of like ../../
 // --------------------------------------------------------------------------
-import React, { FC, ChangeEvent, useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
 
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
+// import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
 
-import type { ManagerIprDraftProps, OptionCompetitionShape } from './type';
+import type { ITasksObverviewProps, OptionCompetitionShape } from './type';
 
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { Textarea } from '@alfalab/core-components/textarea';
@@ -25,13 +25,13 @@ import {
   selectCommonLibsIPRCompetency,
 } from '../../store/reducers/libSlice';
 
-import { setTaskValues } from '../../store/reducers/iprSlice';
+import { ICompetency, IIprData, setTaskValues } from '../../store/reducers/iprSlice';
 
 import { goal, mentor, role } from '../../shared/utils/constants';
 
 import { useAppSelector } from '../../shared/hooks/redux';
 
-import styles from './tasks-overview.module.scss';
+// import styles from './tasks-overview.module.scss';
 import styles2 from './tasks-overview-form.module.scss';
 
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
@@ -45,7 +45,10 @@ import {
   isOptionMatch,
   isValidInputValue,
   getCompetitionOptionName,
+  formatDate,
 } from './utils';
+
+import { getMentorName } from '../../util';
 
 /** Сообщение о необходимости заполнения поля */
 const requiredInputMessage = (inputName: string) => `${inputName} является обязательным для заполенния`;
@@ -57,9 +60,33 @@ const invalidInputMessage = 'Допустимы только кирилличе�
 const validateInputDefaultPattern = /[а-я\d ,.]+/iu;
 
 /**
+ * Получение начального занчения поля ввода компетенций
+ * @param competencyList - список компетенций
+ */
+const getCompetencyInitValues = (competencyList?: ICompetency[]) => {
+  if (!competencyList) {
+    return '';
+  }
+
+  return makeInputValue(competencyList.map((conpetence: ICompetency) => conpetence.competencyRel.name));
+};
+
+interface IProps {
+  isExecutive: boolean;
+  iprStatus: string;
+  handleGoalValuesChange: (goalData: any, taskData: any) => void;
+  iprCurrentData: IIprData | null;
+}
+
+/**
  * TasksOverview component
  */
-export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }: ManagerIprDraftProps) => {
+export const TasksOverview: FC<IProps> = ({
+  isExecutive,
+  iprStatus,
+  handleGoalValuesChange,
+  iprCurrentData,
+}: ITasksObverviewProps) => {
   // Подключение БД данных по значениям инпутов
   const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
@@ -70,12 +97,37 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
   const optionsGoal: OptionShape[] = goal;
   const optionsMentor: OptionShape[] = mentor;
 
+  // Стейты
+  const [multiple] = useState(true);
+  const [shownChevron] = useState(true);
+
+  const [valueGoal, setValueGoal] = useState<string>('');
+  const [valueRole, setValueRole] = useState<string>('');
+  const [valueMentor, setValueMentor] = useState<string>('');
+  const [valueStartDate, setStartDate] = useState<string>(getInitialDate());
+  const [valueEndDate, setEndDate] = useState<string>(getInitialDate());
+  const [valueDescription, setValueDescription] = useState<string>('');
+  const [valueComment, setValueComment] = useState<string>('');
+  const [valueCompetence, setCompetenceValue] = useState<string>('');
+
   // Ошибки
   const [goalEerror, setGoalError] = useState<string>('');
   const [roleError, setRoleError] = useState<string>('');
   const [competenceError, setCompetenceError] = useState<string>('');
   const [commentError, setCommentError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
+
+  // Заполняем данные из ипр
+  useEffect(() => {
+    setValueGoal(iprCurrentData?.goal.name || '');
+    setValueRole(iprCurrentData?.specialty.name || '');
+    setValueMentor(iprCurrentData?.mentor ? getMentorName(iprCurrentData.mentor) : '');
+    setStartDate(iprCurrentData?.createDate || '');
+    setEndDate(iprCurrentData?.closeDate || '');
+    setValueDescription(iprCurrentData?.description || '');
+    setCompetenceValue(getCompetencyInitValues(iprCurrentData?.competency));
+    // setValueComment(iprCurrentData?.comment || '')
+  }, [iprCurrentData]);
 
   // --------------------------------------------------------------------------
   // Competence
@@ -90,11 +142,9 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
   // 		: 'Ведение переговоров, Делегирование, Лидерство, Понимание бизнеса и структуры организации, Построение эффективных процессов, Публичные выступления, Стратегическое мышление, Управление конфликтами'
   // );
 
-  const [valueCompetence, setCompetenceValue] = useState<string>('');
-
   // Computed
   // --------------------------------------------------------------------------
-
+  // console.log(iprCurrentData, 'Data');
   /**
    * Вычисленные для компонента адаптированные опции компетенций
    * Обновляется после получения ответа от сервера
@@ -138,8 +188,8 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
     return competenceOptionList.filter((option) =>
       isOptionMatch(option, getLastInputValue(getInputValues(valueCompetence)))
     );
-  }, [valueCompetence, selectedCompetenceOptions]);
-  console.log();
+  }, [valueCompetence, selectedCompetenceOptions, competenceOptionList]);
+
   // Methods
   // --------------------------------------------------------------------------
 
@@ -217,59 +267,11 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
     handleCallback();
   };
 
-  // Стейты
-  const [multiple, setMultiple] = useState(true);
-
-  const [shownChevron, setShownChevron] = useState(true);
-
-  const [valueGoal, setValueGoal] = useState<string>(
-    isExecutive ? 'Карьерный рост' : 'Соответствие занимаемой должности'
-  );
-
-  const [valueRole, setValueRole] = useState<string>(isExecutive ? 'Продакт-менеджер' : 'Руководитель');
-
-  const [valueMentor, setValueMentor] = useState<string>(
-    isExecutive ? 'Иванова Наталья Дмитриевна' : 'Евдокимов Сергей Семёнович'
-  );
-
-  const [valueStartDate, setStartDate] = useState<string>(getInitialDate());
-
-  const [valueEndDate, setEndDate] = useState<string>(getInitialDate());
-
-  const [valueDescription, setValueDescription] = useState<string>(
-    isExecutive
-      ? 'Составим план задач, которые в течение года помогут достичь повышения'
-      : 'Выработаем план развития для достижения поставленных целей'
-  );
-
-  const [valueComment, setValueComment] = useState<string>('Список материалов к изучению:');
-  const getMentor = (id: number) => {
-    switch (id) {
-      case 5:
-        return 'Иванова Наталья Дмитриевна';
-      case 4:
-        return 'Евдокимов Сергей Семенович';
-      case 2:
-        return 'Писарев Сергей Витальевич';
-      default:
-        return '';
-    }
-  };
-
   // Поиск id Цели
   const goalId: string | undefined = iprGoals.find((o) => o.name === valueGoal)?.id;
 
   // Поиск id Роли
   const roleId: string | undefined = specialty.find((o) => o.name === valueRole)?.id;
-
-  // Поиск id Компетенций
-  // const result = iprCompetency.filter((obj) =>
-  // 	tagValues.map((item) => item.trim()).includes(obj.name)
-  // );
-
-  // const idArray = result.map((item) => item.id);
-
-  // console.log(idArray, 'results');
 
   // @TODO: заменить на реализацию с useMemo
   const taskValues = useMemo(
@@ -277,14 +279,24 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
       goal: goalId,
       specialty: roleId,
       competence: selectedCompetenceIdList,
-      // createDate: valueStartDate,
-      // closeDate: valueEndDate,
-      mentorId: '', // из стора подтянуть mentorId
+      createDate: valueStartDate,
+      closeDate: valueEndDate,
+      mentorId: iprCurrentData?.mentor.id,
       description: valueDescription,
       comment: valueComment,
       iprStatus: iprStatus,
     }),
-    [valueCompetence, selectedCompetenceIdList]
+    [
+      selectedCompetenceIdList,
+      goalId,
+      roleId,
+      valueDescription,
+      valueComment,
+      iprStatus,
+      valueStartDate,
+      valueEndDate,
+      iprCurrentData,
+    ]
   );
 
   const handleCallback = () => {
@@ -556,8 +568,8 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
               view="date"
               label="Дата создания"
               size="s"
-              value={valueStartDate}
-              // onChange={handleChangeStartDate}
+              value={formatDate(valueStartDate)}
+              onChange={handleChangeStartDate}
               picker={true}
               Calendar={CalendarDesktop}
               calendarProps={{
@@ -578,7 +590,7 @@ export const TasksOverview = ({ isExecutive, iprStatus, handleGoalValuesChange }
               view="date"
               label="Дата завершения"
               size="s"
-              value={isExecutive ? '' : valueEndDate}
+              value={isExecutive ? '' : formatDate(valueEndDate)}
               // onChange={handleChange}
               onChange={handleChangeEndDate}
               picker={true}
