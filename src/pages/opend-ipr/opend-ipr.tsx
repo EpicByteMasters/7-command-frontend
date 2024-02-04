@@ -22,8 +22,8 @@ import { getFullName, getStatusColor } from '../../shared/utils/constants';
 import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
-import IprStatusDoc from 'type/ipr-status-name';
-import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from 'util/ipr-status';
+import IprStatusDoc from '../../type/ipr-status-name';
+import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
 //-----------------------------------------------------------------------------
 
 export const OpendIpr: FC = () => {

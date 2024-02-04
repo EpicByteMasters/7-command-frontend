@@ -1,4 +1,4 @@
-import IprStatusDoc from 'type/ipr-status-name';
+import IprStatusDoc from '../type/ipr-status-name';
 
 const isDraftIpr = (status?: string) => status === IprStatusDoc.Draft;
 const isInProgressIpr = (status?: string) => status === IprStatusDoc.InProgress;

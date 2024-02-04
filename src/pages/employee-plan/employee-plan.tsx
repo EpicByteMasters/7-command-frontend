@@ -15,7 +15,7 @@ import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-inf
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
 import { FooterMain } from '../../shared/footer-main/footer-main';
 
-import getFullName from 'util/get-user-full-name';
+import getFullName from '../../util/get-user-full-name';
 
 export const EmployeePlan = () => {
   const { id } = useParams<{ id: string }>();

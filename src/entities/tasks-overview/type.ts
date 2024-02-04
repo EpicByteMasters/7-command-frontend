@@ -1,7 +1,7 @@
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
-import type { IIprData } from '@/store/reducers/iprSlice';
+import type { IIprData } from '../../store/reducers/iprSlice';
 
 interface ITasksObverviewProps {
   isExecutive: boolean;
