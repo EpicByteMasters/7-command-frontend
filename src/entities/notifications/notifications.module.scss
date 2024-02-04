@@ -1,63 +1,63 @@
 .notifications {
-	background: white;
-	width: 520px;
-	position: absolute;
-	right: 0;
-	top: calc(100% + 30px);
-	border-radius: 12px;
+  background: white;
+  width: 520px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 30px);
+  border-radius: 12px;
 }
 
 .list {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .item {
-	padding: 16px;
-	border-bottom: 1px solid #e7e7ea;
+  padding: 16px;
+  border-bottom: 1px solid #e7e7ea;
 }
 
 .title {
-	font-size: 18px;
-	font-weight: 700;
-	line-height: 24px;
-	display: block;
-	margin: 0;
-	margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  display: block;
+  margin: 0;
+  margin-bottom: 12px;
 }
 
 .description {
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 20px;
-	margin: 0;
-	margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  margin-bottom: 12px;
 }
 
 .footer {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .date {
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 20px;
-	color: #989aa3;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #989aa3;
 }
 
 .link {
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 20px;
-	color: #2a77ef;
-	margin-left: auto;
-	text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #2a77ef;
+  margin-left: auto;
+  text-decoration: none;
 }
 
 .wrapperShowMore {
-	padding: 16px;
-	display: flex;
-	justify-content: flex-end;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
 }

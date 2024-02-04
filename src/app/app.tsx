@@ -10,9 +10,6 @@ import { Login } from '../pages/login/login';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
 import { MainPage } from '../pages/main-page/main-page';
 import { LeaderEmployeesList } from '../pages/leader-employees-list/leader-employees-list';
-import { IPREmployee } from '../pages/ipr-employee/ipr-employee';
-import { MyIpr } from '../pages/my-ipr/my-ipr';
-import { MyIprRating } from '../pages/my-ipr-rating/my-ipr-rating';
 import { MentorPlan } from '../pages/mentor-plan/mentor-plan';
 import { NotificationCard } from '../entities/notification-green/notification';
 import { Page404 } from '../pages/page404/page404';
@@ -29,7 +26,7 @@ import {
   selectCommonLibsIPRStatus,
   selectCommonLibsLoading,
   selectCommonLibsError,
-  selectCommonLibsIPRGoals,
+  // selectCommonLibsIPRGoals,
   selectCommonLibsTaskStatus,
   selectCommonLibsSpecialty,
   selectCommonLibsIPRCompetency,
@@ -43,16 +40,11 @@ function App() {
   const iprStatus = useAppSelector(selectCommonLibsIPRStatus);
   const loading = useAppSelector(selectCommonLibsLoading);
   const error = useAppSelector(selectCommonLibsError);
-  const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
+  // const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
   const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
   const education = useAppSelector(selectCommonLibsEducation);
-
-  // const ipr_id: number = 1; // сценарий руководителя с ИПР в работе
-  // const ipr_id2: number = 2; // сценарий руководителя с ИПР черновик
-  const ipr_id3: number = 3; // сценарий сотрудника с ИПР
-  // const ipr_id4: number = 4; // сценарий сотрудника с ИПР
 
   useEffect(() => {
     if (
@@ -96,9 +88,9 @@ function App() {
       }
     };
     getUser(); // Вызываем getUser при монтировании компонента
-  }, []);
+  }, [dispatch]);
 
-  const userData = useAppSelector((state) => state.user.user);
+  // const userData = useAppSelector((state) => state.user.user);
 
   //Загрузка библиотек useRef для отслеживания состояния выполнения запроса и предотвращения отправки дополнительных запросов, пока предыдущий еще не завершен
 
@@ -117,11 +109,10 @@ function App() {
       <Routes>
         <Route path={accessUrl[2].url} element={<Login users={users} />} />
         <Route path="/main" element={<MainPage></MainPage>} />
-        <Route path={roleUrl[1].url} element={<MyPlan />} />
         <Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
         <Route path="/service-iprs/mentor" element={<MentorPlan />} />
+        <Route path={roleUrl[1].url} element={<MyPlan />} />
         <Route path="/service-iprs/ipr/:id" element={<OpendIpr />} />
-        <Route path="/service-iprs/my-ipr-rating/:id" element={<MyIprRating />} />
         <Route path="/service-iprs/myteam/history/:id" element={<EmployeePlan />} />
         <Route
           path="/404"
@@ -134,6 +125,7 @@ function App() {
             ></Page404>
           }
         />
+
         <Route
           path="/505"
           element={
@@ -178,7 +170,6 @@ function App() {
             // <NotificationCard title={'Отправлено в работу'} paragraph={'План развития отправлен сотруднику для исполнения'} />
           }
         ></Route>
-        <Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
       </Routes>
     </div>
   );
