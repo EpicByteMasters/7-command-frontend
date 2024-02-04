@@ -3,6 +3,7 @@
 // @TODO: @/ import resolve instead of like ../../
 // --------------------------------------------------------------------------
 import React, { FC, ChangeEvent, useState, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
@@ -36,6 +37,7 @@ import styles2 from './tasks-overview-form.module.scss';
 import avatarMentor from '../../images/avatars/avatar_mentor1.png';
 
 import {
+	getInitialDate,
 	adaptCompetency,
 	getInputValues,
 	makeInputValue,
@@ -43,7 +45,6 @@ import {
 	isOptionMatch,
 	isValidInputValue,
 	getCompetitionOptionName,
-	convertDate,
 } from './utils';
 
 /** Сообщение о необходимости заполнения поля */
@@ -149,7 +150,7 @@ export const TasksOverview = ({
 			isOptionMatch(option, getLastInputValue(getInputValues(valueCompetence)))
 		);
 	}, [valueCompetence, selectedCompetenceOptions]);
-
+	console.log();
 	// Methods
 	// --------------------------------------------------------------------------
 
@@ -255,9 +256,9 @@ export const TasksOverview = ({
 		isExecutive ? 'Иванова Наталья Дмитриевна' : 'Евдокимов Сергей Семёнович'
 	);
 
-	const [valueStartDate, setStartDate] = useState<string>('');
+	const [valueStartDate, setStartDate] = useState<string>(getInitialDate());
 
-	const [valueEndDate, setEndDate] = useState<string>('');
+	const [valueEndDate, setEndDate] = useState<string>(getInitialDate());
 
 	const [valueDescription, setValueDescription] = useState<string>(
 		isExecutive
@@ -515,7 +516,7 @@ export const TasksOverview = ({
 								onClear: () => setValueRole(''),
 								clear: true,
 							}}
-							// disabled={isExecutive ? false : true}
+							disabled={isExecutive ? false : true}
 						></InputAutocomplete>
 					</div>
 				</div>
@@ -543,7 +544,7 @@ export const TasksOverview = ({
 						size="s"
 						label="Компетенция *"
 						placeholder="Начните вводить название"
-						disabled={false}
+						disabled={isExecutive ? false : true}
 					></InputAutocomplete>
 				</div>
 				<div className={styles2.formRowTag}>
@@ -608,7 +609,7 @@ export const TasksOverview = ({
 							view="date"
 							label="Дата создания"
 							size="s"
-							value={convertDate(valueStartDate)}
+							value={valueStartDate}
 							// onChange={handleChangeStartDate}
 							picker={true}
 							Calendar={CalendarDesktop}
@@ -630,7 +631,7 @@ export const TasksOverview = ({
 							view="date"
 							label="Дата завершения"
 							size="s"
-							value={isExecutive ? '' : convertDate(valueEndDate)}
+							value={isExecutive ? '' : valueEndDate}
 							// onChange={handleChange}
 							onChange={handleChangeEndDate}
 							picker={true}

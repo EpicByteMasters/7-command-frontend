@@ -2,7 +2,7 @@ import styles from './backbutton.module.scss';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
-import { Modal } from '../modal/modal';
+import { Modal } from '../../entities/modal/modal';
 
 interface ButtonProps {
 	isExecutive?: boolean;

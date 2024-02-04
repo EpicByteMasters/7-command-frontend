@@ -7,50 +7,58 @@ import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
 
 import type { ICompetitionOption, OptionCompetitionShape } from './type';
 
+import { isEmpty, leadingZero } from '../../util';
+
 import { INPUT_TAG_DELIMETER } from './const';
 
-// Начальное значение для поля ввода даты
-// const getInitialDate = () => {
-// 	const currentDate = new Date();
+/**
+ * Форматирование даты под поле ввода
+ * @param payload - Дата по частям
+ * @param payload.year - Год
+ * @param payload.month - Номер месяца
+ * @param payload.day - Номер дня
+ */
+const formatDatetForInput = ({
+	year,
+	month,
+	day,
+}: {
+	year: number;
+	month: number;
+	day: number;
+}) => `${leadingZero(day)}.${leadingZero(month)}.${year}`;
 
-// 	const [year, month, day] = [
-// 		currentDate.getFullYear(),
-// 		currentDate.getMonth(),
-// 		currentDate.getDate(),
-// 	];
+/**
+ * Начальное значение для поля ввода даты
+ * @param date - Объект даты
+ */
+const getInitialDate = (date = new Date()) => {
+	const [year, month, day] = [
+		date.getFullYear(),
+		date.getMonth(),
+		date.getDate(),
+	];
 
-// 	return `${year}.${month}.${day}`;
-// };
-
-// const convertDate = (dateString: any) => {
-// 	const parts = dateString.split('-');
-// 	const year = parts[0];
-// 	const month = parts[1];
-// 	const day = parts[2];
-
-// 	return `${day}.${month}.${year}`;
-// };
-const convertDate = (inputDate: string): string => {
-	const [day, month, year] = inputDate.split('-');
-	const formattedDate = `${day}.${month}.${year}`;
-	return formattedDate;
+	return formatDatetForInput({ year, month, day });
 };
 
-// Преобразовывем модель компетиций полученных по сети в совместимую с компонентом
+/**
+ * Преобразовывем модель компетиций полученных по сети в совместимую с компонентом
+ */
 const adaptCompetency = (
 	competency: ICommonLibWithSkillType
 ): ICompetitionOption => ({
 	key: competency.id,
-	content: competency.name.trim(),
+	content: competency.name,
 	value: competency,
 });
 
-// Полчаем разделённые значения из поля ввода
+// Получаем разделённые значения из поля ввода
 const getInputValues = (inputValue: string, delimeter = INPUT_TAG_DELIMETER) =>
 	inputValue
 		.trim()
 		.split(delimeter)
-		.filter((value) => value !== '')
+		.filter((value) => !isEmpty(value))
 		.map((value) => value.trim());
 
 // Собираем теги в строку как значение инпута
@@ -119,5 +127,6 @@ export {
 	isOptionMatch,
 	isValidInputValue,
 	getCompetitionOptionName,
-	convertDate,
+	getInitialDate,
+	formatDatetForInput,
 };

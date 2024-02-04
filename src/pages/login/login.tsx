@@ -7,7 +7,7 @@ import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { useAppDispatch } from '../../shared/hooks/redux';
 import { getMyIprsData } from '../../store/reducers/iprsSlice';
 import { Page404 } from '../page404/page404';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import { User } from '../../shared/utils/users';
 import { getUserData, logInUser } from '../../store/reducers/userSlice';

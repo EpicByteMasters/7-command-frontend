@@ -1,7 +1,7 @@
 import styles from './main-page.module.scss';
 
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import layout1 from '../../images/main-layout/top.png';
 import layout2 from '../../images/main-layout/main-news.png';

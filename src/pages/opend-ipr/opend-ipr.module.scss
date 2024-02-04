@@ -30,6 +30,8 @@
 
 .buttonsWrapper {
 	margin-bottom: 48px;
+	display: flex;
+	gap: 8px;
 }
 
 .taskOverviewWrapper {
@@ -50,4 +52,26 @@
 }
 .employeeInfoCardWrapper {
 	margin-bottom: 40px;
+}
+
+.buttonSave {
+	margin-right: 20px;
+	padding: 10px;
+}
+
+.buttonSend {
+	width: 200px;
+	margin-right: 18px;
+	padding: 10px;
+}
+
+.buttonDiscard {
+	margin: 0;
+	padding: 0;
+}
+
+.buttonDelete {
+	margin: 0 0 0 auto;
+	padding: 0;
+	display: flex;
 }

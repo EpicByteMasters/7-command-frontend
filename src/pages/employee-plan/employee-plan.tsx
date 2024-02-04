@@ -9,7 +9,7 @@ import { RootState } from '../../store/store';
 import { Plan } from '../../entities/plan-component/plan';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import {
 	getUserById,

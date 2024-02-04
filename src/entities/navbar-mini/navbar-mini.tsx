@@ -8,7 +8,7 @@ import { RocketMIcon } from '@alfalab/icons-glyph/RocketMIcon';
 import { UserStarMIcon } from '@alfalab/icons-glyph/UserStarMIcon';
 
 import { roleUrl } from '../../shared/utils/urls';
-import { BackButton } from '../backbutton/backbutton';
+import { BackButton } from '../../shared/backbutton/backbutton';
 
 export const NavBarMini: React.FC = ({}) => {
 	const location = useLocation();

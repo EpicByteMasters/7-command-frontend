@@ -2,7 +2,7 @@ import styles from './page404.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Button } from '@alfalab/core-components/button';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 interface PageProps {
 	error: string;
