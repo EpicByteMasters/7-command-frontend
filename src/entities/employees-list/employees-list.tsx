@@ -13,7 +13,7 @@ import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { Modal } from '../modal/modal';
-import { Employee } from '../../store/reducers/managerIprSlice';
+import { Employee, getManagerIprsList } from '../../store/reducers/managerIprSlice';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
@@ -196,12 +196,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
     setModalDelete(!modalDelete);
   };
 
-  const handleDelete = (id: number | null) => {
+  const handleDelete = async (id: number | null) => {
     console.log('id to delete', id);
+
     if (id) {
       // Вызываем функцию удаления из редьюсера, передавая id IPR
-      //console.log('вызываем функцию удаления!!!!!!!!!!!!!!!!!!!!!!');
-      dispatch(deleteIprById(id));
+      await dispatch(deleteIprById(id));
+      // После успешного удаления выполняем запрос данных
+      dispatch(getManagerIprsList());
     }
 
     // Сбрасываем состояние deletingItemId после удаления
@@ -268,6 +270,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                 rowIndex
               ) => {
                 const progressPercent = (taskCompleted / taskCount) * 100;
+                console.log('progressPercent', progressPercent);
                 //TODO вставить в верстку аватарку
                 return (
                   <Table.TRow key={id}>
@@ -301,7 +304,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </Space>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell}>{goal ? getValueById(goal, iprGoalsLib) : '—'}</div>
+                      <div className={styles.tCell}>{goalId ? getValueById(goalId, iprGoalsLib) : '—'}</div>
                     </Table.TCell>
                     <Table.TCell>
                       <div className={styles.tCell} style={{ textAlign: 'center' }}>
@@ -309,7 +312,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </div>
                     </Table.TCell>
                     <Table.TCell>
-                      {progressPercent ? (
+                      {taskCount ? (
                         <CircularProgressBar
                           value={progressPercent}
                           title={`${taskCompleted}/${taskCount}`}
@@ -344,14 +347,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </div>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tBtnDot}>
-                        <Button view="ghost" onClick={() => handleMoreButtonClick(rowIndex)}>
-                          <MoreMIcon style={{ fill: '#898889' }} />
-                        </Button>
-                      </div>
-                      {activeRowIndex === rowIndex && (
-                        <div className={styles.popoverContainer} ref={popoverRef}>
-                          <div className={styles.popoverButtons}>
+                      <div className={styles.btnsWrapper}>
+                        <div className={styles.tBtnDot}>
+                          <Button view="ghost" onClick={() => handleMoreButtonClick(rowIndex)}>
+                            <MoreMIcon style={{ fill: '#898889' }} />
+                          </Button>
+                        </div>
+                        {activeRowIndex === rowIndex && (
+                          <div className={styles.popoverButtons} ref={popoverRef}>
                             {statusId === 'DRAFT' ? (
                               <Button
                                 className={styles.btnText}
@@ -392,8 +395,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                               История
                             </Button>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </Table.TCell>
                   </Table.TRow>
                 );
