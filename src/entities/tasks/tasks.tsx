@@ -73,6 +73,8 @@ import { TestResultButton } from '../../componet/test-result-button';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { NewTask } from '../../entities/new-task/new-task';
 
+import { isCompletedIpr, isNotCompletedIpr } from '../../util/ipr-status';
+
 // ----------------------------------------------------------------------------
 
 // utils
@@ -604,7 +606,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
-      {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
+      <div>{newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}</div>
     </>
   );
 };
