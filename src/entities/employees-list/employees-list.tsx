@@ -332,7 +332,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                     </Table.TCell>
                     <Table.TCell>
                       <div className={styles.tBtn}>
-                        {status === 'NO_IPR' ? (
+                        {statusId === 'NO_IPR' ? (
                           <Button view="tertiary" size="xxs" onClick={onClickToDraft}>
                             Создать
                           </Button>
@@ -352,14 +352,35 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       {activeRowIndex === rowIndex && (
                         <div className={styles.popoverContainer} ref={popoverRef}>
                           <div className={styles.popoverButtons}>
-                            <Button
-                              className={styles.btnText}
-                              view="ghost"
-                              size="s"
-                              onClick={() => onClickToDelete(iprId)}
-                            >
-                              Удалить
-                            </Button>
+                            {statusId === 'DRAFT' ? (
+                              <Button
+                                className={styles.btnText}
+                                view="ghost"
+                                size="s"
+                                onClick={() => onClickToDelete(iprId)}
+                              >
+                                Удалить
+                              </Button>
+                            ) : statusId === 'IN_PROGRESS' ? (
+                              <Button
+                                className={styles.btnText}
+                                view="ghost"
+                                size="s"
+                                //onClick={() => onClickToDelete(iprId)}
+                              >
+                                Отменить
+                              </Button>
+                            ) : statusId === 'NO_IPR' ? (
+                              <Button
+                                className={styles.btnText}
+                                view="ghost"
+                                size="s"
+                                //onClick={() => onClickToDelete(iprId)}
+                              >
+                                Создать
+                              </Button>
+                            ) : null}
+
                             <Button
                               className={styles.btnText}
                               view="ghost"
