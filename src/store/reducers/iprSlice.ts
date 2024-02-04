@@ -107,6 +107,41 @@ export const initialIprData: IIprData = {
   iprGrade: 0,
 };
 
+const initialState: TIprDataState = {
+  ipr: null,
+  isLoading: false,
+  error: '',
+  taskValues: null,
+};
+
+export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', async (userId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ employeeId: userId }),
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to create IPR data');
+    }
+  } catch (error) {
+    console.error('Error during creating IPR data:', error);
+    throw error;
+  }
+});
+
 export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>('iprs/getIprSupevisor', async (id) => {
   try {
     const token = localStorage.getItem('token');
@@ -159,12 +194,6 @@ export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>('iprs/get
   }
 });
 
-const initialState: TIprDataState = {
-  ipr: null,
-  isLoading: false,
-  error: '',
-  taskValues: null,
-};
 export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', async (id) => {
   try {
     const token = localStorage.getItem('token');
@@ -240,6 +269,30 @@ const iprSlice = createSlice({
       .addCase(deleteIprById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message ?? 'Failed to delete IPR';
+      })
+      .addCase(createIpr.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(createIpr.fulfilled, (state, action) => {
+        const { id, employeeId, supervisorId, status } = action.payload;
+
+        if (state.ipr) {
+          // Обновление состояния с учетом полученных полей
+          state.ipr = {
+            ...state.ipr,
+            id: id || state.ipr.id,
+            employeeId: employeeId || state.ipr.employeeId,
+            supervisorId: supervisorId || state.ipr.supervisorId,
+            status: status || state.ipr.status,
+          };
+        }
+
+        state.isLoading = false;
+      })
+      .addCase(createIpr.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = 'Failed to create IPR';
       });
   },
 });
@@ -283,37 +336,3 @@ export default iprSlice.reducer;
 // 		}
 // 	}
 // );
-
-// export const deleteIpr = createAsyncThunk<
-// 	void,
-// 	number,
-// 	{ rejectValue: DeleteIprError }
-// >('iprs/deleteIpr', async (iprId, { rejectWithValue }) => {
-// 	try {
-// 		const token = localStorage.getItem('token');
-
-// 		if (!token) {
-// 			throw new Error('Token is missing in localStorage');
-// 		}
-
-// 		const response = await fetch(
-// 			`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}`,
-// 			{
-// 				method: 'DELETE',
-// 				headers: {
-// 					Authorization: `Bearer ${token}`,
-// 				},
-// 			}
-// 		);
-
-// 		if (response.status === 204) {
-// 			// успешное удаление и в ответе нет ничего
-// 			return;
-// 		} else {
-// 			throw new Error('Failed to delete IPR');
-// 		}
-// 	} catch (error: any) {
-// 		console.error('Error during deleting IPR:', error);
-// 		return rejectWithValue({ message: error.message } as DeleteIprError);
-// 	}
-// });

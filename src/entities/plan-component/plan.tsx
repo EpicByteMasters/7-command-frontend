@@ -87,10 +87,10 @@ export const Plan: React.FC = () => {
                   <div className={styles.tCell}>{goal?.name}</div>
                 </Table.TCell>
                 <Table.TCell>
-                  <div className={styles.tCell}>{formatDateRevert(createDate)}</div>
+                  <div>{createDate ? <div className={styles.tCell}>{formatDateRevert(createDate)}</div> : null}</div>
                 </Table.TCell>
                 <Table.TCell>
-                  <div className={styles.tCell}>{formatDateRevert(closeDate)}</div>
+                  <div>{closeDate ? <div className={styles.tCell}>{formatDateRevert(closeDate)}</div> : null}</div>
                 </Table.TCell>
                 <Table.TCell>
                   <CircularProgressBar
