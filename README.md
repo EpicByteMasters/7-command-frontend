@@ -2,6 +2,10 @@
 
 Проект представляет собой MVP-версию раздела корпоративного портала, который предлагает функционал для индивидуального плана развития сотрудника (ИПР).
 
+<img src="https://placekitten.com/408/287" />
+
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](/src/images/screenshot.png)
+
 ### Роли
 
 - Руководитель
@@ -61,6 +65,6 @@
 
 - `npm start` - запустите проект;
 
-# ScreenShot приложения
+# Скриншот приложения
 
-![](./src/images/screenForREADME.jpg)
+<!-- <!-- ![Скриншот](./src/images/screenshot.png'Скриншот приложения') -->

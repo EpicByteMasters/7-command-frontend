@@ -71,7 +71,7 @@ export type TIprDataState = {
   ipr: IIprData | null;
   isLoading: boolean;
   error: string;
-  taskValues: unknown | null;
+  taskValues: string[];
 };
 
 export const initialIprData: IIprData = {
@@ -111,7 +111,7 @@ const initialState: TIprDataState = {
   ipr: null,
   isLoading: false,
   error: '',
-  taskValues: null,
+  taskValues: [],
 };
 
 export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', async (userId) => {
@@ -426,7 +426,7 @@ const iprSlice = createSlice({
   name: 'ipr',
   initialState,
   reducers: {
-    setTaskValues: (state, { payload }: PayloadAction<unknown>) => {
+    setTaskValues: (state, { payload }: PayloadAction<string[]>) => {
       console.log({ payload });
       state.taskValues = payload;
     },

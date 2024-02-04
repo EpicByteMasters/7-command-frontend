@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   margin: 40px 0 0;
-  // height: 40%;
 }
 
 .title {
@@ -46,18 +45,4 @@
   margin: 0;
   padding: 0;
   color: #898889;
-}
-
-// Footer
-
-.generalFooterWrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.generalFooterContainer {
-  flex: 1 0 auto;
-}
-.generalFooter {
-  flex: 0 0 auto;
 }

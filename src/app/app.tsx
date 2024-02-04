@@ -26,11 +26,11 @@ import {
   selectCommonLibsIPRStatus,
   selectCommonLibsLoading,
   selectCommonLibsError,
-  // selectCommonLibsIPRGoals,
   selectCommonLibsTaskStatus,
   selectCommonLibsSpecialty,
   selectCommonLibsIPRCompetency,
   selectCommonLibsEducation,
+  selectCommonLibsIPRGoals,
 } from '../store/reducers/libSlice';
 import { MyPlan } from '../pages/my-plan/my-plan';
 
@@ -40,7 +40,7 @@ function App() {
   const iprStatus = useAppSelector(selectCommonLibsIPRStatus);
   const loading = useAppSelector(selectCommonLibsLoading);
   const error = useAppSelector(selectCommonLibsError);
-  // const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
+  const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
   const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);
@@ -95,13 +95,13 @@ function App() {
   //Загрузка библиотек useRef для отслеживания состояния выполнения запроса и предотвращения отправки дополнительных запросов, пока предыдущий еще не завершен
 
   //Вывод в консоль данных библиотек
-  // console.log('Библиотека Positions:', positions);
-  // console.log('Библиотека IPR Status:', iprStatus);
-  // console.log('Библиотека IPR Goals:', iprGoals);
+  console.log('Библиотека Positions:', positions);
+  console.log('Библиотека IPR Status:', iprStatus);
+  console.log('Библиотека IPR Goals:', iprGoals);
   console.log('Библиотека Task status:', taskStatus);
-  // console.log('Библиотека specialty:', specialty);
-  // console.log('Библиотека iprCompetency:', iprCompetency);
-  // console.log('Библиотека Task education:', education);
+  console.log('Библиотека specialty:', specialty);
+  console.log('Библиотека iprCompetency:', iprCompetency);
+  console.log('Библиотека Task education:', education);
 
   return (
     <div className={styles.container__main}>

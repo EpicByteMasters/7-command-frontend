@@ -1,6 +1,6 @@
 import styles from './opend-ipr.module.scss';
 //-----------------------------------------------------------------------------
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 //-----------------------------------------------------------------------------
@@ -12,10 +12,16 @@ import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
+import { Modal } from '../../entities/modal/modal';
 //-----------------------------------------------------------------------------
 import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
 import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
-import { getIprByIdByEmployee, getIprByIdBySupervisor } from '../../store/reducers/iprSlice';
+import {
+  deleteIprById,
+  getIprByIdByEmployee,
+  getIprByIdBySupervisor,
+  initialIprData,
+} from '../../store/reducers/iprSlice';
 import { getFullName, getStatusColor } from '../../shared/utils/constants';
 //-----------------------------------------------------------------------------
 import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
@@ -23,11 +29,17 @@ import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
 import IprStatusDoc from '../../type/ipr-status-name';
 import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
-//-----------------------------------------------------------------------------
+import { roleUrl } from '../../shared/utils/urls';
+// ----------------------------------------------------------------------------
+
+const dummyIprData = initialIprData;
+
+// ----------------------------------------------------------------------------
 
 export const OpendIpr: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const [pageTitle, setPageTitle] = useState('');
 
   const { selectedUserId } = location.state;
@@ -42,6 +54,9 @@ export const OpendIpr: FC = () => {
   const [isManager, setIsManager] = useState(false);
   const [isMentor, setIsMentor] = useState(false);
   const [isConclusion, setConclusion] = useState(false);
+  // модальные окна
+  const [modalDelete, setModalDelete] = useState(false);
+  const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
 
   const taskValues = useAppSelector((state) => state.ipr.taskValues);
   const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
@@ -61,8 +76,8 @@ export const OpendIpr: FC = () => {
     dispatch(getMentorIprsList());
   }, [dispatch]);
 
-  console.log('Get menIPR List', managerIprsList?.employees);
-  console.log('Get mentee IPR List', menteeIprList?.employees);
+  //console.log('Get menIPR List', managerIprsList?.employees);
+  //console.log('Get mentee IPR List', menteeIprList?.employees);
 
   // нашли ИПР из рута в списке ИПР
   const isIprIdFoundInManagerList = managerIprsList?.employees.some((employee) => employee.iprId === Number(id));
@@ -133,6 +148,39 @@ export const OpendIpr: FC = () => {
     console.log('ТАСК ОВЕРВЬЮ Отправка данных на сервер из AnotherComponent:', taskData);
   };
 
+  //--------Обработчик удаления ИПР------------------------------------------
+  const onClickToDelete = (idIprtoDelete: number) => {
+    console.log('onClickToDelete ID', idIprtoDelete);
+    setDeletingItemId(idIprtoDelete);
+    setModalDelete(!modalDelete);
+  };
+
+  const handleDelete = async (idIpr: number | null) => {
+    console.log('id to delete', idIpr);
+    if (idIpr) {
+      await dispatch(deleteIprById(idIpr));
+
+      dispatch(getManagerIprsList());
+    }
+
+    navigate(`${roleUrl[0].url}`);
+    setDeletingItemId(null);
+  };
+
+  //--------Обработчик сохранения ИПР------------------------------------------
+
+  const onClickToSave = async () => {
+    console.log({ taskValues });
+    // if (idIpr) {
+    //   await dispatch(deleteIprById(idIpr));
+
+    //   dispatch(getManagerIprsList());
+    // }
+
+    // navigate(`${roleUrl[0].url}`);
+    // setDeletingItemId(null);
+  };
+
   return (
     <div className={styles.generalFooterWrapper}>
       <div className={styles.generalFooterContainer}>
@@ -170,14 +218,7 @@ export const OpendIpr: FC = () => {
                 {/* кнопки */}
                 {isEmployee && isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
-                    <Button
-                      view="secondary"
-                      size="xxs"
-                      className={styles.buttonSave}
-                      onClick={() => {
-                        console.log({ taskValues });
-                      }}
-                    >
+                    <Button view="secondary" size="xxs" className={styles.buttonSave} onClick={() => onClickToSave()}>
                       Сохранить1
                     </Button>
                   </div>
@@ -198,7 +239,12 @@ export const OpendIpr: FC = () => {
                     <Button view="primary" size="xxs" className={styles.buttonSave}>
                       Отправить в работу
                     </Button>
-                    <Button view="tertiary" size="xxs" className={styles.buttonDelete}>
+                    <Button
+                      view="tertiary"
+                      size="xxs"
+                      className={styles.buttonDelete}
+                      onClick={() => onClickToDelete(Number(id))}
+                    >
                       Удалить
                     </Button>
                   </div>
@@ -237,7 +283,7 @@ export const OpendIpr: FC = () => {
                       isExecutive={isManager}
                       iprStatus={iprCurrentData.status.id}
                       handleGoalValuesChange={handleDataSubmit}
-                      iprCurrentData={isDraftIpr(iprCurrentData.status.id) ? null : iprCurrentData}
+                      iprCurrentData={isDraftIpr(iprCurrentData.status.id) ? iprCurrentData : dummyIprData}
                     />
                   ) : (
                     <></>
@@ -248,10 +294,10 @@ export const OpendIpr: FC = () => {
                     <Tasks
                       isEmployee={isEmployee}
                       handleTaskValuesChange={handleDataSubmit}
-                      iprCurrentData={isDraftIpr(iprCurrentData?.status.id) ? null : iprCurrentData}
+                      iprCurrentData={isDraftIpr(iprCurrentData?.status.id) ? iprCurrentData : dummyIprData}
                     />
                   ) : (
-                    <></>
+                    <div>пук в лужу</div>
                   )}
                 </div>
               </div>
@@ -260,6 +306,17 @@ export const OpendIpr: FC = () => {
         </div>
       </div>
       <div className={styles.generalFooter}></div>
+      {modalDelete ? (
+        <Modal
+          title="Удаление плана развития"
+          paragraph={'Вы действительно хотите удалить план развития?'}
+          confirmButtonLabel={'Удалить'}
+          cancelButtonLabel={'Отмена'}
+          onConfirm={() => handleDelete(Number(deletingItemId))}
+        ></Modal>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

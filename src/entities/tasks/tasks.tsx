@@ -361,7 +361,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       </legend>
       <Table className={styles.table}>
         <Table.TBody>
-          {localArrayTask?.map(
+          {iprCurrentData.task?.map(
             ({ id, name, taskStatus, description, supervisorComment, closeDate, education, comment }: ITask) => (
               <React.Fragment key={id}>
                 <Table.TRow className={styles.row}>

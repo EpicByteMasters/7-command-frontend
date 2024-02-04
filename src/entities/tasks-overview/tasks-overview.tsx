@@ -98,6 +98,10 @@ export const TasksOverview: FC<IProps> = ({
   const optionsGoal: OptionShape[] = goal;
   const optionsMentor: OptionShape[] = mentor;
 
+  console.groupCollapsed('TasksOverview');
+  console.log({ optionsRole, optionsGoal, optionsMentor });
+  console.groupEnd();
+
   // Стейты
   const [multiple] = useState(true);
   const [shownChevron] = useState(true);
@@ -435,10 +439,15 @@ export const TasksOverview: FC<IProps> = ({
   };
 
   // Обработка фильтры поиска значения
-  const getFilteredGoals = (): OptionShape[] =>
-    optionsGoal.some(({ key }) => key === valueGoal)
+  const getFilteredGoals = (): OptionShape[] => {
+    console.groupCollapsed('getFilteredGoals');
+    console.log({ optionsGoal });
+    console.groupEnd();
+
+    return optionsGoal.some(({ key }) => key === valueGoal)
       ? optionsGoal
       : optionsGoal.filter((option) => isOptionMatch(option, valueGoal));
+  };
 
   const getFilteredRoles = (): OptionShape[] =>
     optionsRole.some(({ key }) => key === valueRole)
