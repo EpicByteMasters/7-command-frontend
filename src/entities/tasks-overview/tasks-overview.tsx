@@ -70,7 +70,7 @@ const getCompetencyInitValues = (competencyList?: ICompetency[]) => {
     return '';
   }
 
-  return makeInputValue(competencyList.map((conpetence: ICompetency) => conpetence.competencyRel.name));
+  return makeInputValue(competencyList.map((conpetence: ICompetency) => conpetence.competencyRel?.name));
 };
 interface IProps {
   isExecutive: boolean;

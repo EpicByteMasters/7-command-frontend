@@ -1,5 +1,6 @@
 import type { IUser } from '../store/reducers/userSlice';
 
+
 /** Получение полного имени пользователя, игнорируя отсутствие отчества */
 
 const getFullName = (user: IUser): string => {
