@@ -1,4 +1,5 @@
 import styles from './app.module.scss';
+
 import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 import { useEffect, useRef } from 'react';
@@ -136,10 +137,14 @@ function App() {
 				<Route path={roleUrl[1].url} element={<MyPlan />} />
 				<Route path={roleUrl[0].url} element={<LeaderEmployeesList />} />
 				<Route path="/service-iprs/mentor" element={<MentorPlan />} />
-				<Route path="/test/:id" element={<OpendIpr />} />
+				<Route path="/service-iprs/ipr/:id" element={<OpendIpr />} />
 				<Route
 					path="/service-iprs/my-ipr-rating/:id"
 					element={<MyIprRating />}
+				/>
+				<Route
+					path="/service-iprs/myteam/history/:id"
+					element={<EmployeePlan />}
 				/>
 				<Route
 					path="/404"
@@ -185,9 +190,6 @@ function App() {
 						></Page404>
 					}
 				/>
-
-				{/* Футер - старые роуты */}
-
 				<Route
 					path={'/notification1'}
 					element={
@@ -201,15 +203,6 @@ function App() {
 				></Route>
 				<Route path="/service-iprs/my-ipr/:id" element={<MyIpr />} />
 				<Route path="/service-iprs/ipr/:id" element={<IPREmployee />} />
-
-				<Route
-					path="/service-iprs/myteam/history/:id"
-					element={<EmployeePlan />}
-				/>
-				{/* <Route
-					path="/iprs/rating"
-					element={<EmployeeRatingPage isExecutive={true} />}
-				/> */}
 			</Routes>
 		</div>
 	);
