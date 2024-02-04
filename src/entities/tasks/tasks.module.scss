@@ -1,3 +1,5 @@
+@use '../../styles/mixins.scss';
+
 .table {
 	box-sizing: border-box;
 	font-family: 'Inter';
@@ -136,6 +138,7 @@
 	z-index: 20;
 }
 
+<<<<<<< HEAD
 .formRowTag {
 	margin-top: 16px;
 	display: flex;
@@ -145,6 +148,8 @@
 	gap: 16px;
 }
 
+=======
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 .tagContainer {
 	display: flex;
 	width: 952px;
@@ -165,3 +170,39 @@
 .buttonResult {
 	margin: 0 0 0 auto;
 }
+<<<<<<< HEAD
+=======
+
+.blockTitle {
+	@include mixins.title_h2;
+	margin: 0 0 28px 0;
+}
+
+.buttonComponent {
+	margin-bottom: 64px;
+}
+.select {
+	display: flex;
+	height: 35px;
+	width: 130px;
+	background-color: black;
+	color: white;
+	border-radius: 6px;
+	padding: 0 6px;
+	margin: 5px;
+	font: 'Inter';
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 20px;
+	letter-spacing: 0em;
+	text-align: left;
+	border: 9px solid black;
+}
+
+.option {
+	font: 'Inter';
+	font-weight: 400;
+	font-size: 20px;
+	background-color: white;
+}
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270

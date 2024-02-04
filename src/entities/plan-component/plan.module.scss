@@ -37,16 +37,16 @@
 	letter-spacing: 0em;
 	text-align: left;
 }
-tr {
-}
 
-td {
-	display: table-cell;
-}
 .tCell {
 	margin: 4px 0 0 0;
 	vertical-align: middle;
 }
-
 .tBtn {
+	margin: 8px 0 0 0;
+}
+
+.progressBar {
+	display: flex;
+	justify-content: cenetr;
 }

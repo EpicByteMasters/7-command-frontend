@@ -7,6 +7,10 @@
 	height: 40%;
 }
 
+.containerList {
+	margin-top: 20px;
+}
+
 .wrapper {
 	flex-grow: 1;
 }
@@ -44,4 +48,12 @@
 }
 .generalFooter {
 	flex: 0 0 auto;
+}
+.title {
+	font-family: 'Styrene UI';
+	font-size: 38px;
+	font-weight: 500;
+	line-height: normal;
+	padding: 0;
+	margin: 0 0 14px;
 }

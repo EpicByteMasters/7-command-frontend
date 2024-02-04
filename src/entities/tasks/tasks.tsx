@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {
 	ChangeEvent,
 	ReactNode,
@@ -8,6 +9,10 @@ import React, {
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
+=======
+import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 
 // -----------------------------------------------------------------------------
 
@@ -15,18 +20,20 @@ import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import { Table } from '@alfalab/core-components/table';
 import { Button } from '@alfalab/core-components/button';
+import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
+
 import { Status } from '@alfalab/core-components/status';
-import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 import { Textarea } from '@alfalab/core-components/textarea';
+
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { Attach } from '@alfalab/core-components/attach';
 import { Collapse } from '@alfalab/core-components/collapse';
-import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
+import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 
+import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
-import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 
@@ -70,33 +77,77 @@ import {
 	isCourseSelectedOption,
 	isCourseFilteredOption,
 	formatDateToCustomFormat,
-} from './util';
+} from './utils';
 
 // ----------------------------------------------------------------------------
 
 import linkToCourses from '../../images/link-gotocourses.png';
+
 import styles from './tasks.module.scss';
+
+import { getStatusColor } from '../../shared/utils/constants';
+import { TestResultButton } from '../../componet/test-result-button';
+import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 
 // ----------------------------------------------------------------------------
 
 // utils
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
-	key: course.specialty,
+	key: course.id,
 	content: course.name.trim(),
 	value: course,
 });
 
 // ----------------------------------------------------------------------------
 
+// const showTestResultButtonComponent = (
+// 	course: ICoursesOption,
+// 	navigateToUrl: (urlLink: string) => void,
+// ) => {
+// 	return (
+// 		<Button
+// 			size="xxs"
+// 			view="tertiary"
+// 			style={{ marginLeft: '550px' }}
+// 			className={styles.buttonResult}
+// 			onClick={() => navigateToUrl(course.value.urlLink)}
+// 		>
+// 			Посмотреть результат
+// 		</Button>
+// 	)
+// }
+
+// const TEST_RESULT_DUMMY_URL = 'https://testlink_empty.com'
+
+// /** Проверка на тестовую ссылку результатов обучения */
+// const isTestResultDummyUrl = (url: string): boolean => url === TEST_RESULT_DUMMY_URL
+
+// ----------------------------------------------------------------------------
+
 export const Tasks: FC<ITasksProps> = ({
 	isEmployee,
 	handleTaskValuesChange,
+	iprCurrentData,
 }) => {
+<<<<<<< HEAD
 	const dispatch = useDispatch();
 	const { id } = useParams<{ id: string }>();
 	const [selectedOption, setSelectedOption] = useState(''); // Состояние выбранной опции Селекта
+=======
+	// const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 
-	const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
+	// const navigate = useNavigate()
+	// const testResultButton = (urlLink: string) => navigate(urlLink)
+
+	// Sub comps
+	// -------------------------------------------------------------------------------------
+
+	// const showTestResultButton = (cource: ICoursesOption) => (
+	// 	testResultButton(cource, navigateToUrl)
+	// )
+
+	// -------------------------------------------------------------------------------------
 
 	console.log('IPR: ', iprCurrentData);
 
@@ -105,7 +156,7 @@ export const Tasks: FC<ITasksProps> = ({
 
 	//#region State
 
-	const [taskValues, setTaskValues] = React.useState<IFormData>({
+	const [taskValues, setTaskValues] = useState<IFormData>({
 		id: 0,
 		name: '',
 		closeDate: '',
@@ -124,7 +175,7 @@ export const Tasks: FC<ITasksProps> = ({
 	);
 	const [valueEndDate, setEndDate] = useState<string>('');
 	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
-	const navigate = useNavigate();
+	const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
 
 	//#endregion
 
@@ -138,7 +189,11 @@ export const Tasks: FC<ITasksProps> = ({
 
 	/** Введённые значения */
 	const inputValues: string[] = useMemo(
-		() => valueCourse.split(',').map((value) => value.trim()),
+		() =>
+			valueCourse
+				.split(',')
+				.map((value) => value.trim())
+				.filter((value) => Boolean(value)),
 		[valueCourse]
 	);
 
@@ -166,6 +221,25 @@ export const Tasks: FC<ITasksProps> = ({
 		[optionsSelected, coursesInputLastValue]
 	);
 
+	/** Подставнока текущего выбранного образования в курсы */
+	useEffect(() => {
+		const taskList = iprCurrentData?.task;
+
+		if (!taskList) {
+			return;
+		}
+
+		const educationList = taskList.map((task) => task.education);
+
+		const educationInnerList = educationList.map((education) =>
+			education.map((education) => education.education.name)
+		);
+
+		const educationNameList = educationInnerList.flat();
+
+		setValueCourse(`${educationNameList.join(',')}, `);
+	}, [iprCurrentData]);
+
 	//#endregion
 
 	const handleAttach = (
@@ -185,6 +259,7 @@ export const Tasks: FC<ITasksProps> = ({
 		handleTaskValuesChange(taskValues);
 	};
 
+<<<<<<< HEAD
 	const iprData = useAppSelector((state) => state.iprs.iprsData);
 	console.log('iprData в tasks: ', iprData);
 	const currentIpr = iprData.find((goal: any) => goal.id === Number(id));
@@ -196,6 +271,8 @@ export const Tasks: FC<ITasksProps> = ({
 
 	// console.log('currentIpr: ', currentIpr);
 
+=======
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 	const tasksArrayForRender = iprCurrentData?.task;
 	console.log('tasksArrayForRender', tasksArrayForRender);
 
@@ -238,32 +315,16 @@ export const Tasks: FC<ITasksProps> = ({
 		simulateProgress();
 	};
 
-	const onDeleteTag = (event: React.MouseEvent<HTMLDivElement>) => {
-		const clickedTagValue = event.currentTarget.textContent;
-		const updatedTagValues = tagValues.filter(
-			(value) => value !== clickedTagValue
+	/**
+	 * Удаление курса
+	 * @param key - Кулюч удаляемого курса
+	 */
+	const onDeleteTag = (key: string) => {
+		const filteredOptions = optionsSelected.filter(
+			(option) => option.key !== key
 		);
 
-		setValueCourse(updatedTagValues.join(', '));
-	};
-	const { status } = currentIpr;
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'ожидает проверки':
-				return 'purple';
-			case 'отменена':
-				return 'orange';
-			case 'в работе':
-				return 'blue';
-			case 'не выполнена':
-				return 'red';
-			case 'выполнена':
-				return 'green';
-			case 'отсутствует':
-				return 'grey';
-			default:
-				return 'blue';
-		}
+		setValueCourse(makeMultipleValue(filteredOptions));
 	};
 
 	console.log('tasksArrayForRender: ', tasksArrayForRender);
@@ -273,8 +334,6 @@ export const Tasks: FC<ITasksProps> = ({
 		const formattedDate: string = `${day}.${month}.${year}`;
 		return formattedDate;
 	}
-
-	//utils
 
 	/** Массив введённых */
 
@@ -286,22 +345,28 @@ export const Tasks: FC<ITasksProps> = ({
 		return selectedMultiple.map(getOptionContent).join(', ');
 	}
 
-	const makeMultipleValue = (selectedMultiple: OptionShape[]) =>
-		`${getOptionsInputValue(selectedMultiple)}, `;
+	const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
+		return `${getOptionsInputValue(selectedMultiple)}, `;
+	};
 
 	//#region Cources
 
 	/** Фильтрованные и выбранные опциии для выпадающего списка */
-	const getFilteredOptionsCourses = () =>
-		inputValues.length === selected.length ? courseOptionList : filteredOptions;
+	const getFilteredOptionsCourses = () => {
+		console.log({ inputValues, selected });
+
+		return inputValues.length === selected.length
+			? courseOptionList
+			: filteredOptions;
+	};
 
 	// Data
 	// --------------------------------------------------------------------------
 
 	/** Выбранные опции для компоннета */
-	const selected = courseOptionList
-		.filter((course) => isCourseSelectedOption(course, inputValues))
-		.map((option) => option.value.name);
+	const selected = courseOptionList.filter((course) =>
+		isCourseSelectedOption(course, inputValues)
+	);
 
 	// hadlers
 	// --------------------------------------------------------------------------
@@ -311,8 +376,11 @@ export const Tasks: FC<ITasksProps> = ({
 		selectedMultiple,
 	}: {
 		selectedMultiple: OptionShape[];
-	}): void => {
-		setValueCourse(makeMultipleValue(selectedMultiple));
+	}) => {
+		const value = selectedMultiple.length
+			? selectedMultiple.map((option) => option.content).join(', ') + ', '
+			: '';
+		setValueCourse(value);
 	};
 
 	/** Обработчик ввода в поле */
@@ -324,8 +392,9 @@ export const Tasks: FC<ITasksProps> = ({
 
 	//#endregion
 
-	const navigateToUrl = (urlLink: string) => {
-		navigate(urlLink);
+	const handleSelectStatusChange = (event: any) => {
+		setSelectedStatusOption(event.target.value);
+		console.log(selectedStatusOption); // Обновляем состояние выбранной опции выбора статуса - Селект
 	};
 
 	const handleSelectChange = (event: any) => {
@@ -333,130 +402,102 @@ export const Tasks: FC<ITasksProps> = ({
 		console.log(selectedOption); // Обновляем состояние выбранной опции выбора статуса - Селект
 	};
 	return (
-		<Table className={styles.table}>
-			<Table.TBody>
-				{tasksArrayForRender?.map(
-					({
-						id,
-						name,
-						taskStatus,
-						description,
-						supervisorComment,
-						closeDate,
-						education,
-						comment,
-					}: ITask) => (
-						<React.Fragment key={id}>
-							<Table.TRow className={styles.row}>
-								<Table.TCell className={styles.cellWithIcon}>
-									{!isEmployee &&
-										(taskStatus.name === 'Выполнена' ||
-											taskStatus.name === 'Не выполнена') && (
-											<CrossCircleMIcon color="#70707A" />
-										)}
-									{name}
-								</Table.TCell>
-								<Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
-								<Table.TCell>
-									<Status
-										view="soft"
-										color={getStatusColor(taskStatus.name.toLowerCase())}
-									>
-										{taskStatus.name}
-									</Status>
-								</Table.TCell>
-								<Table.TCell>
-									<ChevronDownMIcon onClick={() => chevronClick(id)} />
-								</Table.TCell>
-							</Table.TRow>
-							{expandedTasks[id] && (
-								<Table.TRow className={styles.row} withoutBorder={true}>
-									<Table.TCell colSpan={4}>
-										<Collapse expanded={expandedTasks[id]}>
-											<div className={styles.openedTask}>
-												<div className={styles.wrapper}>
+		<>
+			<legend className={styles.blockTitle} onClick={handleCallback}>
+				Задачи
+			</legend>
+			<Table className={styles.table}>
+				<Table.TBody>
+					{tasksArrayForRender?.map(
+						({
+							id,
+							name,
+							taskStatus,
+							description,
+							supervisorComment,
+							closeDate,
+							education,
+							comment,
+						}: ITask) => (
+							<React.Fragment key={id}>
+								<Table.TRow className={styles.row}>
+									<Table.TCell className={styles.cellWithIcon}>
+										{!isEmployee &&
+											(taskStatus.name === 'Выполнена' ||
+												taskStatus.name === 'Не выполнена') && (
+												<CrossCircleMIcon color="#70707A" />
+											)}
+										{name}
+									</Table.TCell>
+									<Table.TCell>
+										{formatDateToCustomFormat(closeDate)}
+									</Table.TCell>
+									<Table.TCell>
+										<Status view="soft" color={getStatusColor(taskStatus.id)}>
+											{taskStatus.name}
+										</Status>
+									</Table.TCell>
+									<Table.TCell>
+										<ChevronDownMIcon onClick={() => chevronClick(id)} />
+									</Table.TCell>
+								</Table.TRow>
+								{expandedTasks[id] && (
+									<Table.TRow className={styles.row} withoutBorder={true}>
+										<Table.TCell colSpan={4}>
+											<Collapse expanded={expandedTasks[id]}>
+												<div className={styles.openedTask}>
+													<div className={styles.wrapper}>
+														<Textarea
+															fieldClassName={styles.goalName}
+															maxHeight={56}
+															label="Название*"
+															value={name}
+															name="name"
+															onChange={handleInputChange}
+															labelView="inner"
+															size="m"
+															block={true}
+															showCounter={true}
+															autosize={true}
+															disabled={isEmployee}
+														/>
+														<UniversalDateInput
+															block={true}
+															view="date"
+															label="Дата завершения"
+															size="m"
+															value={formatDate(closeDate)}
+															onChange={handleChangeEndDate}
+															picker={true}
+															Calendar={CalendarDesktop}
+															disabled={isEmployee}
+															calendarProps={{
+																selectorView: 'month-only',
+															}}
+															clear={true}
+															onClear={(e) => {
+																e.stopPropagation();
+																setEndDate('');
+															}}
+														/>
+													</div>
 													<Textarea
-														fieldClassName={styles.goalName}
-														maxHeight={56}
-														label="Название*"
-														value={name}
-														name="name"
+														fieldClassName={styles.textClass}
+														maxHeight={91}
+														label="Описание"
+														name="description"
+														value={description}
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
 														block={true}
+														maxLength={96}
 														showCounter={true}
 														autosize={true}
 														disabled={isEmployee}
 													/>
-													<UniversalDateInput
-														block={true}
-														view="date"
-														label="Дата завершения"
-														size="m"
-														value={formatDate(closeDate)}
-														onChange={handleChangeEndDate}
-														picker={true}
-														Calendar={CalendarDesktop}
-														disabled={isEmployee}
-														calendarProps={{
-															selectorView: 'month-only',
-														}}
-														clear={true}
-														onClear={(e) => {
-															e.stopPropagation();
-															setEndDate('');
-														}}
-													/>
-												</div>
-												<Textarea
-													fieldClassName={styles.textClass}
-													maxHeight={91}
-													label="Описание"
-													name="description"
-													value={description}
-													onChange={handleInputChange}
-													labelView="inner"
-													size="m"
-													block={true}
-													maxLength={96}
-													showCounter={true}
-													autosize={true}
-													disabled={isEmployee}
-												/>
-												{/* {!isEmployee && ( */}
-												<div className={styles.coursesWrapper}>
-													<InputAutocomplete
-														size="s"
-														name="course"
-														label="Тренинги и курсы"
-														placeholder="Начните вводить название"
-														className={styles.inputCourses}
-														block={true}
-														closeOnSelect={true}
-														showEmptyOptionsList={true}
-														Option={BaseOption}
-														Arrow={shownChevron ? Arrow : undefined}
-														multiple={multiple}
-														options={getFilteredOptionsCourses()}
-														selected={selected}
-														onChange={handleChangeCourse}
-														onInput={handleInputCourse}
-														allowUnselect={true}
-														value={valueCourse}
-														inputProps={{
-															onClear: onCoursesInputClear,
-															clear: true,
-														}}
-													/>
-													<img
-														src={linkToCourses}
-														alt="ссылка на курсы"
-														className={styles.linkToCourses}
-													/>
-												</div>
-												{/* )} */}
 
+<<<<<<< HEAD
 												<div className={styles.formRowTag}>
 													{education.map((education) => (
 														<div key={education.education.id}>
@@ -487,10 +528,46 @@ export const Tasks: FC<ITasksProps> = ({
 																className={styles.tagContainer}
 																key={course.id}
 															>
+=======
+													<div className={styles.coursesWrapper}>
+														<InputAutocomplete
+															size="s"
+															name="course"
+															label="Тренинги и курсы"
+															placeholder="Начните вводить название"
+															className={styles.inputCourses}
+															block={true}
+															showEmptyOptionsList={true}
+															Option={BaseOption}
+															Arrow={shownChevron ? Arrow : undefined}
+															multiple={multiple}
+															options={getFilteredOptionsCourses()}
+															selected={selected}
+															onChange={handleChangeCourse}
+															onInput={handleInputCourse}
+															allowUnselect={true}
+															value={valueCourse}
+															inputProps={{
+																onClear: onCoursesInputClear,
+																clear: true,
+															}}
+														/>
+														<img
+															src={linkToCourses}
+															alt="ссылка на курсы"
+															className={styles.linkToCourses}
+														/>
+													</div>
+
+													<div className={styles.formRowTag}>
+														{optionsSelected.length > 0 &&
+															optionsSelected.map((course: OptionShape) => (
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 																<div
-																	className={styles.formTag}
-																	onClick={onDeleteTag}
+																	key={course.key}
+																	className={styles.tagContainer}
 																>
+<<<<<<< HEAD
 																	{course.name === 'Подготовка к IELTS' ? (
 																		<CheckmarkCircleMIcon fill={'#08C44D'} />
 																	) : (
@@ -504,32 +581,32 @@ export const Tasks: FC<ITasksProps> = ({
 																	>
 																		Посмотреть результат
 																	</Button>
-																</div>
-															</div>
-														))}
-												</div>
+=======
+																	<div
+																		className={styles.formTag}
+																		onClick={() => onDeleteTag(course.key)}
+																	>
+																		<div className={styles.formCircle}>
+																			<CrossCircleMIcon />
+																		</div>
 
-												<Textarea
-													fieldClassName={styles.textClass}
-													maxHeight={91}
-													label="Комментарий руководителя"
-													name="commentOfMentor"
-													value={supervisorComment}
-													onChange={handleInputChange}
-													labelView="inner"
-													size="m"
-													block={true}
-													maxLength={96}
-													showCounter={true}
-													autosize={true}
-													disabled={isEmployee}
-												/>
-												{isEmployee && (
+																		{course.content}
+
+																		<TestResultButton
+																			course={course as ICoursesOption}
+																		/>
+																	</div>
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
+																</div>
+															))}
+													</div>
+
 													<Textarea
 														fieldClassName={styles.textClass}
 														maxHeight={91}
-														label="Ваш комментарий"
-														name="commentOfEmployee"
+														label="Комментарий руководителя"
+														name="commentOfMentor"
+														value={supervisorComment}
 														onChange={handleInputChange}
 														labelView="inner"
 														size="m"
@@ -537,14 +614,30 @@ export const Tasks: FC<ITasksProps> = ({
 														maxLength={96}
 														showCounter={true}
 														autosize={true}
+														disabled={isEmployee}
 													/>
-												)}
-												{isEmployee && (
+													{isEmployee && (
+														<Textarea
+															fieldClassName={styles.textClass}
+															maxHeight={91}
+															label="Ваш комментарий"
+															name="commentOfEmployee"
+															onChange={handleInputChange}
+															labelView="inner"
+															size="m"
+															block={true}
+															maxLength={96}
+															showCounter={true}
+															autosize={true}
+														/>
+													)}
+
 													<div>
 														<div className={styles.attachWrapper}>
 															<p className={styles.attachTitle}>
 																Приклепленные файлы
 															</p>
+
 															<Attach
 																buttonContent="Добавить"
 																value={filesForTask[id] || []}
@@ -589,11 +682,27 @@ export const Tasks: FC<ITasksProps> = ({
 														>
 															Отправить на проверку
 														</Button>
+<<<<<<< HEAD
 														{/* // Селектор статуса */}
 														<div>
 															<select
 																value={selectedOption}
 																onChange={handleSelectChange}
+=======
+														<ButtonDesktop
+															// onClick={handleNewTaskOpen}
+															view="tertiary"
+															shape="rectangular"
+															size="s"
+															className={styles.buttonComponent}
+															nowrap={false}
+															colors="default"
+														>
+															Добавить новую
+														</ButtonDesktop>
+														{!isEmployee && (
+															<div
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 																style={{
 																	display: 'flex',
 																	height: '35px',
@@ -612,6 +721,7 @@ export const Tasks: FC<ITasksProps> = ({
 																	border: '9px solid black',
 																}}
 															>
+<<<<<<< HEAD
 																<option
 																	style={{
 																		font: 'Inter',
@@ -627,17 +737,37 @@ export const Tasks: FC<ITasksProps> = ({
 																<option value="Сохранен">Отменена</option>
 															</select>
 														</div>
+=======
+																<div>
+																	<select
+																		value={selectedStatusOption}
+																		onChange={handleSelectStatusChange}
+																		className={styles.select}
+																	>
+																		<option
+																			className={styles.option}
+																			value="В работе"
+																		>
+																			В работе
+																		</option>
+																		<option value="Отклонен">Выполнена</option>
+																		<option value="Сохранен">Отменена</option>
+																	</select>
+																</div>
+															</div>
+														)}
+>>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 													</div>
-												)}
-											</div>
-										</Collapse>
-									</Table.TCell>
-								</Table.TRow>
-							)}
-						</React.Fragment>
-					)
-				)}
-			</Table.TBody>
-		</Table>
+												</div>
+											</Collapse>
+										</Table.TCell>
+									</Table.TRow>
+								)}
+							</React.Fragment>
+						)
+					)}
+				</Table.TBody>
+			</Table>
+		</>
 	);
 };

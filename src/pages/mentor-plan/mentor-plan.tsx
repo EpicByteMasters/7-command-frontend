@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 import {
 	getMentorIprsList,
 	selectMentorList,
@@ -29,7 +29,7 @@ export const MentorPlan: React.FC = () => {
 						<NavBarMini></NavBarMini>
 						<div className={styles.wrapper}>
 							<h1 className={styles.title}>Менторство сотрудников</h1>
-							<div className={styles.container}>
+							<div className={styles.containerList}>
 								<MentorList data={mentorIprsList?.employees} />
 							</div>
 						</div>

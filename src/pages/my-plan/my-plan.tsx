@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { Plan } from '../../entities/plan-component/plan';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import { getMyIprsData } from '../../store/reducers/iprsSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';

@@ -12,7 +12,7 @@ import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { PageTitle } from '../../shared/page-title/page-title';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
-import { FooterMain } from '../../entities/footer-main/footer-main';
+import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import { useAppSelector } from '../../shared/hooks/redux';
 
@@ -90,10 +90,10 @@ export const MyIpr: React.FC = () => {
 							/>
 							<fieldset className={styles2.blockWrapper}>
 								<legend className={styles2.blockTitle}>Задачи</legend>
-								<Tasks
+								{/* <Tasks
 									isEmployee={true}
 									handleTaskValuesChange={handleDataSubmit}
-								/>
+								/> */}
 							</fieldset>
 						</form>
 					</div>
