@@ -123,7 +123,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   // -------------------------------------------------------------------------------------
 
-  console.log('IPR: ', iprCurrentData);
+  console.log('Ипр который пришел в задачи: ', iprCurrentData);
 
   const courses = useAppSelector(selectCommonLibsEducation);
   console.log('optionCourses: ', courses);
@@ -514,25 +514,26 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
                           <div>
                             <div className={styles.attachWrapper}>
                               <p className={styles.attachTitle}>Приклепленные файлы</p>
-
-                              <Attach
-                                buttonContent="Добавить"
-                                value={filesForTask[id] || []}
-                                buttonProps={{
-                                  style: {
-                                    backgroundColor: 'transparent',
-                                    color: '#2A77EF',
-                                    padding: '0',
-                                    margin: '0',
-                                  },
-                                }}
-                                size="m"
-                                onChange={(event, payload) => handleAttach(id, event, payload)}
-                                multiple={multiple}
-                                fileClassName={styles.attachButton}
-                                noFileText=""
-                                disabled={taskStatus.name !== 'В работе'}
-                              />
+                              {isEmployee && (
+                                <Attach
+                                  buttonContent="Добавить"
+                                  value={filesForTask[id] || []}
+                                  buttonProps={{
+                                    style: {
+                                      backgroundColor: 'transparent',
+                                      color: '#2A77EF',
+                                      padding: '0',
+                                      margin: '0',
+                                    },
+                                  }}
+                                  size="m"
+                                  onChange={(event, payload) => handleAttach(id, event, payload)}
+                                  multiple={multiple}
+                                  fileClassName={styles.attachButton}
+                                  noFileText=""
+                                  disabled={taskStatus.name !== 'В работе'}
+                                />
+                              )}
                             </div>
                             {filesForTask[id] && (
                               <div>
@@ -603,7 +604,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
-      {newTaskOpen && <NewTask></NewTask>}
+      {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
     </>
   );
 };

@@ -18,8 +18,11 @@ import { INPUT_TAG_DELIMETER } from './const';
  * @param payload.month - Номер месяца
  * @param payload.day - Номер дня
  */
-const formatDatetForInput = ({ year, month, day }: { year: number; month: number; day: number }) =>
-  `${leadingZero(day)}.${leadingZero(month)}.${year}`;
+
+const formatDateForInput = ({ year, month, day }: { year: number; month: number; day: number }) => {
+  console.log(`${leadingZero(day)}.${leadingZero(month)}.${year}`, 'DATE');
+  return `${leadingZero(day)}.${leadingZero(month)}.${year}`;
+};
 
 /**
  * Начальное значение для поля ввода даты
@@ -28,7 +31,7 @@ const formatDatetForInput = ({ year, month, day }: { year: number; month: number
 const getInitialDate = (date = new Date()) => {
   const [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate()];
 
-  return formatDatetForInput({ year, month, day });
+  return formatDateForInput({ year, month, day });
 };
 
 /**
@@ -43,7 +46,6 @@ const adaptCompetency = (competency: ICommonLibWithSkillType): ICompetitionOptio
 // Получаем разделённые значения из поля ввода
 const getInputValues = (inputValue: string, delimeter = INPUT_TAG_DELIMETER) =>
   inputValue
-    .trim()
     .split(delimeter)
     .filter((value) => !isEmpty(value))
     .map((value) => value.trim());
@@ -123,6 +125,6 @@ export {
   isValidInputValue,
   getCompetitionOptionName,
   getInitialDate,
-  formatDatetForInput,
+  formatDateForInput,
   getMentor,
 };

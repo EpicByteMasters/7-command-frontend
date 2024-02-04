@@ -12,7 +12,7 @@ import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { NotificationCard } from '../notification-green/notification';
+// import { NotificationCard } from '../notification-green/notification';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 interface TaskProps {
   isEmployee?: boolean;
@@ -49,8 +49,8 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
     commentOfMentor: '',
     commentOfEmployee: '',
   });
-  const [shownChevron, setShownChevron] = React.useState(true);
-  const [multiple, setMultiple] = React.useState(true);
+  const [shownChevron] = React.useState(true);
+  const [multiple] = React.useState(true);
   const [valueCourse, setValueCourse] = useState<string>('');
   const [progress, setProgress] = useState<number | undefined>(0);
   const [toggle, setToggle] = useState<boolean>(false);

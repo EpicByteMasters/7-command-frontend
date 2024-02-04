@@ -1,3 +1,5 @@
+import IprStatusDoc from '../../type/ipr-status-name';
+
 export interface EmployeeGoalPlan {
   id: number;
   name: string;
@@ -7,7 +9,7 @@ export interface EmployeeGoalPlan {
   progress: number;
   taskAll: number;
   taskDone: number;
-  status: string;
+  status: IprStatusDoc;
 }
 
 export const testData = [
@@ -20,7 +22,7 @@ export const testData = [
     progress: 25,
     taskAll: 10,
     taskDone: 4,
-    status: 'не выполнен',
+    status: IprStatusDoc.NotCompleted,
   },
   {
     id: 2,
@@ -31,7 +33,7 @@ export const testData = [
     progress: 50,
     taskAll: 2,
     taskDone: 1,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
   {
     id: 3,
@@ -42,7 +44,7 @@ export const testData = [
     progress: 80,
     taskAll: 5,
     taskDone: 4,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
   {
     id: 4,
@@ -53,7 +55,7 @@ export const testData = [
     progress: 100,
     taskAll: 3,
     taskDone: 3,
-    status: 'выполнен',
+    status: IprStatusDoc.Completed,
   },
   {
     id: 5,
@@ -64,7 +66,7 @@ export const testData = [
     progress: 100,
     taskAll: 5,
     taskDone: 5,
-    status: 'выполнен',
+    status: IprStatusDoc.Completed,
   },
   {
     id: 6,
@@ -75,7 +77,7 @@ export const testData = [
     progress: 0,
     taskAll: 3,
     taskDone: 0,
-    status: 'отменен',
+    status: IprStatusDoc.Canceled,
   },
   {
     id: 7,
@@ -86,7 +88,7 @@ export const testData = [
     progress: 0,
     taskAll: 4,
     taskDone: 0,
-    status: 'черновик',
+    status: IprStatusDoc.Draft,
   },
   {
     id: 8,
@@ -97,7 +99,7 @@ export const testData = [
     progress: 0,
     taskAll: 6,
     taskDone: 0,
-    status: 'черновик',
+    status: IprStatusDoc.Draft,
   },
   {
     id: 9,
@@ -108,7 +110,7 @@ export const testData = [
     progress: 0,
     taskAll: 0,
     taskDone: 0,
-    status: 'отсутствует',
+    status: IprStatusDoc.NoIpr,
   },
   {
     id: 10,
@@ -119,7 +121,7 @@ export const testData = [
     progress: 0,
     taskAll: 0,
     taskDone: 0,
-    status: 'отсутствует',
+    status: IprStatusDoc.NoIpr,
   },
   {
     id: 11,
@@ -130,7 +132,7 @@ export const testData = [
     progress: 25,
     taskAll: 4,
     taskDone: 1,
-    status: 'не выполнен',
+    status: IprStatusDoc.NotCompleted,
   },
   {
     id: 12,
@@ -141,7 +143,7 @@ export const testData = [
     progress: 50,
     taskAll: 4,
     taskDone: 2,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
   {
     id: 13,
@@ -152,7 +154,7 @@ export const testData = [
     progress: 70,
     taskAll: 10,
     taskDone: 7,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
   {
     id: 14,
@@ -163,7 +165,7 @@ export const testData = [
     progress: 100,
     taskAll: 7,
     taskDone: 7,
-    status: 'выполнен',
+    status: IprStatusDoc.Canceled,
   },
   {
     id: 15,
@@ -174,7 +176,7 @@ export const testData = [
     progress: 100,
     taskAll: 8,
     taskDone: 8,
-    status: 'выполнен',
+    status: IprStatusDoc.Canceled,
   },
   {
     id: 16,
@@ -185,7 +187,7 @@ export const testData = [
     progress: 0,
     taskAll: 5,
     taskDone: 0,
-    status: 'отменен',
+    status: IprStatusDoc.Canceled,
   },
   {
     id: 17,
@@ -196,7 +198,7 @@ export const testData = [
     progress: 0,
     taskAll: 4,
     taskDone: 0,
-    status: 'черновик',
+    status: IprStatusDoc.Draft,
   },
   {
     id: 18,
@@ -207,7 +209,7 @@ export const testData = [
     progress: 0,
     taskAll: 2,
     taskDone: 0,
-    status: 'черновик',
+    status: IprStatusDoc.Draft,
   },
   {
     id: 19,
@@ -218,7 +220,7 @@ export const testData = [
     progress: 0,
     taskAll: 0,
     taskDone: 0,
-    status: 'отсутствует',
+    status: IprStatusDoc.NoIpr,
   },
   {
     id: 20,
@@ -229,7 +231,7 @@ export const testData = [
     progress: 0,
     taskAll: 0,
     taskDone: 0,
-    status: 'отсутствует',
+    status: IprStatusDoc.NoIpr,
   },
   {
     id: 21,
@@ -240,7 +242,7 @@ export const testData = [
     progress: 0,
     taskAll: 0,
     taskDone: 0,
-    status: 'отсутствует',
+    status: IprStatusDoc.NoIpr,
   },
 ];
 
@@ -254,7 +256,7 @@ export const mentorData = [
     progress: 70,
     taskAll: 10,
     taskDone: 7,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
   {
     id: 2,
@@ -265,6 +267,6 @@ export const mentorData = [
     progress: 50,
     taskAll: 4,
     taskDone: 2,
-    status: 'в работе',
+    status: IprStatusDoc.InProgress,
   },
 ];
