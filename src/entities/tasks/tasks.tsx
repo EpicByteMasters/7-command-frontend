@@ -1,5 +1,6 @@
-import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import React, { FC, ChangeEvent, ReactNode, useMemo, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 // -----------------------------------------------------------------------------
 
@@ -7,7 +8,6 @@ import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import { Table } from '@alfalab/core-components/table';
 import { Button } from '@alfalab/core-components/button';
-import { PickerButtonDesktop } from '@alfalab/core-components/picker-button/desktop';
 
 import { Status } from '@alfalab/core-components/status';
 import { Textarea } from '@alfalab/core-components/textarea';
@@ -44,7 +44,15 @@ import { useAppSelector } from '../../shared/hooks/redux';
 
 // -----------------------------------------------------------------------------
 
-import type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask } from './type';
+import type {
+  ITasksProps,
+  IEducation,
+  IFormData,
+  ICoursesOption,
+  IEducationTypeDTO,
+  IFilesForTask,
+  INewTask,
+} from './type';
 
 // ----------------------------------------------------------------------------
 
@@ -63,6 +71,7 @@ import styles from './tasks.module.scss';
 import { getStatusColor } from '../../shared/utils/constants';
 import { TestResultButton } from '../../componet/test-result-button';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
+import { NewTask } from '../../entities/new-task/new-task';
 
 // ----------------------------------------------------------------------------
 
@@ -140,6 +149,8 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
   const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
   const [localArrayTask, setLocalArrayTask] = useState<ITask[]>([]);
+  const [newTask, setNewTask] = useState<INewTask[]>([]);
+  const [newTaskOpen, setNewTaskOpen] = useState(false);
 
   useEffect(() => {
     if (iprCurrentData) {
@@ -326,6 +337,21 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   const onDeleteTask = (id: number) => {
     const filteredTaskList = localArrayTask.filter((task) => task.id !== id);
     setLocalArrayTask(filteredTaskList);
+  };
+  /** Открытие попапа и запись данных в массив */
+
+  const handleNewTaskOpen = () => {
+    setNewTaskOpen(!newTaskOpen);
+    setNewTask((prevTasks) => [
+      ...prevTasks,
+      {
+        taskTitle: '',
+        closeDate: '',
+        description: '',
+        courses: '',
+        comment: '',
+      },
+    ]);
   };
 
   return (
@@ -567,7 +593,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
         </Table.TBody>
       </Table>
       <ButtonDesktop
-        // onClick={handleNewTaskOpen}
+        onClick={handleNewTaskOpen}
         view="tertiary"
         shape="rectangular"
         size="s"
@@ -577,6 +603,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
+      {newTaskOpen && <NewTask></NewTask>}
     </>
   );
 };
