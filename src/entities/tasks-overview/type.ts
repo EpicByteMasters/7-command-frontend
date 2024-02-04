@@ -1,23 +1,21 @@
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
+import type { IIprData } from '@/store/reducers/iprSlice';
 
-interface ManagerIprDraftProps {
-	isExecutive: boolean;
-	iprStatus: string;
-	handleGoalValuesChange?: any;
+interface ITasksObverviewProps {
+  isExecutive: boolean;
+  iprStatus: string;
+  handleGoalValuesChange?: any;
+  iprCurrentData: IIprData | null;
 }
 
 interface ICompetitionOption extends OptionShape {
-	value: ICommonLibWithSkillType;
+  value: ICommonLibWithSkillType;
 }
 
 interface OptionCompetitionShape extends OptionShape {
-	value?: ICommonLibWithSkillType;
+  value?: ICommonLibWithSkillType;
 }
 
-export type {
-	ICompetitionOption,
-	ManagerIprDraftProps,
-	OptionCompetitionShape,
-};
+export type { ICompetitionOption, ITasksObverviewProps, OptionCompetitionShape };

@@ -6,20 +6,17 @@ import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 import { FooterMain } from '../../shared/footer-main/footer-main';
-import {
-	getMentorIprsList,
-	selectMentorList,
-} from '../../store/reducers/mentorIprSlice';
+import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
 
 export const MentorPlan: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const mentorIprsList = useAppSelector(selectMentorList);
+  const dispatch = useAppDispatch();
+  const mentorIprsList = useAppSelector(selectMentorList);
 
-	useEffect(() => {
-		dispatch(getMentorIprsList());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getMentorIprsList());
+  }, [dispatch]);
 
-	console.log('MENTOR_LIST_IPRS', mentorIprsList);
+  console.log('MENTOR_LIST_IPRS', mentorIprsList);
 
 	return (
 		<div className={styles.generalFooterWrapper}>

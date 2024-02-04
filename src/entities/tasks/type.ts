@@ -4,32 +4,32 @@ import type { ICommonLibWithEducationType as IEducationTypeDTO } from '@/store/r
 import type { IIprData } from '@/store/reducers/iprSlice';
 
 interface ITasksProps {
-	isEmployee: boolean;
-	handleTaskValuesChange?: any;
-	iprCurrentData: IIprData | null;
+  isEmployee: boolean;
+  handleTaskValuesChange?: any;
+  iprCurrentData: IIprData | null;
 }
 
 interface ICoursesOption extends OptionShape {
-	value: IEducationTypeDTO;
+  value: IEducationTypeDTO;
 }
 
 interface IEducation {
-	status: boolean;
-	education: {
-		id: number;
-		name: string;
-		urlLink: string;
-	};
+  status: boolean;
+  education: {
+    id: number;
+    name: string;
+    urlLink: string;
+  };
 }
 
 interface IFormData {
-	id: number;
-	name: string;
-	closeDate: string;
-	description: string;
-	education: IEducation[];
-	supervisorComment: string;
-	commentOfEmployee: string;
+  id: number;
+  name: string;
+  closeDate: string;
+  description: string;
+  education: IEducation[];
+  supervisorComment: string;
+  commentOfEmployee: string;
 }
 
 // interface IEducation {
@@ -44,14 +44,7 @@ interface IFormData {
 // type TCoursenOptionProp = keyof IEducationTypeDTO;
 
 interface IFilesForTask {
-	[taskId: string]: File[];
+  [taskId: string]: File[];
 }
 
-export type {
-	ITasksProps,
-	IEducation,
-	IFormData,
-	ICoursesOption,
-	IEducationTypeDTO,
-	IFilesForTask,
-};
+export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask };

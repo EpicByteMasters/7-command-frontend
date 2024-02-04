@@ -1,18 +1,6 @@
-<<<<<<< HEAD
-import React, {
-	ChangeEvent,
-	ReactNode,
-	useMemo,
-	useEffect,
-	useState,
-} from 'react';
+import React, { FC, ChangeEvent, ReactNode, useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
-=======
-import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
 
 // -----------------------------------------------------------------------------
 
@@ -57,14 +45,7 @@ import { useAppSelector } from '../../shared/hooks/redux';
 
 // -----------------------------------------------------------------------------
 
-import type {
-	ITasksProps,
-	IEducation,
-	IFormData,
-	ICoursesOption,
-	IEducationTypeDTO,
-	IFilesForTask,
-} from './type';
+import type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask } from './type';
 
 // ----------------------------------------------------------------------------
 
@@ -72,12 +53,7 @@ import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
 
 // ----------------------------------------------------------------------------
 
-import {
-	getArrLastEl,
-	isCourseSelectedOption,
-	isCourseFilteredOption,
-	formatDateToCustomFormat,
-} from './utils';
+import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDateToCustomFormat } from './utils';
 
 // ----------------------------------------------------------------------------
 
@@ -93,9 +69,9 @@ import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 
 // utils
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
-	key: course.id,
-	content: course.name.trim(),
-	value: course,
+  key: course.id,
+  content: course.name.trim(),
+  value: course,
 });
 
 // ----------------------------------------------------------------------------
@@ -124,561 +100,484 @@ const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
 
 // ----------------------------------------------------------------------------
 
-export const Tasks: FC<ITasksProps> = ({
-	isEmployee,
-	handleTaskValuesChange,
-	iprCurrentData,
-}) => {
-<<<<<<< HEAD
-	const dispatch = useDispatch();
-	const { id } = useParams<{ id: string }>();
-	const [selectedOption, setSelectedOption] = useState(''); // Состояние выбранной опции Селекта
-=======
-	// const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
->>>>>>> 463b9dbae444c2f6639cbd5200a69094350bc270
+export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, iprCurrentData }) => {
+  // const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
-	// const navigate = useNavigate()
-	// const testResultButton = (urlLink: string) => navigate(urlLink)
+  // const navigate = useNavigate()
+  // const testResultButton = (urlLink: string) => navigate(urlLink)
 
-	// Sub comps
-	// -------------------------------------------------------------------------------------
+  // Sub comps
+  // -------------------------------------------------------------------------------------
 
-	// const showTestResultButton = (cource: ICoursesOption) => (
-	// 	testResultButton(cource, navigateToUrl)
-	// )
+  // const showTestResultButton = (cource: ICoursesOption) => (
+  // 	testResultButton(cource, navigateToUrl)
+  // )
 
-	// -------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------
 
-	console.log('IPR: ', iprCurrentData);
+  console.log('IPR: ', iprCurrentData);
 
-	const courses = useAppSelector(selectCommonLibsEducation);
-	console.log('optionCourses: ', courses);
+  const courses = useAppSelector(selectCommonLibsEducation);
+  console.log('optionCourses: ', courses);
 
-	//#region State
+  //#region State
 
-	const [taskValues, setTaskValues] = useState<IFormData>({
-		id: 0,
-		name: '',
-		closeDate: '',
-		description: '',
-		education: [],
-		supervisorComment: '',
-		commentOfEmployee: '',
-	});
+  const [taskValues, setTaskValues] = useState<IFormData>({
+    id: 0,
+    name: '',
+    closeDate: '',
+    description: '',
+    education: [],
+    supervisorComment: '',
+    commentOfEmployee: '',
+  });
 
-	const [shownChevron, setShownChevron] = useState(true);
-	const [multiple, setMultiple] = useState(true);
-	const [progress, setProgress] = useState<number | undefined>(0);
-	const [valueCourse, setValueCourse] = useState<string>('');
-	const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>(
-		{}
-	);
-	const [valueEndDate, setEndDate] = useState<string>('');
-	const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
-	const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
+  const [shownChevron, setShownChevron] = useState(true);
+  const [multiple, setMultiple] = useState(true);
+  const [progress, setProgress] = useState<number | undefined>(0);
+  const [valueCourse, setValueCourse] = useState<string>('');
+  const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>({});
+  const [valueEndDate, setEndDate] = useState<string>('');
+  const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
+  const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
+  const [localArrayTask, setLocalArrayTask] = useState<ITask[]>([]);
 
-	//#endregion
+  useEffect(() => {
+    if (iprCurrentData) {
+      setLocalArrayTask(iprCurrentData.task);
+    }
+  }, [iprCurrentData]);
 
-	//#region Computed
+  //#endregion
 
-	/** Опции тренингов и курсов */
-	const courseOptionList = useMemo<ICoursesOption[]>(
-		() => courses.map((courseOption) => adaptCompetency(courseOption)),
-		[courses]
-	);
+  //#region Computed
 
-	/** Введённые значения */
-	const inputValues: string[] = useMemo(
-		() =>
-			valueCourse
-				.split(',')
-				.map((value) => value.trim())
-				.filter((value) => Boolean(value)),
-		[valueCourse]
-	);
+  /** Опции тренингов и курсов */
+  const courseOptionList = useMemo<ICoursesOption[]>(
+    () => courses.map((courseOption) => adaptCompetency(courseOption)),
+    [courses]
+  );
 
-	/** Последнее ведённое значение */
-	const coursesInputLastValue = useMemo(
-		() => getArrLastEl(inputValues),
-		[inputValues]
-	);
+  /** Введённые значения */
+  const inputValues: string[] = useMemo(
+    () =>
+      valueCourse
+        .split(',')
+        .map((value) => value.trim())
+        .filter((value) => Boolean(value)),
+    [valueCourse]
+  );
 
-	/** Выбранные опции */
-	const optionsSelected = useMemo(
-		() =>
-			courseOptionList.filter((course) =>
-				isCourseSelectedOption(course, inputValues)
-			),
-		[courseOptionList, inputValues]
-	);
+  /** Последнее ведённое значение */
+  const coursesInputLastValue = useMemo(() => getArrLastEl(inputValues), [inputValues]);
 
-	/** Фильтрованные опции курсов */
-	const filteredOptions = useMemo(
-		() =>
-			courseOptionList.filter((option) =>
-				isCourseFilteredOption(optionsSelected, option, coursesInputLastValue)
-			),
-		[optionsSelected, coursesInputLastValue]
-	);
+  /** Выбранные опции */
+  const optionsSelected = useMemo(
+    () => courseOptionList.filter((course) => isCourseSelectedOption(course, inputValues)),
+    [courseOptionList, inputValues]
+  );
 
-	/** Подставнока текущего выбранного образования в курсы */
-	useEffect(() => {
-		const taskList = iprCurrentData?.task;
+  /** Фильтрованные опции курсов */
+  const filteredOptions = useMemo(
+    () => courseOptionList.filter((option) => isCourseFilteredOption(optionsSelected, option, coursesInputLastValue)),
+    [optionsSelected, coursesInputLastValue]
+  );
 
-		if (!taskList) {
-			return;
-		}
+  /** Подставнока текущего выбранного образования в курсы */
+  useEffect(() => {
+    const taskList = iprCurrentData?.task;
 
-		const educationList = taskList.map((task) => task.education);
+    if (!taskList) {
+      return;
+    }
 
-		const educationInnerList = educationList.map((education) =>
-			education.map((education) => education.education.name)
-		);
+    const educationList = taskList.map((task) => task.education);
 
-		const educationNameList = educationInnerList.flat();
+    const educationInnerList = educationList.map((education) => education.map((education) => education.education.name));
 
-		setValueCourse(`${educationNameList.join(',')}, `);
-	}, [iprCurrentData]);
+    const educationNameList = educationInnerList.flat();
 
-	//#endregion
+    setValueCourse(`${educationNameList.join(',')}, `);
+  }, [iprCurrentData]);
 
-	const handleAttach = (
-		taskId: number,
-		event: ChangeEvent<HTMLInputElement>,
-		payload: { files: File[] }
-	) => {
-		setFilesForTask((prevFiles) => ({
-			...prevFiles,
-			[taskId]: [...(prevFiles[taskId] || []), ...payload.files],
-		}));
-	};
+  //#endregion
 
-	console.log('taskValues из задач: ', taskValues);
+  const handleAttach = (taskId: number, event: ChangeEvent<HTMLInputElement>, payload: { files: File[] }) => {
+    setFilesForTask((prevFiles) => ({
+      ...prevFiles,
+      [taskId]: [...(prevFiles[taskId] || []), ...payload.files],
+    }));
+  };
 
-	const handleCallback = (): void => {
-		handleTaskValuesChange(taskValues);
-	};
+  console.log('taskValues из задач: ', taskValues);
 
-	const tasksArrayForRender = iprCurrentData?.task;
-	console.log('tasksArrayForRender', tasksArrayForRender);
+  const handleCallback = (): void => {
+    handleTaskValuesChange(taskValues);
+  };
 
-	const handleInputChange = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	): void => {
-		const { name, value } = event.target;
-		setTaskValues((prevData) => ({ ...prevData, [name]: value }));
-		handleCallback();
-	};
+  const tasksArrayForRender = iprCurrentData?.task;
+  console.log('tasksArrayForRender', tasksArrayForRender);
 
-	const tagValues = valueCourse.trim().split(',');
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { name, value } = event.target;
+    setTaskValues((prevData) => ({ ...prevData, [name]: value }));
+    handleCallback();
+  };
 
-	const handleChangeEndDate = (event: any, { value }: { value: string }) => {
-		setEndDate(value);
-		setTaskValues((prevData) => ({ ...prevData, endDate: value }));
-		handleCallback();
-	};
+  const tagValues = valueCourse.trim().split(',');
 
-	const chevronClick = (taskId: number) => {
-		setExpandedTasks((prevExpandedTasks) => ({
-			...prevExpandedTasks,
-			[taskId]: !prevExpandedTasks[taskId],
-		}));
-	};
+  const handleChangeEndDate = (event: any, { value }: { value: string }) => {
+    setEndDate(value);
+    setTaskValues((prevData) => ({ ...prevData, endDate: value }));
+    handleCallback();
+  };
 
-	const simulateProgress = () => {
-		const interval = setInterval(() => {
-			setProgress((prevProgress) => {
-				if (prevProgress === 100) {
-					clearInterval(interval);
-					return 100;
-				}
-				return prevProgress !== undefined ? prevProgress + 1 : 0;
-			});
-		}, 100);
-	};
+  const chevronClick = (taskId: number) => {
+    setExpandedTasks((prevExpandedTasks) => ({
+      ...prevExpandedTasks,
+      [taskId]: !prevExpandedTasks[taskId],
+    }));
+  };
 
-	const handleChange = () => {
-		simulateProgress();
-	};
+  const simulateProgress = () => {
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (prevProgress === 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prevProgress !== undefined ? prevProgress + 1 : 0;
+      });
+    }, 100);
+  };
 
-	/**
-	 * Удаление курса
-	 * @param key - Кулюч удаляемого курса
-	 */
-	const onDeleteTag = (key: string) => {
-		const filteredOptions = optionsSelected.filter(
-			(option) => option.key !== key
-		);
+  const handleChange = () => {
+    simulateProgress();
+  };
 
-		setValueCourse(makeMultipleValue(filteredOptions));
-	};
+  /**
+   * Удаление курса
+   * @param key - Кулюч удаляемого курса
+   */
+  const onDeleteTag = (key: string) => {
+    const filteredOptions = optionsSelected.filter((option) => option.key !== key);
 
-	console.log('tasksArrayForRender: ', tasksArrayForRender);
+    setValueCourse(makeMultipleValue(filteredOptions));
+  };
 
-	function formatDate(inputDate: string): string {
-		const [year, month, day] = inputDate.split('-');
-		const formattedDate: string = `${day}.${month}.${year}`;
-		return formattedDate;
-	}
+  console.log('tasksArrayForRender: ', tasksArrayForRender);
 
-	/** Массив введённых */
+  function formatDate(inputDate: string): string {
+    const [year, month, day] = inputDate.split('-');
+    const formattedDate: string = `${day}.${month}.${year}`;
+    return formattedDate;
+  }
 
-	function getOptionContent(option: OptionShape) {
-		return option.value.name;
-	}
+  /** Массив введённых */
 
-	function getOptionsInputValue(selectedMultiple: OptionShape[]) {
-		return selectedMultiple.map(getOptionContent).join(', ');
-	}
+  function getOptionContent(option: OptionShape) {
+    return option.value.name;
+  }
 
-	const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
-		return `${getOptionsInputValue(selectedMultiple)}, `;
-	};
+  function getOptionsInputValue(selectedMultiple: OptionShape[]) {
+    return selectedMultiple.map(getOptionContent).join(', ');
+  }
 
-	//#region Cources
+  const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
+    return `${getOptionsInputValue(selectedMultiple)}, `;
+  };
 
-	/** Фильтрованные и выбранные опциии для выпадающего списка */
-	const getFilteredOptionsCourses = () => {
-		console.log({ inputValues, selected });
+  //#region Cources
 
-		return inputValues.length === selected.length
-			? courseOptionList
-			: filteredOptions;
-	};
+  /** Фильтрованные и выбранные опциии для выпадающего списка */
+  const getFilteredOptionsCourses = () => {
+    console.log({ inputValues, selected });
 
-	// Data
-	// --------------------------------------------------------------------------
+    return inputValues.length === selected.length ? courseOptionList : filteredOptions;
+  };
 
-	/** Выбранные опции для компоннета */
-	const selected = courseOptionList.filter((course) =>
-		isCourseSelectedOption(course, inputValues)
-	);
+  // Data
+  // --------------------------------------------------------------------------
 
-	// hadlers
-	// --------------------------------------------------------------------------
+  /** Выбранные опции для компоннета */
+  const selected = courseOptionList.filter((course) => isCourseSelectedOption(course, inputValues));
 
-	/** Обработчик выбора опции */
-	const handleChangeCourse = ({
-		selectedMultiple,
-	}: {
-		selectedMultiple: OptionShape[];
-	}) => {
-		const value = selectedMultiple.length
-			? selectedMultiple.map((option) => option.content).join(', ') + ', '
-			: '';
-		setValueCourse(value);
-	};
+  // hadlers
+  // --------------------------------------------------------------------------
 
-	/** Обработчик ввода в поле */
-	const handleInputCourse = (_: unknown, { value }: { value: string }) =>
-		setValueCourse(value);
+  /** Обработчик выбора опции */
+  const handleChangeCourse = ({ selectedMultiple }: { selectedMultiple: OptionShape[] }) => {
+    const value = selectedMultiple.length ? selectedMultiple.map((option) => option.content).join(', ') + ', ' : '';
+    setValueCourse(value);
+  };
 
-	/** Обработчик очистки */
-	const onCoursesInputClear = () => setValueCourse('');
+  /** Обработчик ввода в поле */
+  const handleInputCourse = (_: unknown, { value }: { value: string }) => setValueCourse(value);
 
-	//#endregion
+  /** Обработчик очистки */
+  const onCoursesInputClear = () => setValueCourse('');
 
-	const handleSelectStatusChange = (event: any) => {
-		setSelectedStatusOption(event.target.value);
-		console.log(selectedStatusOption); // Обновляем состояние выбранной опции выбора статуса - Селект
-	};
+  //#endregion
 
-	const handleSelectChange = (event: any) => {
-		setSelectedOption(event.target.value);
-		console.log(selectedOption); // Обновляем состояние выбранной опции выбора статуса - Селект
-	};
-	return (
-		<>
-			<legend className={styles.blockTitle} onClick={handleCallback}>
-				Задачи
-			</legend>
-			<Table className={styles.table}>
-				<Table.TBody>
-					{tasksArrayForRender?.map(
-						({
-							id,
-							name,
-							taskStatus,
-							description,
-							supervisorComment,
-							closeDate,
-							education,
-							comment,
-						}: ITask) => (
-							<React.Fragment key={id}>
-								<Table.TRow className={styles.row}>
-									<Table.TCell className={styles.cellWithIcon}>
-										{!isEmployee &&
-											(taskStatus.name === 'Выполнена' ||
-												taskStatus.name === 'Не выполнена') && (
-												<CrossCircleMIcon color="#70707A" />
-											)}
-										{name}
-									</Table.TCell>
-									<Table.TCell>
-										{formatDateToCustomFormat(closeDate)}
-									</Table.TCell>
-									<Table.TCell>
-										<Status view="soft" color={getStatusColor(taskStatus.id)}>
-											{taskStatus.name}
-										</Status>
-									</Table.TCell>
-									<Table.TCell>
-										<ChevronDownMIcon onClick={() => chevronClick(id)} />
-									</Table.TCell>
-								</Table.TRow>
-								{expandedTasks[id] && (
-									<Table.TRow className={styles.row} withoutBorder={true}>
-										<Table.TCell colSpan={4}>
-											<Collapse expanded={expandedTasks[id]}>
-												<div className={styles.openedTask}>
-													<div className={styles.wrapper}>
-														<Textarea
-															fieldClassName={styles.goalName}
-															maxHeight={56}
-															label="Название*"
-															value={name}
-															name="name"
-															onChange={handleInputChange}
-															labelView="inner"
-															size="m"
-															block={true}
-															showCounter={true}
-															autosize={true}
-															disabled={isEmployee}
-														/>
-														<UniversalDateInput
-															block={true}
-															view="date"
-															label="Дата завершения"
-															size="m"
-															value={formatDate(closeDate)}
-															onChange={handleChangeEndDate}
-															picker={true}
-															Calendar={CalendarDesktop}
-															disabled={isEmployee}
-															calendarProps={{
-																selectorView: 'month-only',
-															}}
-															clear={true}
-															onClear={(e) => {
-																e.stopPropagation();
-																setEndDate('');
-															}}
-														/>
-													</div>
-													<Textarea
-														fieldClassName={styles.textClass}
-														maxHeight={91}
-														label="Описание"
-														name="description"
-														value={description}
-														onChange={handleInputChange}
-														labelView="inner"
-														size="m"
-														block={true}
-														maxLength={96}
-														showCounter={true}
-														autosize={true}
-														disabled={isEmployee}
-													/>
+  const handleSelectStatusChange = (event: any) => {
+    setSelectedStatusOption(event.target.value);
+    console.log(selectedStatusOption); // Обновляем состояние выбранной опции выбора статуса - Селект
+  };
 
-													<div className={styles.coursesWrapper}>
-														<InputAutocomplete
-															size="s"
-															name="course"
-															label="Тренинги и курсы"
-															placeholder="Начните вводить название"
-															className={styles.inputCourses}
-															block={true}
-															showEmptyOptionsList={true}
-															Option={BaseOption}
-															Arrow={shownChevron ? Arrow : undefined}
-															multiple={multiple}
-															options={getFilteredOptionsCourses()}
-															selected={selected}
-															onChange={handleChangeCourse}
-															onInput={handleInputCourse}
-															allowUnselect={true}
-															value={valueCourse}
-															inputProps={{
-																onClear: onCoursesInputClear,
-																clear: true,
-															}}
-														/>
-														<img
-															src={linkToCourses}
-															alt="ссылка на курсы"
-															className={styles.linkToCourses}
-														/>
-													</div>
+  const onDeleteTask = (id: number) => {
+    const filteredTaskList = localArrayTask.filter((task) => task.id !== id);
+    setLocalArrayTask(filteredTaskList);
+  };
 
-													<div className={styles.formRowTag}>
-														{optionsSelected.length > 0 &&
-															optionsSelected.map((course: OptionShape) => (
-																<div
-																	key={course.key}
-																	className={styles.tagContainer}
-																>
-																	<div
-																		className={styles.formTag}
-																		onClick={() => onDeleteTag(course.key)}
-																	>
-																		<div className={styles.formCircle}>
-																			<CrossCircleMIcon />
-																		</div>
+  return (
+    <>
+      <legend className={styles.blockTitle} onClick={handleCallback}>
+        Задачи
+      </legend>
+      <Table className={styles.table}>
+        <Table.TBody>
+          {localArrayTask?.map(
+            ({ id, name, taskStatus, description, supervisorComment, closeDate, education, comment }: ITask) => (
+              <React.Fragment key={id}>
+                <Table.TRow className={styles.row}>
+                  <Table.TCell className={styles.cellWithIcon}>
+                    {!isEmployee && (taskStatus.name === 'Выполнена' || taskStatus.name === 'Не выполнена') && (
+                      <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(id)} />
+                    )}
+                    {name}
+                  </Table.TCell>
+                  <Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
+                  <Table.TCell>
+                    <Status view="soft" color={getStatusColor(taskStatus.id)}>
+                      {taskStatus.name}
+                    </Status>
+                  </Table.TCell>
+                  <Table.TCell>
+                    <ChevronDownMIcon onClick={() => chevronClick(id)} />
+                  </Table.TCell>
+                </Table.TRow>
+                {expandedTasks[id] && (
+                  <Table.TRow className={styles.row} withoutBorder={true}>
+                    <Table.TCell colSpan={4}>
+                      <Collapse expanded={expandedTasks[id]}>
+                        <div className={styles.openedTask}>
+                          <div className={styles.wrapper}>
+                            <Textarea
+                              fieldClassName={styles.goalName}
+                              maxHeight={56}
+                              label="Название*"
+                              value={name}
+                              name="name"
+                              onChange={handleInputChange}
+                              labelView="inner"
+                              size="m"
+                              block={true}
+                              showCounter={true}
+                              autosize={true}
+                              disabled={isEmployee}
+                            />
+                            <UniversalDateInput
+                              block={true}
+                              view="date"
+                              label="Дата завершения"
+                              size="m"
+                              value={formatDate(closeDate)}
+                              onChange={handleChangeEndDate}
+                              picker={true}
+                              Calendar={CalendarDesktop}
+                              disabled={isEmployee}
+                              calendarProps={{
+                                selectorView: 'month-only',
+                              }}
+                              clear={true}
+                              onClear={(e) => {
+                                e.stopPropagation();
+                                setEndDate('');
+                              }}
+                            />
+                          </div>
+                          <Textarea
+                            fieldClassName={styles.textClass}
+                            maxHeight={91}
+                            label="Описание"
+                            name="description"
+                            value={description}
+                            onChange={handleInputChange}
+                            labelView="inner"
+                            size="m"
+                            block={true}
+                            maxLength={96}
+                            showCounter={true}
+                            autosize={true}
+                            disabled={isEmployee}
+                          />
 
-																		{course.content}
+                          <div className={styles.coursesWrapper}>
+                            <InputAutocomplete
+                              size="s"
+                              name="course"
+                              label="Тренинги и курсы"
+                              placeholder="Начните вводить название"
+                              className={styles.inputCourses}
+                              block={true}
+                              showEmptyOptionsList={true}
+                              Option={BaseOption}
+                              Arrow={shownChevron ? Arrow : undefined}
+                              multiple={multiple}
+                              options={getFilteredOptionsCourses()}
+                              selected={selected}
+                              onChange={handleChangeCourse}
+                              onInput={handleInputCourse}
+                              allowUnselect={true}
+                              value={valueCourse}
+                              inputProps={{
+                                onClear: onCoursesInputClear,
+                                clear: true,
+                              }}
+                            />
+                            <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses} />
+                          </div>
 
-																		<TestResultButton
-																			course={course as ICoursesOption}
-																		/>
-																	</div>
-																</div>
-															))}
-													</div>
+                          <div className={styles.formRowTag}>
+                            {optionsSelected.length > 0 &&
+                              optionsSelected.map((course: OptionShape) => (
+                                <div key={course.key} className={styles.tagContainer}>
+                                  <div className={styles.formTag} onClick={() => onDeleteTag(course.key)}>
+                                    <div className={styles.formCircle}>
+                                      <CrossCircleMIcon />
+                                    </div>
 
-													<Textarea
-														fieldClassName={styles.textClass}
-														maxHeight={91}
-														label="Комментарий руководителя"
-														name="commentOfMentor"
-														value={supervisorComment}
-														onChange={handleInputChange}
-														labelView="inner"
-														size="m"
-														block={true}
-														maxLength={96}
-														showCounter={true}
-														autosize={true}
-														disabled={isEmployee}
-													/>
-													{isEmployee && (
-														<Textarea
-															fieldClassName={styles.textClass}
-															maxHeight={91}
-															label="Ваш комментарий"
-															name="commentOfEmployee"
-															onChange={handleInputChange}
-															labelView="inner"
-															size="m"
-															block={true}
-															maxLength={96}
-															showCounter={true}
-															autosize={true}
-														/>
-													)}
+                                    {course.content}
 
-													<div>
-														<div className={styles.attachWrapper}>
-															<p className={styles.attachTitle}>
-																Приклепленные файлы
-															</p>
+                                    <TestResultButton course={course as ICoursesOption} />
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
 
-															<Attach
-																buttonContent="Добавить"
-																value={filesForTask[id] || []}
-																buttonProps={{
-																	style: {
-																		backgroundColor: 'transparent',
-																		color: '#2A77EF',
-																		padding: '0',
-																		margin: '0',
-																	},
-																}}
-																size="m"
-																onChange={(event, payload) =>
-																	handleAttach(id, event, payload)
-																}
-																multiple={multiple}
-																fileClassName={styles.attachButton}
-																noFileText=""
-																disabled={taskStatus.name !== 'В работе'}
-															/>
-														</div>
-														{filesForTask[id] && (
-															<div>
-																{filesForTask[id].map((file, index) => (
-																	<FileUploadItem
-																		key={index}
-																		name={file.name}
-																		uploadDate="31.01.2024"
-																		size={file.size}
-																		showDelete={true}
-																		downloadLink="/link"
-																		className={styles.attachedFile}
-																	/>
-																))}
-															</div>
-														)}
-														<Button
-															view="primary"
-															size="s"
-															className={styles.button}
-															disabled={taskStatus.name !== 'В работе'}
-														>
-															Отправить на проверку
-														</Button>
-														<ButtonDesktop
-															// onClick={handleNewTaskOpen}
-															view="tertiary"
-															shape="rectangular"
-															size="s"
-															className={styles.buttonComponent}
-															nowrap={false}
-															colors="default"
-														>
-															Добавить новую
-														</ButtonDesktop>
-														{!isEmployee && (
-															<div
-																style={{
-																	display: 'flex',
-																	height: '35px',
-																	width: '130px',
-																	backgroundColor: 'black',
-																	color: 'white',
-																	borderRadius: '6px',
-																	padding: '0 6px',
-																	margin: '5px;',
-																	font: 'Inter',
-																	fontSize: '14px',
-																	fontWeight: '500',
-																	lineHeight: '20px',
-																	letterSpacing: '0em',
-																	textAlign: 'left',
-																	border: '9px solid black',
-																}}
-															>
-																<div>
-																	<select
-																		value={selectedStatusOption}
-																		onChange={handleSelectStatusChange}
-																		className={styles.select}
-																	>
-																		<option
-																			className={styles.option}
-																			value="В работе"
-																		>
-																			В работе
-																		</option>
-																		<option value="Отклонен">Выполнена</option>
-																		<option value="Сохранен">Отменена</option>
-																	</select>
-																</div>
-															</div>
-														)}
-													</div>
-												</div>
-											</Collapse>
-										</Table.TCell>
-									</Table.TRow>
-								)}
-							</React.Fragment>
-						)
-					)}
-				</Table.TBody>
-			</Table>
-		</>
-	);
+                          <Textarea
+                            fieldClassName={styles.textClass}
+                            maxHeight={91}
+                            label="Комментарий руководителя"
+                            name="commentOfMentor"
+                            value={supervisorComment}
+                            onChange={handleInputChange}
+                            labelView="inner"
+                            size="m"
+                            block={true}
+                            maxLength={96}
+                            showCounter={true}
+                            autosize={true}
+                            disabled={isEmployee}
+                          />
+                          {isEmployee && (
+                            <Textarea
+                              fieldClassName={styles.textClass}
+                              maxHeight={91}
+                              label="Ваш комментарий"
+                              name="commentOfEmployee"
+                              onChange={handleInputChange}
+                              labelView="inner"
+                              size="m"
+                              block={true}
+                              maxLength={96}
+                              showCounter={true}
+                              autosize={true}
+                            />
+                          )}
+
+                          <div>
+                            <div className={styles.attachWrapper}>
+                              <p className={styles.attachTitle}>Приклепленные файлы</p>
+
+                              <Attach
+                                buttonContent="Добавить"
+                                value={filesForTask[id] || []}
+                                buttonProps={{
+                                  style: {
+                                    backgroundColor: 'transparent',
+                                    color: '#2A77EF',
+                                    padding: '0',
+                                    margin: '0',
+                                  },
+                                }}
+                                size="m"
+                                onChange={(event, payload) => handleAttach(id, event, payload)}
+                                multiple={multiple}
+                                fileClassName={styles.attachButton}
+                                noFileText=""
+                                disabled={taskStatus.name !== 'В работе'}
+                              />
+                            </div>
+                            {filesForTask[id] && (
+                              <div>
+                                {filesForTask[id].map((file, index) => (
+                                  <FileUploadItem
+                                    key={index}
+                                    name={file.name}
+                                    uploadDate="31.01.2024"
+                                    size={file.size}
+                                    showDelete={true}
+                                    downloadLink="/link"
+                                    className={styles.attachedFile}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                            <Button
+                              view="primary"
+                              size="s"
+                              className={styles.button}
+                              disabled={taskStatus.name !== 'В работе'}
+                            >
+                              Отправить на проверку
+                            </Button>
+
+                            {!isEmployee && (
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  justifyContent: 'flex-end',
+                                }}
+                              >
+                                <div>
+                                  <select
+                                    value={selectedStatusOption}
+                                    onChange={handleSelectStatusChange}
+                                    className={styles.select}
+                                  >
+                                    <option className={styles.option} value="В работе">
+                                      В работе
+                                    </option>
+                                    <option value="Отклонен">Выполнена</option>
+                                    <option value="Сохранен">Отменена</option>
+                                  </select>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </Collapse>
+                    </Table.TCell>
+                  </Table.TRow>
+                )}
+              </React.Fragment>
+            )
+          )}
+        </Table.TBody>
+      </Table>
+      <ButtonDesktop
+        // onClick={handleNewTaskOpen}
+        view="tertiary"
+        shape="rectangular"
+        size="s"
+        className={styles.buttonComponent}
+        nowrap={false}
+        colors="default"
+      >
+        Добавить новую
+      </ButtonDesktop>
+    </>
+  );
 };
