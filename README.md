@@ -16,7 +16,7 @@
 
 # Ссылка на проект
 
-[Ссылка на проект](https://new-develop--benevolent-melomakarona-4df41c.netlify.app/)
+[Ссылка на проект](https://deploy-preview-110--resonant-cactus-89987a.netlify.app/)
 
 # Стек технологий
 
@@ -43,7 +43,7 @@
   <img src="https://img.shields.io/badge/figma-%23404d59.svg?style=for-the-badge&logo=figma&logoColor=purple" alt="Figma Badge" />
   <img src="https://img.shields.io/badge/vscode-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="VScode Badge" />
 
-### Ссылки на сторонние библиотеки
+### Ссылки на сторонние библиотеки и шрифты
 
 - Иконки и компоненты - [Core-components](https://core-ds.github.io/core-components/master/?path=/docs/guidelines-accessibility-forms--docs)
 
@@ -53,8 +53,14 @@
 
 # Установка
 
-- `npm install` - установка npm-пакетов зависимостей;
+- `git clone git@github.com:EpicByteMasters/7-command-frontend.git` - Клонируйте репозиторий;
 
-- `npm start` - локальный запуск приложения на порте `http://localhost:3000`;
+- `cd 7-command-frontend` - локальный запуск приложения на порте `http://localhost:3000`;
 
-- `npm run build` - сборка приложения для диплоя;
+- `npm install` - yстановите зависимости;
+
+- `npm start` - запустите проект;
+
+# ScreenShot приложения
+
+![](./src/images/screenForREADME.jpg)

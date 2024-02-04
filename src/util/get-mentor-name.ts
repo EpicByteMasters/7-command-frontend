@@ -1,4 +1,4 @@
-import { IMentor } from '../store/reducers/iprSlice';
+import type { IMentor } from '../store/reducers/iprSlice';
 
 /** Получение полного имени ментора */
 const getMentorName = (mentor: IMentor) => `${mentor.firstName} ${mentor.patronymic} ${mentor.surname}`;
