@@ -37,9 +37,7 @@ export const MyPlan: React.FC = () => {
           </div>
         </section>
       </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };

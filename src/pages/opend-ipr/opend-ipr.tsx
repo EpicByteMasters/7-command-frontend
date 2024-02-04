@@ -181,6 +181,9 @@ export const OpendIpr: FC = () => {
     // setDeletingItemId(null);
   };
 
+  //--------Обработчик отмены ИПР------------------------------------------
+  //--------Обработчик отмены ИПР------------------------------------------
+
   return (
     <div className={styles.generalFooterWrapper}>
       <div className={styles.generalFooterContainer}>
