@@ -107,6 +107,41 @@ export const initialIprData: IIprData = {
   iprGrade: 0,
 };
 
+const initialState: TIprDataState = {
+  ipr: null,
+  isLoading: false,
+  error: '',
+  taskValues: null,
+};
+
+export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', async (userId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ employeeId: userId }),
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to create IPR data');
+    }
+  } catch (error) {
+    console.error('Error during creating IPR data:', error);
+    throw error;
+  }
+});
+
 export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>('iprs/getIprSupevisor', async (id) => {
   try {
     const token = localStorage.getItem('token');
@@ -159,12 +194,6 @@ export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>('iprs/get
   }
 });
 
-const initialState: TIprDataState = {
-  ipr: null,
-  isLoading: false,
-  error: '',
-  taskValues: null,
-};
 export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', async (id) => {
   try {
     const token = localStorage.getItem('token');
@@ -188,6 +217,206 @@ export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', a
     }
   } catch (error) {
     console.error('Error during deleting IPR:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Сохранить в черновик
+export const saveIprDraft = createAsyncThunk<IIprData, number>('iprs/saveIprDraft', async (iprId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/save-draft`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to save draft');
+    }
+  } catch (error) {
+    console.error('Error during saving draft:', error);
+    throw error;
+  }
+});
+
+// кнопка: оправить в работу
+export const startIpr = createAsyncThunk<IIprData, number>('iprs/startIpr', async (iprId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to save draft');
+    }
+  } catch (error) {
+    console.error('Error during saving draft:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Сохранить в зависимости от роли (для сотрудника)
+export const editIprForEmployee = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
+  'iprs/editIprForEmployee',
+  async ({ iprId, iprData }) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('Token is missing in localStorage');
+      }
+
+      const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr-employee`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(iprData),
+      });
+
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('Failed to edit IPR for employee');
+      }
+    } catch (error) {
+      console.error('Error during editing IPR for employee:', error);
+      throw error;
+    }
+  }
+);
+
+// Кнопка: Сохранить в зависимости от роли (для руководителя)
+export const editIprForSupervisor = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
+  'iprs/editIprForSupervisor',
+  async ({ iprId, iprData }) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('Token is missing in localStorage');
+      }
+
+      const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(iprData),
+      });
+
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('Failed to edit IPR');
+      }
+    } catch (error) {
+      console.error('Error during editing IPR:', error);
+      throw error;
+    }
+  }
+);
+
+// Кнопка: Отменить
+export const cancelIpr = createAsyncThunk<IIprData, number>('iprs/cancelIpr', async (iprId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/cancel`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to save draft');
+    }
+  } catch (error) {
+    console.error('Error during saving draft:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Подвести итоги
+export const completeIpr = createAsyncThunk<IIprData, number>('iprs/completeIpr', async (iprId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/complete`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to save draft');
+    }
+  } catch (error) {
+    console.error('Error during saving draft:', error);
+    throw error;
+  }
+});
+
+// задачи в ИПР Отправить на проверку.
+// Если успех(200) - поменять на Ожидает проверки. (сиреневое)
+export const completeTask = createAsyncThunk<IIprData, number>('iprs/completeTask', async (iprId) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Token is missing in localStorage');
+    }
+
+    const response = await fetch(`${BASE_URL}/api/v1/task/${iprId}/complete`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to save draft');
+    }
+  } catch (error) {
+    console.error('Error during saving draft:', error);
     throw error;
   }
 });
@@ -228,6 +457,7 @@ const iprSlice = createSlice({
         state.isLoading = false;
         state.error = 'Failed to fetch employee IPR data';
       })
+      //-------------------------Delete IPR-------------------------------------------------------
       .addCase(deleteIprById.pending, (state) => {
         state.isLoading = true;
         state.error = '';
@@ -240,6 +470,112 @@ const iprSlice = createSlice({
       .addCase(deleteIprById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message ?? 'Failed to delete IPR';
+      })
+      //----------------------Create IPR----------------------------------------------------------
+      .addCase(createIpr.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(createIpr.fulfilled, (state, action) => {
+        const { id, employeeId, supervisorId, status } = action.payload;
+        if (state.ipr) {
+          // Обновление состояния с учетом полученных полей
+          state.ipr = {
+            ...state.ipr,
+            id: id || state.ipr.id,
+            employeeId: employeeId || state.ipr.employeeId,
+            supervisorId: supervisorId || state.ipr.supervisorId,
+            status: status || state.ipr.status,
+          };
+        }
+        state.isLoading = false;
+      })
+      .addCase(createIpr.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = 'Failed to create IPR';
+      })
+      //-----------------------------Save Draft---------------------------------------------------
+      .addCase(saveIprDraft.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(saveIprDraft.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = 'Failed to save draft';
+      })
+      //------------------------------StartIpr--------------------------------------------------
+      .addCase(startIpr.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(startIpr.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = 'Failed to start IPR';
+      })
+      //------------------------------Edit Ipr For Employee--------------------------------------------------
+      .addCase(editIprForEmployee.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(editIprForEmployee.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(editIprForEmployee.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Failed to edit IPR for employee';
+      })
+      //------------------------------Edit Ipr For Supervisor--------------------------------------------------
+      .addCase(editIprForSupervisor.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(editIprForSupervisor.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(editIprForSupervisor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Failed to edit IPR';
+      })
+      //------------------------------Сancel Ipr--------------------------------------------------
+      .addCase(cancelIpr.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(cancelIpr.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(cancelIpr.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Failed to cancel IPR';
+      })
+      //------------------------------Сomplete Ipr--------------------------------------------------
+      .addCase(completeIpr.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(completeIpr.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(completeIpr.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Failed to complete IPR';
+      })
+      //------------------------------Сomplete Task--------------------------------------------------
+      .addCase(completeTask.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(completeTask.fulfilled, (state, action) => {
+        state.ipr = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(completeTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Failed to complete task';
       });
   },
 });
@@ -247,73 +583,3 @@ const iprSlice = createSlice({
 export const { setTaskValues } = iprSlice.actions;
 
 export default iprSlice.reducer;
-
-// export const createIPR = createAsyncThunk<any, IPRSCreatePayload>(
-// 	'iprs/create',
-// 	async (payload) => {
-// 		try {
-// 			const token = localStorage.getItem('token');
-
-// 			if (!token) {
-// 				throw new Error('Token is missing in localStorage');
-// 			}
-
-// 			const response = await fetch(
-// 				`${BASE_URL}/api/v1/mentor/iprs/ipr/create`,
-// 				{
-// 					method: 'POST',
-// 					headers: {
-// 						Authorization: `Bearer ${token}`,
-// 						'Content-Type': 'application/json',
-// 					},
-// 					body: JSON.stringify({
-// 						employeeId: payload.employeeId,
-// 					}),
-// 				}
-// 			);
-
-// 			if (response.status === 200) {
-// 				return response.json();
-// 			} else {
-// 				throw new Error('Failed to create IPR');
-// 			}
-// 		} catch (error) {
-// 			console.error('Error during creating IPR:', error);
-// 			throw error;
-// 		}
-// 	}
-// );
-
-// export const deleteIpr = createAsyncThunk<
-// 	void,
-// 	number,
-// 	{ rejectValue: DeleteIprError }
-// >('iprs/deleteIpr', async (iprId, { rejectWithValue }) => {
-// 	try {
-// 		const token = localStorage.getItem('token');
-
-// 		if (!token) {
-// 			throw new Error('Token is missing in localStorage');
-// 		}
-
-// 		const response = await fetch(
-// 			`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}`,
-// 			{
-// 				method: 'DELETE',
-// 				headers: {
-// 					Authorization: `Bearer ${token}`,
-// 				},
-// 			}
-// 		);
-
-// 		if (response.status === 204) {
-// 			// успешное удаление и в ответе нет ничего
-// 			return;
-// 		} else {
-// 			throw new Error('Failed to delete IPR');
-// 		}
-// 	} catch (error: any) {
-// 		console.error('Error during deleting IPR:', error);
-// 		return rejectWithValue({ message: error.message } as DeleteIprError);
-// 	}
-// });

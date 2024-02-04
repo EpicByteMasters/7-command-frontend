@@ -13,7 +13,7 @@ import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { Modal } from '../modal/modal';
-import { Employee } from '../../store/reducers/managerIprSlice';
+import { Employee, getManagerIprsList } from '../../store/reducers/managerIprSlice';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
@@ -25,7 +25,8 @@ import {
 import { formatDateString, getStatusColor, getValueById } from '../../shared/utils/constants';
 
 import { TIprStatusType } from '../../shared/utils/types';
-import { deleteIprById } from '../../store/reducers/iprSlice';
+import { createIpr, deleteIprById } from '../../store/reducers/iprSlice';
+import { async } from 'q';
 
 export interface IEmployeesListProps {
   data: Employee[] | undefined;
@@ -46,7 +47,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
 
   const [modalCreate, setModalCreate] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+
   const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
+  const [creatingIprUserId, setCreatingIprUserId] = useState<number | null>(null);
 
   //sorting
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -148,14 +151,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
   };
 
   const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
-    console.log('ID ИПР переданное из строчки таблицы', idIpr);
-    console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
+    //console.log('ID ИПР переданное из строчки таблицы', idIpr);
+    //console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
         state: { location, selectedUserId },
       });
     } catch (error) {
-      console.error('Error during navigating:', error);
+      //console.error('Error during navigating:', error);
     }
   };
 
@@ -191,21 +194,41 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
 
   //--------------------------------------------DELETE IPR--------------------------------------
   const onClickToDelete = (idIprtoDelete: number) => {
-    console.log('onClickToDelete ID', idIprtoDelete);
+    // console.log('onClickToDelete ID', idIprtoDelete);
     setDeletingItemId(idIprtoDelete);
     setModalDelete(!modalDelete);
   };
 
-  const handleDelete = (id: number | null) => {
-    console.log('id to delete', id);
+  const handleDelete = async (id: number | null) => {
+    //console.log('id to delete', id);
+
     if (id) {
       // Вызываем функцию удаления из редьюсера, передавая id IPR
-      //console.log('вызываем функцию удаления!!!!!!!!!!!!!!!!!!!!!!');
-      dispatch(deleteIprById(id));
+      await dispatch(deleteIprById(id));
+      // После успешного удаления выполняем запрос данных
+      dispatch(getManagerIprsList());
     }
 
     // Сбрасываем состояние deletingItemId после удаления
     setDeletingItemId(null);
+  };
+
+  //-----------------------------------------CREATE IPR-------------------------------------------
+  const onClickToCreate = (userId: number) => {
+    //console.log('onClickToCreate ID', userId);
+    setCreatingIprUserId(userId);
+    setModalCreate(!modalCreate);
+  };
+
+  const handleCreate = async (userId: number) => {
+    // console.log('create IPR USer Id', userId);
+
+    if (userId) {
+      await dispatch(createIpr(userId));
+      dispatch(getManagerIprsList());
+    }
+
+    setCreatingIprUserId(null);
   };
 
   return (
@@ -268,6 +291,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                 rowIndex
               ) => {
                 const progressPercent = (taskCompleted / taskCount) * 100;
+                //  console.log('progressPercent', progressPercent);
                 //TODO вставить в верстку аватарку
                 return (
                   <Table.TRow key={id}>
@@ -279,6 +303,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center',
+                            width: '300px',
                           }}
                         >
                           <img
@@ -301,15 +326,22 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </Space>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell}>{goal ? getValueById(goal, iprGoalsLib) : '—'}</div>
+                      <div
+                        className={styles.tCell}
+                        style={{
+                          width: '200px',
+                        }}
+                      >
+                        {goalId ? getValueById(goalId, iprGoalsLib) : '—'}
+                      </div>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell} style={{ textAlign: 'center' }}>
+                      <div className={styles.tCell} style={{ textAlign: 'center', width: '75' }}>
                         {dateOfEnd ? formatDateString(dateOfEnd) : '—'}
                       </div>
                     </Table.TCell>
                     <Table.TCell>
-                      {progressPercent ? (
+                      {taskCount ? (
                         <CircularProgressBar
                           value={progressPercent}
                           title={`${taskCompleted}/${taskCount}`}
@@ -324,7 +356,12 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       )}
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tCell}>
+                      <div
+                        className={styles.tCell}
+                        style={{
+                          width: '110px',
+                        }}
+                      >
                         <Status view="soft" color={getStatusColor(statusId)}>
                           {getValueById(statusId, iprStatusLib) || 'отсутвует'}
                         </Status>
@@ -333,7 +370,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                     <Table.TCell>
                       <div className={styles.tBtn}>
                         {statusId === 'NO_IPR' ? (
-                          <Button view="tertiary" size="xxs" onClick={onClickToDraft}>
+                          <Button view="tertiary" size="xxs" onClick={() => onClickToCreate(id)}>
                             Создать
                           </Button>
                         ) : (
@@ -344,14 +381,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                       </div>
                     </Table.TCell>
                     <Table.TCell>
-                      <div className={styles.tBtnDot}>
-                        <Button view="ghost" onClick={() => handleMoreButtonClick(rowIndex)}>
-                          <MoreMIcon style={{ fill: '#898889' }} />
-                        </Button>
-                      </div>
-                      {activeRowIndex === rowIndex && (
-                        <div className={styles.popoverContainer} ref={popoverRef}>
-                          <div className={styles.popoverButtons}>
+                      <div className={styles.btnsWrapper}>
+                        <div className={styles.tBtnDot}>
+                          <Button view="ghost" onClick={() => handleMoreButtonClick(rowIndex)}>
+                            <MoreMIcon style={{ fill: '#898889' }} />
+                          </Button>
+                        </div>
+                        {activeRowIndex === rowIndex && (
+                          <div className={styles.popoverButtons} ref={popoverRef}>
                             {statusId === 'DRAFT' ? (
                               <Button
                                 className={styles.btnText}
@@ -370,15 +407,6 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                               >
                                 Отменить
                               </Button>
-                            ) : statusId === 'NO_IPR' ? (
-                              <Button
-                                className={styles.btnText}
-                                view="ghost"
-                                size="s"
-                                //onClick={() => onClickToDelete(iprId)}
-                              >
-                                Создать
-                              </Button>
                             ) : null}
 
                             <Button
@@ -392,8 +420,8 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
                               История
                             </Button>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </Table.TCell>
                   </Table.TRow>
                 );
@@ -412,6 +440,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
           paragraph={'Вы можете создать черновик и вернуться к нему позже'}
           confirmButtonLabel={'Создать'}
           cancelButtonLabel={'Отмена'}
+          onConfirm={() => handleCreate(Number(creatingIprUserId))}
         ></Modal>
       ) : (
         ''

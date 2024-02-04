@@ -123,7 +123,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   // -------------------------------------------------------------------------------------
 
-  console.log('IPR: ', iprCurrentData);
+  console.log('Ипр который пришел в задачи: ', iprCurrentData);
 
   const courses = useAppSelector(selectCommonLibsEducation);
   console.log('optionCourses: ', courses);
@@ -356,151 +356,78 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   return (
     <>
-      <legend className={styles.blockTitle} onClick={handleCallback}>
-        Задачи
-      </legend>
-      <Table className={styles.table}>
-        <Table.TBody>
-          {localArrayTask?.map(
-            ({ id, name, taskStatus, description, supervisorComment, closeDate, education, comment }: ITask) => (
-              <React.Fragment key={id}>
-                <Table.TRow className={styles.row}>
-                  <Table.TCell className={styles.cellWithIcon}>
-                    {!isEmployee && (taskStatus.name === 'Выполнена' || taskStatus.name === 'Не выполнена') && (
-                      <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(id)} />
-                    )}
-                    {name}
-                  </Table.TCell>
-                  <Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
-                  <Table.TCell>
-                    <Status view="soft" color={getStatusColor(taskStatus.id)}>
-                      {taskStatus.name}
-                    </Status>
-                  </Table.TCell>
-                  <Table.TCell>
-                    <ChevronDownMIcon onClick={() => chevronClick(id)} />
-                  </Table.TCell>
-                </Table.TRow>
-                {expandedTasks[id] && (
-                  <Table.TRow className={styles.row} withoutBorder={true}>
-                    <Table.TCell colSpan={4}>
-                      <Collapse expanded={expandedTasks[id]}>
-                        <div className={styles.openedTask}>
-                          <div className={styles.wrapper}>
-                            <Textarea
-                              fieldClassName={styles.goalName}
-                              maxHeight={56}
-                              label="Название*"
-                              value={name}
-                              name="name"
-                              onChange={handleInputChange}
-                              labelView="inner"
-                              size="m"
-                              block={true}
-                              showCounter={true}
-                              autosize={true}
-                              disabled={isEmployee}
-                            />
-                            <UniversalDateInput
-                              block={true}
-                              view="date"
-                              label="Дата завершения"
-                              size="m"
-                              value={formatDate(closeDate)}
-                              onChange={handleChangeEndDate}
-                              picker={true}
-                              Calendar={CalendarDesktop}
-                              disabled={isEmployee}
-                              calendarProps={{
-                                selectorView: 'month-only',
-                              }}
-                              clear={true}
-                              onClear={(e) => {
-                                e.stopPropagation();
-                                setEndDate('');
-                              }}
-                            />
-                          </div>
-                          <Textarea
-                            fieldClassName={styles.textClass}
-                            maxHeight={91}
-                            label="Описание"
-                            name="description"
-                            value={description}
-                            onChange={handleInputChange}
-                            labelView="inner"
-                            size="m"
-                            block={true}
-                            maxLength={96}
-                            showCounter={true}
-                            autosize={true}
-                            disabled={isEmployee}
-                          />
-
-                          <div className={styles.coursesWrapper}>
-                            <InputAutocomplete
-                              size="s"
-                              name="course"
-                              label="Тренинги и курсы"
-                              placeholder="Начните вводить название"
-                              className={styles.inputCourses}
-                              block={true}
-                              showEmptyOptionsList={true}
-                              Option={BaseOption}
-                              Arrow={shownChevron ? Arrow : undefined}
-                              multiple={multiple}
-                              options={getFilteredOptionsCourses()}
-                              selected={selected}
-                              onChange={handleChangeCourse}
-                              onInput={handleInputCourse}
-                              allowUnselect={true}
-                              value={valueCourse}
-                              inputProps={{
-                                onClear: onCoursesInputClear,
-                                clear: true,
-                              }}
-                            />
-                            <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses} />
-                          </div>
-
-                          <div className={styles.formRowTag}>
-                            {optionsSelected.length > 0 &&
-                              optionsSelected.map((course: OptionShape) => (
-                                <div key={course.key} className={styles.tagContainer}>
-                                  <div className={styles.formTag} onClick={() => onDeleteTag(course.key)}>
-                                    <div className={styles.formCircle}>
-                                      <CrossCircleMIcon />
-                                    </div>
-
-                                    {course.content}
-
-                                    <TestResultButton course={course as ICoursesOption} />
-                                  </div>
-                                </div>
-                              ))}
-                          </div>
-
-                          <Textarea
-                            fieldClassName={styles.textClass}
-                            maxHeight={91}
-                            label="Комментарий руководителя"
-                            name="commentOfMentor"
-                            value={supervisorComment}
-                            onChange={handleInputChange}
-                            labelView="inner"
-                            size="m"
-                            block={true}
-                            maxLength={96}
-                            showCounter={true}
-                            autosize={true}
-                            disabled={isEmployee}
-                          />
-                          {isEmployee && (
+      <div className={styles.taskBlock}>
+        <legend className={styles.blockTitle} onClick={handleCallback}>
+          Задачи
+        </legend>
+        <Table className={styles.table}>
+          <Table.TBody>
+            {localArrayTask?.map(
+              ({ id, name, taskStatus, description, supervisorComment, closeDate, education, comment }: ITask) => (
+                <React.Fragment key={id}>
+                  <Table.TRow className={styles.row}>
+                    <Table.TCell className={styles.cellWithIcon}>
+                      {!isEmployee && (taskStatus.name === 'Выполнена' || taskStatus.name === 'Не выполнена') && (
+                        <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(id)} />
+                      )}
+                      {name}
+                    </Table.TCell>
+                    <Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
+                    <Table.TCell>
+                      <Status view="soft" color={getStatusColor(taskStatus.id)}>
+                        {taskStatus.name}
+                      </Status>
+                    </Table.TCell>
+                    <Table.TCell>
+                      <ChevronDownMIcon onClick={() => chevronClick(id)} />
+                    </Table.TCell>
+                  </Table.TRow>
+                  {expandedTasks[id] && (
+                    <Table.TRow className={styles.row} withoutBorder={true}>
+                      <Table.TCell colSpan={4}>
+                        <Collapse expanded={expandedTasks[id]}>
+                          <div className={styles.openedTask}>
+                            <div className={styles.wrapper}>
+                              <Textarea
+                                fieldClassName={styles.goalName}
+                                maxHeight={56}
+                                label="Название*"
+                                value={name}
+                                name="name"
+                                onChange={handleInputChange}
+                                labelView="inner"
+                                size="m"
+                                block={true}
+                                showCounter={true}
+                                autosize={true}
+                                disabled={isEmployee}
+                              />
+                              <UniversalDateInput
+                                block={true}
+                                view="date"
+                                label="Дата завершения"
+                                size="m"
+                                value={formatDate(closeDate)}
+                                onChange={handleChangeEndDate}
+                                picker={true}
+                                Calendar={CalendarDesktop}
+                                disabled={isEmployee}
+                                calendarProps={{
+                                  selectorView: 'month-only',
+                                }}
+                                clear={true}
+                                onClear={(e) => {
+                                  e.stopPropagation();
+                                  setEndDate('');
+                                }}
+                              />
+                            </div>
                             <Textarea
                               fieldClassName={styles.textClass}
                               maxHeight={91}
-                              label="Ваш комментарий"
-                              name="commentOfEmployee"
+                              label="Описание"
+                              name="description"
+                              value={description}
                               onChange={handleInputChange}
                               labelView="inner"
                               size="m"
@@ -508,90 +435,166 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
                               maxLength={96}
                               showCounter={true}
                               autosize={true}
+                              disabled={isEmployee}
                             />
-                          )}
 
-                          <div>
-                            <div className={styles.attachWrapper}>
-                              <p className={styles.attachTitle}>Приклепленные файлы</p>
-
-                              <Attach
-                                buttonContent="Добавить"
-                                value={filesForTask[id] || []}
-                                buttonProps={{
-                                  style: {
-                                    backgroundColor: 'transparent',
-                                    color: '#2A77EF',
-                                    padding: '0',
-                                    margin: '0',
-                                  },
-                                }}
-                                size="m"
-                                onChange={(event, payload) => handleAttach(id, event, payload)}
+                            <div className={styles.coursesWrapper}>
+                              <InputAutocomplete
+                                size="s"
+                                name="course"
+                                label="Тренинги и курсы"
+                                placeholder="Начните вводить название"
+                                className={styles.inputCourses}
+                                block={true}
+                                showEmptyOptionsList={true}
+                                Option={BaseOption}
+                                Arrow={shownChevron ? Arrow : undefined}
                                 multiple={multiple}
-                                fileClassName={styles.attachButton}
-                                noFileText=""
-                                disabled={taskStatus.name !== 'В работе'}
-                              />
-                            </div>
-                            {filesForTask[id] && (
-                              <div>
-                                {filesForTask[id].map((file, index) => (
-                                  <FileUploadItem
-                                    key={index}
-                                    name={file.name}
-                                    uploadDate="31.01.2024"
-                                    size={file.size}
-                                    showDelete={true}
-                                    downloadLink="/link"
-                                    className={styles.attachedFile}
-                                  />
-                                ))}
-                              </div>
-                            )}
-                            <Button
-                              view="primary"
-                              size="s"
-                              className={styles.button}
-                              disabled={taskStatus.name !== 'В работе'}
-                            >
-                              Отправить на проверку
-                            </Button>
-
-                            {!isEmployee && (
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexDirection: 'row',
-                                  justifyContent: 'flex-end',
+                                options={getFilteredOptionsCourses()}
+                                selected={selected}
+                                onChange={handleChangeCourse}
+                                onInput={handleInputCourse}
+                                allowUnselect={true}
+                                value={valueCourse}
+                                inputProps={{
+                                  onClear: onCoursesInputClear,
+                                  clear: true,
                                 }}
-                              >
-                                <div>
-                                  <select
-                                    value={selectedStatusOption}
-                                    onChange={handleSelectStatusChange}
-                                    className={styles.select}
-                                  >
-                                    <option className={styles.option} value="В работе">
-                                      В работе
-                                    </option>
-                                    <option value="Отклонен">Выполнена</option>
-                                    <option value="Сохранен">Отменена</option>
-                                  </select>
-                                </div>
-                              </div>
+                              />
+                              <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses} />
+                            </div>
+
+                            <div className={styles.formRowTag}>
+                              {optionsSelected.length > 0 &&
+                                optionsSelected.map((course: OptionShape) => (
+                                  <div key={course.key} className={styles.tagContainer}>
+                                    <div className={styles.formTag} onClick={() => onDeleteTag(course.key)}>
+                                      <div className={styles.formCircle}>
+                                        <CrossCircleMIcon />
+                                      </div>
+
+                                      {course.content}
+
+                                      <TestResultButton course={course as ICoursesOption} />
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+
+                            <Textarea
+                              fieldClassName={styles.textClass}
+                              maxHeight={91}
+                              label="Комментарий руководителя"
+                              name="commentOfMentor"
+                              value={supervisorComment}
+                              onChange={handleInputChange}
+                              labelView="inner"
+                              size="m"
+                              block={true}
+                              maxLength={96}
+                              showCounter={true}
+                              autosize={true}
+                              disabled={isEmployee}
+                            />
+                            {isEmployee && (
+                              <Textarea
+                                fieldClassName={styles.textClass}
+                                maxHeight={91}
+                                label="Ваш комментарий"
+                                name="commentOfEmployee"
+                                onChange={handleInputChange}
+                                labelView="inner"
+                                size="m"
+                                block={true}
+                                maxLength={96}
+                                showCounter={true}
+                                autosize={true}
+                              />
                             )}
+
+                            <div>
+                              <div className={styles.attachWrapper}>
+                                <p className={styles.attachTitle}>Приклепленные файлы</p>
+                                {isEmployee && (
+                                  <Attach
+                                    buttonContent="Добавить"
+                                    value={filesForTask[id] || []}
+                                    buttonProps={{
+                                      style: {
+                                        backgroundColor: 'transparent',
+                                        color: '#2A77EF',
+                                        padding: '0',
+                                        margin: '0',
+                                      },
+                                    }}
+                                    size="m"
+                                    onChange={(event, payload) => handleAttach(id, event, payload)}
+                                    multiple={multiple}
+                                    fileClassName={styles.attachButton}
+                                    noFileText=""
+                                    disabled={taskStatus.name !== 'В работе'}
+                                  />
+                                )}
+                              </div>
+                              {filesForTask[id] && (
+                                <div>
+                                  {filesForTask[id].map((file, index) => (
+                                    <FileUploadItem
+                                      key={index}
+                                      name={file.name}
+                                      uploadDate="31.01.2024"
+                                      size={file.size}
+                                      showDelete={true}
+                                      downloadLink="/link"
+                                      className={styles.attachedFile}
+                                    />
+                                  ))}
+                                </div>
+                              )}
+                              <Button
+                                view="primary"
+                                size="s"
+                                className={styles.button}
+                                disabled={taskStatus.name !== 'В работе'}
+                              >
+                                Отправить на проверку
+                              </Button>
+
+                              {!isEmployee && (
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end',
+                                  }}
+                                >
+                                  <div>
+                                    <select
+                                      value={selectedStatusOption}
+                                      onChange={handleSelectStatusChange}
+                                      className={styles.select}
+                                    >
+                                      <option className={styles.option} value="В работе">
+                                        В работе
+                                      </option>
+                                      <option value="Отклонен">Выполнена</option>
+                                      <option value="Сохранен">Отменена</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </Collapse>
-                    </Table.TCell>
-                  </Table.TRow>
-                )}
-              </React.Fragment>
-            )
-          )}
-        </Table.TBody>
-      </Table>
+                        </Collapse>
+                      </Table.TCell>
+                    </Table.TRow>
+                  )}
+                </React.Fragment>
+              )
+            )}
+          </Table.TBody>
+        </Table>
+      </div>
       <ButtonDesktop
         onClick={handleNewTaskOpen}
         view="tertiary"
@@ -603,7 +606,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
-      {newTaskOpen && <NewTask></NewTask>}
+      {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
     </>
   );
 };

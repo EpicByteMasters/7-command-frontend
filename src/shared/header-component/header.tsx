@@ -10,7 +10,7 @@ import { Circle } from '@alfalab/core-components/icon-view/circle';
 import { Button } from '@alfalab/core-components/button';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
-import { Notifications } from 'entities/notifications/notifications';
+import { Notifications } from '../../entities/notifications/notifications';
 
 import { accessUrl } from '../../shared/utils/urls';
 import avatar from '../../images/avatar.png';
@@ -23,7 +23,6 @@ interface HeaderProps {
 }
 function Header({ error }: HeaderProps) {
   const userData = useAppSelector((state) => state.user.user);
-  //console.log('userData in header: ', userData);
 
   const [searchValue, setSearchValue] = useState<string>('');
 

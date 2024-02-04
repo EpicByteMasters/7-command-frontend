@@ -1,7 +1,6 @@
 import styles from './main-page.module.scss';
 
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
-import { FooterMain } from '../../shared/footer-main/footer-main';
 
 import layout1 from '../../images/main-layout/top.png';
 import layout2 from '../../images/main-layout/main-news.png';
@@ -34,9 +33,7 @@ export const MainPage = () => {
           </div>
         </div>
       </main>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
+      <div className={styles.generalFooter}></div>
     </div>
   );
 };
