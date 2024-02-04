@@ -18,24 +18,24 @@ export const MentorPlan: React.FC = () => {
 
   console.log('MENTOR_LIST_IPRS', mentorIprsList);
 
-  return (
-    <div className={styles.generalFooterWrapper}>
-      <div className={styles.generalFooterContainer}>
-        <section className={styles.myPlan}>
-          <div className={styles.container}>
-            <NavBarMini></NavBarMini>
-            <div className={styles.wrapper}>
-              <h1 className={styles.title}>Менторство сотрудников</h1>
-              <div className={styles.container}>
-                <MentorList data={mentorIprsList?.employees} />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      <div className={styles.generalFooter}>
-        <FooterMain></FooterMain>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.generalFooterWrapper}>
+			<div className={styles.generalFooterContainer}>
+				<section className={styles.myPlan}>
+					<div className={styles.container}>
+						<NavBarMini></NavBarMini>
+						<div className={styles.wrapper}>
+							<h1 className={styles.title}>Менторство сотрудников</h1>
+							<div className={styles.containerList}>
+								<MentorList data={mentorIprsList?.employees} />
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div className={styles.generalFooter}>
+				<FooterMain></FooterMain>
+			</div>
+		</div>
+	);
 };
