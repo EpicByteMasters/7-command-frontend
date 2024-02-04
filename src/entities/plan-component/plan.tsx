@@ -34,21 +34,21 @@ export const Plan: React.FC = () => {
   };
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case IprStatusDoc.Draft:
         return 'purple';
       case IprStatusDoc.Canceled:
         return 'orange';
       case IprStatusDoc.InProgress:
         return 'blue';
-      case IprStatusDoc.NotCompleted.toLowerCase():
+      case IprStatusDoc.NotCompleted:
         return 'red';
       case IprStatusDoc.Completed:
         return 'green';
       case IprStatusDoc.NoIpr:
         return 'grey';
       default:
-        return 'grey';
+        return undefined;
     }
   };
 
