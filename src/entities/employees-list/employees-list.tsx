@@ -166,7 +166,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
   //pagination
   const [page, setPage] = useState<number>(0);
 
-  const perPage = 5; // Фиксированное количество строк на странице
+  const perPage = 10; // Фиксированное количество строк на странице
   const handlePageChange = (pageIndex: number) => setPage(pageIndex);
   const pagesCount = Math.ceil(sortedAndFilteredData.length / perPage);
   const currentPageData = sortedAndFilteredData.slice(page * perPage, (page + 1) * perPage);

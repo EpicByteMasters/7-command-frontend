@@ -20,18 +20,27 @@ import {
   cancelIpr,
   completeIpr,
   deleteIprById,
+  editIprForEmployee,
+  editIprForSupervisor,
   getIprByIdByEmployee,
   getIprByIdBySupervisor,
   initialIprData,
+  startIpr,
 } from '../../store/reducers/iprSlice';
 import { getFullName, getStatusColor } from '../../shared/utils/constants';
+
+import type { ISaveDraftDTO } from '../../api/dto/save-draft.dto';
+
 //-----------------------------------------------------------------------------
+
 import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
 import IprStatusDoc from '../../type/ipr-status-name';
 import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
 import { roleUrl } from '../../shared/utils/urls';
+import type { IIprData } from '../../store/type/ipr-data';
+
 // ----------------------------------------------------------------------------
 
 const dummyIprData = initialIprData;
@@ -61,59 +70,30 @@ export const OpendIpr = () => {
   const [modalDelete, setModalDelete] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
 
+  const [modalCancel, setModalCancel] = useState(false);
+  const [CancelItemId, setCancelItemId] = useState<number | null>(null);
+
+  const [iprData, setIprData] = useState<IIprData>(dummyIprData);
+
   const taskValues = useAppSelector((state) => state.ipr.taskValues);
   const isLoadingIprs = useAppSelector((state) => state.iprs.isLoading);
   const isLoadingManagerIprs = useAppSelector((state) => state.managerIprs.isLoading);
   const isLoadingMentorIprs = useAppSelector((state) => state.mentorIprs.isLoading);
-
-  /**
-   * @TODO: Добавить ручку экшн мутатор данных
-   */
   const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
-  // Черновик:
-  // -- Руководитель
-  // --- Сохранить(onClickToSaveDraft), Отправить в работу(onClickToStartIpr), Удалить(onClickToDelete)
+  useEffect(() => {
+    console.log({ iprCurrentData });
 
-  // Условие показа трёх кнопок: isManager && isDraftIpr(iprCurrentData?.status.id);
+    if (!iprCurrentData) {
+      return;
+    }
 
-  // В работе:
-  // -- Руководитель, Ментор
-  // --- Сохранить(onClickToEditIprByManager), Подвести Итоги(onClickToEndIpr), Отменить(onClickToCancelIpr)
+    setIprData({ ...iprCurrentData });
+  }, [iprCurrentData]);
 
-  // Условие показа трёх кнопок:  (isMentor || isManager) && isInProgressIpr(iprCurrentData?.status.id);
-
-  // -- Сотрудник
-  // --- Сохранить(onClickToEditIprByEmployee)
-
-  // Условие показа одной кнопки: isEmployee && isInProgressIpr(iprCurrentData?.status.id);
-
-  // сохранить:
-  // const isSaveButtonShow = isInProgressIpr(iprCurrentData?.status.id) || isDraftIpr(iprCurrentData?.status.id);
-
-  // const isEndIprtButtonShow =  isInProgressIpr(iprCurrentData?.status.id) && isManager;
-
-  // const isCancelButtonShow = isInProgressIpr(iprCurrentData?.status.id)
-  //сотрудник статус в работе
-
-  //рук+ментор статус в работе
-
-  //рук статус черновик
-
-  //подвести итоги:
-  //рук статус в работе
-
-  // отправить в работу:
-  // рук статус черновик
-  //ментор статус в работе
-
-  //удалить
-  //рук статус черновик
-
-  //отменить:
-  //рук статус в работе
-
-  //console.log('USER DATA in OPENED IPR', userData);
+  useEffect(() => {
+    console.log({ iprData });
+  }, [iprData]);
 
   useEffect(() => {
     dispatch(getUserById(selectedUserId));
@@ -121,6 +101,10 @@ export const OpendIpr = () => {
       dispatch(setSelectedUser(null));
     };
   }, [dispatch, id]);
+
+  // const updateLocalIpr = (update: Partial<ISaveDraftDTO>) => {
+  //   setIprData({ ...iprData, ...update });
+  // };
 
   // //ручка всех ИПР сотрудников рука
   // useEffect(() => {
@@ -142,15 +126,9 @@ export const OpendIpr = () => {
     });
   }, []);
 
-  //console.log('Get menIPR List', managerIprsList?.employees);
-  //console.log('Get mentee IPR List', menteeIprList?.employees);
-
   // нашли ИПР из рута в списке ИПР
   // const isIprIdFoundInManagerList = managerIprsList?.employees.some((employee) => employee.iprId === Number(id));
   // const isIprIdFoundInMenteeList = menteeIprList?.employees.some((employee) => employee.iprId === Number(id));
-
-  //console.log({ isIprIdFoundInManagerList });
-  //console.log({ isIprIdFoundInMenteeList });
 
   let myCurrentRole;
 
@@ -271,6 +249,7 @@ export const OpendIpr = () => {
    */
   const onClickToStartIpr = async (id: number) => {
     //console.log('Старт в работу ЩЕЛК', id);
+    //startIpr();
   };
 
   // --------------------------------------------------------------------------
@@ -281,6 +260,7 @@ export const OpendIpr = () => {
   const onClickToEditIprByEmployee = async (id: number) => {
     //console.log('СОХРАНИТЬ Я Сотрудник ЩЕЛК');
     // console.log('idIprtoCancel', id);
+    //editIprForEmployee();
   };
 
   // --------------------------------------------------------------------------
@@ -291,6 +271,7 @@ export const OpendIpr = () => {
   const onClickToEditIprByManager = async (id: number) => {
     // console.log('СОХРАНИТЬ Я Рук ЩЕЛК');
     // console.log('idIprtoCancel', id);
+    //editIprForSupervisor();
   };
 
   // --------------------------------------------------------------------------
@@ -299,31 +280,7 @@ export const OpendIpr = () => {
    * @TODO: кнопка сохранить в черновике   *
    * @TODO: хочет данные
    * @TODO: проброс данных
-   * @TODO: данные можно взять из iprCurrentData
-   * {
-  "goalId": "string",
-  "specialtyId": "string",
-  "mentorId": 0,
-  "description": "string",
-  "supervisorComment": "string",
-  "iprStatusId": "string",
-  "competency": [
-    "string"
-  ],
-  "tasks": [
-    {
-      "name": "string",
-      "description": "string",
-      "closeDate": "2024-02-05",
-      "supervisorComment": "string",
-      "education": [
-        0
-      ],
-      "iprId": 0,
-      "comment": "string"
-    }
-  ]
-}
+   * @TODO: данные можно взять из iprCurrentData   *
    */
   const onClickToSaveDraft = async (id: number) => {
     //console.log('СОХРАНИТЬ ЧЕРНОВИК ЩЕЛК');
@@ -334,14 +291,18 @@ export const OpendIpr = () => {
   /**
    * Обработчик отмены ИПР
    */
-  const onClickToCancelIpr = async (id: number) => {
+  const onClickToCancelIpr = (id: number) => {
+    setCancelItemId(id);
+    setModalCancel(!modalCancel);
+  };
+
+  const handleCancelIpr = async (id: number) => {
     if (id) {
       await dispatch(cancelIpr(id));
       dispatch(getManagerIprsList());
     }
     navigate(`${roleUrl[0].url}`);
   };
-
   // --------------------------------------------------------------------------
   /**
    *  Обработчик завершения ИПР
@@ -350,8 +311,6 @@ export const OpendIpr = () => {
   const onClickToEndIpr = () => {
     setConclusion(true);
   };
-
-  console.log('это черновик?', isDraftIpr());
 
   return !isLoadingIprs && !isLoadingManagerIprs && !isLoadingMentorIprs ? (
     <div className={styles.generalFooterWrapper}>
@@ -409,7 +368,7 @@ export const OpendIpr = () => {
                     >
                       Сохранить
                     </Button>
-                    <Button view="primary" size="xs" className={styles.buttonSave} onClick={() => onClickToEndIpr()}>
+                    <Button view="primary" size="xs" className={styles.buttonSummary} onClick={() => onClickToEndIpr()}>
                       Подвести итоги
                     </Button>
                     <Button
@@ -527,6 +486,17 @@ export const OpendIpr = () => {
           confirmButtonLabel={'Удалить'}
           cancelButtonLabel={'Отмена'}
           onConfirm={() => handleDelete(Number(deletingItemId))}
+        ></Modal>
+      ) : (
+        ''
+      )}
+      {modalCancel ? (
+        <Modal
+          title="Отменить план развития?"
+          paragraph={'После отмены план развития станет неактивным (нельзя будет внести изменения)'}
+          confirmButtonLabel={'Да'}
+          cancelButtonLabel={'Нет'}
+          onConfirm={() => handleCancelIpr(Number(id))}
         ></Modal>
       ) : (
         ''
