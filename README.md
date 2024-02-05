@@ -16,7 +16,7 @@
 
 # Ссылка на проект
 
-[Ссылка на проект](https://deploy-preview-110--resonant-cactus-89987a.netlify.app/)
+[Ссылка на проект](https://main--resonant-cactus-89987a.netlify.app/)
 
 # Стек технологий
 
