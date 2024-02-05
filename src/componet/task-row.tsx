@@ -2,6 +2,8 @@ import React, { FC, ChangeEvent, ReactNode, useMemo, useState, useEffect } from 
 
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
+import { useAppDispatch } from '../shared/hooks/redux';
+
 import { Table } from '@alfalab/core-components/table';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { Textarea } from '@alfalab/core-components/textarea';
@@ -44,6 +46,7 @@ import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDat
 import linkToCourses from '../images/link-gotocourses.png';
 import styles from '../entities/tasks/tasks.module.scss';
 import { adaptDateToClient } from '../util';
+import { completeTask } from '../store/reducers/iprSlice';
 
 interface ITasksRowProps {
   task: ITask;
@@ -78,6 +81,8 @@ const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
 });
 
 const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseList, statusId, task }) => {
+  const [makeDisable, setMakeDisable] = useState(false);
+  const dispatch = useAppDispatch();
   console.log('statusId: ', statusId);
   console.log('isEmployee В TASK ROW: ', isEmployee);
   const [titleValue, setTitleValue] = useState('');
@@ -207,6 +212,10 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
     }));
   };
 
+  const onclicktoComplete = (id: any) => {
+    dispatch(completeTask(id));
+  };
+
   return (
     <Table.TRow className={styles.row} withoutBorder={true}>
       <Table.TCell colSpan={4}>
@@ -310,9 +319,20 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
               {courseSelectedOptions.length > 0 &&
                 courseSelectedOptions.map((course: OptionShape) => (
                   <div key={course.key} className={styles.tagContainer}>
-                    <div className={styles.formTag} onClick={() => onCoursesTagDelete(course.key)}>
+                    <div
+                      style={{
+                        opacity:
+                          isEmployee ||
+                          isCompletedIpr(statusId) ||
+                          isCanceledIpr(statusId) ||
+                          isNotCompletedIpr(statusId)
+                            ? 0.5
+                            : 1,
+                      }}
+                      className={styles.formTag}
+                    >
                       <div className={styles.formCircle}>
-                        <CrossCircleMIcon />
+                        <CrossCircleMIcon onClick={() => onCoursesTagDelete(course.key)} />
                       </div>
                       {course.content}
                       <TestResultButton course={course as ICoursesOption} />
@@ -366,7 +386,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
             )}
 
             <div>
-              <div className={styles.attachWrapper}>
+              {/* <div className={styles.attachWrapper}>
                 <p className={styles.attachTitle}>Приклепленные файлы</p>
                 {isEmployee && (
                   <Attach
@@ -388,8 +408,8 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                     disabled={isInProgressIpr(statusId)}
                   />
                 )}
-              </div>
-              {attachFiles[id] && (
+              </div> */}
+              {/* {attachFiles[id] && (
                 <div>
                   {attachFiles[id].map((file, index) => (
                     <FileUploadItem
@@ -403,9 +423,18 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                     />
                   ))}
                 </div>
-              )}
-              {isInProgressIpr() && isEmployee && (
-                <Button view="primary" size="s" className={styles.button} disabled={isAwaitingReviewIpr(statusId)}>
+              )} */}
+              {isInProgressIpr(statusId) && isEmployee && (
+                <Button
+                  view="primary"
+                  size="s"
+                  className={styles.button}
+                  disabled={makeDisable}
+                  onClick={() => {
+                    setMakeDisable(true);
+                    onclicktoComplete(id);
+                  }}
+                >
                   Отправить на проверку
                 </Button>
               )}
@@ -418,7 +447,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                     justifyContent: 'flex-end',
                   }}
                 >
-                  {isInProgressIpr() && !isEmployee && (
+                  {isInProgressIpr(statusId) && !isEmployee && (
                     <div>
                       <select value={selectedStatus} onChange={handleSelectStatusChange} className={styles.select}>
                         <option className={styles.option} value="В работе">

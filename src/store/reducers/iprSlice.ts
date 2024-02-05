@@ -192,9 +192,9 @@ export const completeIpr = createAsyncThunk<IIprData, any>('iprs/completeIpr', a
 
 // задачи в ИПР Отправить на проверку.
 // Если успех(200) - поменять на Ожидает проверки. (сиреневое)
-export const completeTask = createAsyncThunk<IIprData, number>('iprs/completeTask', async (iprId) => {
+export const completeTask = createAsyncThunk<IIprData, number>('iprs/completeTask', async (id) => {
   try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/task/${iprId}/complete`, {
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/task/${id}/complete`, {
       method: 'PATCH',
     });
     return response;

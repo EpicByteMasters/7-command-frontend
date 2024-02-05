@@ -21,7 +21,7 @@ export const fetchDataFromApi = async <T>(url: string, options?: FetchDataOption
       ...options,
     });
 
-    if (response.status === 200) {
+    if (response.ok) {
       return response.json();
     } else {
       throw new Error(`Failed to fetch data: ${response.statusText}`);

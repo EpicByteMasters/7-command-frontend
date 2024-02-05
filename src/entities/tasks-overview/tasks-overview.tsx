@@ -11,6 +11,8 @@ import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import type { ITasksObverviewProps, OptionCompetitionShape } from './type';
 
+import type { ISaveDraftDTO } from '../../api/dto/save-draft.dto';
+
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
@@ -86,12 +88,7 @@ const caseInsensitiveMatch = (source: string, target: string) => source.toLowerC
 /**
  * TasksOverview component
  */
-export const TasksOverview: FC<IProps> = ({
-  isExecutive,
-  iprStatus,
-  handleGoalValuesChange,
-  iprCurrentData,
-}: ITasksObverviewProps) => {
+export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalValuesChange, iprCurrentData }) => {
   // Подключение БД данных по значениям инпутов
   const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
@@ -110,8 +107,8 @@ export const TasksOverview: FC<IProps> = ({
   const [multiple] = useState(true);
   const [shownChevron] = useState(true);
 
-  const [valueGoal, setValueGoal] = useState<string>(' ');
-  const [valueRole, setValueRole] = useState<string>(' ');
+  const [valueGoal, setValueGoal] = useState<string>('');
+  const [valueRole, setValueRole] = useState<string>('');
   const [valueMentor, setValueMentor] = useState<string>('');
   const [valueStartDate, setStartDate] = useState<string>('');
   const [valueEndDate, setEndDate] = useState<string>('');
@@ -122,13 +119,18 @@ export const TasksOverview: FC<IProps> = ({
   // Ошибки
   const [goalError, setGoalError] = useState<string>('');
   const [roleError, setRoleError] = useState<string>('');
-  const [competenceError, setCompetenceError] = useState<string>(' ');
   const [commentError, setCommentError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
 
   // const !isFormEnabled = useMemo(() => {
   //   return !isExecutive || (!isInProgressIpr(iprStatus) && !isDraftIpr(iprStatus))
   // }, [isExecutive]);
+
+  // useEffect(() => {
+  //   updateLocalIpr({
+  //     goalId: valueGoal,
+  //   });
+  // }, []);
 
   const isFormEnabled = useMemo(() => {
     return isExecutive && (isInProgressIpr(iprStatus) || isDraftIpr(iprStatus));
@@ -138,19 +140,19 @@ export const TasksOverview: FC<IProps> = ({
     if (!isFormEnabled) return '';
     if (isEmpty(valueGoal)) return 'Обязательное поле';
     return '';
-  }, [valueGoal, isFormEnabled]);
+  }, [valueGoal, isFormEnabled, iprCurrentData]);
 
   const roleErrorMessage = useMemo(() => {
     if (!isFormEnabled) return '';
     if (isEmpty(valueRole)) return 'Обязательное поле';
     return '';
-  }, [valueRole, isFormEnabled]);
+  }, [valueRole, isFormEnabled, iprCurrentData]);
 
   const competenceErrorMessage = useMemo(() => {
     if (!isFormEnabled) return '';
     if (isEmpty(valueCompetence)) return 'Обязательное поле';
     return '';
-  }, [valueCompetence, isFormEnabled]);
+  }, [valueCompetence, isFormEnabled, iprCurrentData]);
 
   // Заполняем данные из ипр
   useEffect(() => {
@@ -295,13 +297,6 @@ export const TasksOverview: FC<IProps> = ({
 
     const errList = validateCompetence(value);
 
-    if (errList.length) {
-      setCompetenceError(errList[0]);
-      return;
-    }
-
-    setCompetenceError('');
-
     handleCallback();
   };
 
@@ -318,13 +313,6 @@ export const TasksOverview: FC<IProps> = ({
     setCompetenceValue(value);
 
     const errList = validateCompetence(value);
-
-    if (errList.length) {
-      setCompetenceError(errList[0]);
-      return;
-    }
-
-    setCompetenceError('');
 
     handleCallback();
   };
@@ -363,10 +351,8 @@ export const TasksOverview: FC<IProps> = ({
 
   const handleCallback = () => {
     //console.log({ taskValues });
-
     // setTaskValues(taskValues);
-
-    handleGoalValuesChange(taskValues);
+    //handleGoalValuesChange(taskValues);
   };
 
   // const [modalOpen, setModalOpen] = useState(false);
@@ -478,7 +464,7 @@ export const TasksOverview: FC<IProps> = ({
         <div className={styles2.formRow}>
           <div style={{ width: 496 }}>
             <InputAutocomplete
-              error={goalErrorMessage}
+              // error={goalErrorMessage}
               name="goal"
               block={true}
               closeOnSelect={true}
@@ -502,7 +488,7 @@ export const TasksOverview: FC<IProps> = ({
           </div>
           <div style={{ width: 496 }}>
             <InputAutocomplete
-              error={roleErrorMessage}
+              // error={roleErrorMessage}
               name="role"
               block={true}
               closeOnSelect={true}
@@ -526,7 +512,7 @@ export const TasksOverview: FC<IProps> = ({
         </div>
         <div>
           <InputAutocomplete
-            error={competenceError}
+            // error={competenceErrorMessage}
             name="competence"
             value={valueCompetence}
             selected={selectedCompetenceOptions}
