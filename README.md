@@ -64,7 +64,7 @@
 
 # Архив с кодом репозитория из main
 
-[Ссылка на архив с кодом репозитория из main ]((https://disk.yandex.com/d/piisShH2oeiotQ))
+[Ссылка на архив с кодом репозитория из main](https://disk.yandex.com/d/piisShH2oeiotQ)
 
 # Архив со скриншотами
 
