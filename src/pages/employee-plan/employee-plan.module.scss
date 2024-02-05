@@ -1,0 +1,39 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+// Footer
+.generalFooterWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.generalFooterContainer {
+  flex: 1 0 auto;
+}
+.generalFooter {
+  flex: 0 0 auto;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.employeeWrapper {
+  padding-bottom: 30px;
+  padding-top: 14px;
+}
+
+.title {
+  font-family: 'Styrene UI';
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  font-size: 38px;
+  line-height: normal;
+}

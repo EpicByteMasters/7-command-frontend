@@ -1,0 +1,97 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.container {
+  display: flex;
+  gap: 24px;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.employeeWrapper {
+  padding-bottom: 30px;
+  padding-top: 14px;
+}
+
+.buttonWrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.form {
+  color: black;
+  margin: 0;
+  padding: 0;
+  .blockWrapper:last-of-type {
+    margin-bottom: 28px;
+  }
+}
+.blockWrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+.blockTitle {
+  @include mixins.title_h2;
+  margin: 0 0 28px 0;
+}
+.formBlock {
+  // @include mixins.form;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .formRow {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    display: flex;
+  }
+
+  .formRowTag {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+}
+
+.textClass {
+  height: 91px;
+}
+
+.inputMentor {
+  margin: 0;
+  padding: 0;
+  width: 496px;
+}
+.avatarMentor {
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 12px;
+  left: 460px;
+}
+
+.inputCompetence {
+  width: 1016px;
+}
+
+button {
+  svg:nth-child(1) {
+    fill: #0e0e0e;
+  }
+}

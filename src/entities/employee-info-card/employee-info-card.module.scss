@@ -1,0 +1,35 @@
+@import './../../styles/variables.scss';
+
+.employeeCard {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.employeeData {
+  display: flex;
+  flex-direction: column;
+}
+
+.employeeName {
+  color: $statusOnApprovalTxt;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.employeePosition {
+  color: $baseColorGrey;
+  font-family: 'Inter';
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+.avatar:hover {
+  cursor: pointer;
+}

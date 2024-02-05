@@ -1,0 +1,75 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.generalFooterWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.generalFooterContainer {
+  flex: 1 0 auto;
+}
+.generalFooter {
+  flex: 0 0 auto;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.buttonsWrapper {
+  margin-bottom: 48px;
+  display: flex;
+}
+
+.taskOverviewWrapper {
+  margin-bottom: 28px;
+}
+
+.blockWrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+.blockTitle {
+  @include mixins.title_h2;
+  margin: 0;
+  padding: 48px 0 28px 0;
+}
+.employeeInfoCardWrapper {
+  margin-bottom: 40px;
+}
+
+.buttonSave {
+  margin-right: 20px;
+  padding: 10px;
+}
+
+.buttonSend {
+  width: 200px;
+  margin-right: 18px;
+  padding: 10px;
+}
+
+.buttonDiscard {
+  margin: 0;
+  padding: 0;
+}
+
+.buttonDelete {
+  margin: 0 0 0 auto;
+  padding: 0;
+  display: flex;
+}

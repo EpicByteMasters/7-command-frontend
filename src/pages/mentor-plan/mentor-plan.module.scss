@@ -1,0 +1,58 @@
+@import './../../styles/variables.scss';
+
+.container {
+  display: flex;
+  gap: 24px;
+  margin: 40px 0;
+}
+
+.containerList {
+  margin-top: 20px;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.dataWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  padding-top: 26px;
+  gap: 24px;
+}
+
+.dataWrapper > * {
+  width: calc(50% - 12px); /* 50% ширины минус половина гэпа */
+}
+
+.searchInputWrapper {
+  padding-bottom: 28px;
+}
+
+.filterTagsWrapper {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 32px;
+}
+// Footer
+
+.generalFooterWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.generalFooterContainer {
+  flex: 1 0 auto;
+}
+.generalFooter {
+  flex: 0 0 auto;
+}
+.title {
+  font-family: 'Styrene UI';
+  font-size: 38px;
+  font-weight: 500;
+  line-height: normal;
+  padding: 0;
+  margin: 0 0 14px;
+}

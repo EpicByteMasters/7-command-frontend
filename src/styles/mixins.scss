@@ -1,0 +1,157 @@
+// Миксин для заголовокв h1
+
+@mixin title_h1($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-feature-settings: 'salt' on;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 1.14px;
+}
+
+// Миксин для заголовокв h2
+
+@mixin title_h2($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-family: 'Styrene UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+// Миксин для лого
+
+@mixin logo($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-feature-settings: 'salt' on;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+// Миксин для текста кнопки
+
+@mixin button_txt($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+// Миксин для текста импута
+
+@mixin input_txt($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+// Миксин для кнопки заголовоков h3
+
+@mixin header_h3($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-feature-settings: 'salt' on;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.14px;
+}
+// Миксин для кнопки формата xxs
+
+@mixin button_xxs($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-feature-settings: 'salt' on;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+// Миксин для текста и параграфов
+
+@mixin text($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+// Миксин для текста названия импута
+
+@mixin input_name($baseColorBlack: #0e0e0e) {
+  color: $baseColorBlack;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+// Миксин для текста файлов
+
+@mixin files($baseColorBlack: #0e0e0e) {
+  color: var(--black, $baseColorBlack);
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+// Миксин для колонок таблиц
+
+@mixin columns($baseColorBlack: #0e0e0e) {
+  color: var(--black, $baseColorBlack);
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+// Миксин для текста статуса
+
+@mixin status {
+  color: var(--black, #0e0e0e);
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+// Миксин для формы
+
+@mixin form {
+  display: flex;
+  width: 960px;
+  padding: 28px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  border-radius: var(--xs, 8px);
+  background: var(--white, #fff);
+  box-shadow:
+    0px 0px 1px 0px rgba(0, 0, 0, 0.16),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+}

@@ -1,0 +1,54 @@
+@import './../../styles/variables.scss';
+
+.dataItem {
+  border-radius: 12px;
+  background-color: $additionalBg;
+  padding: 24px 44px 24px 24px;
+}
+
+.dataTitle {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  color: $baseColorBlack;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.14px;
+}
+
+.dataList {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  padding-top: 16px;
+}
+
+.dataNumber {
+  color: $baseColorBlack;
+  font-family: 'Styrene UI';
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+.dataText {
+  color: $baseColorMetallic;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.dataElement {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dataElement:nth-child(3) {
+  .dataNumber:after {
+    content: '%';
+  }
+}

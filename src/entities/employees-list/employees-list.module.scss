@@ -1,0 +1,115 @@
+@use './../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.table {
+  font-family: 'Inter';
+}
+
+.sortBtn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sortIcon {
+  cursor: pointer;
+}
+
+.tableRaw {
+  display: grid;
+  grid-template-columns: 288px 184px 80px 80px 110px 112px 24px;
+  gap: 24px;
+  border-bottom: 1px solid $additionalTable;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cellStatus {
+  display: flex;
+  padding: 0px 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: $additionalTable;
+  color: $baseColorGrey;
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+.cellNoData {
+  display: flex;
+  align-items: center;
+  color: $baseColorBlack;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.dotsActionBtn {
+  border: none;
+  background: transparent;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.paragraph {
+  @include mixins.text;
+  margin: 0;
+  padding: 0;
+  color: #898889;
+}
+
+.tCell {
+  margin: 13px 0 0 0;
+  vertical-align: middle;
+}
+.tBtn {
+  margin: 8px 0 0 0;
+  opacity: 1;
+}
+
+.tBtnDot {
+  margin: 12px 0 0 0;
+  opacity: 1;
+}
+.tBtnDot:hover {
+  opacity: 0.6;
+  transform: 2s opacity ease-in-out;
+}
+
+.btnsWrapper {
+  position: relative;
+}
+
+.popoverButtons {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  padding: 16px 0;
+  width: 99px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: $baseColorWhite;
+  box-shadow:
+    0px 20px 24px 0px rgba(0, 0, 0, 0.08),
+    0px 12px 16px 0px rgba(0, 0, 0, 0.04),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.04),
+    0px 0px 1px 0px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  border: 1px solid $additionalTable;
+  background: $baseColorWhite;
+  z-index: 999;
+}
+
+.progressBar {
+  margin: 0 auto;
+}

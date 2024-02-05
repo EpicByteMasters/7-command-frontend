@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7b47394c.css",
+    "main.js": "/static/js/main.6b916174.js",
+    "static/media/cards.png": "/static/media/cards.7f5787bd170bec4d38ac.png",
+    "static/media/main-news.png": "/static/media/main-news.d0b503e6c112c7733f11.png",
+    "static/media/cards-1.png": "/static/media/cards-1.f1152648d8c11dc49e5d.png",
+    "static/media/card.png": "/static/media/card.5147042e60c84000f152.png",
+    "static/media/icon-certificate.svg": "/static/media/icon-certificate.cb6ccce6d631cedb2e86d15e651bebd1.svg",
+    "static/media/icon-vacation.svg": "/static/media/icon-vacation.7cd2507b5ce6ac7131791b8a0d60401c.svg",
+    "static/media/Inter-Bold.woff": "/static/media/Inter-Bold.1e547cd04bfe2dae1f98.woff",
+    "static/media/Inter-Medium.woff": "/static/media/Inter-Medium.44e343ff76a98508d309.woff",
+    "static/media/icon-target.svg": "/static/media/icon-target.cfa48c97d5a698c603b0093dfbb16cde.svg",
+    "static/media/Inter-Regular.woff": "/static/media/Inter-Regular.0d6f7c99e635f1fec4c9.woff",
+    "static/media/icon-user-account.svg": "/static/media/icon-user-account.57421ba14dc03f8197c3e7f42097d3e7.svg",
+    "static/media/icon-more.svg": "/static/media/icon-more.ebde04ae2a35ad271905b06acaf366f8.svg",
+    "static/media/Inter-Bold.woff2": "/static/media/Inter-Bold.c08e610806161507e8e3.woff2",
+    "static/media/Inter-Medium.woff2": "/static/media/Inter-Medium.01f03178adde434fc9fa.woff2",
+    "static/media/Inter-Regular.woff2": "/static/media/Inter-Regular.bd097ceff83f90802a12.woff2",
+    "static/media/icon-rocket.svg": "/static/media/icon-rocket.1c767d047ff30135603ec20b8f2cbc16.svg",
+    "static/media/top.png": "/static/media/top.7dc2b6ea1cd0f60760f3.png",
+    "static/media/alfa-logo.svg": "/static/media/alfa-logo.3170ceae586d32e61086b70e349e0428.svg",
+    "index.html": "/index.html",
+    "main.7b47394c.css.map": "/static/css/main.7b47394c.css.map",
+    "main.6b916174.js.map": "/static/js/main.6b916174.js.map"
+  },
+  "entrypoints": ["static/css/main.7b47394c.css", "static/js/main.6b916174.js"]
+}

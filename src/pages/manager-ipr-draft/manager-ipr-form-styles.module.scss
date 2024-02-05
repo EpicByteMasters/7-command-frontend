@@ -1,0 +1,105 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.container {
+  margin: 0;
+  padding: 0 0 50px 0;
+  display: flex;
+  gap: 24px;
+  height: 70%;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.employeeWrapper {
+  padding-bottom: 30px;
+  padding-top: 14px;
+}
+
+.buttonWrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.form {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  clear: both;
+  .blockWrapper:last-of-type {
+    margin-bottom: 28px;
+  }
+}
+.blockWrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+.blockTitle {
+  @include mixins.title_h2;
+  margin: 0;
+  padding: 48px 0 28px 0;
+}
+.formBlock {
+  // @include mixins.form;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .formRow {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .formRowTag {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+}
+
+.textClass {
+  height: 91px;
+}
+
+.containerNote {
+  margin: 0;
+  padding: 0 40px 0 0;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  color: white;
+}
+
+.paragraph {
+}
+// Footer
+.generalFooterWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.generalFooterContainer {
+  flex: 1 0 auto;
+}
+.generalFooter {
+  flex: 0 0 auto;
+}

@@ -1,0 +1,141 @@
+@use '../../styles/mixins.scss';
+
+.footer {
+  margin: 50px auto 15px auto;
+  padding: 0;
+  width: 1224px;
+  border-top: 1px solid #e7e7ea;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.linksWrapper {
+  margin: 33px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 150px;
+}
+
+.linksColumn {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.linkText {
+  margin: 0;
+  padding: 0;
+  color: #0e0e0e;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.supportWrapper {
+  border-top: 1px solid #e7e7ea;
+  margin: 0;
+  padding: 17px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.bottomColumn {
+  margin: 0;
+  padding: 0;
+  color: #898889;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.mobileColumn {
+  margin: 0 0 0 50px;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.redLogo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileLink {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 137px;
+  text-wrap: nowrap;
+}
+.paragraphOne {
+  margin: 0;
+  padding: 0;
+  color: #0e0e0e;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.22px;
+}
+
+.paragraphTwo {
+  margin: 0;
+  padding: 0;
+  color: #898889;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+}
+
+.button {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 72px;
+  height: 30px;
+  padding: 0px 16px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: #f2f3f5;
+  border: none;
+  color: #0e0e0e;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+.socialWrapper {
+  margin: 0 0 0 50px;
+  display: flex;
+  gap: 12px;
+}
+.icon {
+  display: flex;
+  margin: 0;
+  padding: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 12px;
+  background: #f2f3f5;
+}

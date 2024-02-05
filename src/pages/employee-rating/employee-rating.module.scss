@@ -1,0 +1,88 @@
+@use '../../styles/mixins.scss';
+@import './../../styles/variables.scss';
+
+.container {
+  display: flex;
+  gap: 24px;
+}
+
+.wrapper {
+  flex-grow: 1;
+  width: 1016px;
+}
+
+.employeeWrapper {
+  padding-bottom: 30px;
+  padding-top: 14px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 48px;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 28px;
+  border-radius: 8px;
+  background: $baseColorWhite;
+  box-shadow:
+    0px 0px 1px 0px rgba(0, 0, 0, 0.16),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.title {
+  @include mixins.title_h1;
+  font-feature-settings: 'salt' on;
+  font-family: 'Styrene UI';
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: 1.14px;
+}
+.subtitle {
+  @include mixins.title_h2;
+  margin: 0 0 28px 0;
+}
+
+.ratingWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+}
+
+.rating {
+  padding-bottom: 12px;
+  display: flex;
+  gap: 4px;
+}
+.ratingSpan {
+  color: $baseColorBlack;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ratingBtn {
+  border-radius: 8px;
+  border: 1px solid $baseColorBlack;
+  background: $baseColorWhite;
+  width: 32px;
+  height: 32px;
+  color: baseColorBlack;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ratingBtn.clicked {
+  background-color: $baseColorBlack;
+  color: $baseColorWhite;
+}
