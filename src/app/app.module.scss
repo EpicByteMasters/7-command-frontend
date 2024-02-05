@@ -13,4 +13,12 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   padding: 0 28px;
+  display: grid;
+  grid-template-rows: 94px auto 300px;
+
+  & > div {
+    width: 1280px;
+    height: auto;
+    min-height: calc(100vh - 94px - 300px);
+  }
 }

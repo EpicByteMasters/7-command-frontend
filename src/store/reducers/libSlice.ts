@@ -1,46 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL } from '../../shared/utils/constants';
 import { RootState } from '../store';
 
-interface ICommonLib {
-  id: string;
-  name: string;
-}
-
-export interface ICommonLibWithSkillType extends ICommonLib {
-  skillType: string;
-}
-
-export interface ICommonLibWithEducationType extends IEducation {
-  id: string;
-
-  /** По этому ищем */
-  name: string;
-
-  /** Отдаём на бек */
-  specialty: string;
-
-  urlLink: string;
-}
-
-interface IEducation {
-  id: string;
-  name: string;
-  specialty: string;
-  urlLink: string;
-}
-
-export type TCommonLibState = {
-  positions: ICommonLib[];
-  iprStatus: ICommonLib[];
-  iprGoals: ICommonLib[];
-  taskStatus: ICommonLib[];
-  specialty: ICommonLib[];
-  iprCompetency: ICommonLibWithSkillType[];
-  education: IEducation[];
-  isLoading: boolean;
-  error: string;
-};
+import { TCommonLibState } from 'src/store/type/libraries';
+import { BASE_URL } from '../../shared/utils/constants';
 
 let initialCommonLibState: TCommonLibState = {
   positions: [],

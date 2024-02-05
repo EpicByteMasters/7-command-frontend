@@ -1,78 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { BASE_URL } from '../../shared/utils/constants';
-
-export interface ITask {
-  id: number;
-  name: string;
-  taskStatus: {
-    id: string;
-    name: string;
-  };
-  description: string;
-  supervisorComment: string;
-  closeDate: string;
-  education: {
-    status: boolean;
-    education: {
-      id: number;
-      name: string;
-      urlLink: string;
-    };
-  }[];
-  comment: string;
-}
-
-interface ICompetencyRel {
-  id: string;
-  name: string;
-}
-
-export interface ICompetency {
-  competencyRel: ICompetencyRel;
-}
-
-export interface IMentor {
-  id: number;
-  firstName: string;
-  surname: string;
-  patronymic: string;
-  imageUrl: string;
-}
-
-export interface IIprData {
-  id: number;
-  employeeId: number;
-  supervisorId: number;
-  closeDate: string;
-  createDate: string;
-  mentor: IMentor;
-  status: {
-    id: string;
-    name: string;
-  };
-  goal: {
-    id: string;
-    name: string;
-  };
-  specialty: {
-    id: string;
-    name: string;
-  };
-  competency: ICompetency[];
-  description: string;
-  supervisorComment: string;
-  task: ITask[];
-  comment?: string;
-  iprGrade: number;
-}
-
-export type TIprDataState = {
-  ipr: IIprData | null;
-  isLoading: boolean;
-  error: string;
-  taskValues: string[];
-};
+import { IIprData, TIprDataState } from 'src/store/type/ipr-data';
+import { fetchDataFromApi } from '../api';
 
 export const initialIprData: IIprData = {
   id: 0,
@@ -116,26 +45,12 @@ const initialState: TIprDataState = {
 
 export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', async (userId) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/create`, {
+    const response = await fetchDataFromApi<IIprData>('/api/v1/mentor/iprs/ipr/create', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
       body: JSON.stringify({ employeeId: userId }),
     });
 
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to create IPR data');
-    }
+    return response;
   } catch (error) {
     console.error('Error during creating IPR data:', error);
     throw error;
@@ -144,24 +59,11 @@ export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', as
 
 export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>('iprs/getIprSupevisor', async (id) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/supervisor`, {
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${id}/supervisor`, {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to fetch IPR data');
-    }
+    return response;
   } catch (error) {
     console.error('Error during fetching IPR data:', error);
     throw error;
@@ -170,24 +72,10 @@ export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>('iprs/g
 
 export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>('iprs/getIprEmployee', async (id) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/employee`, {
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${id}/employee`, {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to fetch IPR data');
-    }
+    return response;
   } catch (error) {
     console.error('Error during fetching IPR data:', error);
     throw error;
@@ -196,25 +84,10 @@ export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>('iprs/get
 
 export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', async (id) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/delete`, {
+    const response = await fetchDataFromApi<string>(`/api/v1/mentor/iprs/ipr/${id}/delete`, {
       method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (response.status === 200) {
-      // Успешное удаление и в ответе нет ничего
-      return '';
-    } else {
-      throw new Error('Failed to delete IPR');
-    }
+    return response;
   } catch (error) {
     console.error('Error during deleting IPR:', error);
     throw error;
@@ -222,84 +95,49 @@ export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', a
 });
 
 // Кнопка: Сохранить в черновик
-export const saveIprDraft = createAsyncThunk<IIprData, number>('iprs/saveIprDraft', async (iprId) => {
-  try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
+export const saveIprDraft = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
+  'iprs/saveIprDraft',
+  async ({ iprId, iprData }) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
+        method: 'PATCH',
+        body: JSON.stringify(iprData),
+      });
+      return response;
+    } catch (error) {
+      console.error('Error during saving draft:', error);
+      throw error;
     }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/save-draft`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to save draft');
-    }
-  } catch (error) {
-    console.error('Error during saving draft:', error);
-    throw error;
   }
-});
+);
 
 // кнопка: оправить в работу
-export const startIpr = createAsyncThunk<IIprData, number>('iprs/startIpr', async (iprId) => {
-  try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
+export const startIpr = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
+  'iprs/startIpr',
+  async ({ iprId, iprData }) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
+        method: 'PATCH',
+        body: JSON.stringify(iprData),
+      });
+      return response;
+    } catch (error) {
+      console.error('Error during starting IPR:', error);
+      throw error;
     }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to save draft');
-    }
-  } catch (error) {
-    console.error('Error during saving draft:', error);
-    throw error;
   }
-});
+);
 
 // Кнопка: Сохранить в зависимости от роли (для сотрудника)
 export const editIprForEmployee = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
   'iprs/editIprForEmployee',
   async ({ iprId, iprData }) => {
     try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        throw new Error('Token is missing in localStorage');
-      }
-
-      const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr-employee`, {
+      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr-employee`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(iprData),
       });
-
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error('Failed to edit IPR for employee');
-      }
+      return response;
     } catch (error) {
       console.error('Error during editing IPR for employee:', error);
       throw error;
@@ -312,26 +150,11 @@ export const editIprForSupervisor = createAsyncThunk<IIprData, { iprId: number; 
   'iprs/editIprForSupervisor',
   async ({ iprId, iprData }) => {
     try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        throw new Error('Token is missing in localStorage');
-      }
-
-      const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr`, {
+      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(iprData),
       });
-
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error('Failed to edit IPR');
-      }
+      return response;
     } catch (error) {
       console.error('Error during editing IPR:', error);
       throw error;
@@ -342,24 +165,10 @@ export const editIprForSupervisor = createAsyncThunk<IIprData, { iprId: number; 
 // Кнопка: Отменить
 export const cancelIpr = createAsyncThunk<IIprData, number>('iprs/cancelIpr', async (iprId) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/cancel`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/cancel`, {
+      method: 'PATCH',
     });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to save draft');
-    }
+    return response;
   } catch (error) {
     console.error('Error during saving draft:', error);
     throw error;
@@ -367,26 +176,14 @@ export const cancelIpr = createAsyncThunk<IIprData, number>('iprs/cancelIpr', as
 });
 
 // Кнопка: Подвести итоги
-export const completeIpr = createAsyncThunk<IIprData, number>('iprs/completeIpr', async (iprId) => {
+export const completeIpr = createAsyncThunk<IIprData, any>('iprs/completeIpr', async ({ iprId, body }) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${iprId}/complete`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/complete`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
     });
 
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to save draft');
-    }
+    return response;
   } catch (error) {
     console.error('Error during saving draft:', error);
     throw error;
@@ -397,29 +194,28 @@ export const completeIpr = createAsyncThunk<IIprData, number>('iprs/completeIpr'
 // Если успех(200) - поменять на Ожидает проверки. (сиреневое)
 export const completeTask = createAsyncThunk<IIprData, number>('iprs/completeTask', async (iprId) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/task/${iprId}/complete`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await fetchDataFromApi<IIprData>(`/api/v1/task/${iprId}/complete`, {
+      method: 'PATCH',
     });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to save draft');
-    }
+    return response;
   } catch (error) {
     console.error('Error during saving draft:', error);
     throw error;
   }
 });
+
+//@TODO: типизация
+// const handleAsyncAction = <T>(state: TIprDataState, action: PayloadAction<T>) => {
+//   state.isLoading = false;
+//   if (action.payload) {
+//     state.ipr = { ...state.ipr, ...(action.payload as Partial<IIprData>) };
+//   }
+// };
+
+// const handleAsyncError = (state: TIprDataState, action: PayloadAction<any>) => {
+//   state.isLoading = false;
+//   state.error = action.error.message || 'Failed operation';
+// };
 
 // Редьюсер
 const iprSlice = createSlice({
@@ -427,7 +223,7 @@ const iprSlice = createSlice({
   initialState,
   reducers: {
     setTaskValues: (state, { payload }: PayloadAction<string[]>) => {
-      console.log({ payload });
+      // console.log({ payload });
       state.taskValues = payload;
     },
   },

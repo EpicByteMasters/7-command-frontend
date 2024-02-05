@@ -5,6 +5,7 @@ enum IprStatusDoc {
   NotCompleted = 'NOT_COMPLETED',
   Canceled = 'CANCELED',
   NoIpr = 'NO_IPR',
+  AwaitingReview = 'AWAITING_REVIEW',
 }
 
 export default IprStatusDoc;

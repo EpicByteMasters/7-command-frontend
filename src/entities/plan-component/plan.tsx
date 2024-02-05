@@ -8,9 +8,9 @@ import { Table } from '@alfalab/core-components/table';
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
-import { IIprData } from '../../store/reducers/iprSlice';
-import { IIpr } from '../../store/reducers/iprsSlice';
+
 import IprStatusDoc from '../../type/ipr-status-name';
+import { IIpr } from 'src/store/type/iprs-arr-data';
 
 export const Plan: React.FC = () => {
   const navigate = useNavigate();
@@ -19,17 +19,17 @@ export const Plan: React.FC = () => {
   const userData = useAppSelector((state) => state.user.user);
 
   const iprsArrData = useAppSelector((state) => state.iprs.iprsData);
-  console.log('iprData:', iprsArrData);
+  //console.log('iprData:', iprsArrData);
 
   const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
-    console.log('ID ИПР переданное из строчки таблицы', idIpr);
-    console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
+    //console.log('ID ИПР переданное из строчки таблицы', idIpr);
+    // console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
         state: { location, selectedUserId },
       });
     } catch (error) {
-      console.error('Error during navigating:', error);
+      //console.error('Error during navigating:', error);
     }
   };
 
@@ -53,7 +53,7 @@ export const Plan: React.FC = () => {
   };
 
   const formatDateRevert = (inputDate: string): string => {
-    console.log({ inputDate }, 'INPUTDATE');
+    //console.log({ inputDate }, 'INPUTDATE');
     const [year, month, day] = inputDate.split('-');
     const formattedDate = `${day}.${month}.${year}`;
     return formattedDate || '';
@@ -77,7 +77,7 @@ export const Plan: React.FC = () => {
         </Table.THead>
         <Table.TBody>
           {iprsArrData.map(({ id, goal, closeDate, createDate, status, taskCompleted, taskCount }: IIpr) => {
-            console.log('taskCount:', taskCount);
+            //console.log('taskCount:', taskCount);
             const progressTitle = `${taskCompleted}/${taskCount}`;
             const progressValue = (taskCompleted / taskCount) * 100;
 

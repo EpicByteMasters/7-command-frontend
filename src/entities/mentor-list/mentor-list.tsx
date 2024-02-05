@@ -7,7 +7,6 @@ import { Status } from '@alfalab/core-components/status';
 import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 // import { EmployeeGoalPlan } from '../../shared/utils/test-users';
-import { Mentor } from '../../store/reducers/mentorIprSlice';
 import { Space } from '@alfalab/core-components/space';
 import { useAppSelector } from '../../shared/hooks/redux';
 import {
@@ -23,9 +22,10 @@ import {
   getStatusColor,
   getValueById,
 } from '../../shared/utils/constants';
+import { IEmployee } from 'src/store/type/employees-list';
 
 export interface MentorListProps {
-  data: Mentor[] | undefined;
+  data: IEmployee[] | undefined;
 }
 
 export const MentorList: FC<MentorListProps> = ({ data }) => {
@@ -38,8 +38,8 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
   const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
   const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
-    console.log('ID ИПР переданное из строчки таблицы', idIpr);
-    console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
+    //console.log('ID ИПР переданное из строчки таблицы', idIpr);
+    //console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
         state: { location, selectedUserId },

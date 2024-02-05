@@ -1,34 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BASE_URL } from '../../shared/utils/constants';
 
-interface IGoal {
-  id: string;
-  name: string;
-}
+import { IIprsArrState } from 'src/store/type/iprs-arr-data';
 
-interface IStatus {
-  id: string;
-  name: string;
-}
+import { fetchDataFromApi } from '../api';
 
-export interface IIpr {
-  id: number;
-  goal: IGoal;
-  status: IStatus;
-  createDate: string;
-  closeDate: string;
-  taskCount: number;
-  taskCompleted: number;
-}
-
-export interface IprsArrState {
-  iprsData: IIpr[];
-  iprsHistoryData: IIpr[];
-  isLoading: boolean;
-  error: string;
-}
-
-const initialState: IprsArrState = {
+const initialState: IIprsArrState = {
   iprsData: [],
   iprsHistoryData: [],
   isLoading: false,
@@ -37,24 +13,10 @@ const initialState: IprsArrState = {
 
 export const getMyIprsData = createAsyncThunk<any>('iprs/getData', async () => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/employees/my-iprs`, {
+    const response = await fetchDataFromApi(`/api/v1/mentor/iprs/ipr/employees/my-iprs`, {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to fetch IPRS data');
-    }
+    return response;
   } catch (error) {
     console.error('Error during fetching IPRS data:', error);
     throw error;
@@ -63,24 +25,10 @@ export const getMyIprsData = createAsyncThunk<any>('iprs/getData', async () => {
 
 export const getIprsEmployeeHistory = createAsyncThunk<any, number>('iprs/getIprsHistory', async (id: number) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Token is missing in localStorage');
-    }
-
-    const response = await fetch(`${BASE_URL}/api/v1/mentor/iprs/ipr/${id}/list-iprs`, {
+    const response = await fetchDataFromApi(`/api/v1/mentor/iprs/ipr/${id}/list-iprs`, {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to fetch IPRS data');
-    }
+    return response;
   } catch (error) {
     console.error('Error during fetching IPRS data:', error);
     throw error;
@@ -91,7 +39,7 @@ export const iprsSlice = createSlice({
   name: 'iprs',
   initialState,
   reducers: {
-    clearIPRSData: (state, action: PayloadAction<IprsArrState>) => {
+    clearIPRSData: (state, action: PayloadAction<IIprsArrState>) => {
       return (state = action.payload);
     },
   },

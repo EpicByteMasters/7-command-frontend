@@ -13,7 +13,7 @@ import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { Modal } from '../modal/modal';
-import { Employee, getManagerIprsList } from '../../store/reducers/managerIprSlice';
+import { getManagerIprsList } from '../../store/reducers/managerIprSlice';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
@@ -27,9 +27,10 @@ import { formatDateString, getStatusColor, getValueById } from '../../shared/uti
 import { TIprStatusType } from '../../shared/utils/types';
 import { createIpr, deleteIprById } from '../../store/reducers/iprSlice';
 import { async } from 'q';
+import { IEmployee } from 'src/store/type/employees-list';
 
 export interface IEmployeesListProps {
-  data: Employee[] | undefined;
+  data: IEmployee[] | undefined;
   status: string;
   goal: string;
 }
@@ -78,7 +79,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({ data, status, goa
   };
 
   // Filtered data
-  const [filteredData, setFilteredData] = useState<Employee[]>([]);
+  const [filteredData, setFilteredData] = useState<IEmployee[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { BASE_URL } from '../../shared/utils/constants';
+import { fetchDataFromApi } from '../api';
 
 export interface IUser {
   id: number;
@@ -66,11 +67,6 @@ export const logInUser = createAsyncThunk<any, logInData>('user/signin', async (
     formData.append('username', data.email);
     formData.append('password', data.password);
 
-    console.log('Request data:', {
-      email: data.email,
-      password: data.password,
-    });
-
     const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
       method: 'POST',
       body: formData,
@@ -91,26 +87,10 @@ export const logInUser = createAsyncThunk<any, logInData>('user/signin', async (
 
 export const getUserData = createAsyncThunk<any>('user/getData', async () => {
   try {
-    // Получаем токен из localStorage
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Токен отсутствует в localStorage');
-    }
-
-    const res = await fetch(`${BASE_URL}/api/v1/user/me`, {
+    const res = await fetchDataFromApi(`/api/v1/user/me`, {
       method: 'GET',
-      headers: {
-        // Передаем токен в заголовках
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      throw new Error('Не удалось получить данные о текущем пользователе');
-    }
+    return res;
   } catch (error) {
     console.error('Error during fetching user data:', error);
     throw error;
@@ -119,25 +99,10 @@ export const getUserData = createAsyncThunk<any>('user/getData', async () => {
 
 export const getUserById = createAsyncThunk<any, number>('user/getById', async (id) => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('Токен отсутствует в localStorage');
-    }
-
-    const res = await fetch(`${BASE_URL}/api/v1/user/${id}`, {
+    const res = await fetchDataFromApi(`/api/v1/user/${id}`, {
       method: 'GET',
-      headers: {
-        // Передаем токен в заголовках
-        Authorization: `Bearer ${token}`,
-      },
     });
-
-    if (res.status === 200) {
-      return res.json();
-    } else {
-      throw new Error('Не удалось получить данные о пользователе');
-    }
+    return res;
   } catch (error) {
     console.error('Error during fetching user data by id:', error);
     throw error;
@@ -189,7 +154,6 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(logInUser.fulfilled, (state, action) => {
-      console.log('Login successful:', action.payload);
       localStorage.setItem('token', action.payload.access_token);
       state.access_token = action.payload.access_token;
     });

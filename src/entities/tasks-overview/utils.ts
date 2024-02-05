@@ -3,13 +3,12 @@
 // --------------------------------------------------------------------------
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
-
 import type { ICompetitionOption, OptionCompetitionShape } from './type';
 
 import { isEmpty, leadingZero } from '../../util';
 
 import { INPUT_TAG_DELIMETER } from './const';
+import { ICommonLibWithSkillType } from 'src/store/type/libraries';
 
 /**
  * Форматирование даты под поле ввода
@@ -20,7 +19,7 @@ import { INPUT_TAG_DELIMETER } from './const';
  */
 
 const formatDateForInput = ({ year, month, day }: { year: number; month: number; day: number }) => {
-  console.log(`${leadingZero(day)}.${leadingZero(month)}.${year}`, 'DATE');
+  // console.log(`${leadingZero(day)}.${leadingZero(month)}.${year}`, 'DATE');
   return `${leadingZero(day)}.${leadingZero(month)}.${year}`;
 };
 
