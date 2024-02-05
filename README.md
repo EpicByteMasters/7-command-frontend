@@ -68,7 +68,7 @@
 
 # Архив со скриншотами
 
-[Ссылка на архив со скриншотами](https://disk.yandex.com/d/4WJ7-AvosFhitQ)
+[Ссылка на архив со скриншотами]([https://disk.yandex.com/d/4WJ7-AvosFhitQ])
 
 # Вид приложения
 
