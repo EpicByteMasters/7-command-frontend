@@ -123,6 +123,7 @@
   margin-left: 5px;
   padding: 0;
   color: #70707a;
+  display: flex;
 }
 
 .attachedFile {
@@ -154,7 +155,7 @@
 }
 .formTag {
   padding: 0;
-  width: 952px;
+  width: 100%;
   border-radius: 8px;
   background: #f2f3f5;
   height: 48px;
@@ -166,7 +167,9 @@
 }
 
 .buttonResult {
-  margin: 0 0 0 auto;
+  width: 200px;
+  height: 20px;
+  margin: 2px 0 2px auto;
 }
 
 .blockTitle {

@@ -49,7 +49,7 @@ export const LeaderEmployeesList: React.FC = () => {
     dispatch(getManagerIprsList());
   }, [dispatch]);
 
-  console.log('MANAGER_LIST_IPRS', managerIprsList);
+  //console.log('MANAGER_LIST_IPRS', managerIprsList);
 
   const [chevron, setChevron] = useState(false);
   const [chevron2, setChevron2] = useState(false);

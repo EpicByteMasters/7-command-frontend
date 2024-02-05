@@ -32,37 +32,37 @@ export const Login: FC<LoginProps> = ({ users }) => {
       const loginAction = logInUser({ email, password });
       const loginResult = await dispatch(loginAction);
 
-      console.log('result', loginResult);
+      //console.log('result', loginResult);
 
       if (logInUser.rejected.match(loginResult)) {
-        console.error('Login rejected:', loginResult.error);
+        //console.error('Login rejected:', loginResult.error);
       } else if (logInUser.fulfilled.match(loginResult)) {
         if (loginResult.payload && loginResult.payload.access_token) {
           try {
             const userDataResult = await dispatch(getUserData());
 
             if (getUserData.fulfilled.match(userDataResult)) {
-              console.log('User data received:', userDataResult.payload);
+              // console.log('User data received:', userDataResult.payload);
               navigate('/main');
-              console.log('Login successful. Token and data received.');
+              // console.log('Login successful. Token and data received.');
             } else {
-              console.error('Error during fetching user data:', userDataResult.error);
+              //  console.error('Error during fetching user data:', userDataResult.error);
               navigate('/404');
             }
           } catch (userDataError) {
-            console.error('Error during fetching user data:', userDataError);
+            // console.error('Error during fetching user data:', userDataError);
             navigate('/505');
           }
         } else {
-          console.error('Token not received during login.');
+          // console.error('Token not received during login.');
           navigate('/207');
         }
       } else {
-        console.error('Unexpected result during login:', loginResult);
+        //console.error('Unexpected result during login:', loginResult);
         navigate('/207');
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      //console.error('Error during login:', error);
       navigate('/207');
     } finally {
       // Устанавливаем состояние загрузки для конкретного пользователя в false

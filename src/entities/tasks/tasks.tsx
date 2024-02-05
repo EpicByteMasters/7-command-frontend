@@ -30,11 +30,11 @@ import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon'
 
 // -----------------------------------------------------------------------------
 
-import type { IIprData, ITask } from '../../store/reducers/iprSlice';
+import type { IIprData, ITask } from '../../store/type/ipr-data';
 
 // -----------------------------------------------------------------------------
 
-import { getIprByIdByEmployee } from '../../store/reducers/iprSlice';
+import { getIprByIdByEmployee, initialIprData } from '../../store/reducers/iprSlice';
 
 import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
 
@@ -54,6 +54,8 @@ import type {
   INewTask,
 } from './type';
 
+import { IprStatusDoc } from '../../type';
+
 // ----------------------------------------------------------------------------
 
 import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
@@ -61,6 +63,10 @@ import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
 // ----------------------------------------------------------------------------
 
 import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDateToCustomFormat } from './utils';
+
+// ----------------------------------------------------------------------------
+
+import TasksRow from '../../componet/task-row';
 
 // ----------------------------------------------------------------------------
 
@@ -73,42 +79,67 @@ import { TestResultButton } from '../../componet/test-result-button';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { NewTask } from '../../entities/new-task/new-task';
 
-// ----------------------------------------------------------------------------
+import {
+  isCompletedIpr,
+  isDraftIpr,
+  isInProgressIpr,
+  isNotCompletedIpr,
+  isAwaitingReviewIpr,
+} from '../../util/ipr-status';
 
-// utils
+// Utils
+// ----------------------------------------------------------------------------
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
   key: course.id,
   content: course.name.trim(),
   value: course,
 });
 
+function formatDate(inputDate: string): string {
+  const pattern = /(\d){4}-(\d){2}-(\d){2}/;
+
+  if (!pattern.test(inputDate)) {
+    return '';
+  }
+
+  const [year, month, day] = inputDate.split('-');
+
+  return `${day}.${month}.${year}`;
+}
+
+/** @TODO: Поддержка кастомного пути к пропу с данными */
+function getOptionContent(option: OptionShape) {
+  return option.value.name;
+}
+
+function getOptionsInputValue(selectedMultiple: OptionShape[]) {
+  return selectedMultiple.map(getOptionContent).join(', ');
+}
+
+const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
+  return `${getOptionsInputValue(selectedMultiple)}, `;
+};
+
 // ----------------------------------------------------------------------------
 
-// const showTestResultButtonComponent = (
-// 	course: ICoursesOption,
-// 	navigateToUrl: (urlLink: string) => void,
-// ) => {
-// 	return (
-// 		<Button
-// 			size="xxs"
-// 			view="tertiary"
-// 			style={{ marginLeft: '550px' }}
-// 			className={styles.buttonResult}
-// 			onClick={() => navigateToUrl(course.value.urlLink)}
-// 		>
-// 			Посмотреть результат
-// 		</Button>
-// 	)
-// }
-
-// const TEST_RESULT_DUMMY_URL = 'https://testlink_empty.com'
-
-// /** Проверка на тестовую ссылку результатов обучения */
-// const isTestResultDummyUrl = (url: string): boolean => url === TEST_RESULT_DUMMY_URL
+const dummyIprTaskData: ITask = {
+  id: 0,
+  name: '',
+  taskStatus: {
+    id: IprStatusDoc.Draft,
+    name: 'Черновик',
+  },
+  description: '',
+  supervisorComment: '',
+  closeDate: '-',
+  education: [],
+  comment: '',
+};
 
 // ----------------------------------------------------------------------------
 
 export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, iprCurrentData }) => {
+  console.log('isEmployee В TASKS: ', isEmployee);
   // const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
   // const navigate = useNavigate()
@@ -123,10 +154,9 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   // -------------------------------------------------------------------------------------
 
-  console.log('Ипр который пришел в задачи: ', iprCurrentData);
+  //console.log('Ипр который пришел в задачи: ', iprCurrentData);
 
-  const courses = useAppSelector(selectCommonLibsEducation);
-  console.log('optionCourses: ', courses);
+  const courseList = useAppSelector(selectCommonLibsEducation);
 
   //#region State
 
@@ -147,7 +177,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>({});
   const [valueEndDate, setEndDate] = useState<string>('');
   const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
-  const [selectedStatusOption, setSelectedStatusOption] = useState(''); // Состояние выбранной опции Селекта
+
   const [localArrayTask, setLocalArrayTask] = useState<ITask[]>([]);
   const [newTask, setNewTask] = useState<INewTask[]>([]);
   const [newTaskOpen, setNewTaskOpen] = useState(false);
@@ -157,16 +187,11 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       setLocalArrayTask(iprCurrentData.task);
     }
   }, [iprCurrentData]);
+  console.log('iprCurrentData в ЗАДАЧАХ: ', iprCurrentData);
 
   //#endregion
 
   //#region Computed
-
-  /** Опции тренингов и курсов */
-  const courseOptionList = useMemo<ICoursesOption[]>(
-    () => courses.map((courseOption) => adaptCompetency(courseOption)),
-    [courses]
-  );
 
   /** Введённые значения */
   const inputValues: string[] = useMemo(
@@ -180,18 +205,6 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   /** Последнее ведённое значение */
   const coursesInputLastValue = useMemo(() => getArrLastEl(inputValues), [inputValues]);
-
-  /** Выбранные опции */
-  const optionsSelected = useMemo(
-    () => courseOptionList.filter((course) => isCourseSelectedOption(course, inputValues)),
-    [courseOptionList, inputValues]
-  );
-
-  /** Фильтрованные опции курсов */
-  const filteredOptions = useMemo(
-    () => courseOptionList.filter((option) => isCourseFilteredOption(optionsSelected, option, coursesInputLastValue)),
-    [optionsSelected, coursesInputLastValue]
-  );
 
   /** Подставнока текущего выбранного образования в курсы */
   useEffect(() => {
@@ -219,14 +232,14 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     }));
   };
 
-  console.log('taskValues из задач: ', taskValues);
+  //console.log('taskValues из задач: ', taskValues);
 
   const handleCallback = (): void => {
     handleTaskValuesChange(taskValues);
   };
 
   const tasksArrayForRender = iprCurrentData?.task;
-  console.log('tasksArrayForRender', tasksArrayForRender);
+  //console.log('tasksArrayForRender', tasksArrayForRender);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = event.target;
@@ -265,74 +278,22 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     simulateProgress();
   };
 
-  /**
-   * Удаление курса
-   * @param key - Кулюч удаляемого курса
-   */
-  const onDeleteTag = (key: string) => {
-    const filteredOptions = optionsSelected.filter((option) => option.key !== key);
-
-    setValueCourse(makeMultipleValue(filteredOptions));
-  };
-
-  console.log('tasksArrayForRender: ', tasksArrayForRender);
-
-  function formatDate(inputDate: string): string {
-    const [year, month, day] = inputDate.split('-');
-    const formattedDate: string = `${day}.${month}.${year}`;
-    return formattedDate;
-  }
+  //console.log('tasksArrayForRender: ', tasksArrayForRender);
 
   /** Массив введённых */
 
-  function getOptionContent(option: OptionShape) {
-    return option.value.name;
-  }
-
-  function getOptionsInputValue(selectedMultiple: OptionShape[]) {
-    return selectedMultiple.map(getOptionContent).join(', ');
-  }
-
-  const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
-    return `${getOptionsInputValue(selectedMultiple)}, `;
-  };
-
   //#region Cources
-
-  /** Фильтрованные и выбранные опциии для выпадающего списка */
-  const getFilteredOptionsCourses = () => {
-    console.log({ inputValues, selected });
-
-    return inputValues.length === selected.length ? courseOptionList : filteredOptions;
-  };
 
   // Data
   // --------------------------------------------------------------------------
 
-  /** Выбранные опции для компоннета */
-  const selected = courseOptionList.filter((course) => isCourseSelectedOption(course, inputValues));
-
   // hadlers
   // --------------------------------------------------------------------------
-
-  /** Обработчик выбора опции */
-  const handleChangeCourse = ({ selectedMultiple }: { selectedMultiple: OptionShape[] }) => {
-    const value = selectedMultiple.length ? selectedMultiple.map((option) => option.content).join(', ') + ', ' : '';
-    setValueCourse(value);
-  };
-
-  /** Обработчик ввода в поле */
-  const handleInputCourse = (_: unknown, { value }: { value: string }) => setValueCourse(value);
 
   /** Обработчик очистки */
   const onCoursesInputClear = () => setValueCourse('');
 
   //#endregion
-
-  const handleSelectStatusChange = (event: any) => {
-    setSelectedStatusOption(event.target.value);
-    console.log(selectedStatusOption); // Обновляем состояние выбранной опции выбора статуса - Селект
-  };
 
   const onDeleteTask = (id: number) => {
     const filteredTaskList = localArrayTask.filter((task) => task.id !== id);
@@ -356,245 +317,57 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   return (
     <>
-      <div className={styles.taskBlock}>
-        <legend className={styles.blockTitle} onClick={handleCallback}>
-          Задачи
-        </legend>
-        <Table className={styles.table}>
-          <Table.TBody>
-            {localArrayTask?.map(
-              ({ id, name, taskStatus, description, supervisorComment, closeDate, education, comment }: ITask) => (
-                <React.Fragment key={id}>
-                  <Table.TRow className={styles.row}>
-                    <Table.TCell className={styles.cellWithIcon}>
-                      {!isEmployee && (taskStatus.name === 'Выполнена' || taskStatus.name === 'Не выполнена') && (
-                        <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(id)} />
-                      )}
-                      {name}
-                    </Table.TCell>
-                    <Table.TCell>{formatDateToCustomFormat(closeDate)}</Table.TCell>
-                    <Table.TCell>
-                      <Status view="soft" color={getStatusColor(taskStatus.id)}>
-                        {taskStatus.name}
-                      </Status>
-                    </Table.TCell>
-                    <Table.TCell>
-                      <ChevronDownMIcon onClick={() => chevronClick(id)} />
-                    </Table.TCell>
-                  </Table.TRow>
-                  {expandedTasks[id] && (
-                    <Table.TRow className={styles.row} withoutBorder={true}>
-                      <Table.TCell colSpan={4}>
-                        <Collapse expanded={expandedTasks[id]}>
-                          <div className={styles.openedTask}>
-                            <div className={styles.wrapper}>
-                              <Textarea
-                                fieldClassName={styles.goalName}
-                                maxHeight={56}
-                                label="Название*"
-                                value={name}
-                                name="name"
-                                onChange={handleInputChange}
-                                labelView="inner"
-                                size="m"
-                                block={true}
-                                showCounter={true}
-                                autosize={true}
-                                disabled={isEmployee}
-                              />
-                              <UniversalDateInput
-                                block={true}
-                                view="date"
-                                label="Дата завершения"
-                                size="m"
-                                value={formatDate(closeDate)}
-                                onChange={handleChangeEndDate}
-                                picker={true}
-                                Calendar={CalendarDesktop}
-                                disabled={isEmployee}
-                                calendarProps={{
-                                  selectorView: 'month-only',
-                                }}
-                                clear={true}
-                                onClear={(e) => {
-                                  e.stopPropagation();
-                                  setEndDate('');
-                                }}
-                              />
-                            </div>
-                            <Textarea
-                              fieldClassName={styles.textClass}
-                              maxHeight={91}
-                              label="Описание"
-                              name="description"
-                              value={description}
-                              onChange={handleInputChange}
-                              labelView="inner"
-                              size="m"
-                              block={true}
-                              maxLength={96}
-                              showCounter={true}
-                              autosize={true}
-                              disabled={isEmployee}
-                            />
+      <legend className={styles.blockTitle} onClick={handleCallback}>
+        Задачи
+      </legend>
+      <Table className={styles.table}>
+        <Table.TBody>
+          {iprCurrentData.task.length === 0 ? (
+            <TasksRow
+              task={dummyIprTaskData}
+              expandedTasks={[true]}
+              id={0}
+              isEmployee={isEmployee}
+              courseList={courseList}
+              statusId={IprStatusDoc.Draft}
+            />
+          ) : (
+            ''
+          )}
 
-                            <div className={styles.coursesWrapper}>
-                              <InputAutocomplete
-                                size="s"
-                                name="course"
-                                label="Тренинги и курсы"
-                                placeholder="Начните вводить название"
-                                className={styles.inputCourses}
-                                block={true}
-                                showEmptyOptionsList={true}
-                                Option={BaseOption}
-                                Arrow={shownChevron ? Arrow : undefined}
-                                multiple={multiple}
-                                options={getFilteredOptionsCourses()}
-                                selected={selected}
-                                onChange={handleChangeCourse}
-                                onInput={handleInputCourse}
-                                allowUnselect={true}
-                                value={valueCourse}
-                                inputProps={{
-                                  onClear: onCoursesInputClear,
-                                  clear: true,
-                                }}
-                              />
-                              <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses} />
-                            </div>
-
-                            <div className={styles.formRowTag}>
-                              {optionsSelected.length > 0 &&
-                                optionsSelected.map((course: OptionShape) => (
-                                  <div key={course.key} className={styles.tagContainer}>
-                                    <div className={styles.formTag} onClick={() => onDeleteTag(course.key)}>
-                                      <div className={styles.formCircle}>
-                                        <CrossCircleMIcon />
-                                      </div>
-
-                                      {course.content}
-
-                                      <TestResultButton course={course as ICoursesOption} />
-                                    </div>
-                                  </div>
-                                ))}
-                            </div>
-
-                            <Textarea
-                              fieldClassName={styles.textClass}
-                              maxHeight={91}
-                              label="Комментарий руководителя"
-                              name="commentOfMentor"
-                              value={supervisorComment}
-                              onChange={handleInputChange}
-                              labelView="inner"
-                              size="m"
-                              block={true}
-                              maxLength={96}
-                              showCounter={true}
-                              autosize={true}
-                              disabled={isEmployee}
-                            />
-                            {isEmployee && (
-                              <Textarea
-                                fieldClassName={styles.textClass}
-                                maxHeight={91}
-                                label="Ваш комментарий"
-                                name="commentOfEmployee"
-                                onChange={handleInputChange}
-                                labelView="inner"
-                                size="m"
-                                block={true}
-                                maxLength={96}
-                                showCounter={true}
-                                autosize={true}
-                              />
-                            )}
-
-                            <div>
-                              <div className={styles.attachWrapper}>
-                                <p className={styles.attachTitle}>Приклепленные файлы</p>
-                                {isEmployee && (
-                                  <Attach
-                                    buttonContent="Добавить"
-                                    value={filesForTask[id] || []}
-                                    buttonProps={{
-                                      style: {
-                                        backgroundColor: 'transparent',
-                                        color: '#2A77EF',
-                                        padding: '0',
-                                        margin: '0',
-                                      },
-                                    }}
-                                    size="m"
-                                    onChange={(event, payload) => handleAttach(id, event, payload)}
-                                    multiple={multiple}
-                                    fileClassName={styles.attachButton}
-                                    noFileText=""
-                                    disabled={taskStatus.name !== 'В работе'}
-                                  />
-                                )}
-                              </div>
-                              {filesForTask[id] && (
-                                <div>
-                                  {filesForTask[id].map((file, index) => (
-                                    <FileUploadItem
-                                      key={index}
-                                      name={file.name}
-                                      uploadDate="31.01.2024"
-                                      size={file.size}
-                                      showDelete={true}
-                                      downloadLink="/link"
-                                      className={styles.attachedFile}
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                              <Button
-                                view="primary"
-                                size="s"
-                                className={styles.button}
-                                disabled={taskStatus.name !== 'В работе'}
-                              >
-                                Отправить на проверку
-                              </Button>
-
-                              {!isEmployee && (
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'flex-end',
-                                  }}
-                                >
-                                  <div>
-                                    <select
-                                      value={selectedStatusOption}
-                                      onChange={handleSelectStatusChange}
-                                      className={styles.select}
-                                    >
-                                      <option className={styles.option} value="В работе">
-                                        В работе
-                                      </option>
-                                      <option value="Отклонен">Выполнена</option>
-                                      <option value="Сохранен">Отменена</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </Collapse>
-                      </Table.TCell>
-                    </Table.TRow>
+          {iprCurrentData.task?.map((task: ITask) => (
+            <React.Fragment key={task.id}>
+              <Table.TRow className={styles.row}>
+                <Table.TCell className={styles.cellWithIcon}>
+                  {!isEmployee && (isCompletedIpr(task.taskStatus.id) || isNotCompletedIpr(task.taskStatus.id)) && (
+                    <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(task.id)} />
                   )}
-                </React.Fragment>
-              )
-            )}
-          </Table.TBody>
-        </Table>
-      </div>
+                  {task.name}
+                </Table.TCell>
+                <Table.TCell>{task.closeDate}</Table.TCell>
+                <Table.TCell>
+                  <Status view="soft" color={getStatusColor(task.taskStatus.id)}>
+                    {task.taskStatus.name}
+                  </Status>
+                </Table.TCell>
+                <Table.TCell>
+                  <ChevronDownMIcon onClick={() => chevronClick(task.id)} />
+                </Table.TCell>
+              </Table.TRow>
+              {expandedTasks[task.id] && (
+                <TasksRow
+                  task={task}
+                  expandedTasks={expandedTasks}
+                  id={task.id}
+                  isEmployee={isEmployee}
+                  courseList={courseList}
+                  statusId={task.taskStatus.id}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </Table.TBody>
+      </Table>
       <ButtonDesktop
         onClick={handleNewTaskOpen}
         view="tertiary"
@@ -606,7 +379,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       >
         Добавить новую
       </ButtonDesktop>
-      {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
+      <div>{newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}</div>
     </>
   );
 };

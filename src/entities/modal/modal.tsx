@@ -38,9 +38,7 @@ export const Modal = ({
   };
 
   const handleConfirmButton = () => {
-    console.log(onConfirm);
     if (onConfirm) {
-      console.log(onConfirm);
       onConfirm();
     }
     setOpen(false);

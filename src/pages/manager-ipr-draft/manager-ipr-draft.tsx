@@ -70,8 +70,8 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
 
   const handleDataSubmit = (goalData: any, taskData: any) => {
     // Здесь вы можете отправить оба набора данных на сервер
-    console.log('Отправка данных на сервер из Tasks:', taskData);
-    console.log('Отправка данных на сервер из TasksOverview:', goalData);
+    // console.log('Отправка данных на сервер из Tasks:', taskData);
+    //console.log('Отправка данных на сервер из TasksOverview:', goalData);
   };
 
   const handleNewTaskOpen = () => {

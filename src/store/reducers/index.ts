@@ -1,19 +1,20 @@
 import { Reducer, combineReducers } from '@reduxjs/toolkit';
 import userReducer, { UserState } from './userSlice';
-import commonLibsReducer, { TCommonLibState } from './libSlice';
-import iprsReducer, { IprsArrState } from './iprsSlice';
-import iprReducer, { TIprDataState } from './iprSlice';
+import commonLibsReducer from './libSlice';
+import iprsReducer from './iprsSlice';
+import iprReducer from './iprSlice';
+import { TIprDataState } from '../type/ipr-data';
 import managerIprsReducer, { IPRSSliceState } from './managerIprSlice';
 import mentorIprsReducer, { MentorSliceState } from './mentorIprSlice';
-import formReducer, { IFormState } from './formSlice';
+import { IIprsArrState } from 'src/store/type/iprs-arr-data';
+import { TCommonLibState } from 'src/store/type/libraries';
 
 export interface RootState {
   user: Reducer<UserState>; // тип состояния пользователя
   commonLibs: Reducer<TCommonLibState>;
-  iprs: Reducer<IprsArrState>;
+  iprs: Reducer<IIprsArrState>;
   managerIprs: Reducer<IPRSSliceState>;
   mentorIprs: Reducer<MentorSliceState>;
-  form: Reducer<IFormState>;
   ipr: Reducer<TIprDataState>;
 }
 
@@ -23,7 +24,6 @@ const rootReducer = combineReducers<RootState>({
   iprs: iprsReducer,
   managerIprs: managerIprsReducer,
   mentorIprs: mentorIprsReducer,
-  form: formReducer,
   ipr: iprReducer,
 });
 

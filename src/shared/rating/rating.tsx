@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 
 import styles from './rating.module.scss';
 
@@ -7,19 +7,43 @@ import { Textarea } from '@alfalab/core-components/textarea';
 interface IRatingProps {
   title: string;
   isDisabled?: boolean;
+  onChangeComment?: any;
+  onChangeRating?: any;
+  ratingData?: any;
 }
 
-export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled }) => {
+export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled, onChangeComment, onChangeRating, ratingData }) => {
   const [selectedRating, setSelectedRaiting] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 
+  const setRatingData = () => {
+    setSelectedRaiting(ratingData.rating);
+    setComment(ratingData.comment);
+  };
+
+  useEffect(() => {
+    if (ratingData) {
+      setRatingData();
+    }
+  }, []);
+
   const handleRatingClick = (rating: number) => {
-    setSelectedRaiting(rating);
+    if (!isDisabled) {
+      setSelectedRaiting(rating);
+
+      if (onChangeRating) {
+        onChangeRating(rating);
+      }
+    }
   };
 
   const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = event.target.value;
     setComment(inputText);
+
+    if (onChangeComment) {
+      onChangeComment(inputText);
+    }
   };
   return (
     <>
@@ -31,7 +55,7 @@ export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled }) => {
               <div
                 key={index + 1}
                 onClick={() => handleRatingClick(index + 1)}
-                className={`${styles.ratingBtn} ${selectedRating >= index + 1 ? styles.clicked : ''}`}
+                className={`${styles.ratingBtn} ${ratingData ? styles.ratingDisable : ''} ${selectedRating >= index + 1 ? styles.clicked : ''}`}
               >
                 {index + 1}
               </div>
@@ -44,6 +68,7 @@ export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled }) => {
         </div>
         <Textarea
           label="Оцените достижение цели"
+          value={comment}
           block={true}
           minRows={3}
           maxLength={96}

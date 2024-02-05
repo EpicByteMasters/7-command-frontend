@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@alfalab/core-components/button';
 
@@ -14,16 +13,8 @@ interface IProps {
 }
 
 export const TestResultButton: FC<IProps> = ({ course }) => {
-  const navigate = useNavigate();
-
   return !isTestResultDummyUrl(course.value.urlLink) ? (
-    <Button
-      size="xxs"
-      view="tertiary"
-      style={{ marginLeft: '550px' }}
-      className={styles.buttonResult}
-      onClick={() => navigate(course.value.urlLink)}
-    >
+    <Button size="xxs" view="tertiary" className={styles.buttonResult} href={course.value.urlLink} target={'_blank'}>
       Посмотреть результат
     </Button>
   ) : null;

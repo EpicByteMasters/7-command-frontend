@@ -42,6 +42,7 @@
   <img src="https://img.shields.io/badge/NPM-%23404d59?style=for-the-badge&logo=npm&logoColor=red" alt="NPM Badge" />
   <img src="https://img.shields.io/badge/figma-%23404d59.svg?style=for-the-badge&logo=figma&logoColor=purple" alt="Figma Badge" />
   <img src="https://img.shields.io/badge/vscode-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="VScode Badge" />
+    <img src="https://img.shields.io/badge/jest-%23404d59?style=for-the-badge&logo=vscode&logoColor=white" alt="JEST" />
 
 ### Ссылки на сторонние библиотеки и шрифты
 
@@ -53,7 +54,7 @@
 
 # Установка
 
-- `git clone git@github.com:EpicByteMasters/7-command-frontend.git` - Клонируйте репозиторий;
+- `git clone git@github.com:EpicByteMasters/7-command-frontend.git` - клонируйте репозиторий;
 
 - `cd 7-command-frontend` - локальный запуск приложения на порте `http://localhost:3000`;
 
@@ -61,6 +62,18 @@
 
 - `npm start` - запустите проект;
 
-# ScreenShot приложения
+# Архив с кодом репозитория из main
 
-![](./src/images/screenForREADME.jpg)
+[Ссылка на архив с кодом репозитория из main ](https://disk.yandex.com/d/7HMUFkwJooC0aQ)
+
+# Архив со скриншотами
+
+[Ссылка на архив со скриншотами](https://disk.yandex.com/d/7HMUFkwJooC0aQ)
+
+# Вид приложения
+
+<details><summary> Скриншот интерфейса приложения</summary>
+
+[![photo-2024-02-05-04-27-16.jpg](https://i.postimg.cc/kGn3GPP2/photo-2024-02-05-04-27-16.jpg)](https://postimg.cc/XGDD1hJW)
+
+</details>

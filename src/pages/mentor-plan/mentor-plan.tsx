@@ -15,7 +15,7 @@ export const MentorPlan: React.FC = () => {
     dispatch(getMentorIprsList());
   }, [dispatch]);
 
-  console.log('MENTOR_LIST_IPRS', mentorIprsList);
+  //console.log('MENTOR_LIST_IPRS', mentorIprsList);
 
   return (
     <div className={styles.generalFooterWrapper}>

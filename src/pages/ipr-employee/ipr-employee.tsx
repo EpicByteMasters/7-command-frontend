@@ -21,8 +21,8 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
 
   const handleDataSubmit = (goalData: any, taskValues: any) => {
     // Здесь вы можете отправить оба набора данных на сервер
-    console.log('Отправка данных на сервер из Tasks:', taskValues);
-    console.log('Отправка данных на сервер из TasksOverview:', goalData);
+    // console.log('Отправка данных на сервер из Tasks:', taskValues);
+    // console.log('Отправка данных на сервер из TasksOverview:', goalData);
   };
 
   return (
