@@ -1,7 +1,7 @@
 import styles from './employee-rating.module.scss';
 //--------------------------------------------------------------
 import { ChangeEvent, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 //--------------------------------------------------------------
 import { Button } from '@alfalab/core-components/button';
 import { SelectDesktop } from '@alfalab/core-components/select/desktop';
@@ -22,6 +22,8 @@ const options = [
 
 export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({ withBtn }) => {
   const { id } = useParams<{ id: string }>();
+
+  const navigate = useNavigate();
 
   const [selectedRating, setSelectedRaiting] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
@@ -45,9 +47,8 @@ export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({ with
     );
 
     if (!response?.error) {
+      navigate(`/service-iprs/myteam`);
     }
-    // console.log(response);
-    // response.then<any>(() => {});
   };
 
   const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
