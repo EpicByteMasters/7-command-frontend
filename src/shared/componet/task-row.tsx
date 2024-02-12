@@ -1,8 +1,8 @@
-import React, { FC, ChangeEvent, ReactNode, useMemo, useState, useEffect } from 'react';
+import React, { FC, ChangeEvent, useMemo, useState, useEffect } from 'react';
 
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-import { useAppDispatch } from '../shared/hooks/redux';
+import { useAppDispatch } from '../hooks/redux';
 
 import { Table } from '@alfalab/core-components/table';
 import { Collapse } from '@alfalab/core-components/collapse';
@@ -13,40 +13,23 @@ import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { TestResultButton } from '../componet/test-result-button';
-import { Attach } from '@alfalab/core-components/attach';
-import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
+import { TestResultButton } from './test-result-button';
 import { Button } from '@alfalab/core-components/button';
 
-import type {
-  ITasksProps,
-  IEducation,
-  IFormData,
-  ICoursesOption,
-  IEducationTypeDTO,
-  IFilesForTask,
-  INewTask,
-} from './type';
+import type { ICoursesOption, IEducationTypeDTO, IFilesForTask } from './type';
 
-import type { IIprData, ITask } from '../store/type/ipr-data';
+import type { ITask } from '../store/type/ipr-data';
 
 import { IprStatusDoc } from '../type';
 
-import {
-  isCompletedIpr,
-  isDraftIpr,
-  isInProgressIpr,
-  isNotCompletedIpr,
-  isAwaitingReviewIpr,
-  isCanceledIpr,
-} from '../util/ipr-status';
+import { isCompletedIpr, isInProgressIpr, isNotCompletedIpr, isCanceledIpr } from '../../util/ipr-status';
 
-import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDateToCustomFormat } from './utils';
+import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption } from './utils';
 
 import linkToCourses from '../images/link-gotocourses.png';
-import styles from '../entities/tasks/tasks.module.scss';
-import { adaptDateToClient } from '../util';
+import { adaptDateToClient } from '../../util';
 import { completeTask } from '../store/reducers/iprSlice';
+import styles from '../../entities/tasks/tasks.module.scss';
 
 interface ITasksRowProps {
   task: ITask;
@@ -91,7 +74,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
   const [coursesValue, setCoursesValue] = useState('');
   const [supervisorCommentValue, setSupervisorCommentValue] = useState('');
   const [employeeComment, setEmployeeComment] = useState('');
-  const [attachFiles, setAttachFiles] = useState<IFilesForTask>({});
+  const [, setAttachFiles] = useState<IFilesForTask>({});
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const isShowCoursesChevron = true;
@@ -386,44 +369,6 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
             )}
 
             <div>
-              {/* <div className={styles.attachWrapper}>
-                <p className={styles.attachTitle}>Приклепленные файлы</p>
-                {isEmployee && (
-                  <Attach
-                    buttonContent="Добавить"
-                    value={attachFiles[id] || []}
-                    buttonProps={{
-                      style: {
-                        backgroundColor: 'transparent',
-                        color: '#2A77EF',
-                        padding: '0',
-                        margin: '0',
-                      },
-                    }}
-                    size="m"
-                    onChange={(event, payload) => handleAttach(id, event, payload)}
-                    multiple={isMultipleSelect}
-                    fileClassName={styles.attachButton}
-                    noFileText=""
-                    disabled={isInProgressIpr(statusId)}
-                  />
-                )}
-              </div> */}
-              {/* {attachFiles[id] && (
-                <div>
-                  {attachFiles[id].map((file, index) => (
-                    <FileUploadItem
-                      key={index}
-                      name={file.name}
-                      uploadDate="31.01.2024"
-                      size={file.size}
-                      showDelete={true}
-                      downloadLink="/link"
-                      className={styles.attachedFile}
-                    />
-                  ))}
-                </div>
-              )} */}
               {isInProgressIpr(statusId) && isEmployee && (
                 <Button
                   view="primary"

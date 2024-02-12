@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { MentorList } from '../../entities/mentor-list/mentor-list';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
-import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
+import { getMentorIprsList, selectMentorList } from '../../shared/store/reducers/mentorIprSlice';
 
 export const MentorPlan: React.FC = () => {
   const dispatch = useAppDispatch();

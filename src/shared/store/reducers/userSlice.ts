@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { BASE_URL } from '../../shared/utils/constants';
+import { BASE_URL } from '../../utils/constants';
 import { fetchDataFromApi } from '../api';
 
 export interface IUser {

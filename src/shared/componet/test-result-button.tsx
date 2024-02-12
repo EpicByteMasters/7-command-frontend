@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { Button } from '@alfalab/core-components/button';
 
-import type { ICoursesOption } from '../entities/tasks/type';
+import type { ICoursesOption } from '../../entities/tasks/type';
 
-import { isTestResultDummyUrl } from '../util';
+import { isTestResultDummyUrl } from '../../util';
 
-import styles from '../entities/tasks/tasks.module.scss';
+import styles from '../../entities/tasks/tasks.module.scss';
 
 interface IProps {
   course: ICoursesOption;

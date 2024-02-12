@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-import { TCommonLibState } from 'src/store/type/libraries';
-import { BASE_URL } from '../../shared/utils/constants';
+import { TCommonLibState } from 'src/shared/store/type/libraries';
+import { BASE_URL } from '../../utils/constants';
 
 let initialCommonLibState: TCommonLibState = {
   positions: [],

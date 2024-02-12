@@ -9,7 +9,7 @@ import { TooltipDesktop } from '@alfalab/core-components/tooltip/desktop';
 
 import { useAppDispatch } from '../../shared/hooks/redux';
 
-import { getNotificationList } from '../../store/reducers/notificationsSlice';
+import { getNotificationList } from '../../shared/store/reducers/notificationsSlice';
 import { BASE_URL } from '../../shared/utils/constants';
 
 import type { INotification } from './type';

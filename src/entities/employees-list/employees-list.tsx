@@ -13,21 +13,21 @@ import { ListDefaultSIcon } from '@alfalab/icons-glyph/ListDefaultSIcon';
 import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { Modal } from '../modal/modal';
-import { getManagerIprsList } from '../../store/reducers/managerIprSlice';
+import { getManagerIprsList } from '../../shared/store/reducers/managerIprSlice';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
   selectCommonLibsIPRGoals,
   selectCommonLibsIPRStatus,
   selectCommonLibsPositions,
-} from '../../store/reducers/libSlice';
+} from '../../shared/store/reducers/libSlice';
 
 import { formatDateString, getStatusColor, getValueById } from '../../shared/utils/constants';
 
 import { TIprStatusType } from '../../shared/utils/types';
-import { createIpr, deleteIprById } from '../../store/reducers/iprSlice';
+import { createIpr, deleteIprById } from '../../shared/store/reducers/iprSlice';
 import { async } from 'q';
-import { IEmployee } from 'src/store/type/employees-list';
+import { IEmployee } from 'src/shared/store/type/employees-list';
 
 export interface IEmployeesListProps {
   data: IEmployee[] | undefined;

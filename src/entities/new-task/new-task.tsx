@@ -1,19 +1,20 @@
 import React, { ChangeEvent, useState } from 'react';
-import styles from './new-task.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
 import { courses } from '../../shared/utils/constants';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 // import { NotificationCard } from '../notification-green/notification';
+import linkToCourses from '../../shared/images/link-gotocourses.png';
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
+import styles from './new-task.module.scss';
+
 interface TaskProps {
   isEmployee?: boolean;
   isExecutive?: boolean;
@@ -52,7 +53,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
   const [shownChevron] = React.useState(true);
   const [multiple] = React.useState(true);
   const [valueCourse, setValueCourse] = useState<string>('');
-  const [progress, setProgress] = useState<number | undefined>(0);
+  const [, setProgress] = useState<number | undefined>(0);
   const [toggle, setToggle] = useState<boolean>(false);
   const onToggle = () => {
     setToggle(!toggle);

@@ -1,6 +1,6 @@
 import type { ICoursesOption } from './type';
 
-import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
+import { MONTH_FULL_NAME_LIST } from './const';
 
 // shared
 

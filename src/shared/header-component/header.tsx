@@ -13,8 +13,8 @@ import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 import { Notifications } from '../../entities/notifications/notifications';
 
 import { accessUrl } from '../../shared/utils/urls';
-import avatar from '../../images/avatar.png';
-import logo from '../../images/alfa-logo.svg';
+import avatar from '../../shared/images/avatar.png';
+import logo from '../../shared/images/alfa-logo.svg';
 
 import { useAppSelector } from '../hooks/redux';
 

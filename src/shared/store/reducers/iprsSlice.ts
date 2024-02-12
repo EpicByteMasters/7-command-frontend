@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IIprsArrState } from 'src/store/type/iprs-arr-data';
+import { IIprsArrState } from 'src/shared/store/type/iprs-arr-data';
 
 import { fetchDataFromApi } from '../api';
 

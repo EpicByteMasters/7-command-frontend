@@ -1,4 +1,4 @@
-import { IprStatusDoc } from '../../type';
+import { IprStatusDoc } from '../../../shared/type';
 
 interface ITask {
   id: number;

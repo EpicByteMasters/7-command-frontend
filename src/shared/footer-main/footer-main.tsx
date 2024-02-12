@@ -1,8 +1,8 @@
 import styles from './footer-main.module.scss';
-import logo from '../../images/footer-icons/logo-mobile.svg';
-import logo1 from '../../images/footer-icons/logotype_telegram_m.svg';
-import logo2 from '../../images/footer-icons/logotype_vk_m.svg';
-import logo3 from '../../images/footer-icons/logotype_youtube_m.svg';
+import logo from '../images/footer-icons/logo-mobile.svg';
+import logoTg from '../images/footer-icons/logotype_telegram_m.svg';
+import logoVk from '../images/footer-icons/logotype_vk_m.svg';
+import logoYt from '../images/footer-icons/logotype_youtube_m.svg';
 
 export const FooterMain = () => {
   return (
@@ -62,13 +62,13 @@ export const FooterMain = () => {
           </div>
           <div className={styles.socialWrapper}>
             <div className={styles.icon}>
-              <img className={styles.img} src={logo1} alt="logo"></img>
+              <img className={styles.img} src={logoTg} alt="logo"></img>
             </div>
             <div className={styles.icon}>
-              <img className={styles.img} src={logo2} alt="logo"></img>
+              <img className={styles.img} src={logoVk} alt="logo"></img>
             </div>
             <div className={styles.icon}>
-              <img className={styles.img} src={logo3} alt="logo"></img>
+              <img className={styles.img} src={logoYt} alt="logo"></img>
             </div>
           </div>
         </div>

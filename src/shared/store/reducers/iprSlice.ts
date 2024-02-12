@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IIprData, TIprDataState } from 'src/store/type/ipr-data';
+import { IIprData, TIprDataState } from 'src/shared/store/type/ipr-data';
 import { fetchDataFromApi } from '../api';
 
 export const initialIprData: IIprData = {

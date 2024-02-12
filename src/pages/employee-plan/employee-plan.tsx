@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { RootState } from '../../store/store';
-import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
-import { getIprsEmployeeHistory } from '../../store/reducers/iprsSlice';
+import { RootState } from '../../shared/store/store';
+import { getUserById, setSelectedUser } from '../../shared/store/reducers/userSlice';
+import { getIprsEmployeeHistory } from '../../shared/store/reducers/iprsSlice';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
 import { Plan } from '../../entities/plan-component/plan';

@@ -9,7 +9,7 @@ import { SelectDesktop } from '@alfalab/core-components/select/desktop';
 import { Raiting } from '../../shared/rating/rating';
 //--------------------------------------------------------------
 import { useAppDispatch } from '../../shared/hooks/redux';
-import { completeIpr } from '../../store/reducers/iprSlice';
+import { completeIpr } from '../../shared/store/reducers/iprSlice';
 
 interface EmployeeRatingPickerProps {
   withBtn?: boolean;

@@ -9,8 +9,8 @@ import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 
-import IprStatusDoc from '../../type/ipr-status-name';
-import { IIpr } from 'src/store/type/iprs-arr-data';
+import IprStatusDoc from '../../shared/type/ipr-status-name';
+import { IIpr } from 'src/shared/store/type/iprs-arr-data';
 
 export const Plan: React.FC = () => {
   const navigate = useNavigate();

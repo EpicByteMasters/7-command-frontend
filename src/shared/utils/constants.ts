@@ -1,4 +1,4 @@
-import { IUser } from '../../store/reducers/userSlice';
+import { IUser } from '../store/reducers/userSlice';
 
 /* eslint-disable no-useless-escape */
 export const BASE_URL = 'https://granpri.ru';

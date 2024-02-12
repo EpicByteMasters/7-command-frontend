@@ -1,42 +1,23 @@
-import React, { FC, ChangeEvent, ReactNode, useMemo, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, { FC, ChangeEvent, useMemo, useEffect, useState } from 'react';
 
 // -----------------------------------------------------------------------------
 
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 import { Table } from '@alfalab/core-components/table';
-import { Button } from '@alfalab/core-components/button';
 
 import { Status } from '@alfalab/core-components/status';
-import { Textarea } from '@alfalab/core-components/textarea';
-
-import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import { Attach } from '@alfalab/core-components/attach';
-import { Collapse } from '@alfalab/core-components/collapse';
-
-import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
-import { BaseOption } from '@alfalab/core-components/select/components/base-option';
-
-import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
-import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
-
-import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
-import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
 
 // -----------------------------------------------------------------------------
 
-import type { IIprData, ITask } from '../../store/type/ipr-data';
+import type { ITask } from '../../shared/store/type/ipr-data';
 
 // -----------------------------------------------------------------------------
 
-import { getIprByIdByEmployee, initialIprData } from '../../store/reducers/iprSlice';
-
-import { selectCommonLibsEducation } from '../../store/reducers/libSlice';
+import { selectCommonLibsEducation } from '../../shared/store/reducers/libSlice';
 
 // -----------------------------------------------------------------------------
 
@@ -44,48 +25,29 @@ import { useAppSelector } from '../../shared/hooks/redux';
 
 // -----------------------------------------------------------------------------
 
-import type {
-  ITasksProps,
-  IEducation,
-  IFormData,
-  ICoursesOption,
-  IEducationTypeDTO,
-  IFilesForTask,
-  INewTask,
-} from './type';
+import type { ITasksProps, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, INewTask } from './type';
 
-import { IprStatusDoc } from '../../type';
+import { IprStatusDoc } from '../../shared/type';
 
 // ----------------------------------------------------------------------------
 
-import { MONTH_FULL_NAME_LIST, PICKER_OPTIONS } from './const';
+// ----------------------------------------------------------------------------
+
+import { getArrLastEl } from './utils';
 
 // ----------------------------------------------------------------------------
 
-import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDateToCustomFormat } from './utils';
+import TasksRow from '../../shared/componet/task-row';
 
 // ----------------------------------------------------------------------------
-
-import TasksRow from '../../componet/task-row';
-
-// ----------------------------------------------------------------------------
-
-import linkToCourses from '../../images/link-gotocourses.png';
 
 import styles from './tasks.module.scss';
 
 import { getStatusColor } from '../../shared/utils/constants';
-import { TestResultButton } from '../../componet/test-result-button';
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { NewTask } from '../../entities/new-task/new-task';
 
-import {
-  isCompletedIpr,
-  isDraftIpr,
-  isInProgressIpr,
-  isNotCompletedIpr,
-  isAwaitingReviewIpr,
-} from '../../util/ipr-status';
+import { isCompletedIpr, isNotCompletedIpr } from '../../util/ipr-status';
 
 // Utils
 // ----------------------------------------------------------------------------
@@ -139,23 +101,6 @@ const dummyIprTaskData: ITask = {
 // ----------------------------------------------------------------------------
 
 export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, iprCurrentData }) => {
-  console.log('isEmployee В TASKS: ', isEmployee);
-  // const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
-
-  // const navigate = useNavigate()
-  // const testResultButton = (urlLink: string) => navigate(urlLink)
-
-  // Sub comps
-  // -------------------------------------------------------------------------------------
-
-  // const showTestResultButton = (cource: ICoursesOption) => (
-  // 	testResultButton(cource, navigateToUrl)
-  // )
-
-  // -------------------------------------------------------------------------------------
-
-  //console.log('Ипр который пришел в задачи: ', iprCurrentData);
-
   const courseList = useAppSelector(selectCommonLibsEducation);
 
   //#region State
@@ -170,16 +115,16 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     commentOfEmployee: '',
   });
 
-  const [shownChevron, setShownChevron] = useState(true);
-  const [multiple, setMultiple] = useState(true);
-  const [progress, setProgress] = useState<number | undefined>(0);
+  const [, setShownChevron] = useState(true);
+  const [, setMultiple] = useState(true);
+  const [, setProgress] = useState<number | undefined>(0);
   const [valueCourse, setValueCourse] = useState<string>('');
   const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>({});
-  const [valueEndDate, setEndDate] = useState<string>('');
-  const [filesForTask, setFilesForTask] = useState<IFilesForTask>({});
+  const [, setEndDate] = useState<string>('');
+  const [, setFilesForTask] = useState<IFilesForTask>({});
 
   const [localArrayTask, setLocalArrayTask] = useState<ITask[]>([]);
-  const [newTask, setNewTask] = useState<INewTask[]>([]);
+  const [, setNewTask] = useState<INewTask[]>([]);
   const [newTaskOpen, setNewTaskOpen] = useState(false);
 
   useEffect(() => {
@@ -187,7 +132,6 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
       setLocalArrayTask(iprCurrentData.task);
     }
   }, [iprCurrentData]);
-  console.log('iprCurrentData в ЗАДАЧАХ: ', iprCurrentData);
 
   //#endregion
 
@@ -232,14 +176,11 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     }));
   };
 
-  //console.log('taskValues из задач: ', taskValues);
-
   const handleCallback = (): void => {
     handleTaskValuesChange(taskValues);
   };
 
   const tasksArrayForRender = iprCurrentData?.task;
-  //console.log('tasksArrayForRender', tasksArrayForRender);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = event.target;
@@ -278,17 +219,9 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     simulateProgress();
   };
 
-  //console.log('tasksArrayForRender: ', tasksArrayForRender);
-
   /** Массив введённых */
 
   //#region Cources
-
-  // Data
-  // --------------------------------------------------------------------------
-
-  // hadlers
-  // --------------------------------------------------------------------------
 
   /** Обработчик очистки */
   const onCoursesInputClear = () => setValueCourse('');

@@ -1,5 +1,5 @@
-@use '../../styles/mixins.scss';
-
+@use '../../app/styles/mixins.scss';
+@import '../../app/styles/variables.scss';
 .footer {
   margin: 50px auto 15px auto;
   padding: 0;

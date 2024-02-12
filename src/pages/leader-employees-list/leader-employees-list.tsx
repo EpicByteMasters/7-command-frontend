@@ -17,9 +17,9 @@ import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
-import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
+import { getManagerIprsList, selectManagerList } from '../../shared/store/reducers/managerIprSlice';
 
-import { selectCommonLibsIPRGoals, selectCommonLibsIPRStatus } from '../../store/reducers/libSlice';
+import { selectCommonLibsIPRGoals, selectCommonLibsIPRStatus } from '../../shared/store/reducers/libSlice';
 
 const structureData = {
   title: 'Вовлеченность команды',

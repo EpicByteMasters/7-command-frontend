@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../shared/hooks/redux';
 // import { Page404 } from '../page404/page404';
 
 import { User } from '../../shared/utils/users';
-import { getUserData, logInUser } from '../../store/reducers/userSlice';
+import { getUserData, logInUser } from '../../shared/store/reducers/userSlice';
 
 interface LoginProps {
   users: User[];

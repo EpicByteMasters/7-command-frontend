@@ -8,7 +8,7 @@ import type { ICompetitionOption, OptionCompetitionShape } from './type';
 import { isEmpty, leadingZero } from '../../util';
 
 import { INPUT_TAG_DELIMETER } from './const';
-import { ICommonLibWithSkillType } from 'src/store/type/libraries';
+import { ICommonLibWithSkillType } from 'src/shared/store/type/libraries';
 
 /**
  * Форматирование даты под поле ввода

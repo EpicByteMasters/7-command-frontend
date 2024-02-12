@@ -3,7 +3,7 @@ import styles from './app.module.scss';
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 import { useEffect, useRef } from 'react';
 
-import { getUserData } from '../store/reducers/userSlice';
+import { getUserData } from '../shared/store/reducers/userSlice';
 
 // --------------------------------------------------------------------
 import Header from '../shared/header-component/header';
@@ -20,7 +20,7 @@ import {
   selectCommonLibsIPRCompetency,
   selectCommonLibsEducation,
   selectCommonLibsIPRGoals,
-} from '../store/reducers/libSlice';
+} from '../shared/store/reducers/libSlice';
 
 import { Routing } from 'src/pages/routing';
 
@@ -30,7 +30,6 @@ function App() {
   const iprStatus = useAppSelector(selectCommonLibsIPRStatus);
   const loading = useAppSelector(selectCommonLibsLoading);
   const error = useAppSelector(selectCommonLibsError);
-  const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const taskStatus = useAppSelector(selectCommonLibsTaskStatus);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
   const iprCompetency = useAppSelector(selectCommonLibsIPRCompetency);

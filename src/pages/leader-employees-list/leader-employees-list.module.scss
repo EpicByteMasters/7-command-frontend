@@ -1,6 +1,5 @@
-@use '../../styles/mixins.scss';
-
-@import './../../styles/variables.scss';
+@use '../../app/styles/mixins.scss';
+@import '../../app/styles/variables.scss';
 
 .container {
   display: flex;

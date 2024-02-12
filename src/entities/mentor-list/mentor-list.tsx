@@ -13,7 +13,7 @@ import {
   selectCommonLibsIPRGoals,
   selectCommonLibsIPRStatus,
   selectCommonLibsPositions,
-} from '../../store/reducers/libSlice';
+} from '../../shared/store/reducers/libSlice';
 
 //import avatar from '../../images/avatars/avatar_mentor1.png';
 
@@ -22,7 +22,7 @@ import {
   getStatusColor,
   getValueById,
 } from '../../shared/utils/constants';
-import { IEmployee } from 'src/store/type/employees-list';
+import { IEmployee } from 'src/shared/store/type/employees-list';
 
 export interface MentorListProps {
   data: IEmployee[] | undefined;

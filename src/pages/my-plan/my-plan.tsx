@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Plan } from '../../entities/plan-component/plan';
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
-import { getMyIprsData } from '../../store/reducers/iprsSlice';
+import { getMyIprsData } from '../../shared/store/reducers/iprsSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
 
 export const MyPlan: React.FC = () => {

@@ -14,8 +14,8 @@ import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
 //-----------------------------------------------------------------------------
-import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
-import { getMentorIprsList, selectMentorList } from '../../store/reducers/mentorIprSlice';
+import { getManagerIprsList, selectManagerList } from '../../shared/store/reducers/managerIprSlice';
+import { getMentorIprsList, selectMentorList } from '../../shared/store/reducers/mentorIprSlice';
 import {
   cancelIpr,
   completeIpr,
@@ -26,20 +26,20 @@ import {
   getIprByIdBySupervisor,
   initialIprData,
   startIpr,
-} from '../../store/reducers/iprSlice';
+} from '../../shared/store/reducers/iprSlice';
 import { getFullName, getStatusColor } from '../../shared/utils/constants';
 
-import type { ISaveDraftDTO } from '../../api/dto/save-draft.dto';
+import type { ISaveDraftDTO } from '../../shared/api/dto/save-draft.dto';
 
 //-----------------------------------------------------------------------------
 
-import { getUserById, setSelectedUser } from '../../store/reducers/userSlice';
+import { getUserById, setSelectedUser } from '../../shared/store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
-import IprStatusDoc from '../../type/ipr-status-name';
+import IprStatusDoc from '../../shared/type/ipr-status-name';
 import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
 import { roleUrl } from '../../shared/utils/urls';
-import type { IIprData } from '../../store/type/ipr-data';
+import type { IIprData } from '../../shared/store/type/ipr-data';
 
 // ----------------------------------------------------------------------------
 
