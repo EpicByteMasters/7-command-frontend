@@ -41,7 +41,15 @@ function App() {
       !isFetching.current &&
       !loading &&
       !error &&
-      ![positions, iprStatus, taskStatus, specialty, iprCompetency, education].some((lib) => lib.length !== 0)
+      ![
+        positions,
+        iprStatus,
+        taskStatus,
+        specialty,
+        iprCompetency,
+        education,
+        iprGoals,
+      ].some((lib) => lib.length !== 0)
     ) {
       isFetching.current = true;
       dispatch(fetchCommonLibs())
@@ -53,7 +61,18 @@ function App() {
           console.error('Error during fetching common libs:', error);
         });
     }
-  }, [dispatch, loading, error, positions, iprStatus, taskStatus, specialty, iprCompetency, education]);
+  }, [
+    dispatch,
+    loading,
+    error,
+    positions,
+    iprStatus,
+    taskStatus,
+    specialty,
+    iprCompetency,
+    education,
+    iprGoals,
+  ]);
   const isFetching = useRef(false);
 
   useEffect(() => {
@@ -79,16 +98,6 @@ function App() {
     };
     getUser();
   }, [dispatch]);
-
-  //-------------------------------------------------------------------------
-  //Справочники
-  // console.log('Библиотека Positions:', positions);
-  // console.log('Библиотека IPR Status:', iprStatus);
-  // console.log('Библиотека IPR Goals:', iprGoals);
-  // console.log('Библиотека Task status:', taskStatus);
-  // console.log('Библиотека specialty:', specialty);
-  // console.log('Библиотека iprCompetency:', iprCompetency);
-  // console.log('Библиотека Task education:', education);
 
   return (
     <>

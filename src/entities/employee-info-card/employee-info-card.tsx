@@ -6,7 +6,11 @@ interface IEmployeeInfoCardProps {
   avatar: string;
 }
 
-export const EmployeeInfoCard: React.FC<IEmployeeInfoCardProps> = ({ name, position, avatar }) => {
+export const EmployeeInfoCard: React.FC<IEmployeeInfoCardProps> = ({
+  name,
+  position,
+  avatar,
+}) => {
   return (
     <div className={styles.employeeCard}>
       <img src={avatar} alt="ava" className={styles.avatar} />
