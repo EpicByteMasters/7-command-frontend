@@ -1,13 +1,9 @@
-import styles from './app.module.scss';
-
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
 import { useEffect, useRef } from 'react';
-
 import { getUserData } from '../store/reducers/userSlice';
-
-// --------------------------------------------------------------------
 import Header from '../shared/header-component/header';
 import { FooterMain } from '../shared/footer-main/footer-main';
+import styles from './app.module.scss';
 
 import {
   fetchCommonLibs,
@@ -41,7 +37,14 @@ function App() {
       !isFetching.current &&
       !loading &&
       !error &&
-      ![positions, iprStatus, taskStatus, specialty, iprCompetency, education].some((lib) => lib.length !== 0)
+      ![
+        positions,
+        iprStatus,
+        taskStatus,
+        specialty,
+        iprCompetency,
+        education,
+      ].some((lib) => lib.length !== 0)
     ) {
       isFetching.current = true;
       dispatch(fetchCommonLibs())
@@ -53,7 +56,17 @@ function App() {
           console.error('Error during fetching common libs:', error);
         });
     }
-  }, [dispatch, loading, error, positions, iprStatus, taskStatus, specialty, iprCompetency, education]);
+  }, [
+    dispatch,
+    loading,
+    error,
+    positions,
+    iprStatus,
+    taskStatus,
+    specialty,
+    iprCompetency,
+    education,
+  ]);
   const isFetching = useRef(false);
 
   useEffect(() => {
