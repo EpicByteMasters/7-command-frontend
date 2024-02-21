@@ -1,12 +1,13 @@
-import styles from './employee-plan.module.scss';
-
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import { RootState } from '../../shared/store/store';
-import { getUserById, setSelectedUser } from '../../shared/store/reducers/userSlice';
+import {
+  getUserById,
+  setSelectedUser
+} from '../../shared/store/reducers/userSlice';
 import { getIprsEmployeeHistory } from '../../shared/store/reducers/iprsSlice';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
@@ -15,6 +16,8 @@ import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-inf
 import { NavBarMini } from '../../entities/navbar-mini/navbar-mini';
 
 import getFullName from '../../util/get-user-full-name';
+
+import styles from './employee-plan.module.scss';
 
 export const EmployeePlan = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +34,6 @@ export const EmployeePlan = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    // добываем ИПРы
     const iprsDataResult = async () => {
       return await dispatch(getIprsEmployeeHistory(Number(id)));
     };
@@ -39,19 +41,17 @@ export const EmployeePlan = () => {
     iprsDataResult().catch(() => navigate('/404', { replace: true }));
   }, [dispatch, id, navigate]);
 
-  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const isLoading = useSelector(
+    (state: RootState) => state.user.isLoading
+  );
 
-  // Если данные еще загружаются, показываем заглушку
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  // Если не удалось получить данные о пользователе, показываем сообщение об ошибке
   if (!selectedUser) {
     return <p>Невозможно получить данные о пользователе.</p>;
   }
-
-  //console.log('SELECTED__USER History', selectedUser);
 
   const fullName = getFullName(selectedUser);
 

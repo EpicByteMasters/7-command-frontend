@@ -1,51 +1,52 @@
-import styles from './footer-main.module.scss';
 import logo from '../images/footer-icons/logo-mobile.svg';
 import logoTg from '../images/footer-icons/logotype_telegram_m.svg';
 import logoVk from '../images/footer-icons/logotype_vk_m.svg';
 import logoYt from '../images/footer-icons/logotype_youtube_m.svg';
+
+import styles from './footer-main.module.scss';
 
 export const FooterMain = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.linksWrapper}>
         <div className={styles.linksColumn}>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Главная
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Сервисы
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Контакты
           </a>
         </div>
         <div className={styles.linksColumn}>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Подразделения
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Всё о работе
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Академия
           </a>
         </div>
         <div className={styles.linksColumn}>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             SAP АХД
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Заказ HR-услуг
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Заказ IT-услуг
           </a>
         </div>
         <div className={styles.linksColumn}>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             WSS Docs
           </a>
-          <a className={styles.linkText} href="#">
+          <a className={styles.linkText} href="#/">
             Карьера в банке
           </a>
           <a className={styles.linkText} href="#">
@@ -75,8 +76,12 @@ export const FooterMain = () => {
       </div>
       <div className={styles.supportWrapper}>
         <div className={styles.supportLinks}>
-          <div className={styles.bottomColumn}>011-1111 — Help Desk | IT-поддержка</div>
-          <div className={styles.bottomColumn}>013-3777 — Human Help | HR-поддержка</div>
+          <div className={styles.bottomColumn}>
+            011-1111 — Help Desk | IT-поддержка
+          </div>
+          <div className={styles.bottomColumn}>
+            013-3777 — Human Help | HR-поддержка
+          </div>
         </div>
         <button className={styles.button}>Помощь</button>
       </div>

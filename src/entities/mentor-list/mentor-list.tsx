@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './mentor-list.module.scss';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
@@ -8,11 +8,14 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Table } from '@alfalab/core-components/table';
 // import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 import { Space } from '@alfalab/core-components/space';
+
+import { IEmployee } from 'src/shared/store/type/employees-list';
+
 import { useAppSelector } from '../../shared/hooks/redux';
 import {
   selectCommonLibsIPRGoals,
   selectCommonLibsIPRStatus,
-  selectCommonLibsPositions,
+  selectCommonLibsPositions
 } from '../../shared/store/reducers/libSlice';
 
 //import avatar from '../../images/avatars/avatar_mentor1.png';
@@ -20,9 +23,10 @@ import {
 import {
   // formatDateString,
   getStatusColor,
-  getValueById,
+  getValueById
 } from '../../shared/utils/constants';
-import { IEmployee } from 'src/shared/store/type/employees-list';
+
+import styles from './mentor-list.module.scss';
 
 export interface MentorListProps {
   data: IEmployee[] | undefined;
@@ -37,12 +41,15 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
   const iprGoalsLib = useAppSelector(selectCommonLibsIPRGoals);
   const iprStatusLib = useAppSelector(selectCommonLibsIPRStatus);
 
-  const handleOpenButtonClick = (idIpr: number, selectedUserId: number) => {
+  const handleOpenButtonClick = (
+    idIpr: number,
+    selectedUserId: number
+  ) => {
     //console.log('ID ИПР переданное из строчки таблицы', idIpr);
     //console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
-        state: { location, selectedUserId },
+        state: { location, selectedUserId }
       });
     } catch (error) {
       console.error('Error during navigating:', error);
@@ -87,7 +94,7 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
               dateOfEnd,
               taskCompleted,
               taskCount,
-              statusId,
+              statusId
             }) => {
               const color = getStatusColor(statusId);
               const persent = (taskCompleted / taskCount) * 100;
@@ -108,22 +115,22 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
-                          alignItems: 'center',
-                        }}
-                      >
+                          alignItems: 'center'
+                        }}>
                         <img
                           src={imageUrl}
                           style={{
                             width: '40px',
-                            height: '40px',
+                            height: '40px'
                           }}
-                          alt="аватар"
-                        ></img>
+                          alt="аватар"></img>
                         <div style={{ marginLeft: '8px', width: '250px' }}>
                           <Typography.Text view="primary-small" tag="div">
                             {`${lastName} ${firstName} ${middleName}`}
                           </Typography.Text>
-                          <Typography.Text view="primary-small" color="secondary">
+                          <Typography.Text
+                            view="primary-small"
+                            color="secondary">
                             {getValueById(positionId, positionsLib)}
                           </Typography.Text>
                         </div>
@@ -131,10 +138,16 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
                     </Space>
                   </Table.TCell>
                   <Table.TCell>
-                    <div className={styles.tCell}>{getValueById(goalId, iprGoalsLib)}</div>
+                    <div className={styles.tCell}>
+                      {getValueById(goalId, iprGoalsLib)}
+                    </div>
                   </Table.TCell>
                   <Table.TCell>
-                    {dateOfEnd === null ? '-' : <div className={styles.tCell}>{formatedDate}</div>}
+                    {dateOfEnd === null ? (
+                      '-'
+                    ) : (
+                      <div className={styles.tCell}>{formatedDate}</div>
+                    )}
                   </Table.TCell>
                   <Table.TCell>
                     <CircularProgressBar
@@ -154,7 +167,10 @@ export const MentorList: FC<MentorListProps> = ({ data }) => {
                   </Table.TCell>
                   <Table.TCell>
                     <div className={styles.tBtn}>
-                      <Button view="tertiary" size="xxs" onClick={() => handleOpenButtonClick(iprId, id)}>
+                      <Button
+                        view="tertiary"
+                        size="xxs"
+                        onClick={() => handleOpenButtonClick(iprId, id)}>
                         Открыть
                       </Button>
                     </div>

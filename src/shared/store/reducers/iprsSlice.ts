@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction
+} from '@reduxjs/toolkit';
 
 import { IIprsArrState } from 'src/shared/store/type/iprs-arr-data';
 
@@ -8,32 +12,44 @@ const initialState: IIprsArrState = {
   iprsData: [],
   iprsHistoryData: [],
   isLoading: false,
-  error: '',
+  error: ''
 };
 
-export const getMyIprsData = createAsyncThunk<any>('iprs/getData', async () => {
-  try {
-    const response = await fetchDataFromApi(`/api/v1/mentor/iprs/ipr/employees/my-iprs`, {
-      method: 'GET',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during fetching IPRS data:', error);
-    throw error;
+export const getMyIprsData = createAsyncThunk<any>(
+  'iprs/getData',
+  async () => {
+    try {
+      const response = await fetchDataFromApi(
+        '/api/v1/mentor/iprs/ipr/employees/my-iprs',
+        {
+          method: 'GET'
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error during fetching IPRS data:', error);
+      throw error;
+    }
   }
-});
+);
 
-export const getIprsEmployeeHistory = createAsyncThunk<any, number>('iprs/getIprsHistory', async (id: number) => {
-  try {
-    const response = await fetchDataFromApi(`/api/v1/mentor/iprs/ipr/${id}/list-iprs`, {
-      method: 'GET',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during fetching IPRS data:', error);
-    throw error;
+export const getIprsEmployeeHistory = createAsyncThunk<any, number>(
+  'iprs/getIprsHistory',
+  async (id: number) => {
+    try {
+      const response = await fetchDataFromApi(
+        `/api/v1/mentor/iprs/ipr/${id}/list-iprs`,
+        {
+          method: 'GET'
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error during fetching IPRS data:', error);
+      throw error;
+    }
   }
-});
+);
 
 export const iprsSlice = createSlice({
   name: 'iprs',
@@ -41,7 +57,7 @@ export const iprsSlice = createSlice({
   reducers: {
     clearIPRSData: (state, action: PayloadAction<IIprsArrState>) => {
       return (state = action.payload);
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getMyIprsData.pending, (state) => {
@@ -73,9 +89,10 @@ export const iprsSlice = createSlice({
 
     builder.addCase(getIprsEmployeeHistory.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error.message ?? 'Failed to fetch IPRS employee history';
+      state.error =
+        action.error.message ?? 'Failed to fetch IPRS employee history';
     });
-  },
+  }
 });
 
 export default iprsSlice.reducer;

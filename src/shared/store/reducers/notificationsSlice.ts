@@ -2,17 +2,24 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { fetchDataFromApi } from '../api';
 
-export const getNotificationList = createAsyncThunk<NotificationListListResponse>('notifications', async () => {
-  try {
-    const res = await fetchDataFromApi<NotificationListListResponse>(`/api/v1/notifications`, {
-      method: 'GET',
-    });
-    return res;
-  } catch (error) {
-    console.error('Ошибка запроса notifications:', error);
-    throw error;
-  }
-});
+export const getNotificationList =
+  createAsyncThunk<NotificationListListResponse>(
+    'notifications',
+    async () => {
+      try {
+        const res = await fetchDataFromApi<NotificationListListResponse>(
+          '/api/v1/notifications',
+          {
+            method: 'GET'
+          }
+        );
+        return res;
+      } catch (error) {
+        console.error('Ошибка запроса notifications:', error);
+        throw error;
+      }
+    }
+  );
 
 interface NotificationListListResponse {
   title: string;
@@ -30,7 +37,7 @@ export type NotificationsSliceState = {
 const initialState: NotificationsSliceState = {
   notificationList: null,
   isLoading: false,
-  error: '',
+  error: ''
 };
 
 const notificationsSlice = createSlice({
@@ -41,7 +48,7 @@ const notificationsSlice = createSlice({
     builder.addCase(getNotificationList.fulfilled, (state, action) => {
       state.notificationList = action.payload;
     });
-  },
+  }
 });
 
 export default notificationsSlice.reducer;

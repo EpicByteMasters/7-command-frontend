@@ -1,21 +1,28 @@
-import styles from './opend-ipr.module.scss';
-//-----------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
-//-----------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
 import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
-//-----------------------------------------------------------------------------
+
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+//------------------------------------------------------------------------
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { PageTitle } from '../../shared/page-title/page-title';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Raiting } from '../../shared/rating/rating';
 import { Tasks } from '../../entities/tasks/tasks';
 import { Modal } from '../../entities/modal/modal';
-//-----------------------------------------------------------------------------
-import { getManagerIprsList, selectManagerList } from '../../shared/store/reducers/managerIprSlice';
-import { getMentorIprsList, selectMentorList } from '../../shared/store/reducers/mentorIprSlice';
+//-------------------------------------------------------------------------
+import {
+  getManagerIprsList,
+  selectManagerList
+} from '../../shared/store/reducers/managerIprSlice';
+import {
+  getMentorIprsList,
+  selectMentorList
+} from '../../shared/store/reducers/mentorIprSlice';
 import {
   cancelIpr,
   completeIpr,
@@ -25,27 +32,37 @@ import {
   getIprByIdByEmployee,
   getIprByIdBySupervisor,
   initialIprData,
-  startIpr,
+  startIpr
 } from '../../shared/store/reducers/iprSlice';
 import { getFullName, getStatusColor } from '../../shared/utils/constants';
 
-import type { ISaveDraftDTO } from '../../shared/api/dto/save-draft.dto';
+//-------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-
-import { getUserById, setSelectedUser } from '../../shared/store/reducers/userSlice';
+import {
+  getUserById,
+  setSelectedUser
+} from '../../shared/store/reducers/userSlice';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { EmployeeRatingPicker } from '../employee-rating/employee-rating';
 import IprStatusDoc from '../../shared/type/ipr-status-name';
-import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
+import {
+  isCompletedIpr,
+  isDraftIpr,
+  isInProgressIpr,
+  isNotCompletedIpr
+} from '../../util/ipr-status';
 import { roleUrl } from '../../shared/utils/urls';
+
+import styles from './opend-ipr.module.scss';
+
+import type { ISaveDraftDTO } from '../../shared/api/dto/save-draft.dto';
 import type { IIprData } from '../../shared/store/type/ipr-data';
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 const dummyIprData = initialIprData;
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 export const OpendIpr = () => {
   const dispatch = useAppDispatch();
@@ -68,7 +85,9 @@ export const OpendIpr = () => {
   const [isConclusion, setConclusion] = useState(false);
   // модальные окна
   const [modalDelete, setModalDelete] = useState(false);
-  const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
+  const [deletingItemId, setDeletingItemId] = useState<number | null>(
+    null
+  );
 
   const [modalCancel, setModalCancel] = useState(false);
   const [CancelItemId, setCancelItemId] = useState<number | null>(null);
@@ -77,8 +96,12 @@ export const OpendIpr = () => {
 
   const taskValues = useAppSelector((state) => state.ipr.taskValues);
   const isLoadingIprs = useAppSelector((state) => state.iprs.isLoading);
-  const isLoadingManagerIprs = useAppSelector((state) => state.managerIprs.isLoading);
-  const isLoadingMentorIprs = useAppSelector((state) => state.mentorIprs.isLoading);
+  const isLoadingManagerIprs = useAppSelector(
+    (state) => state.managerIprs.isLoading
+  );
+  const isLoadingMentorIprs = useAppSelector(
+    (state) => state.mentorIprs.isLoading
+  );
   const iprCurrentData = useAppSelector((state) => state.ipr.ipr);
 
   useEffect(() => {
@@ -102,27 +125,30 @@ export const OpendIpr = () => {
     };
   }, [dispatch, id]);
 
-  // const updateLocalIpr = (update: Partial<ISaveDraftDTO>) => {
-  //   setIprData({ ...iprData, ...update });
-  // };
-
-  // //ручка всех ИПР сотрудников рука
-  // useEffect(() => {
-  //   dispatch(getManagerIprsList());
-  //   dispatch(getMentorIprsList());
-  // }, [dispatch]);
-
   const getListMentorAndManager = async () => {
-    return await Promise.all([dispatch(getManagerIprsList()), dispatch(getMentorIprsList())]);
+    return await Promise.all([
+      dispatch(getManagerIprsList()),
+      dispatch(getMentorIprsList())
+    ]);
   };
 
-  const [isIprIdFoundInManagerList, setIsIprIdFoundInManagerList] = useState<boolean>();
-  const [isIprIdFoundInMenteeList, setIsIprIdFoundInMenteeList] = useState<boolean>();
+  const [isIprIdFoundInManagerList, setIsIprIdFoundInManagerList] =
+    useState<boolean>();
+  const [isIprIdFoundInMenteeList, setIsIprIdFoundInMenteeList] =
+    useState<boolean>();
 
   useEffect(() => {
     getListMentorAndManager().then(() => {
-      setIsIprIdFoundInManagerList(managerIprsList?.employees.some((employee) => employee.iprId === Number(id)));
-      setIsIprIdFoundInMenteeList(menteeIprList?.employees.some((employee) => employee.iprId === Number(id)));
+      setIsIprIdFoundInManagerList(
+        managerIprsList?.employees.some(
+          (employee) => employee.iprId === Number(id)
+        )
+      );
+      setIsIprIdFoundInMenteeList(
+        menteeIprList?.employees.some(
+          (employee) => employee.iprId === Number(id)
+        )
+      );
     });
   }, []);
 
@@ -137,24 +163,33 @@ export const OpendIpr = () => {
       try {
         let iprDataResult;
         let myCurrentRole;
-        console.log({ isIprIdFoundInManagerList, isIprIdFoundInMenteeList });
+        console.log({
+          isIprIdFoundInManagerList,
+          isIprIdFoundInMenteeList
+        });
 
         if (isIprIdFoundInManagerList) {
           console.log('ручка рука');
-          iprDataResult = await dispatch(getIprByIdBySupervisor(Number(id)) as any);
+          iprDataResult = await dispatch(
+            getIprByIdBySupervisor(Number(id)) as any
+          );
           myCurrentRole = 'manager';
           setIsManager(true);
           //console.log('MY CURRENT ROLE', myCurrentRole);
         } else if (isIprIdFoundInMenteeList) {
           console.log('ручка ментора');
           //TODO ментор с ошибкой 403 с сервера приходит
-          iprDataResult = await dispatch(getIprByIdBySupervisor(Number(id)) as any);
+          iprDataResult = await dispatch(
+            getIprByIdBySupervisor(Number(id)) as any
+          );
           myCurrentRole = 'mentee';
           setIsMentor(true);
           // console.log('MY CURRENT ROLE', myCurrentRole);
         } else if (isIprIdFoundInManagerList !== undefined) {
           console.log('ручка работника');
-          iprDataResult = await dispatch(getIprByIdByEmployee(Number(id)) as any);
+          iprDataResult = await dispatch(
+            getIprByIdByEmployee(Number(id)) as any
+          );
           myCurrentRole = 'employee';
           setIsEmployee(true);
           // console.log('MY CURRENT ROLE', myCurrentRole);
@@ -312,7 +347,9 @@ export const OpendIpr = () => {
     setConclusion(true);
   };
 
-  return !isLoadingIprs && !isLoadingManagerIprs && !isLoadingMentorIprs ? (
+  return !isLoadingIprs &&
+    !isLoadingManagerIprs &&
+    !isLoadingMentorIprs ? (
     <div className={styles.generalFooterWrapper}>
       <div className={styles.generalFooterContainer}>
         <div className={styles.container}>
@@ -323,7 +360,9 @@ export const OpendIpr = () => {
               <PageTitle title={pageTitle} />
               {/* Статус */}
               {iprCurrentData?.status ? (
-                <Status view="soft" color={getStatusColor(iprCurrentData?.status.id)}>
+                <Status
+                  view="soft"
+                  color={getStatusColor(iprCurrentData?.status.id)}>
                   {iprCurrentData.status.name}
                 </Status>
               ) : (
@@ -347,36 +386,49 @@ export const OpendIpr = () => {
             ) : (
               <div className={styles.owerviewWrapper}>
                 {/* кнопки */}
-                {isEmployee && isInProgressIpr(iprCurrentData?.status.id) ? (
+                {isEmployee &&
+                isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button
                       view="secondary"
                       size="s"
                       className={styles.buttonSave}
-                      onClick={() => onClickToEditIprByEmployee(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToEditIprByEmployee(
+                          Number(iprCurrentData?.id)
+                        )
+                      }>
                       Сохранить
                     </Button>
                   </div>
-                ) : isManager && isInProgressIpr(iprCurrentData?.status.id) ? (
+                ) : isManager &&
+                  isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button
                       view="secondary"
                       size="s"
                       className={styles.buttonSave}
-                      onClick={() => onClickToEditIprByManager(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToEditIprByManager(
+                          Number(iprCurrentData?.id)
+                        )
+                      }>
                       Сохранить
                     </Button>
-                    <Button view="primary" size="xs" className={styles.buttonSummary} onClick={() => onClickToEndIpr()}>
+                    <Button
+                      view="primary"
+                      size="xs"
+                      className={styles.buttonSummary}
+                      onClick={() => onClickToEndIpr()}>
                       Подвести итоги
                     </Button>
                     <Button
                       view="tertiary"
                       size="s"
                       className={styles.buttonDiscard}
-                      onClick={() => onClickToCancelIpr(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToCancelIpr(Number(iprCurrentData?.id))
+                      }>
                       Отменить
                     </Button>
                   </div>
@@ -386,64 +438,72 @@ export const OpendIpr = () => {
                       view="secondary"
                       size="s"
                       className={styles.buttonSave}
-                      onClick={() => onClickToSaveDraft(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToSaveDraft(Number(iprCurrentData?.id))
+                      }>
                       Сохранить
                     </Button>
                     <Button
                       view="primary"
                       size="s"
                       className={styles.buttonSave}
-                      onClick={() => onClickToStartIpr(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToStartIpr(Number(iprCurrentData?.id))
+                      }>
                       Отправить в работу
                     </Button>
                     <Button
                       view="tertiary"
                       size="s"
                       className={styles.buttonDelete}
-                      onClick={() => onClickToDelete(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToDelete(Number(iprCurrentData?.id))
+                      }>
                       Удалить
                     </Button>
                   </div>
-                ) : isMentor && isInProgressIpr(iprCurrentData?.status.id) ? (
+                ) : isMentor &&
+                  isInProgressIpr(iprCurrentData?.status.id) ? (
                   <div className={styles.buttonsWrapper}>
                     <Button
                       view="secondary"
                       size="s"
                       className={styles.buttonSave}
-                      onClick={() => onClickToSaveDraft(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToSaveDraft(Number(iprCurrentData?.id))
+                      }>
                       Сохранить
                     </Button>
                     <Button
                       view="primary"
                       size="s"
                       className={styles.buttonSend}
-                      onClick={() => onClickToStartIpr(Number(iprCurrentData?.id))}
-                    >
+                      onClick={() =>
+                        onClickToStartIpr(Number(iprCurrentData?.id))
+                      }>
                       Отправить в работу
                     </Button>
                   </div>
                 ) : null}
                 {isEmployee &&
-                (isCompletedIpr(iprCurrentData?.status.id) || isNotCompletedIpr(iprCurrentData?.status.id)) ? (
+                (isCompletedIpr(iprCurrentData?.status.id) ||
+                  isNotCompletedIpr(iprCurrentData?.status.id)) ? (
                   <Raiting
                     title="Оценка от руководителя"
                     ratingData={{
                       comment: iprCurrentData?.comment,
-                      rating: iprCurrentData?.iprGrade,
+                      rating: iprCurrentData?.iprGrade
                     }}
                     isDisabled
                   />
                 ) : isManager &&
-                  (isCompletedIpr(iprCurrentData?.status.id) || isNotCompletedIpr(iprCurrentData?.status.id)) ? (
+                  (isCompletedIpr(iprCurrentData?.status.id) ||
+                    isNotCompletedIpr(iprCurrentData?.status.id)) ? (
                   <Raiting
                     title="Оценка выполнения"
                     ratingData={{
                       comment: iprCurrentData?.comment,
-                      rating: iprCurrentData?.iprGrade,
+                      rating: iprCurrentData?.iprGrade
                     }}
                     isDisabled
                   />
@@ -456,7 +516,11 @@ export const OpendIpr = () => {
                       isExecutive={isManager}
                       iprStatus={iprCurrentData.status.id}
                       handleGoalValuesChange={handleDataSubmit}
-                      iprCurrentData={isDraftIpr(iprCurrentData.status.id) ? dummyIprData : iprCurrentData}
+                      iprCurrentData={
+                        isDraftIpr(iprCurrentData.status.id)
+                          ? dummyIprData
+                          : iprCurrentData
+                      }
                     />
                   ) : (
                     ''
@@ -467,7 +531,11 @@ export const OpendIpr = () => {
                     <Tasks
                       isEmployee={isEmployee}
                       handleTaskValuesChange={handleDataSubmit}
-                      iprCurrentData={isDraftIpr(iprCurrentData?.status.id) ? dummyIprData : iprCurrentData}
+                      iprCurrentData={
+                        isDraftIpr(iprCurrentData?.status.id)
+                          ? dummyIprData
+                          : iprCurrentData
+                      }
                     />
                   ) : (
                     ''
@@ -485,19 +553,19 @@ export const OpendIpr = () => {
           paragraph={'Вы действительно хотите удалить план развития?'}
           confirmButtonLabel={'Удалить'}
           cancelButtonLabel={'Отмена'}
-          onConfirm={() => handleDelete(Number(deletingItemId))}
-        ></Modal>
+          onConfirm={() => handleDelete(Number(deletingItemId))}></Modal>
       ) : (
         ''
       )}
       {modalCancel ? (
         <Modal
           title="Отменить план развития?"
-          paragraph={'После отмены план развития станет неактивным (нельзя будет внести изменения)'}
+          paragraph={
+            'После отмены план развития станет неактивным (нельзя будет внести изменения)'
+          }
           confirmButtonLabel={'Да'}
           cancelButtonLabel={'Нет'}
-          onConfirm={() => handleCancelIpr(Number(id))}
-        ></Modal>
+          onConfirm={() => handleCancelIpr(Number(id))}></Modal>
       ) : (
         ''
       )}

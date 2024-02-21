@@ -1,8 +1,10 @@
-import React, { FC, ChangeEvent, useMemo, useEffect, useState } from 'react';
-
-// -----------------------------------------------------------------------------
-
-import type { OptionShape } from '@alfalab/core-components/select/typings';
+import React, {
+  FC,
+  ChangeEvent,
+  useMemo,
+  useEffect,
+  useState
+} from 'react';
 
 import { Table } from '@alfalab/core-components/table';
 
@@ -11,50 +13,42 @@ import { Status } from '@alfalab/core-components/status';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 
-// -----------------------------------------------------------------------------
-
-import type { ITask } from '../../shared/store/type/ipr-data';
-
-// -----------------------------------------------------------------------------
+import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 
 import { selectCommonLibsEducation } from '../../shared/store/reducers/libSlice';
 
-// -----------------------------------------------------------------------------
-
 import { useAppSelector } from '../../shared/hooks/redux';
-
-// -----------------------------------------------------------------------------
-
-import type { ITasksProps, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, INewTask } from './type';
 
 import { IprStatusDoc } from '../../shared/type';
 
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
-
-import { getArrLastEl } from './utils';
-
-// ----------------------------------------------------------------------------
-
 import TasksRow from '../../shared/componet/task-row';
 
-// ----------------------------------------------------------------------------
-
-import styles from './tasks.module.scss';
-
 import { getStatusColor } from '../../shared/utils/constants';
-import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
 import { NewTask } from '../../entities/new-task/new-task';
 
 import { isCompletedIpr, isNotCompletedIpr } from '../../util/ipr-status';
+
+import styles from './tasks.module.scss';
+import { getArrLastEl } from './utils';
+
+import type {
+  ITasksProps,
+  IFormData,
+  ICoursesOption,
+  IEducationTypeDTO,
+  IFilesForTask,
+  INewTask
+} from './type';
+
+import type { ITask } from '../../shared/store/type/ipr-data';
+import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 // Utils
 // ----------------------------------------------------------------------------
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
   key: course.id,
   content: course.name.trim(),
-  value: course,
+  value: course
 });
 
 function formatDate(inputDate: string): string {
@@ -89,18 +83,22 @@ const dummyIprTaskData: ITask = {
   name: '',
   taskStatus: {
     id: IprStatusDoc.Draft,
-    name: 'Черновик',
+    name: 'Черновик'
   },
   description: '',
   supervisorComment: '',
   closeDate: '-',
   education: [],
-  comment: '',
+  comment: ''
 };
 
 // ----------------------------------------------------------------------------
 
-export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, iprCurrentData }) => {
+export const Tasks: FC<ITasksProps> = ({
+  isEmployee,
+  handleTaskValuesChange,
+  iprCurrentData
+}) => {
   const courseList = useAppSelector(selectCommonLibsEducation);
 
   //#region State
@@ -112,14 +110,16 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
     description: '',
     education: [],
     supervisorComment: '',
-    commentOfEmployee: '',
+    commentOfEmployee: ''
   });
 
   const [, setShownChevron] = useState(true);
   const [, setMultiple] = useState(true);
   const [, setProgress] = useState<number | undefined>(0);
   const [valueCourse, setValueCourse] = useState<string>('');
-  const [expandedTasks, setExpandedTasks] = useState<Record<number, boolean>>({});
+  const [expandedTasks, setExpandedTasks] = useState<
+    Record<number, boolean>
+  >({});
   const [, setEndDate] = useState<string>('');
   const [, setFilesForTask] = useState<IFilesForTask>({});
 
@@ -148,7 +148,10 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   );
 
   /** Последнее ведённое значение */
-  const coursesInputLastValue = useMemo(() => getArrLastEl(inputValues), [inputValues]);
+  const coursesInputLastValue = useMemo(
+    () => getArrLastEl(inputValues),
+    [inputValues]
+  );
 
   /** Подставнока текущего выбранного образования в курсы */
   useEffect(() => {
@@ -160,7 +163,9 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
     const educationList = taskList.map((task) => task.education);
 
-    const educationInnerList = educationList.map((education) => education.map((education) => education.education.name));
+    const educationInnerList = educationList.map((education) =>
+      education.map((education) => education.education.name)
+    );
 
     const educationNameList = educationInnerList.flat();
 
@@ -169,10 +174,14 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   //#endregion
 
-  const handleAttach = (taskId: number, event: ChangeEvent<HTMLInputElement>, payload: { files: File[] }) => {
+  const handleAttach = (
+    taskId: number,
+    event: ChangeEvent<HTMLInputElement>,
+    payload: { files: File[] }
+  ) => {
     setFilesForTask((prevFiles) => ({
       ...prevFiles,
-      [taskId]: [...(prevFiles[taskId] || []), ...payload.files],
+      [taskId]: [...(prevFiles[taskId] || []), ...payload.files]
     }));
   };
 
@@ -182,7 +191,9 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   const tasksArrayForRender = iprCurrentData?.task;
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const { name, value } = event.target;
     setTaskValues((prevData) => ({ ...prevData, [name]: value }));
     handleCallback();
@@ -190,7 +201,10 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
 
   const tagValues = valueCourse.trim().split(',');
 
-  const handleChangeEndDate = (event: any, { value }: { value: string }) => {
+  const handleChangeEndDate = (
+    event: any,
+    { value }: { value: string }
+  ) => {
     setEndDate(value);
     setTaskValues((prevData) => ({ ...prevData, endDate: value }));
     handleCallback();
@@ -199,7 +213,7 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   const chevronClick = (taskId: number) => {
     setExpandedTasks((prevExpandedTasks) => ({
       ...prevExpandedTasks,
-      [taskId]: !prevExpandedTasks[taskId],
+      [taskId]: !prevExpandedTasks[taskId]
     }));
   };
 
@@ -229,7 +243,9 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
   //#endregion
 
   const onDeleteTask = (id: number) => {
-    const filteredTaskList = localArrayTask.filter((task) => task.id !== id);
+    const filteredTaskList = localArrayTask.filter(
+      (task) => task.id !== id
+    );
     setLocalArrayTask(filteredTaskList);
   };
   /** Открытие попапа и запись данных в массив */
@@ -243,8 +259,8 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
         closeDate: '',
         description: '',
         courses: '',
-        comment: '',
-      },
+        comment: ''
+      }
     ]);
   };
 
@@ -272,19 +288,28 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
             <React.Fragment key={task.id}>
               <Table.TRow className={styles.row}>
                 <Table.TCell className={styles.cellWithIcon}>
-                  {!isEmployee && (isCompletedIpr(task.taskStatus.id) || isNotCompletedIpr(task.taskStatus.id)) && (
-                    <CrossCircleMIcon color="#70707A" onClick={() => onDeleteTask(task.id)} />
-                  )}
+                  {!isEmployee &&
+                    (isCompletedIpr(task.taskStatus.id) ||
+                      isNotCompletedIpr(task.taskStatus.id)) && (
+                      <CrossCircleMIcon
+                        color="#70707A"
+                        onClick={() => onDeleteTask(task.id)}
+                      />
+                    )}
                   {task.name}
                 </Table.TCell>
                 <Table.TCell>{task.closeDate}</Table.TCell>
                 <Table.TCell>
-                  <Status view="soft" color={getStatusColor(task.taskStatus.id)}>
+                  <Status
+                    view="soft"
+                    color={getStatusColor(task.taskStatus.id)}>
                     {task.taskStatus.name}
                   </Status>
                 </Table.TCell>
                 <Table.TCell>
-                  <ChevronDownMIcon onClick={() => chevronClick(task.id)} />
+                  <ChevronDownMIcon
+                    onClick={() => chevronClick(task.id)}
+                  />
                 </Table.TCell>
               </Table.TRow>
               {expandedTasks[task.id] && (
@@ -308,11 +333,12 @@ export const Tasks: FC<ITasksProps> = ({ isEmployee, handleTaskValuesChange, ipr
         size="s"
         className={styles.buttonComponent}
         nowrap={false}
-        colors="default"
-      >
+        colors="default">
         Добавить новую
       </ButtonDesktop>
-      <div>{newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}</div>
+      <div>
+        {newTaskOpen && <NewTask isEmployee={isEmployee}></NewTask>}
+      </div>
     </>
   );
 };

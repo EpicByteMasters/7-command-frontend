@@ -1,4 +1,3 @@
-import styles from './my-plan.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -7,6 +6,8 @@ import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 
 import { getMyIprsData } from '../../shared/store/reducers/iprsSlice';
 import { useAppDispatch } from '../../shared/hooks/redux';
+
+import styles from './my-plan.module.scss';
 
 export const MyPlan: React.FC = () => {
   const dispatch = useAppDispatch();

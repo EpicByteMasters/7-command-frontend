@@ -23,7 +23,7 @@ const users: User[] = [
     pic: firstManager,
     role: 'myteam',
     email: 'user4@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const users: User[] = [
     pic: secondManager,
     role: 'myteam',
     email: 'user5@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const users: User[] = [
     pic: firstEmployee,
     role: 'my',
     email: 'user@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const users: User[] = [
     pic: secondEmployee,
     role: 'my',
     email: 'user2@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 5,
@@ -59,7 +59,7 @@ const users: User[] = [
     pic: firstMentor,
     role: 'mentor',
     email: 'user15@example.com',
-    password: 'password',
+    password: 'password'
   },
   {
     id: 6,
@@ -68,8 +68,8 @@ const users: User[] = [
     pic: secondMentor,
     role: 'mentor',
     email: 'user6@example.com',
-    password: 'string',
-  },
+    password: 'string'
+  }
 ];
 
 export default users;

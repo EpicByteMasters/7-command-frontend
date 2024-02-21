@@ -1,15 +1,17 @@
-import styles from './employee-rating.module.scss';
 //--------------------------------------------------------------
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 //--------------------------------------------------------------
 import { Button } from '@alfalab/core-components/button';
 import { SelectDesktop } from '@alfalab/core-components/select/desktop';
+
 //--------------------------------------------------------------
 import { Raiting } from '../../shared/rating/rating';
 //--------------------------------------------------------------
 import { useAppDispatch } from '../../shared/hooks/redux';
 import { completeIpr } from '../../shared/store/reducers/iprSlice';
+
+import styles from './employee-rating.module.scss';
 
 interface EmployeeRatingPickerProps {
   withBtn?: boolean;
@@ -17,10 +19,12 @@ interface EmployeeRatingPickerProps {
 
 const options = [
   { key: 'COMPLETED', content: 'Выполнен' },
-  { key: 'NOT_COMPLETED', content: 'Не выполнен' },
+  { key: 'NOT_COMPLETED', content: 'Не выполнен' }
 ];
 
-export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({ withBtn }) => {
+export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({
+  withBtn
+}) => {
   const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
@@ -32,26 +36,25 @@ export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({ with
   const dispatch = useAppDispatch();
 
   const handleSubmit = async () => {
-    // console.log('Выбранная оценка:', selectedRating);
-    // console.log('Комментарий:', comment);
-    // console.log('Статус:', status);
     const response: any = await dispatch(
       completeIpr({
         iprId: Number(id),
         body: {
           iprStatusId: status.key,
           iprGrade: selectedRating,
-          comment: comment,
-        },
+          comment: comment
+        }
       })
     );
 
     if (!response?.error) {
-      navigate(`/service-iprs/myteam`);
+      navigate('/service-iprs/myteam');
     }
   };
 
-  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const inputText = event.target.value;
     setComment(inputText);
   };
@@ -80,7 +83,11 @@ export const EmployeeRatingPicker: React.FC<EmployeeRatingPickerProps> = ({ with
           </>
         )}
       </div>
-      <Raiting title="Оценка выполнения" onChangeRating={setSelectedRaiting} onChangeComment={setComment} />
+      <Raiting
+        title="Оценка выполнения"
+        onChangeRating={setSelectedRaiting}
+        onChangeComment={setComment}
+      />
     </div>
   );
 };

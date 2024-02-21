@@ -1,8 +1,8 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 
-import styles from './rating.module.scss';
-
 import { Textarea } from '@alfalab/core-components/textarea';
+
+import styles from './rating.module.scss';
 
 interface IRatingProps {
   title: string;
@@ -12,7 +12,13 @@ interface IRatingProps {
   ratingData?: any;
 }
 
-export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled, onChangeComment, onChangeRating, ratingData }) => {
+export const Raiting: React.FC<IRatingProps> = ({
+  title,
+  isDisabled,
+  onChangeComment,
+  onChangeRating,
+  ratingData
+}) => {
   const [selectedRating, setSelectedRaiting] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 
@@ -37,7 +43,9 @@ export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled, onChangeCom
     }
   };
 
-  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const inputText = event.target.value;
     setComment(inputText);
 
@@ -55,8 +63,9 @@ export const Raiting: React.FC<IRatingProps> = ({ title, isDisabled, onChangeCom
               <div
                 key={index + 1}
                 onClick={() => handleRatingClick(index + 1)}
-                className={`${styles.ratingBtn} ${ratingData ? styles.ratingDisable : ''} ${selectedRating >= index + 1 ? styles.clicked : ''}`}
-              >
+                className={`${styles.ratingBtn} 
+                ${ratingData ? styles.ratingDisable : ''} 
+                ${selectedRating >= index + 1 ? styles.clicked : ''}`}>
                 {index + 1}
               </div>
             ))}

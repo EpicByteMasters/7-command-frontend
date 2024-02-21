@@ -1,5 +1,3 @@
-import styles from './header.module.scss';
-
 import { useState, ChangeEvent, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -18,6 +16,8 @@ import logo from '../../shared/images/alfa-logo.svg';
 
 import { useAppSelector } from '../hooks/redux';
 
+import styles from './header.module.scss';
+
 interface HeaderProps {
   error?: string;
 }
@@ -31,12 +31,13 @@ function Header({ error }: HeaderProps) {
   };
 
   const navigate = useNavigate();
-  let location = useLocation();
+  const location = useLocation();
 
   const [logOut, setLogOut] = useState(false);
   const [exitBtnOpen, setExitBtnOpen] = useState(false);
 
-  const [isOpenedNotifications, setIsOpenedNotifications] = useState(false);
+  const [isOpenedNotifications, setIsOpenedNotifications] =
+    useState(false);
 
   const handleOpen = () => {
     setExitBtnOpen(!exitBtnOpen);
@@ -93,11 +94,19 @@ function Header({ error }: HeaderProps) {
             </Circle>
           </div>
         )}
-        {isOpenedNotifications ? <Notifications close={() => setIsOpenedNotifications(false)} /> : ''}
+        {isOpenedNotifications ? (
+          <Notifications close={() => setIsOpenedNotifications(false)} />
+        ) : (
+          ''
+        )}
         {location.pathname === '/' ? (
           ''
         ) : (
-          <img src={userData.imageUrl ? userData.imageUrl : avatar} alt="аватар" className={styles.avatar} />
+          <img
+            src={userData.imageUrl ? userData.imageUrl : avatar}
+            alt="аватар"
+            className={styles.avatar}
+          />
         )}
 
         {location.pathname === '/' ? (
@@ -116,9 +125,8 @@ function Header({ error }: HeaderProps) {
           style={{
             position: 'absolute',
             top: '70px',
-            right: '0px',
-          }}
-        >
+            right: '0px'
+          }}>
           Демо-выход
         </Button>
       ) : (

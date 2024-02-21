@@ -1,21 +1,26 @@
-import styles from './manager-ipr-draft.module.scss';
-import styles2 from './manager-ipr-form-styles.module.scss';
-//------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-//------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+import { Button } from '@alfalab/core-components/button';
+
+import { Status, StatusProps } from '@alfalab/core-components/status';
+
+import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
+
+import { Notification } from '@alfalab/core-components/notification';
+
 import NavBarMini from '../../entities/navbar-mini/navbar-mini';
 import { EmployeeInfoCard } from '../../entities/employee-info-card/employee-info-card';
 import { Modal } from '../../entities/modal/modal';
 import { TasksOverview } from '../../entities/tasks-overview/tasks-overview';
 import { NewTask } from '../../entities/new-task/new-task';
 
-import { Button } from '@alfalab/core-components/button';
-import { Status, StatusProps } from '@alfalab/core-components/status';
-import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
-import { Notification } from '@alfalab/core-components/notification';
-
 import avatar from '../../images/avatars/avatar_head-of-dept.png';
+
+import styles2 from './manager-ipr-form-styles.module.scss';
+import styles from './manager-ipr-draft.module.scss';
 
 interface ManagerIprDraftProps {
   statusText: string;
@@ -31,7 +36,11 @@ interface Task {
   comment: string;
 }
 
-export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: ManagerIprDraftProps) => {
+export const ManagerIprDraft = ({
+  statusText,
+  statusColor,
+  isExecutive
+}: ManagerIprDraftProps) => {
   const navigate = useNavigate();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,20 +53,21 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
   const [newTaskOpen, setNewTaskOpen] = useState(false);
 
   //---------------------------
-  const toggleVisibility = useCallback(() => setIsVisible((prev) => !prev), []);
+  const toggleVisibility = useCallback(
+    () => setIsVisible((prev) => !prev),
+    []
+  );
   const hideNotification = useCallback(() => setIsVisible(false), []);
-  const toggleVisibility2 = useCallback(() => setIsVisible2((prev) => !prev), []);
+  const toggleVisibility2 = useCallback(
+    () => setIsVisible2((prev) => !prev),
+    []
+  );
   const hideNotification2 = useCallback(() => setIsVisible2(false), []);
-
-  //---------------------------
-  // const iprData = useAppSelector((state) => state.iprs.iprsData);
-  // console.log('iprData в tasks: ', iprData);
 
   const onModalOpen = () => {
     setModalOpen(!modalOpen);
   };
   const onClick = () => {
-    // navigate(`/service-iprs/ipr/${ipr_id}`, { replace: true });
     navigate('/iprs/rating', { replace: true });
   };
 
@@ -83,8 +93,8 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
         closeDate: '',
         description: '',
         courses: '',
-        comment: '',
-      },
+        comment: ''
+      }
     ]);
   };
 
@@ -99,8 +109,7 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
               title="Выйти без сохранения?"
               paragraph="Чтобы не потерять данные, вернитесь и сохраните изменения"
               confirmButtonLabel="Выйти"
-              cancelButtonLabel="Отмена"
-            ></Modal>
+              cancelButtonLabel="Отмена"></Modal>
           )}
           <div className={styles.iprDraft}>
             <div className={styles.titleWrapper}>
@@ -112,28 +121,52 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
               )}
             </div>
             <div className={styles.employeeWrapper}>
-              <EmployeeInfoCard name="Сошнева Инна Павловна" position="Руководитель направления" avatar={avatar} />
+              <EmployeeInfoCard
+                name="Сошнева Инна Павловна"
+                position="Руководитель направления"
+                avatar={avatar}
+              />
             </div>
             <div className={styles.buttonsWrapper}>
-              <Button onClick={toggleVisibility} view="secondary" size="s" className={styles.buttonSave}>
+              <Button
+                onClick={toggleVisibility}
+                view="secondary"
+                size="s"
+                className={styles.buttonSave}>
                 Сохранить
               </Button>
               {statusText === 'в работе' ? (
-                <Button onClick={onClick} view="primary" size="s" className={styles.buttonSend}>
+                <Button
+                  onClick={onClick}
+                  view="primary"
+                  size="s"
+                  className={styles.buttonSend}>
                   Подвести итоги
                 </Button>
               ) : (
-                <Button view="primary" size="s" className={styles.buttonSend} onClick={toggleVisibility2}>
+                <Button
+                  view="primary"
+                  size="s"
+                  className={styles.buttonSend}
+                  onClick={toggleVisibility2}>
                   Отправить в работу
                 </Button>
               )}
 
-              <Button view="tertiary" size="s" className={styles.buttonDelete} onClick={onModalOpen}>
+              <Button
+                view="tertiary"
+                size="s"
+                className={styles.buttonDelete}
+                onClick={onModalOpen}>
                 Удалить
               </Button>
               {statusText === 'в работе' ? (
                 <div className={styles.btnSaveWrapper}>
-                  <Button onClick={onModalDiscardOpen} view="tertiary" size="s" className={styles.buttonDiscard}>
+                  <Button
+                    onClick={onModalDiscardOpen}
+                    view="tertiary"
+                    size="s"
+                    className={styles.buttonDiscard}>
                     Отменить
                   </Button>
                 </div>
@@ -165,8 +198,7 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
                 size="s"
                 className={styles.buttonComponent}
                 nowrap={false}
-                colors="default"
-              >
+                colors="default">
                 Добавить новую
               </ButtonDesktop>
             </form>
@@ -175,10 +207,11 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
         {modalDisacrd ? (
           <Modal
             title={'Отмена плана развития сотрудника'}
-            paragraph={'Вы дейстивтельно хотите отменить индивидуальный план развития?'}
+            paragraph={
+              'Вы дейстивтельно хотите отменить индивидуальный план развития?'
+            }
             confirmButtonLabel={'Да'}
-            cancelButtonLabel={'Нет'}
-          ></Modal>
+            cancelButtonLabel={'Нет'}></Modal>
         ) : (
           ''
         )}
@@ -200,8 +233,7 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
               zIndex={10}
               onClose={hideNotification}
               onCloseTimeout={hideNotification}
-              usePortal={true}
-            >
+              usePortal={true}>
               {'План развития добавлен в общий список как черновик'}
             </Notification>
           </div>
@@ -225,8 +257,7 @@ export const ManagerIprDraft = ({ statusText, statusColor, isExecutive }: Manage
               zIndex={10}
               onClose={hideNotification2}
               onCloseTimeout={hideNotification2}
-              usePortal={true}
-            >
+              usePortal={true}>
               {'План развития отправлен сотруднику для исполнения'}
             </Notification>
           </div>

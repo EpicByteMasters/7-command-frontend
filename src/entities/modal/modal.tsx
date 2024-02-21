@@ -1,9 +1,10 @@
-import styles from './modal.module.scss';
 //--------------------------------------------------------------
 import { useState } from 'react';
 //---------------------------------------------------------------
 import { ModalDesktop } from '@alfalab/core-components/modal/desktop';
 import { Button } from '@alfalab/core-components/button';
+
+import styles from './modal.module.scss';
 
 interface ModalProps {
   error?: string;
@@ -22,7 +23,7 @@ export const Modal = ({
   confirmButtonLabel,
   cancelButtonLabel,
   onConfirm,
-  onCancel,
+  onCancel
 }: ModalProps) => {
   const [open, setOpen] = useState(true);
 

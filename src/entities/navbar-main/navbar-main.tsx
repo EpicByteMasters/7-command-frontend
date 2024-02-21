@@ -1,4 +1,3 @@
-import styles from './navbar-main.module.scss';
 
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -8,6 +7,8 @@ import iconVacation from '../../shared/images/navbar-icons-color/icon-vacation.s
 import iconTarget from '../../shared/images/navbar-icons-color/icon-target.svg';
 import iconRocket from '../../shared/images/navbar-icons-color/icon-rocket.png';
 import iconMore from '../../shared/images/navbar-icons-color/icon-more.svg';
+
+import styles from './navbar-main.module.scss';
 
 export const NavBarMain: React.FC = () => {
   const navigate = useNavigate();

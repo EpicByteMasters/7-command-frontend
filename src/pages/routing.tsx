@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+
 //-------------------------------------------------
 import { Login } from '../pages/login/login';
 import { EmployeePlan } from '../pages/employee-plan/employee-plan';
@@ -23,7 +24,10 @@ export const Routing = () => {
         <Route path="/service-iprs/mentor" element={<MentorPlan />} />
         <Route path={roleUrl[1].url} element={<MyPlan />} />
         <Route path="/service-iprs/ipr/:id" element={<OpendIpr />} />
-        <Route path="/service-iprs/myteam/history/:id" element={<EmployeePlan />} />
+        <Route
+          path="/service-iprs/myteam/history/:id"
+          element={<EmployeePlan />}
+        />
         <Route
           path="/404"
           element={

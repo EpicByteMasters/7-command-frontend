@@ -1,5 +1,6 @@
-import styles from './lead-info-block.module.scss';
 import { ExclamationCircleSIcon } from '@alfalab/icons-glyph/ExclamationCircleSIcon';
+
+import styles from './lead-info-block.module.scss';
 interface LeadInfoItem {
   subtitle: string;
   number: number;

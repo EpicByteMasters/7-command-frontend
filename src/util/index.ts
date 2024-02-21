@@ -4,4 +4,11 @@ import isTestResultDummyUrl from './is-test-dummy-url';
 import getMentorName from './get-mentor-name';
 import { adaptDateToClient, adaptDateToServer } from './adapt-date';
 
-export { isEmpty, leadingZero, isTestResultDummyUrl, getMentorName, adaptDateToClient, adaptDateToServer };
+export {
+  isEmpty,
+  leadingZero,
+  isTestResultDummyUrl,
+  getMentorName,
+  adaptDateToClient,
+  adaptDateToServer
+};

@@ -1,4 +1,3 @@
-import styles from './notifications.module.scss';
 
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -11,6 +10,8 @@ import { useAppDispatch } from '../../shared/hooks/redux';
 
 import { getNotificationList } from '../../shared/store/reducers/notificationsSlice';
 import { BASE_URL } from '../../shared/utils/constants';
+
+import styles from './notifications.module.scss';
 
 import type { INotification } from './type';
 
@@ -28,7 +29,7 @@ export const Notifications = ({ close }: { close: () => void }) => {
 
   useEffect(() => {
     notificationsDataResult().then((response) => {
-      let notificationsData = [...(response.payload as INotification[])];
+      const notificationsData = [...(response.payload as INotification[])];
       notificationsData.length = MAX_ITEMS;
       setNotificationsList(notificationsData);
       setIsLoading(false);
@@ -49,7 +50,7 @@ export const Notifications = ({ close }: { close: () => void }) => {
                   briefText,
                   date,
                   url,
-                  buttonText,
+                  buttonText
                 }: {
                   title: string;
                   briefText: string;

@@ -6,7 +6,10 @@ interface FetchDataOptions {
   body?: string;
 }
 
-export const fetchDataFromApi = async <T>(url: string, options?: FetchDataOptions): Promise<T> => {
+export const fetchDataFromApi = async <T>(
+  url: string,
+  options?: FetchDataOptions
+): Promise<T> => {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -16,9 +19,9 @@ export const fetchDataFromApi = async <T>(url: string, options?: FetchDataOption
     const response = await fetch(`${BASE_URL}${url}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      ...options,
+      ...options
     });
 
     if (response.ok) {
