@@ -1,9 +1,9 @@
-import head1 from '../../images/avatars/avatar_head1.png';
-import head2 from '../../images/avatars/avatar_head2.png';
-import employee1 from '../../images/avatars/avatar_employee1.png';
-import employee2 from '../../images/avatars/avatar_employee2.png';
-import mentor1 from '../../images/avatars/avatar_mentor1.png';
-import mentor2 from '../../images/avatars/avatar_mentor2.png';
+import firstManager from '../../shared/images/avatars/avatar_head1.png';
+import secondManager from '../../shared/images/avatars/avatar_head2.png';
+import firstEmployee from '../../shared/images/avatars/avatar_employee1.png';
+import secondEmployee from '../../shared/images/avatars/avatar_employee2.png';
+import firstMentor from '../../shared/images/avatars/avatar_mentor1.png';
+import secondMentor from '../../shared/images/avatars/avatar_mentor2.png';
 
 export interface User {
   id: number;
@@ -20,56 +20,56 @@ const users: User[] = [
     id: 1,
     name: 'Ратилайнен Михаил Хейнович',
     position: 'Руководитель',
-    pic: head1,
+    pic: firstManager,
     role: 'myteam',
     email: 'user4@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 2,
     name: 'Лебедев Арсений Артемьевич',
     position: 'Руководитель',
-    pic: head2,
+    pic: secondManager,
     role: 'myteam',
     email: 'user5@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 3,
     name: 'Кириллов Константин Соломонович',
     position: 'Сотрудник',
-    pic: employee1,
+    pic: firstEmployee,
     role: 'my',
     email: 'user@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 4,
     name: 'Евсеев Антон Иванович',
     position: 'Сотрудник',
-    pic: employee2,
+    pic: secondEmployee,
     role: 'my',
     email: 'user2@example.com',
-    password: 'string',
+    password: 'string'
   },
   {
     id: 5,
     name: 'Мармелодова Софья Семеновна',
     position: 'Ментор',
-    pic: mentor1,
+    pic: firstMentor,
     role: 'mentor',
     email: 'user15@example.com',
-    password: 'password',
+    password: 'password'
   },
   {
     id: 6,
     name: 'Довлатов Сергей Донатович',
     position: 'Ментор',
-    pic: mentor2,
+    pic: secondMentor,
     role: 'mentor',
     email: 'user6@example.com',
-    password: 'string',
-  },
+    password: 'string'
+  }
 ];
 
 export default users;

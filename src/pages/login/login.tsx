@@ -1,15 +1,19 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './login.module.scss';
-
 import { ButtonDesktop } from '@alfalab/core-components/button/desktop';
+
 import { useAppDispatch } from '../../shared/hooks/redux';
 // import { getMyIprsData } from '../../store/reducers/iprsSlice';
 // import { Page404 } from '../page404/page404';
 
 import { User } from '../../shared/utils/users';
-import { getUserData, logInUser } from '../../store/reducers/userSlice';
+import {
+  getUserData,
+  logInUser
+} from '../../shared/store/reducers/userSlice';
+
+import styles from './login.module.scss';
 
 interface LoginProps {
   users: User[];
@@ -27,7 +31,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
     try {
       setLoadingStates((prevLoadingStates) => ({
         ...prevLoadingStates,
-        [email]: true,
+        [email]: true
       }));
       const loginAction = logInUser({ email, password });
       const loginResult = await dispatch(loginAction);
@@ -68,7 +72,7 @@ export const Login: FC<LoginProps> = ({ users }) => {
       // Устанавливаем состояние загрузки для конкретного пользователя в false
       setLoadingStates((prevLoadingStates) => ({
         ...prevLoadingStates,
-        [email]: false,
+        [email]: false
       }));
     }
   };
@@ -84,7 +88,11 @@ export const Login: FC<LoginProps> = ({ users }) => {
               {users.map((user: User, key: number) => {
                 return (
                   <li className={styles.item} key={user.id}>
-                    <img src={user.pic} className={styles.img} alt="аватар" />
+                    <img
+                      src={user.pic}
+                      className={styles.img}
+                      alt="аватар"
+                    />
                     <div className={styles.textWrapper}>
                       <h3 className={styles.title}>{user.name}</h3>
                       <p className={styles.paragraph}>{user.position}</p>
@@ -96,9 +104,10 @@ export const Login: FC<LoginProps> = ({ users }) => {
                         view="tertiary"
                         shape="rectangular"
                         size="xxs"
-                        onClick={() => handleLogin(user.email, user.password)}
-                        name={user.role}
-                      >
+                        onClick={() =>
+                          handleLogin(user.email, user.password)
+                        }
+                        name={user.role}>
                         Вход
                       </ButtonDesktop>
                     </div>

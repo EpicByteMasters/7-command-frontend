@@ -1,19 +1,24 @@
 import React, { ChangeEvent, useState } from 'react';
-import styles from './new-task.module.scss';
 import { Table } from '@alfalab/core-components/table';
 import { Textarea } from '@alfalab/core-components/textarea';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
-import linkToCourses from '../../images/link-gotocourses.png';
 import { Attach } from '@alfalab/core-components/attach';
 import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
 import { Button } from '@alfalab/core-components/button';
-import { courses } from '../../shared/utils/constants';
+
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-// import { NotificationCard } from '../notification-green/notification';
+
 import { CheckmarkCircleMIcon } from '@alfalab/icons-glyph/CheckmarkCircleMIcon';
+
+import { courses } from '../../shared/utils/constants';
+// import { NotificationCard } from '../notification-green/notification';
+import linkToCourses from '../../shared/images/link-gotocourses.png';
+
+import styles from './new-task.module.scss';
+
 interface TaskProps {
   isEmployee?: boolean;
   isExecutive?: boolean;
@@ -39,7 +44,10 @@ interface FormData {
   commentOfEmployee: string;
 }
 
-export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
+export const NewTask: React.FC<TaskProps> = ({
+  isEmployee,
+  isExecutive
+}) => {
   const [formData, setFormData] = React.useState<FormData>({
     id: 0,
     name: '',
@@ -47,56 +55,67 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
     description: '',
     educations: [],
     commentOfMentor: '',
-    commentOfEmployee: '',
+    commentOfEmployee: ''
   });
   const [shownChevron] = React.useState(true);
   const [multiple] = React.useState(true);
   const [valueCourse, setValueCourse] = useState<string>('');
-  const [progress, setProgress] = useState<number | undefined>(0);
+  const [, setProgress] = useState<number | undefined>(0);
   const [toggle, setToggle] = useState<boolean>(false);
   const onToggle = () => {
     setToggle(!toggle);
   };
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const optionsCourses: OptionShape[] = courses;
 
-  const handleInputCourse = (event: ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const handleInputCourse = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     setValueCourse(value);
   };
 
-  const handleCourseSelection = (selectedCourses: OptionShape[] | string): void => {
+  const handleCourseSelection = (
+    selectedCourses: OptionShape[] | string
+  ): void => {
     let selectedEducations: Education[] = [];
 
     if (typeof selectedCourses === 'string') {
       // Если selectedCourses - это строка, преобразуйте ее в массив строк
-      const courseNames = selectedCourses.split(',').map((name) => name.trim());
+      const courseNames = selectedCourses
+        .split(',')
+        .map((name) => name.trim());
 
       selectedEducations = courseNames.map((name) => ({
         name,
         url: '',
-        status: '',
+        status: ''
       }));
     } else {
       // Иначе, предполагаем, что selectedCourses - это массив объектов OptionShape
       selectedEducations = selectedCourses.map((course) => ({
         name: course.key,
         url: '',
-        status: '',
+        status: ''
       }));
     }
 
     setFormData((prevData) => ({
       ...prevData,
-      educations: selectedEducations,
+      educations: selectedEducations
     }));
   };
 
   const inputValues: string[] = valueCourse.replace(/ /g, '').split(',');
-  const selectedOptions: OptionShape[] = optionsCourses.filter((option) => inputValues.includes(option.key.trim()));
+  const selectedOptions: OptionShape[] = optionsCourses.filter((option) =>
+    inputValues.includes(option.key.trim())
+  );
 
   const selected: string[] | OptionShape = multiple
     ? selectedOptions.map((option) => option.key)
@@ -106,7 +125,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
 
   const handleChangeCourse = ({
     selected,
-    selectedMultiple,
+    selectedMultiple
   }: {
     selected: OptionShape | null;
     selectedMultiple: OptionShape[] | null;
@@ -123,30 +142,42 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
   };
 
   const matchOption = (optionsCourses: any, inputValue: any) =>
-    optionsCourses.key.toLowerCase().includes((inputValue || '').toLowerCase());
+    optionsCourses.key
+      .toLowerCase()
+      .includes((inputValue || '').toLowerCase());
 
   const getFilteredOptions = (): OptionShape[] => {
     if (multiple) {
       return optionsCourses.filter((option) => {
-        return selectedOptions.includes(option) || matchOption(option, inputValues[inputValues.length - 1]);
+        return (
+          selectedOptions.includes(option) ||
+          matchOption(option, inputValues[inputValues.length - 1])
+        );
       });
     }
 
     return optionsCourses.some(({ key }) => key === valueCourse)
       ? optionsCourses
-      : optionsCourses.filter((option) => matchOption(option, valueCourse));
+      : optionsCourses.filter((option) =>
+          matchOption(option, valueCourse)
+        );
   };
 
   const [valueEndDate, setEndDate] = useState<string>('');
 
-  const handleChangeEndDate = (event: any, { value }: { value: string }) => {
+  const handleChangeEndDate = (
+    event: any,
+    { value }: { value: string }
+  ) => {
     setEndDate(value);
     setFormData((prevData) => ({ ...prevData, endDate: value }));
   };
 
   const onDeleteTag = (event: React.MouseEvent<HTMLDivElement>) => {
     const clickedTagValue = event.currentTarget.textContent;
-    const updatedTagValues = tagValues.filter((value) => value !== clickedTagValue);
+    const updatedTagValues = tagValues.filter(
+      (value) => value !== clickedTagValue
+    );
 
     setValueCourse(updatedTagValues.join(', '));
   };
@@ -197,7 +228,7 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
             picker={true}
             Calendar={CalendarDesktop}
             calendarProps={{
-              selectorView: 'month-only',
+              selectorView: 'month-only'
             }}
             clear={true}
             onClear={(e) => {
@@ -239,13 +270,18 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
             placeholder="Начните вводить название"
           />
 
-          <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses}></img>
+          <img
+            src={linkToCourses}
+            alt="ссылка на курсы"
+            className={styles.linkToCourses}></img>
         </div>
         <div className={styles.formRowTag}>
           {valueCourse.length > 0
             ? tagValues.map((value: string, key: number) => {
                 return (
-                  <div className={styles.tagContainer} key={value.length + 1}>
+                  <div
+                    className={styles.tagContainer}
+                    key={value.length + 1}>
                     <div className={styles.formTag} onClick={onDeleteTag}>
                       {value === 'Подготовка к IELTS' ? (
                         <CheckmarkCircleMIcon fill={'#08C44D'} />
@@ -253,7 +289,10 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
                         <CrossCircleMIcon />
                       )}
                       {value}
-                      <Button size="xxs" view="tertiary" className={styles.buttonResult}>
+                      <Button
+                        size="xxs"
+                        view="tertiary"
+                        className={styles.buttonResult}>
                         Отправить результат
                       </Button>
                     </div>
@@ -301,8 +340,8 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
                     backgroundColor: 'transparent',
                     color: '#2A77EF',
                     padding: '0',
-                    margin: '0',
-                  },
+                    margin: '0'
+                  }
                 }}
                 size="m"
                 onChange={handleChange}
@@ -311,7 +350,12 @@ export const NewTask: React.FC<TaskProps> = ({ isEmployee, isExecutive }) => {
                 noFileText=""
               />
             </div>
-            <FileUploadItem name="Название файла.pdf" uploadDate="22.01.2018" size={45000} showDelete={true} />
+            <FileUploadItem
+              name="Название файла.pdf"
+              uploadDate="22.01.2018"
+              size={45000}
+              showDelete={true}
+            />
             <FileUploadItem
               name="Название файла.pdf"
               uploadDate="22.01.2018"

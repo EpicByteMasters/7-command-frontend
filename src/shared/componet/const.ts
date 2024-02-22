@@ -1,6 +1,11 @@
 const INPUT_TAG_DELIMETER = ',';
 
-const PICKER_OPTIONS = [{ key: 'В работе' }, { key: 'Выполнена' }, { key: 'Не выполнена' }, { key: 'Отменена' }];
+const PICKER_OPTIONS = [
+  { key: 'В работе' },
+  { key: 'Выполнена' },
+  { key: 'Не выполнена' },
+  { key: 'Отменена' }
+];
 
 const MONTH_FULL_NAME_LIST = [
   'января',
@@ -14,7 +19,7 @@ const MONTH_FULL_NAME_LIST = [
   'сентября',
   'октября',
   'ноября',
-  'декабря',
+  'декабря'
 ];
 
 export { INPUT_TAG_DELIMETER, PICKER_OPTIONS, MONTH_FULL_NAME_LIST };

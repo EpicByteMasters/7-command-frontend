@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useState, useCallback } from 'react';
-import styles from './notification.module.scss';
+
 import { Notification } from '@alfalab/core-components/notification';
+
+import styles from './notification.module.scss';
 interface NoteData {
   error?: boolean;
   title: string;

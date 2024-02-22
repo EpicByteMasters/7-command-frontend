@@ -1,7 +1,7 @@
 import type { OptionShape } from '@alfalab/core-components/select/typings';
 
-import type { ICommonLibWithEducationType as IEducationTypeDTO } from '../../store/type/libraries';
-import type { IIprData } from '../../store/type/ipr-data';
+import type { ICommonLibWithEducationType as IEducationTypeDTO } from '../../shared/store/type/libraries';
+import type { IIprData } from '../../shared/store/type/ipr-data';
 
 interface ITasksProps {
   isEmployee: boolean;
@@ -39,19 +39,17 @@ interface INewTask {
   courses: string;
   comment: string;
 }
-// interface IEducation {
-// 	id: number;
-// 	name: string;
-// 	specialty: string;
-// 	urlLink: string;
-// }
-
-// Не нужно, пример
-// алис к id | name | specialty | urlLink
-// type TCoursenOptionProp = keyof IEducationTypeDTO;
 
 interface IFilesForTask {
   [taskId: string]: File[];
 }
 
-export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, INewTask };
+export type {
+  ITasksProps,
+  IEducation,
+  IFormData,
+  ICoursesOption,
+  IEducationTypeDTO,
+  IFilesForTask,
+  INewTask
+};

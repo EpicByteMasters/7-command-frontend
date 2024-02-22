@@ -1,6 +1,11 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction
+} from '@reduxjs/toolkit';
 
-import { IIprData, TIprDataState } from 'src/store/type/ipr-data';
+import { IIprData, TIprDataState } from 'src/shared/store/type/ipr-data';
+
 import { fetchDataFromApi } from '../api';
 
 export const initialIprData: IIprData = {
@@ -14,95 +19,201 @@ export const initialIprData: IIprData = {
     firstName: '',
     surname: '',
     patronymic: '',
-    imageUrl: '',
+    imageUrl: ''
   },
   status: {
     id: '',
-    name: '',
+    name: ''
   },
   goal: {
     id: '',
-    name: '',
+    name: ''
   },
   specialty: {
     id: '',
-    name: '',
+    name: ''
   },
   competency: [],
   description: '',
   supervisorComment: '',
   task: [],
   comment: '',
-  iprGrade: 0,
+  iprGrade: 0
 };
 
 const initialState: TIprDataState = {
   ipr: null,
   isLoading: false,
   error: '',
-  taskValues: [],
+  taskValues: []
 };
 
-export const createIpr = createAsyncThunk<IIprData, number>('iprs/createIpr', async (userId) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>('/api/v1/mentor/iprs/ipr/create', {
-      method: 'POST',
-      body: JSON.stringify({ employeeId: userId }),
-    });
+export const createIpr = createAsyncThunk<IIprData, number>(
+  'iprs/createIpr',
+  async (userId) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        '/api/v1/mentor/iprs/ipr/create',
+        {
+          method: 'POST',
+          body: JSON.stringify({ employeeId: userId })
+        }
+      );
 
-    return response;
-  } catch (error) {
-    console.error('Error during creating IPR data:', error);
-    throw error;
+      return response;
+    } catch (error) {
+      console.error('Error during creating IPR data:', error);
+      throw error;
+    }
   }
-});
+);
 
-export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>('iprs/getIprSupevisor', async (id) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${id}/supervisor`, {
-      method: 'GET',
-    });
+export const getIprByIdBySupervisor = createAsyncThunk<IIprData, number>(
+  'iprs/getIprSupevisor',
+  async (id) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        `/api/v1/mentor/iprs/ipr/${id}/supervisor`,
+        {
+          method: 'GET'
+        }
+      );
 
-    return response;
-  } catch (error) {
-    console.error('Error during fetching IPR data:', error);
-    throw error;
+      return response;
+    } catch (error) {
+      console.error('Error during fetching IPR data:', error);
+      throw error;
+    }
   }
-});
+);
 
-export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>('iprs/getIprEmployee', async (id) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${id}/employee`, {
-      method: 'GET',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during fetching IPR data:', error);
-    throw error;
+export const getIprByIdByEmployee = createAsyncThunk<IIprData, number>(
+  'iprs/getIprEmployee',
+  async (id) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        `/api/v1/mentor/iprs/ipr/${id}/employee`,
+        {
+          method: 'GET'
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error during fetching IPR data:', error);
+      throw error;
+    }
   }
-});
+);
 
-export const deleteIprById = createAsyncThunk<string, number>('ipr/deleteIpr', async (id) => {
-  try {
-    const response = await fetchDataFromApi<string>(`/api/v1/mentor/iprs/ipr/${id}/delete`, {
-      method: 'PATCH',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during deleting IPR:', error);
-    throw error;
+export const deleteIprById = createAsyncThunk<string, number>(
+  'ipr/deleteIpr',
+  async (id) => {
+    try {
+      const response = await fetchDataFromApi<string>(
+        `/api/v1/mentor/iprs/ipr/${id}/delete`,
+        {
+          method: 'PATCH'
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error during deleting IPR:', error);
+      throw error;
+    }
   }
-});
+);
 
 // Кнопка: Сохранить в черновик
-export const saveIprDraft = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
-  'iprs/saveIprDraft',
-  async ({ iprId, iprData }) => {
-    try {
-      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
+export const saveIprDraft = createAsyncThunk<
+  IIprData,
+  { iprId: number; iprData: Partial<IIprData> }
+>('iprs/saveIprDraft', async ({ iprId, iprData }) => {
+  try {
+    const response = await fetchDataFromApi<IIprData>(
+      `/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`,
+      {
         method: 'PATCH',
-        body: JSON.stringify(iprData),
-      });
+        body: JSON.stringify(iprData)
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error during saving draft:', error);
+    throw error;
+  }
+});
+
+// кнопка: оправить в работу
+export const startIpr = createAsyncThunk<
+  IIprData,
+  { iprId: number; iprData: Partial<IIprData> }
+>('iprs/startIpr', async ({ iprId, iprData }) => {
+  try {
+    const response = await fetchDataFromApi<IIprData>(
+      `/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(iprData)
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error during starting IPR:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Сохранить в зависимости от роли (для сотрудника)
+export const editIprForEmployee = createAsyncThunk<
+  IIprData,
+  { iprId: number; iprData: Partial<IIprData> }
+>('iprs/editIprForEmployee', async ({ iprId, iprData }) => {
+  try {
+    const response = await fetchDataFromApi<IIprData>(
+      `/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr-employee`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(iprData)
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error during editing IPR for employee:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Сохранить в зависимости от роли (для руководителя)
+export const editIprForSupervisor = createAsyncThunk<
+  IIprData,
+  { iprId: number; iprData: Partial<IIprData> }
+>('iprs/editIprForSupervisor', async ({ iprId, iprData }) => {
+  try {
+    const response = await fetchDataFromApi<IIprData>(
+      `/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(iprData)
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error during editing IPR:', error);
+    throw error;
+  }
+});
+
+// Кнопка: Отменить
+export const cancelIpr = createAsyncThunk<IIprData, number>(
+  'iprs/cancelIpr',
+  async (iprId) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        `/api/v1/mentor/iprs/ipr/${iprId}/cancel`,
+        {
+          method: 'PATCH'
+        }
+      );
       return response;
     } catch (error) {
       console.error('Error during saving draft:', error);
@@ -111,98 +222,46 @@ export const saveIprDraft = createAsyncThunk<IIprData, { iprId: number; iprData:
   }
 );
 
-// кнопка: оправить в работу
-export const startIpr = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
-  'iprs/startIpr',
-  async ({ iprId, iprData }) => {
-    try {
-      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/start-ipr`, {
-        method: 'PATCH',
-        body: JSON.stringify(iprData),
-      });
-      return response;
-    } catch (error) {
-      console.error('Error during starting IPR:', error);
-      throw error;
-    }
-  }
-);
-
-// Кнопка: Сохранить в зависимости от роли (для сотрудника)
-export const editIprForEmployee = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
-  'iprs/editIprForEmployee',
-  async ({ iprId, iprData }) => {
-    try {
-      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr-employee`, {
-        method: 'PATCH',
-        body: JSON.stringify(iprData),
-      });
-      return response;
-    } catch (error) {
-      console.error('Error during editing IPR for employee:', error);
-      throw error;
-    }
-  }
-);
-
-// Кнопка: Сохранить в зависимости от роли (для руководителя)
-export const editIprForSupervisor = createAsyncThunk<IIprData, { iprId: number; iprData: Partial<IIprData> }>(
-  'iprs/editIprForSupervisor',
-  async ({ iprId, iprData }) => {
-    try {
-      const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/edit-ipr`, {
-        method: 'PATCH',
-        body: JSON.stringify(iprData),
-      });
-      return response;
-    } catch (error) {
-      console.error('Error during editing IPR:', error);
-      throw error;
-    }
-  }
-);
-
-// Кнопка: Отменить
-export const cancelIpr = createAsyncThunk<IIprData, number>('iprs/cancelIpr', async (iprId) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/cancel`, {
-      method: 'PATCH',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during saving draft:', error);
-    throw error;
-  }
-});
-
 // Кнопка: Подвести итоги
-export const completeIpr = createAsyncThunk<IIprData, any>('iprs/completeIpr', async ({ iprId, body }) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/mentor/iprs/ipr/${iprId}/complete`, {
-      method: 'PATCH',
-      body: JSON.stringify(body),
-    });
+export const completeIpr = createAsyncThunk<IIprData, any>(
+  'iprs/completeIpr',
+  async ({ iprId, body }) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        `/api/v1/mentor/iprs/ipr/${iprId}/complete`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(body)
+        }
+      );
 
-    return response;
-  } catch (error) {
-    console.error('Error during saving draft:', error);
-    throw error;
+      return response;
+    } catch (error) {
+      console.error('Error during saving draft:', error);
+      throw error;
+    }
   }
-});
+);
 
 // задачи в ИПР Отправить на проверку.
 // Если успех(200) - поменять на Ожидает проверки. (сиреневое)
-export const completeTask = createAsyncThunk<IIprData, number>('iprs/completeTask', async (id) => {
-  try {
-    const response = await fetchDataFromApi<IIprData>(`/api/v1/task/${id}/complete`, {
-      method: 'PATCH',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during saving draft:', error);
-    throw error;
+export const completeTask = createAsyncThunk<IIprData, number>(
+  'iprs/completeTask',
+  async (id) => {
+    try {
+      const response = await fetchDataFromApi<IIprData>(
+        `/api/v1/task/${id}/complete`,
+        {
+          method: 'PATCH'
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error during saving draft:', error);
+      throw error;
+    }
   }
-});
+);
 
 //@TODO: типизация
 // const handleAsyncAction = <T>(state: TIprDataState, action: PayloadAction<T>) => {
@@ -225,7 +284,7 @@ const iprSlice = createSlice({
     setTaskValues: (state, { payload }: PayloadAction<string[]>) => {
       // console.log({ payload });
       state.taskValues = payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -281,7 +340,7 @@ const iprSlice = createSlice({
             id: id || state.ipr.id,
             employeeId: employeeId || state.ipr.employeeId,
             supervisorId: supervisorId || state.ipr.supervisorId,
-            status: status || state.ipr.status,
+            status: status || state.ipr.status
           };
         }
         state.isLoading = false;
@@ -319,7 +378,8 @@ const iprSlice = createSlice({
       })
       .addCase(editIprForEmployee.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message ?? 'Failed to edit IPR for employee';
+        state.error =
+          action.error.message ?? 'Failed to edit IPR for employee';
       })
       //------------------------------Edit Ipr For Supervisor--------------------------------------------------
       .addCase(editIprForSupervisor.pending, (state) => {
@@ -373,7 +433,7 @@ const iprSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message ?? 'Failed to complete task';
       });
-  },
+  }
 });
 
 export const { setTaskValues } = iprSlice.actions;

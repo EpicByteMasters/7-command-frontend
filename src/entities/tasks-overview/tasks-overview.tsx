@@ -1,17 +1,12 @@
-// --------------------------------------------------------------------------
 // Import
 // @TODO: @/ import resolve instead of like ../../
-// --------------------------------------------------------------------------
-import React, { FC, ChangeEvent, useState, useMemo, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
-
-import type { OptionShape } from '@alfalab/core-components/select/typings';
-
-// import type { ICommonLibWithSkillType } from '../../store/reducers/libSlice';
-
-import type { ITasksObverviewProps, OptionCompetitionShape } from './type';
-
-import type { ISaveDraftDTO } from '../../api/dto/save-draft.dto';
+import React, {
+  FC,
+  ChangeEvent,
+  useState,
+  useMemo,
+  useEffect
+} from 'react';
 
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { Textarea } from '@alfalab/core-components/textarea';
@@ -20,47 +15,48 @@ import { BaseOption } from '@alfalab/core-components/select/components/base-opti
 import { FilterTag } from '@alfalab/core-components/filter-tag';
 import { CalendarDesktop } from '@alfalab/core-components/calendar/desktop';
 import { UniversalDateInput } from '@alfalab/core-components/universal-date-input';
-import { isCompletedIpr, isDraftIpr, isInProgressIpr, isNotCompletedIpr } from '../../util/ipr-status';
+
+import { isDraftIpr, isInProgressIpr } from '../../util/ipr-status';
+
+import { OptionCompetitionShape } from '../../entities/tasks-overview/type';
 
 import {
   selectCommonLibsIPRGoals,
   selectCommonLibsSpecialty,
-  selectCommonLibsIPRCompetency,
-} from '../../store/reducers/libSlice';
+  selectCommonLibsIPRCompetency
+} from '../../shared/store/reducers/libSlice';
 
-import { setTaskValues } from '../../store/reducers/iprSlice';
-
-import { ICompetency, IIprData } from '../../store/type/ipr-data';
+import { ICompetency, IIprData } from '../../shared/store/type/ipr-data';
 
 import { goal, mentor, role } from '../../shared/utils/constants';
 
 import { useAppSelector } from '../../shared/hooks/redux';
 
-// import styles from './tasks-overview.module.scss';
-import styles2 from './tasks-overview-form.module.scss';
+import avatarMentor from '../../shared/images/avatars/avatar_mentor1.png';
 
-import avatarMentor from '../../images/avatars/avatar_mentor1.png';
+import { getMentorName, adaptDateToClient, isEmpty } from '../../util';
 
 import {
-  getInitialDate,
   adaptCompetency,
   getInputValues,
   makeInputValue,
   getLastInputValue,
   isOptionMatch,
   isValidInputValue,
-  getCompetitionOptionName,
-  formatDateForInput,
-  formatDate,
+  getCompetitionOptionName
 } from './utils';
 
-import { getMentorName, adaptDateToClient, isEmpty } from '../../util';
+import styles2 from './tasks-overview-form.module.scss';
+
+import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 /** Сообщение о необходимости заполнения поля */
-const requiredInputMessage = (inputName: string) => `${inputName} является обязательным для заполенния`;
+const requiredInputMessage = (inputName: string) =>
+  `${inputName} является обязательным для заполенния`;
 
 /** Сообщение о невалидном значении в текстовом поле */
-const invalidInputMessage = 'Допустимы только кириллические символы, числа, пробелы и точки с запятыми';
+const invalidInputMessage =
+  'Допустимы только кириллические символы, числа, пробелы и точки с запятыми';
 
 /** Стандарный паттерн валидации значения поля */
 const validateInputDefaultPattern = /[а-я\d ,.]+/iu;
@@ -74,7 +70,11 @@ const getCompetencyInitValues = (competencyList?: ICompetency[]) => {
     return '';
   }
 
-  return makeInputValue(competencyList.map((conpetence: ICompetency) => conpetence.competencyRel?.name));
+  return makeInputValue(
+    competencyList.map(
+      (conpetence: ICompetency) => conpetence.competencyRel?.name
+    )
+  );
 };
 interface IProps {
   isExecutive: boolean;
@@ -83,12 +83,18 @@ interface IProps {
   iprCurrentData: IIprData | null;
 }
 
-const caseInsensitiveMatch = (source: string, target: string) => source.toLowerCase().includes(target.toLowerCase());
+const caseInsensitiveMatch = (source: string, target: string) =>
+  source.toLowerCase().includes(target.toLowerCase());
 
 /**
  * TasksOverview component
  */
-export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalValuesChange, iprCurrentData }) => {
+export const TasksOverview: FC<IProps> = ({
+  isExecutive,
+  iprStatus,
+  handleGoalValuesChange,
+  iprCurrentData
+}) => {
   // Подключение БД данных по значениям инпутов
   const iprGoals = useAppSelector(selectCommonLibsIPRGoals);
   const specialty = useAppSelector(selectCommonLibsSpecialty);
@@ -98,10 +104,6 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   const optionsRole: OptionShape[] = role;
   const optionsGoal: OptionShape[] = goal;
   const optionsMentor: OptionShape[] = mentor;
-
-  //console.groupCollapsed('TasksOverview');
-  //console.log(iprCurrentData, 'DATA');
-  //console.groupEnd();
 
   // Стейты
   const [multiple] = useState(true);
@@ -122,18 +124,10 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   const [commentError, setCommentError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
 
-  // const !isFormEnabled = useMemo(() => {
-  //   return !isExecutive || (!isInProgressIpr(iprStatus) && !isDraftIpr(iprStatus))
-  // }, [isExecutive]);
-
-  // useEffect(() => {
-  //   updateLocalIpr({
-  //     goalId: valueGoal,
-  //   });
-  // }, []);
-
   const isFormEnabled = useMemo(() => {
-    return isExecutive && (isInProgressIpr(iprStatus) || isDraftIpr(iprStatus));
+    return (
+      isExecutive && (isInProgressIpr(iprStatus) || isDraftIpr(iprStatus))
+    );
   }, [isExecutive]);
 
   const goalErrorMessage = useMemo(() => {
@@ -159,10 +153,18 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
     const goalValue = iprCurrentData?.goal?.name || '';
     const roleValue = iprCurrentData?.specialty?.name || '';
     const descriptionValue = iprCurrentData?.description || '';
-    const competenceValue = getCompetencyInitValues(iprCurrentData?.competency);
-    const mentorValue = iprCurrentData?.mentor ? getMentorName(iprCurrentData.mentor) : '';
-    const startDateValue = iprCurrentData?.createDate ? adaptDateToClient(iprCurrentData.createDate) : '';
-    const endDateValue = iprCurrentData?.closeDate ? adaptDateToClient(iprCurrentData.closeDate) : '';
+    const competenceValue = getCompetencyInitValues(
+      iprCurrentData?.competency
+    );
+    const mentorValue = iprCurrentData?.mentor
+      ? getMentorName(iprCurrentData.mentor)
+      : '';
+    const startDateValue = iprCurrentData?.createDate
+      ? adaptDateToClient(iprCurrentData.createDate)
+      : '';
+    const endDateValue = iprCurrentData?.closeDate
+      ? adaptDateToClient(iprCurrentData.closeDate)
+      : '';
 
     setValueGoal(goalValue);
     setValueRole(roleValue);
@@ -188,7 +190,10 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    * Обновляется после получения ответа от сервера
    */
   const competenceOptionList = useMemo<OptionCompetitionShape[]>(
-    () => iprCompetency.map((competencyOption) => adaptCompetency(competencyOption)),
+    () =>
+      iprCompetency.map((competencyOption) =>
+        adaptCompetency(competencyOption)
+      ),
     [iprCompetency]
   );
 
@@ -198,25 +203,24 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   );
 
   /** Выбранные опции */
-  const selectedCompetenceOptions = useMemo<OptionCompetitionShape[]>(() => {
-    //console.groupCollapsed('selectedCompetenceOptions');
-    // console.log({ valueCompetence, competenceOptionList });
-    // console.groupEnd();
-
+  const selectedCompetenceOptions = useMemo<
+    OptionCompetitionShape[]
+  >(() => {
     try {
-      const filteredOptions = competenceOptionList.filter((competenceOption) => {
-        if (typeof competenceOption.content !== 'string') {
-          return false;
+      const filteredOptions = competenceOptionList.filter(
+        (competenceOption) => {
+          if (typeof competenceOption.content !== 'string') {
+            return false;
+          }
+
+          const isMatch = caseInsensitiveMatch(
+            valueCompetence,
+            competenceOption.content
+          );
+
+          return isMatch;
         }
-
-        const isMatch = caseInsensitiveMatch(valueCompetence, competenceOption.content);
-
-        // console.log({ isMatch });
-
-        return isMatch;
-      });
-
-      // console.log({ valueCompetence, competenceOptionList, filteredOptions });
+      );
 
       return filteredOptions;
     } catch (e) {
@@ -230,7 +234,9 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    */
   const selectedCompetenceIdList = useMemo<string[]>(() => {
     try {
-      return selectedCompetenceOptions.map((option) => option.value?.id as string);
+      return selectedCompetenceOptions.map(
+        (option) => option.value?.id as string
+      );
     } catch (e) {
       console.error(e);
       return [];
@@ -240,8 +246,12 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   /**
    * Отфильтрованные компетиции, включая выбранные
    */
-  const competenceFilteredOptionList = useMemo<OptionCompetitionShape[]>(() => {
-    const isLessOrEqValues = getInputValues(valueCompetence).length <= selectedCompetenceOptions.length;
+  const competenceFilteredOptionList = useMemo<
+    OptionCompetitionShape[]
+  >(() => {
+    const isLessOrEqValues =
+      getInputValues(valueCompetence).length <=
+      selectedCompetenceOptions.length;
 
     const isShowAllOptions = valueCompetence === '' || isLessOrEqValues;
 
@@ -250,7 +260,10 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
     }
 
     return competenceOptionList.filter((option) =>
-      isOptionMatch(option, getLastInputValue(getInputValues(valueCompetence)))
+      isOptionMatch(
+        option,
+        getLastInputValue(getInputValues(valueCompetence))
+      )
     );
   }, [valueCompetence, selectedCompetenceOptions, competenceOptionList]);
 
@@ -263,9 +276,15 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    */
   const deleteCompetenceTag = (key: string) => {
     // Оставляем все опции кроме удаляемой
-    const filtered = selectedCompetenceOptions.filter((option) => option.key !== key);
+    const filtered = selectedCompetenceOptions.filter(
+      (option) => option.key !== key
+    );
 
-    setCompetenceValue(makeInputValue(filtered.map((option) => getCompetitionOptionName(option))));
+    setCompetenceValue(
+      makeInputValue(
+        filtered.map((option) => getCompetitionOptionName(option))
+      )
+    );
   };
 
   /**
@@ -273,7 +292,7 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    * @param {Object} value - Значение поля ввода
    */
   const validateCompetence = (value: string) => {
-    let errorList: string[] = [];
+    const errorList: string[] = [];
 
     setCompetenceValue(value);
 
@@ -292,7 +311,10 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    * Обработчик ввода в поле компетенции
    * @param {Object} event - Событие при вводе / вставке в поле
    */
-  const onCompetenceInput = (event: ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const onCompetenceInput = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     setCompetenceValue(value);
 
     const errList = validateCompetence(value);
@@ -305,7 +327,11 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
    * @param {Object} payload
    * @param {Object} payload.selectedMultiple - Выбранные значения
    */
-  const onCompetenceChange = ({ selectedMultiple }: { selectedMultiple: OptionCompetitionShape[] }) => {
+  const onCompetenceChange = ({
+    selectedMultiple
+  }: {
+    selectedMultiple: OptionCompetitionShape[];
+  }) => {
     const value = selectedMultiple.length
       ? `${selectedMultiple.map((option) => option?.value?.name || option.content).join(', ')}, `
       : '';
@@ -318,10 +344,14 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   };
 
   // Поиск id Цели
-  const goalId: string | undefined = iprGoals.find((o) => o.name === valueGoal)?.id;
+  const goalId: string | undefined = iprGoals.find(
+    (o) => o.name === valueGoal
+  )?.id;
 
   // Поиск id Роли
-  const roleId: string | undefined = specialty.find((o) => o.name === valueRole)?.id;
+  const roleId: string | undefined = specialty.find(
+    (o) => o.name === valueRole
+  )?.id;
 
   // @TODO: заменить на реализацию с useMemo
   const taskValues = useMemo(
@@ -334,7 +364,7 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
       mentorId: iprCurrentData?.mentor?.id || -1,
       description: valueDescription,
       comment: valueComment,
-      iprStatus: iprStatus,
+      iprStatus: iprStatus
     }),
     [
       selectedCompetenceIdList,
@@ -345,30 +375,32 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
       iprStatus,
       valueStartDate,
       valueEndDate,
-      iprCurrentData,
+      iprCurrentData
     ]
   );
 
-  const handleCallback = () => {
-    //console.log({ taskValues });
-    // setTaskValues(taskValues);
-    //handleGoalValuesChange(taskValues);
-  };
-
-  // const [modalOpen, setModalOpen] = useState(false);
+  const handleCallback = () => {};
 
   // Обработка инпутов
-  const handleInputGoal = (event: ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const handleInputGoal = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     setValueGoal(value);
     handleCallback();
   };
 
-  const handleInputRole = (event: ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const handleInputRole = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     setValueRole(value);
     handleCallback();
   };
 
-  const handleInputDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputDescription = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const inputValue = event.target.value;
 
     setValueDescription(inputValue);
@@ -380,26 +412,22 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
     event.preventDefault();
     const inputValue = event.target.value;
     setCommentError('');
-    // if (!inputValue) {
-    //   setCommentError(requiredInputMessage('Комментарий '));
-    //   return;
-    // }
-    // if (!isValidInputValue(validateInputDefaultPattern, inputValue)) {
-    //   setCommentError(invalidInputMessage);
-    //   return;
-    // }
-    // setValueComment(inputValue);
-    // handleCallback();
-    // setCommentError('');
   };
 
-  const handleInputMentor = (event: ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const handleInputMentor = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     setValueMentor(value);
     handleCallback();
   };
 
   // Обработка изменения инпутов
-  const handleChangeGoal = ({ selected }: { selected: OptionShape | null }) => {
+  const handleChangeGoal = ({
+    selected
+  }: {
+    selected: OptionShape | null;
+  }) => {
     setValueGoal('');
 
     if (!selected) {
@@ -413,7 +441,11 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   };
 
   // Обрабатываем изменение роли
-  const handleChangeRole = ({ selected }: { selected: OptionShape | null }) => {
+  const handleChangeRole = ({
+    selected
+  }: {
+    selected: OptionShape | null;
+  }) => {
     if (!selected) {
       setValueRole('');
       return;
@@ -424,12 +456,19 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
   };
 
   // Обрабатываем изменение наставника
-  const handleChangeMentor = ({ selected }: { selected: OptionShape | null }) => {
+  const handleChangeMentor = ({
+    selected
+  }: {
+    selected: OptionShape | null;
+  }) => {
     setValueMentor(selected ? selected.key : '');
     handleCallback();
   };
 
-  const handleChangeStartDate = (event: React.ChangeEvent<HTMLInputElement> | null, { value }: { value: string }) => {
+  const handleChangeStartDate = (
+    event: React.ChangeEvent<HTMLInputElement> | null,
+    { value }: { value: string }
+  ) => {
     // setStartDate(value);
     var d = new Date(Date.now()).toLocaleString().split(',')[0];
     d.toString();
@@ -440,19 +479,38 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
 
   // Обработка фильтры поиска значения
   const getFilteredGoals = (): OptionShape[] => {
-    const isShowFiltered = valueGoal.length && optionsGoal.some(({ key }) => caseInsensitiveMatch(key, valueGoal));
-    return isShowFiltered ? optionsGoal.filter(({ key }) => caseInsensitiveMatch(key, valueGoal)) : optionsGoal;
+    const isShowFiltered =
+      valueGoal.length &&
+      optionsGoal.some(({ key }) => caseInsensitiveMatch(key, valueGoal));
+    return isShowFiltered
+      ? optionsGoal.filter(({ key }) =>
+          caseInsensitiveMatch(key, valueGoal)
+        )
+      : optionsGoal;
   };
 
   const getFilteredRoles = (): OptionShape[] => {
-    const isShowFiltered = valueRole.length && optionsRole.some(({ key }) => caseInsensitiveMatch(key, valueRole));
-    return isShowFiltered ? optionsRole.filter(({ key }) => caseInsensitiveMatch(key, valueRole)) : optionsRole;
+    const isShowFiltered =
+      valueRole.length &&
+      optionsRole.some(({ key }) => caseInsensitiveMatch(key, valueRole));
+    return isShowFiltered
+      ? optionsRole.filter(({ key }) =>
+          caseInsensitiveMatch(key, valueRole)
+        )
+      : optionsRole;
   };
 
   const getFilteredMentor = (): OptionShape[] => {
     const isShowFiltered =
-      valueMentor.length && optionsMentor.some(({ key }) => caseInsensitiveMatch(key, valueMentor));
-    return isShowFiltered ? optionsMentor.filter(({ key }) => caseInsensitiveMatch(key, valueMentor)) : optionsMentor;
+      valueMentor.length &&
+      optionsMentor.some(({ key }) =>
+        caseInsensitiveMatch(key, valueMentor)
+      );
+    return isShowFiltered
+      ? optionsMentor.filter(({ key }) =>
+          caseInsensitiveMatch(key, valueMentor)
+        )
+      : optionsMentor;
   };
 
   return (
@@ -481,14 +539,13 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
               showEmptyOptionsList={true}
               inputProps={{
                 onClear: () => setValueGoal(''),
-                clear: true,
+                clear: true
               }}
-              disabled={!isFormEnabled}
-            ></InputAutocomplete>
+              disabled={!isFormEnabled}></InputAutocomplete>
           </div>
           <div style={{ width: 496 }}>
             <InputAutocomplete
-              // error={roleErrorMessage}
+              error={roleErrorMessage}
               name="role"
               block={true}
               closeOnSelect={true}
@@ -504,15 +561,14 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
               allowUnselect={true}
               inputProps={{
                 onClear: () => setValueRole(''),
-                clear: true,
+                clear: true
               }}
-              disabled={!isFormEnabled}
-            ></InputAutocomplete>
+              disabled={!isFormEnabled}></InputAutocomplete>
           </div>
         </div>
         <div>
           <InputAutocomplete
-            // error={competenceErrorMessage}
+            error={competenceErrorMessage}
             name="competence"
             value={valueCompetence}
             selected={selectedCompetenceOptions}
@@ -528,14 +584,13 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
             Arrow={shownChevron ? Arrow : undefined}
             inputProps={{
               onClear: () => setCompetenceValue(''),
-              clear: true,
+              clear: true
             }}
             className={styles2.inputCompetence}
             size="s"
             label="Компетенция *"
             placeholder="Начните вводить название"
-            disabled={!isFormEnabled}
-          ></InputAutocomplete>
+            disabled={!isFormEnabled}></InputAutocomplete>
         </div>
         <div className={styles2.formRowTag}>
           {selectedCompetenceOptions.length
@@ -551,8 +606,7 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
                       checked={true}
                       onClear={() => {
                         deleteCompetenceTag(competence.key);
-                      }}
-                    >
+                      }}>
                       {competence.content}
                     </FilterTag>
                   </div>
@@ -578,13 +632,15 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
               allowUnselect={true}
               inputProps={{
                 onClear: () => setValueMentor(''),
-                clear: true,
+                clear: true
               }}
-              disabled={!isFormEnabled}
-            ></InputAutocomplete>
+              disabled={!isFormEnabled}></InputAutocomplete>
 
             {!isExecutive && isDraftIpr(iprStatus) ? (
-              <img className={styles2.avatarMentor} src={avatarMentor} alt="avatar"></img>
+              <img
+                className={styles2.avatarMentor}
+                src={avatarMentor}
+                alt="avatar"></img>
             ) : (
               ''
             )}
@@ -602,7 +658,7 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
               picker={true}
               Calendar={CalendarDesktop}
               calendarProps={{
-                selectorView: 'month-only',
+                selectorView: 'month-only'
               }}
               clear={true}
               onClear={(e) => {
@@ -624,7 +680,7 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
               picker={true}
               Calendar={CalendarDesktop}
               calendarProps={{
-                selectorView: 'month-only',
+                selectorView: 'month-only'
               }}
               clear={true}
               disabled={true}
@@ -632,9 +688,8 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
           </div>
           <div
             style={{
-              width: 1016,
-            }}
-          >
+              width: 1016
+            }}>
             <Textarea
               error={descriptionError}
               name="description"
@@ -655,9 +710,8 @@ export const TasksOverview: FC<IProps> = ({ isExecutive, iprStatus, handleGoalVa
           </div>
           <div
             style={{
-              width: 1016,
-            }}
-          >
+              width: 1016
+            }}>
             {isExecutive ? (
               <Textarea
                 error={commentError}

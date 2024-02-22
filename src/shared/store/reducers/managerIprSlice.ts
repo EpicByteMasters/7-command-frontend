@@ -19,20 +19,30 @@ export type IPRSSliceState = {
 const initialState: IPRSSliceState = {
   managerIPRSList: null,
   isLoading: false,
-  error: '',
+  error: ''
 };
 
-export const getManagerIprsList = createAsyncThunk<ManagerIPRSListResponse>('managerIprs/getList', async () => {
-  try {
-    const response = await fetchDataFromApi<ManagerIPRSListResponse>(`/api/v1/mentor/iprs/?take=100&skip=0`, {
-      method: 'GET',
-    });
-    return response;
-  } catch (error) {
-    console.error('Error during fetching ManegerIPRSList data:', error);
-    throw error;
-  }
-});
+export const getManagerIprsList =
+  createAsyncThunk<ManagerIPRSListResponse>(
+    'managerIprs/getList',
+    async () => {
+      try {
+        const response = await fetchDataFromApi<ManagerIPRSListResponse>(
+          '/api/v1/mentor/iprs/?take=100&skip=0',
+          {
+            method: 'GET'
+          }
+        );
+        return response;
+      } catch (error) {
+        console.error(
+          'Error during fetching ManegerIPRSList data:',
+          error
+        );
+        throw error;
+      }
+    }
+  );
 
 const managerIprsSlice = createSlice({
   name: 'managerIprs',
@@ -42,9 +52,10 @@ const managerIprsSlice = createSlice({
     builder.addCase(getManagerIprsList.fulfilled, (state, action) => {
       state.managerIPRSList = action.payload;
     });
-  },
+  }
 });
 
-export const selectManagerList = (state: RootState) => state.managerIprs.managerIPRSList;
+export const selectManagerList = (state: RootState) =>
+  state.managerIprs.managerIPRSList;
 
 export default managerIprsSlice.reducer;

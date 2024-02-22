@@ -1,8 +1,10 @@
-import React, { FC, ChangeEvent, ReactNode, useMemo, useState, useEffect } from 'react';
-
-import type { OptionShape } from '@alfalab/core-components/select/typings';
-
-import { useAppDispatch } from '../shared/hooks/redux';
+import React, {
+  FC,
+  ChangeEvent,
+  useMemo,
+  useState,
+  useEffect
+} from 'react';
 
 import { Table } from '@alfalab/core-components/table';
 import { Collapse } from '@alfalab/core-components/collapse';
@@ -13,40 +15,39 @@ import { InputAutocomplete } from '@alfalab/core-components/input-autocomplete';
 import { BaseOption } from '@alfalab/core-components/select/components/base-option';
 import { Arrow } from '@alfalab/core-components/select/components/arrow';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
-import { TestResultButton } from '../componet/test-result-button';
-import { Attach } from '@alfalab/core-components/attach';
-import { FileUploadItem } from '@alfalab/core-components/file-upload-item';
+
 import { Button } from '@alfalab/core-components/button';
 
-import type {
-  ITasksProps,
-  IEducation,
-  IFormData,
-  ICoursesOption,
-  IEducationTypeDTO,
-  IFilesForTask,
-  INewTask,
-} from './type';
-
-import type { IIprData, ITask } from '../store/type/ipr-data';
+import { useAppDispatch } from '../hooks/redux';
 
 import { IprStatusDoc } from '../type';
 
 import {
   isCompletedIpr,
-  isDraftIpr,
   isInProgressIpr,
   isNotCompletedIpr,
-  isAwaitingReviewIpr,
-  isCanceledIpr,
-} from '../util/ipr-status';
-
-import { getArrLastEl, isCourseSelectedOption, isCourseFilteredOption, formatDateToCustomFormat } from './utils';
+  isCanceledIpr
+} from '../../util/ipr-status';
 
 import linkToCourses from '../images/link-gotocourses.png';
-import styles from '../entities/tasks/tasks.module.scss';
-import { adaptDateToClient } from '../util';
+import { adaptDateToClient } from '../../util';
 import { completeTask } from '../store/reducers/iprSlice';
+import styles from '../../entities/tasks/tasks.module.scss';
+
+import {
+  getArrLastEl,
+  isCourseSelectedOption,
+  isCourseFilteredOption
+} from './utils';
+import { TestResultButton } from './test-result-button';
+
+import type { ITask } from '../store/type/ipr-data';
+import type {
+  ICoursesOption,
+  IEducationTypeDTO,
+  IFilesForTask
+} from './type';
+import type { OptionShape } from '@alfalab/core-components/select/typings';
 
 interface ITasksRowProps {
   task: ITask;
@@ -57,7 +58,7 @@ interface ITasksRowProps {
   statusId: IprStatusDoc;
 }
 
-// ----------------------------------------------------------------------------
+// ---------------------------------------
 
 /** @TODO: Поддержка кастомного пути к пропу с данными */
 function getOptionContent(option: OptionShape) {
@@ -73,14 +74,21 @@ const makeMultipleValue = (selectedMultiple: OptionShape[]) => {
 };
 
 // Utils
-// ----------------------------------------------------------------------------
+// --------------------------------------------
 const adaptCompetency = (course: IEducationTypeDTO): ICoursesOption => ({
   key: course.id,
   content: course.name.trim(),
-  value: course,
+  value: course
 });
 
-const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseList, statusId, task }) => {
+const TasksRow: FC<ITasksRowProps> = ({
+  expandedTasks,
+  id,
+  isEmployee,
+  courseList,
+  statusId,
+  task
+}) => {
   const [makeDisable, setMakeDisable] = useState(false);
   const dispatch = useAppDispatch();
   console.log('statusId: ', statusId);
@@ -91,7 +99,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
   const [coursesValue, setCoursesValue] = useState('');
   const [supervisorCommentValue, setSupervisorCommentValue] = useState('');
   const [employeeComment, setEmployeeComment] = useState('');
-  const [attachFiles, setAttachFiles] = useState<IFilesForTask>({});
+  const [, setAttachFiles] = useState<IFilesForTask>({});
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const isShowCoursesChevron = true;
@@ -101,9 +109,13 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
 
   useEffect(() => {
     const titleValue = task.name;
-    const endDateValue = task?.closeDate ? adaptDateToClient(task.closeDate) : '';
+    const endDateValue = task?.closeDate
+      ? adaptDateToClient(task.closeDate)
+      : '';
     const educationList = task.education;
-    const educationInnerList = educationList.map((education) => education.education.name);
+    const educationInnerList = educationList.map(
+      (education) => education.education.name
+    );
     const coursesValue = `${educationInnerList.join(', ')}, `;
     const supervisorCommentValue = task.supervisorComment;
     const employeeCommentValue = task.comment;
@@ -130,7 +142,10 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
   );
 
   /** Последнее ведённое значение */
-  const coursesInputLastValue = useMemo(() => getArrLastEl(inputValues), [inputValues]);
+  const coursesInputLastValue = useMemo(
+    () => getArrLastEl(inputValues),
+    [inputValues]
+  );
 
   /** Опции тренингов и курсов */
   const courseOptionList = useMemo<ICoursesOption[]>(
@@ -140,20 +155,31 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
 
   /** Выбранные опции */
   const courseSelectedOptions = useMemo(
-    () => courseOptionList.filter((course) => isCourseSelectedOption(course, inputValues)),
+    () =>
+      courseOptionList.filter((course) =>
+        isCourseSelectedOption(course, inputValues)
+      ),
     [courseOptionList, inputValues]
   );
 
   /** Фильтрованные опции курсов */
   const filteredOptions = useMemo(
     () =>
-      courseOptionList.filter((option) => isCourseFilteredOption(courseSelectedOptions, option, coursesInputLastValue)),
+      courseOptionList.filter((option) =>
+        isCourseFilteredOption(
+          courseSelectedOptions,
+          option,
+          coursesInputLastValue
+        )
+      ),
     [courseSelectedOptions, coursesInputLastValue]
   );
 
   /** Фильтрованные и выбранные опциии для выпадающего списка */
   const getFilteredOptionsCourses = () => {
-    return coursesValue.length === courseSelectedOptions.length ? courseOptionList : filteredOptions;
+    return coursesValue.length === courseSelectedOptions.length
+      ? courseOptionList
+      : filteredOptions;
   };
 
   const onTitleChange = (_: any, { value }: { value: string }) => {
@@ -166,24 +192,36 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
   };
 
   const onDescriptionChange = (_: any, { value }: { value: string }) => {
-    // console.log('e', value);
     setDescriptionValue(value);
   };
 
-  const onSupervisorCommentChange = (_: any, { value }: { value: string }) => {
+  const onSupervisorCommentChange = (
+    _: any,
+    { value }: { value: string }
+  ) => {
     setSupervisorCommentValue(value);
   };
 
-  const onEmployeeCommentChange = (_: any, { value }: { value: string }) => {};
+  const onEmployeeCommentChange = (
+    _: any,
+    { value }: { value: string }
+  ) => {};
 
   const handleSelectStatusChange = () => {};
 
   /** Обработчик ввода в поле */
-  const handleCourseInput = (_: unknown, { value }: { value: string }) => setCoursesValue(value);
+  const handleCourseInput = (_: unknown, { value }: { value: string }) =>
+    setCoursesValue(value);
 
   /** Обработчик выбора опции */
-  const onCoursesChange = ({ selectedMultiple }: { selectedMultiple: OptionShape[] }) => {
-    const value = selectedMultiple.length ? makeMultipleValue(selectedMultiple) : '';
+  const onCoursesChange = ({
+    selectedMultiple
+  }: {
+    selectedMultiple: OptionShape[];
+  }) => {
+    const value = selectedMultiple.length
+      ? makeMultipleValue(selectedMultiple)
+      : '';
     setCoursesValue(value);
   };
 
@@ -195,20 +233,28 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
    * @param key - Кулюч удаляемого курса
    */
   const onCoursesTagDelete = (key: string) => {
-    const filteredOptions = courseSelectedOptions.filter((option) => option.key !== key);
+    const filteredOptions = courseSelectedOptions.filter(
+      (option) => option.key !== key
+    );
 
     setCoursesValue(makeMultipleValue(filteredOptions));
   };
 
-  const onTaskEndDateClear = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onTaskEndDateClear = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.stopPropagation();
     setEndDateValue('');
   };
 
-  const handleAttach = (taskId: number, event: ChangeEvent<HTMLInputElement>, payload: { files: File[] }) => {
+  const handleAttach = (
+    taskId: number,
+    event: ChangeEvent<HTMLInputElement>,
+    payload: { files: File[] }
+  ) => {
     setAttachFiles((prevFiles) => ({
       ...prevFiles,
-      [taskId]: [...(prevFiles[taskId] || []), ...payload.files],
+      [taskId]: [...(prevFiles[taskId] || []), ...payload.files]
     }));
   };
 
@@ -252,7 +298,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                 picker={true}
                 Calendar={CalendarDesktop}
                 calendarProps={{
-                  selectorView: 'month-only',
+                  selectorView: 'month-only'
                 }}
                 clear={true}
                 onClear={onTaskEndDateClear}
@@ -309,10 +355,14 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                 disabled={true}
                 inputProps={{
                   onClear: onCoursesInputClear,
-                  clear: true,
+                  clear: true
                 }}
               />
-              <img src={linkToCourses} alt="ссылка на курсы" className={styles.linkToCourses} />
+              <img
+                src={linkToCourses}
+                alt="ссылка на курсы"
+                className={styles.linkToCourses}
+              />
             </div>
 
             <div className={styles.formRowTag}>
@@ -327,15 +377,18 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                           isCanceledIpr(statusId) ||
                           isNotCompletedIpr(statusId)
                             ? 0.5
-                            : 1,
+                            : 1
                       }}
-                      className={styles.formTag}
-                    >
+                      className={styles.formTag}>
                       <div className={styles.formCircle}>
-                        <CrossCircleMIcon onClick={() => onCoursesTagDelete(course.key)} />
+                        <CrossCircleMIcon
+                          onClick={() => onCoursesTagDelete(course.key)}
+                        />
                       </div>
                       {course.content}
-                      <TestResultButton course={course as ICoursesOption} />
+                      <TestResultButton
+                        course={course as ICoursesOption}
+                      />
                     </div>
                   </div>
                 ))}
@@ -386,44 +439,6 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
             )}
 
             <div>
-              {/* <div className={styles.attachWrapper}>
-                <p className={styles.attachTitle}>Приклепленные файлы</p>
-                {isEmployee && (
-                  <Attach
-                    buttonContent="Добавить"
-                    value={attachFiles[id] || []}
-                    buttonProps={{
-                      style: {
-                        backgroundColor: 'transparent',
-                        color: '#2A77EF',
-                        padding: '0',
-                        margin: '0',
-                      },
-                    }}
-                    size="m"
-                    onChange={(event, payload) => handleAttach(id, event, payload)}
-                    multiple={isMultipleSelect}
-                    fileClassName={styles.attachButton}
-                    noFileText=""
-                    disabled={isInProgressIpr(statusId)}
-                  />
-                )}
-              </div> */}
-              {/* {attachFiles[id] && (
-                <div>
-                  {attachFiles[id].map((file, index) => (
-                    <FileUploadItem
-                      key={index}
-                      name={file.name}
-                      uploadDate="31.01.2024"
-                      size={file.size}
-                      showDelete={true}
-                      downloadLink="/link"
-                      className={styles.attachedFile}
-                    />
-                  ))}
-                </div>
-              )} */}
               {isInProgressIpr(statusId) && isEmployee && (
                 <Button
                   view="primary"
@@ -433,8 +448,7 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                   onClick={() => {
                     setMakeDisable(true);
                     onclicktoComplete(id);
-                  }}
-                >
+                  }}>
                   Отправить на проверку
                 </Button>
               )}
@@ -444,12 +458,14 @@ const TasksRow: FC<ITasksRowProps> = ({ expandedTasks, id, isEmployee, courseLis
                   style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                  }}
-                >
+                    justifyContent: 'flex-end'
+                  }}>
                   {isInProgressIpr(statusId) && !isEmployee && (
                     <div>
-                      <select value={selectedStatus} onChange={handleSelectStatusChange} className={styles.select}>
+                      <select
+                        value={selectedStatus}
+                        onChange={handleSelectStatusChange}
+                        className={styles.select}>
                         <option className={styles.option} value="В работе">
                           В работе
                         </option>

@@ -1,13 +1,13 @@
-import styles from './main-page.module.scss';
-
 import { NavBarMain } from '../../entities/navbar-main/navbar-main';
 
-import layout1 from '../../images/main-layout/top.png';
-import layout2 from '../../images/main-layout/main-news.png';
-import layout3 from '../../images/main-layout/card.png';
-import layout4 from '../../images/main-layout/cards.png';
-import layout5 from '../../images/main-layout/cards-1.png';
-import layout6 from '../../images/main-layout/button.png';
+import layoutTop from '../../shared/images/main-layout/top.png';
+import layoutMain from '../../shared/images/main-layout/main-news.png';
+import layoutCard from '../../shared/images/main-layout/card.png';
+import layoutCards from '../../shared/images/main-layout/cards.png';
+import layoutCardsRowTwo from '../../shared/images/main-layout/cards-1.png';
+import layoutButton from '../../shared/images/main-layout/button.png';
+
+import styles from './main-page.module.scss';
 
 export const MainPage = () => {
   return (
@@ -17,18 +17,36 @@ export const MainPage = () => {
           <NavBarMain />
           <div className={styles.contentWrapper}>
             <div className={styles.titleWrapper}>
-              <img src={layout1} alt="заглушка" className={styles.title}></img>
+              <img
+                src={layoutTop}
+                alt="заглушка"
+                className={styles.title}></img>
             </div>
             <div className={styles.headerWrapper}>
-              <img src={layout2} alt="заглушка" className={styles.news}></img>
-              <img src={layout3} alt="заглушка" className={styles.card}></img>
+              <img
+                src={layoutMain}
+                alt="заглушка"
+                className={styles.news}></img>
+              <img
+                src={layoutCard}
+                alt="заглушка"
+                className={styles.card}></img>
             </div>
             <div className={styles.cardsWrapper}>
-              <img src={layout4} alt="заглушка" className={styles.cards}></img>
-              <img src={layout5} alt="заглушка" className={styles.cards}></img>
+              <img
+                src={layoutCards}
+                alt="заглушка"
+                className={styles.cards}></img>
+              <img
+                src={layoutCardsRowTwo}
+                alt="заглушка"
+                className={styles.cards}></img>
             </div>
             <div className={styles.buttonWrapper}>
-              <img src={layout6} alt="заглушка" className={styles.button}></img>
+              <img
+                src={layoutButton}
+                alt="заглушка"
+                className={styles.button}></img>
             </div>
           </div>
         </div>

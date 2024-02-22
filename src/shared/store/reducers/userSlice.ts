@@ -1,6 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction
+} from '@reduxjs/toolkit';
 
-import { BASE_URL } from '../../shared/utils/constants';
+import { BASE_URL } from '../../utils/constants';
 import { fetchDataFromApi } from '../api';
 
 export interface IUser {
@@ -33,6 +37,7 @@ export type UserState = {
 };
 
 let initialState: UserState;
+
 initialState = {
   user: {
     id: 0,
@@ -48,12 +53,12 @@ initialState = {
     specialty: { name: '' },
     supervisorId: 0,
     isSupervisor: false,
-    isMentor: false,
+    isMentor: false
   },
   selectedUser: null,
   access_token: null,
   isLoading: false,
-  error: '',
+  error: ''
 };
 
 type logInData = {
@@ -61,53 +66,62 @@ type logInData = {
   password: string;
 };
 
-export const logInUser = createAsyncThunk<any, logInData>('user/signin', async (data) => {
-  try {
-    const formData = new FormData();
-    formData.append('username', data.email);
-    formData.append('password', data.password);
+export const logInUser = createAsyncThunk<any, logInData>(
+  'user/signin',
+  async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append('username', data.email);
+      formData.append('password', data.password);
 
-    const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
-      method: 'POST',
-      body: formData,
-    });
+      const response = await fetch(`${BASE_URL}/api/v1/auth/jwt/login`, {
+        method: 'POST',
+        body: formData
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const responseBody = await response.json();
+
+      // Возвращаем объект, содержащий access_token
+      return { access_token: responseBody.access_token, ...responseBody };
+    } catch (error) {
+      console.error('Error during login:', error);
+      throw error;
     }
-    const responseBody = await response.json();
-
-    // Возвращаем объект, содержащий access_token
-    return { access_token: responseBody.access_token, ...responseBody };
-  } catch (error) {
-    console.error('Error during login:', error);
-    throw error;
   }
-});
+);
 
-export const getUserData = createAsyncThunk<any>('user/getData', async () => {
-  try {
-    const res = await fetchDataFromApi(`/api/v1/user/me`, {
-      method: 'GET',
-    });
-    return res;
-  } catch (error) {
-    console.error('Error during fetching user data:', error);
-    throw error;
+export const getUserData = createAsyncThunk<any>(
+  'user/getData',
+  async () => {
+    try {
+      const res = await fetchDataFromApi('/api/v1/user/me', {
+        method: 'GET'
+      });
+      return res;
+    } catch (error) {
+      console.error('Error during fetching user data:', error);
+      throw error;
+    }
   }
-});
+);
 
-export const getUserById = createAsyncThunk<any, number>('user/getById', async (id) => {
-  try {
-    const res = await fetchDataFromApi(`/api/v1/user/${id}`, {
-      method: 'GET',
-    });
-    return res;
-  } catch (error) {
-    console.error('Error during fetching user data by id:', error);
-    throw error;
+export const getUserById = createAsyncThunk<any, number>(
+  'user/getById',
+  async (id) => {
+    try {
+      const res = await fetchDataFromApi(`/api/v1/user/${id}`, {
+        method: 'GET'
+      });
+      return res;
+    } catch (error) {
+      console.error('Error during fetching user data by id:', error);
+      throw error;
+    }
   }
-});
+);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -128,7 +142,7 @@ export const userSlice = createSlice({
         specialty,
         supervisorId,
         isSupervisor,
-        isMentor,
+        isMentor
       } = action.payload;
 
       state.user = {
@@ -145,12 +159,12 @@ export const userSlice = createSlice({
         specialty: { name: specialty.name },
         supervisorId,
         isSupervisor,
-        isMentor,
+        isMentor
       };
     },
     setSelectedUser: (state, action: PayloadAction<IUser | null>) => {
       state.selectedUser = action.payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(logInUser.fulfilled, (state, action) => {
@@ -173,9 +187,10 @@ export const userSlice = createSlice({
     builder.addCase(getUserById.fulfilled, (state, action) => {
       state.selectedUser = action.payload;
     });
-  },
+  }
 });
 
-export const { clearUserData, setUserData, setSelectedUser } = userSlice.actions;
+export const { clearUserData, setUserData, setSelectedUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

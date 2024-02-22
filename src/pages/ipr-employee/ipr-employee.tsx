@@ -1,13 +1,18 @@
 import React from 'react';
-import styles from './ipr-employee.module.scss';
-import { Tasks } from '../../entities/tasks/tasks';
+
 import { useParams } from 'react-router-dom';
 
-import { BackButton } from '../../shared/backbutton/backbutton';
-import { PageTitle } from '../../shared/page-title/page-title';
-import { Status, StatusProps } from '@alfalab/core-components/status';
+import { Status } from '@alfalab/core-components/status';
+
 import { Button } from '@alfalab/core-components/button';
-import { tasksData } from '../../shared/utils/constants';
+
+import { tasksData } from '@shared/utils/constants';
+
+import { PageTitle } from '@shared/page-title/page-title';
+
+import { BackButton } from '@shared/backbutton/backbutton';
+
+import styles from './ipr-employee.module.scss';
 
 interface IPREmployeeProps {}
 
@@ -19,11 +24,7 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
   }
   const { statusText, statusColor } = task;
 
-  const handleDataSubmit = (goalData: any, taskValues: any) => {
-    // Здесь вы можете отправить оба набора данных на сервер
-    // console.log('Отправка данных на сервер из Tasks:', taskValues);
-    // console.log('Отправка данных на сервер из TasksOverview:', goalData);
-  };
+  const handleDataSubmit = (goalData: any, taskValues: any) => {};
 
   return (
     <div className={styles.generalFooterWrapper}>
@@ -43,7 +44,9 @@ export const IPREmployee: React.FC<IPREmployeeProps> = () => {
               Сохранить
             </Button>
             <legend className={styles.blockTitle}>Общее описание</legend>
-            <div className={styles.container}>{/* <Tasks isEmployee={true} /> */}</div>
+            <div className={styles.container}>
+              {/* <Tasks isEmployee={true} /> */}
+            </div>
           </div>
         </section>
       </div>

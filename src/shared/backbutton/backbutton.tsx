@@ -1,8 +1,10 @@
-import styles from './backbutton.module.scss';
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeftMediumMIcon } from '@alfalab/icons-glyph/ArrowLeftMediumMIcon';
+
 import { Modal } from '../../entities/modal/modal';
+
+import styles from './backbutton.module.scss';
 
 interface ButtonProps {
   isExecutive?: boolean;
@@ -10,7 +12,12 @@ interface ButtonProps {
   isMentor?: boolean;
   className?: string;
 }
-export const BackButton: React.FC<ButtonProps> = ({ isExecutive, isEmployee, isMentor, className }) => {
+export const BackButton: FC<ButtonProps> = ({
+  isExecutive,
+  isEmployee,
+  isMentor,
+  className
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [modal, setModal] = useState(false);
@@ -30,12 +37,16 @@ export const BackButton: React.FC<ButtonProps> = ({ isExecutive, isEmployee, isM
             <li className={styles.item}>
               {location.pathname === '/service-iprs/ipr/2' ? (
                 <button className={styles.link} onClick={goBack2}>
-                  <ArrowLeftMediumMIcon className={styles.iconBack} fill="currentColor"></ArrowLeftMediumMIcon>
+                  <ArrowLeftMediumMIcon
+                    className={styles.iconBack}
+                    fill="currentColor"></ArrowLeftMediumMIcon>
                   <span>Назад</span>
                 </button>
               ) : (
                 <button className={styles.link} onClick={goBack}>
-                  <ArrowLeftMediumMIcon className={styles.iconBack} fill="currentColor"></ArrowLeftMediumMIcon>
+                  <ArrowLeftMediumMIcon
+                    className={styles.iconBack}
+                    fill="currentColor"></ArrowLeftMediumMIcon>
                   <span>Назад</span>
                 </button>
               )}
@@ -46,10 +57,11 @@ export const BackButton: React.FC<ButtonProps> = ({ isExecutive, isEmployee, isM
       {modal ? (
         <Modal
           title={'Выйти без сохранения?'}
-          paragraph={'Чтобы не потерять данные, вернитесь и сохраните изменения'}
+          paragraph={
+            'Чтобы не потерять данные, вернитесь и сохраните изменения'
+          }
           confirmButtonLabel={'Отмена'}
-          cancelButtonLabel={'Выйти'}
-        ></Modal>
+          cancelButtonLabel={'Выйти'}></Modal>
       ) : (
         ''
       )}

@@ -1,5 +1,3 @@
-import styles from './leader-employees-list.module.scss';
-
 import { useEffect, useState } from 'react';
 
 import { Input } from '@alfalab/core-components/input';
@@ -17,17 +15,25 @@ import { EmployeeGoalPlan } from '../../shared/utils/test-users';
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
-import { getManagerIprsList, selectManagerList } from '../../store/reducers/managerIprSlice';
+import {
+  getManagerIprsList,
+  selectManagerList
+} from '../../shared/store/reducers/managerIprSlice';
 
-import { selectCommonLibsIPRGoals, selectCommonLibsIPRStatus } from '../../store/reducers/libSlice';
+import {
+  selectCommonLibsIPRGoals,
+  selectCommonLibsIPRStatus
+} from '../../shared/store/reducers/libSlice';
+
+import styles from './leader-employees-list.module.scss';
 
 const structureData = {
   title: 'Вовлеченность команды',
   items: [
     { subtitle: 'Размеры команды', number: 348 },
     { subtitle: 'Всего в работе', number: 60 },
-    { subtitle: 'Соотношение', number: 15 },
-  ],
+    { subtitle: 'Соотношение', number: 15 }
+  ]
 };
 
 const successData = {
@@ -35,8 +41,8 @@ const successData = {
   items: [
     { subtitle: 'Выполненных', number: 85 },
     { subtitle: 'Не выполненных', number: 15 },
-    { subtitle: 'Соотношение', number: 5 },
-  ],
+    { subtitle: 'Соотношение', number: 5 }
+  ]
 };
 
 export const LeaderEmployeesList: React.FC = () => {
@@ -48,8 +54,6 @@ export const LeaderEmployeesList: React.FC = () => {
   useEffect(() => {
     dispatch(getManagerIprsList());
   }, [dispatch]);
-
-  //console.log('MANAGER_LIST_IPRS', managerIprsList);
 
   const [chevron, setChevron] = useState(false);
   const [chevron2, setChevron2] = useState(false);
@@ -95,9 +99,18 @@ export const LeaderEmployeesList: React.FC = () => {
 
             <div className={styles.filterTagsWrapper}>
               <div className={styles.dropdown1}>
-                <button onClick={onClick} name="btnGoal" className={styles.dropbtn1}>
+                <button
+                  onClick={onClick}
+                  name="btnGoal"
+                  className={styles.dropbtn1}>
                   Цель
-                  <div>{chevron ? <ChevronDownSIcon></ChevronDownSIcon> : <ChevronDownSIcon></ChevronDownSIcon>}</div>
+                  <div>
+                    {chevron ? (
+                      <ChevronDownSIcon></ChevronDownSIcon>
+                    ) : (
+                      <ChevronDownSIcon></ChevronDownSIcon>
+                    )}
+                  </div>
                 </button>
                 {chevron ? (
                   <div className={styles.dropdownContent1}>
@@ -109,8 +122,7 @@ export const LeaderEmployeesList: React.FC = () => {
                             onClick={() => {
                               setGoalValue(goal.id);
                               setChevron(!chevron);
-                            }}
-                          >
+                            }}>
                             {goal.name}
                           </p>
                         );
@@ -122,9 +134,18 @@ export const LeaderEmployeesList: React.FC = () => {
               </div>
 
               <div className={styles.dropdown2}>
-                <button name="btnStatus" onClick={onClick2} className={styles.dropbtn2}>
+                <button
+                  name="btnStatus"
+                  onClick={onClick2}
+                  className={styles.dropbtn2}>
                   Статус
-                  <div>{chevron2 ? <ChevronDownSIcon></ChevronDownSIcon> : <ChevronDownSIcon></ChevronDownSIcon>}</div>
+                  <div>
+                    {chevron2 ? (
+                      <ChevronDownSIcon></ChevronDownSIcon>
+                    ) : (
+                      <ChevronDownSIcon></ChevronDownSIcon>
+                    )}
+                  </div>
                 </button>
                 {chevron2 ? (
                   <div className={styles.dropdownContent2}>
@@ -136,8 +157,7 @@ export const LeaderEmployeesList: React.FC = () => {
                             onClick={() => {
                               setStatusValue(status.id);
                               setChevron2(!chevron2);
-                            }}
-                          >
+                            }}>
                             {status.name}
                           </p>
                         );
@@ -148,7 +168,11 @@ export const LeaderEmployeesList: React.FC = () => {
                 )}
               </div>
             </div>
-            <EmployeesList data={managerIprsList?.employees} status={statusValue} goal={statusGoal} />
+            <EmployeesList
+              data={managerIprsList?.employees}
+              status={statusValue}
+              goal={statusGoal}
+            />
           </div>
         </div>
       </div>

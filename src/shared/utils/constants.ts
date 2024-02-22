@@ -1,4 +1,4 @@
-import { IUser } from '../../store/reducers/userSlice';
+import { IUser } from '../store/reducers/userSlice';
 
 /* eslint-disable no-useless-escape */
 export const BASE_URL = 'https://granpri.ru';
@@ -59,7 +59,7 @@ export const courses = [
   { key: 'Мнемотехника. Развитие памяти: как запоминать легко?' },
   { key: 'Soft skills: ключевые навыки руководителя' },
   { key: 'Курс «Суперпамять»' },
-  { key: 'Голос и речь: как говорить убедительно (Самостоятельный)' },
+  { key: 'Голос и речь: как говорить убедительно (Самостоятельный)' }
 ];
 
 export interface Goal {
@@ -68,7 +68,15 @@ export interface Goal {
   dateStart: string;
   dateEnd: string;
   statusText: string;
-  statusColor?: 'green' | 'orange' | 'red' | 'blue' | 'grey' | 'teal' | 'purple' | undefined;
+  statusColor?:
+    | 'green'
+    | 'orange'
+    | 'red'
+    | 'blue'
+    | 'grey'
+    | 'teal'
+    | 'purple'
+    | undefined;
 }
 
 export const goalsData: Goal[] = [
@@ -78,7 +86,7 @@ export const goalsData: Goal[] = [
     dateStart: '15.01.2024',
     dateEnd: '25.12.2024',
     statusText: 'в работе',
-    statusColor: 'blue',
+    statusColor: 'blue'
   },
   {
     id: 2,
@@ -86,7 +94,7 @@ export const goalsData: Goal[] = [
     dateStart: '20.01.2023',
     dateEnd: '20.01.2023',
     statusText: 'отменен',
-    statusColor: 'orange',
+    statusColor: 'orange'
   },
   {
     id: 3,
@@ -94,7 +102,7 @@ export const goalsData: Goal[] = [
     dateStart: '16.01.2022',
     dateEnd: '25.12.2022',
     statusText: 'не выполнен',
-    statusColor: 'red',
+    statusColor: 'red'
   },
   {
     id: 4,
@@ -102,7 +110,7 @@ export const goalsData: Goal[] = [
     dateStart: '12.01.2021',
     dateEnd: '25.12.2021',
     statusText: 'выполнен',
-    statusColor: 'green',
+    statusColor: 'green'
   },
   {
     id: 5,
@@ -110,8 +118,8 @@ export const goalsData: Goal[] = [
     dateStart: '23.01.2020',
     dateEnd: '25.12.2020',
     statusText: 'выполнен',
-    statusColor: 'green',
-  },
+    statusColor: 'green'
+  }
 ];
 
 export interface Task {
@@ -120,7 +128,15 @@ export interface Task {
   deadline: string;
   progress: number;
   statusText: string;
-  statusColor?: 'green' | 'orange' | 'red' | 'blue' | 'grey' | 'teal' | 'purple' | undefined;
+  statusColor?:
+    | 'green'
+    | 'orange'
+    | 'red'
+    | 'blue'
+    | 'grey'
+    | 'teal'
+    | 'purple'
+    | undefined;
   closeButton?: boolean | undefined;
 }
 
@@ -131,7 +147,7 @@ export const tasksData: Task[] = [
     deadline: '15.01.2024',
     progress: 0,
     statusText: 'в работе',
-    statusColor: 'blue',
+    statusColor: 'blue'
   },
   {
     id: 2,
@@ -139,7 +155,7 @@ export const tasksData: Task[] = [
     deadline: '20.01.2023',
     progress: 40,
     statusText: 'отменен',
-    statusColor: 'orange',
+    statusColor: 'orange'
   },
   {
     id: 3,
@@ -147,7 +163,7 @@ export const tasksData: Task[] = [
     deadline: '16.01.2022',
     progress: 40,
     statusText: 'не выполнен',
-    statusColor: 'red',
+    statusColor: 'red'
   },
   {
     id: 4,
@@ -155,7 +171,7 @@ export const tasksData: Task[] = [
     deadline: '12.01.2021',
     progress: 90,
     statusText: 'выполнен',
-    statusColor: 'green',
+    statusColor: 'green'
   },
   {
     id: 5,
@@ -163,8 +179,8 @@ export const tasksData: Task[] = [
     deadline: '23.01.2020',
     progress: 100,
     statusText: 'выполнен',
-    statusColor: 'green',
-  },
+    statusColor: 'green'
+  }
 ];
 
 export interface Education {
@@ -189,7 +205,7 @@ const statusKeyMap = {
   IN_PROGRESS: 'В работе',
   COMPLETED: 'Выполнен',
   NOT_COMPLETED: 'Не выполнен',
-  CANCELED: 'Отменен',
+  CANCELED: 'Отменен'
 };
 
 export interface IPRGoal {
@@ -227,22 +243,22 @@ export const employeeIPRs: IPRGoal[] = [
           {
             name: 'Английский язык для разработчиков (продвинутый уровень)',
             url: 'https://alfapeople.alfabank.ru/educations/english_for_devs_advanced.mp4',
-            status: 'COMPLETED',
-          },
+            status: 'COMPLETED'
+          }
         ],
         commentOfEmployee: '',
         commentOfMentor: '',
         files: [
           {
             name: 'Сертификат о прохождении курса_Английский язык для разработчиков (продвинутый уровень)_Петров П.',
-            url: 'https://user.imagestorage.ru/SertificatePetrov.img',
-          },
+            url: 'https://user.imagestorage.ru/SertificatePetrov.img'
+          }
         ],
-        status: 'IN_PROGRESS',
-      },
+        status: 'IN_PROGRESS'
+      }
     ],
-    status: 'IN_PROGRESS',
-  },
+    status: 'IN_PROGRESS'
+  }
 ];
 
 export const goal = [
@@ -253,7 +269,7 @@ export const goal = [
   { key: 'Развитие хард-скиллов' },
   { key: 'Смена специализации' },
   { key: 'Смена команды' },
-  { key: 'Получение нового опыта' },
+  { key: 'Получение нового опыта' }
 ];
 
 export const role = [
@@ -272,7 +288,7 @@ export const role = [
   { key: 'Дата-сайентист' },
   { key: 'Руководитель' },
   { key: 'HR' },
-  { key: 'Другое' },
+  { key: 'Другое' }
 ];
 
 export const competence = [
@@ -322,76 +338,92 @@ export const competence = [
   { key: 'Целеустремленность' },
   { key: 'Эмоциональный интеллект' },
   { key: 'Эмпатия' },
-  { key: 'Другое' },
+  { key: 'Другое' }
 ];
 
 export const mentor = [
   { key: 'Иванова Наталья Дмитриевна' },
   { key: 'Евдокимов Сергей Семёнович' },
-  { key: 'Писарев Сергей Витальевич' },
+  { key: 'Писарев Сергей Витальевич' }
 ];
 
 export const objCompetence = [
   {
     id: 'PRODUCT_ANALYTICS',
     name: 'Знания продуктовой аналитики',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   { id: 'BACKLOG', name: 'Ведение бэклога', skillType: 'HARD' },
   { id: 'LAUNCH_FEATURES', name: 'Запуск новых фичей', skillType: 'HARD' },
   {
     id: 'ESTIMATING_INFLUENCE',
     name: 'Оценивать влияние запуска фичи на ключевые метрики',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'DETERMINE_CLIENT_NEED',
     name: 'Определять потребность клиентов',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
   {
     id: 'SOLVING_PROBLEMS',
     name: 'Искать решения проблем клиентов',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'MAKING_STRATEGY_GROW',
     name: 'Составление стратегии развития',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
-  { id: 'PRODUCT_MARKETING', name: 'Продуктовый маркетинг', skillType: 'HARD' },
+  {
+    id: 'PRODUCT_MARKETING',
+    name: 'Продуктовый маркетинг',
+    skillType: 'HARD'
+  },
   {
     id: 'MANAGING_PL',
     name: 'Бюджетирование продукта',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'MARKET_ANALYSIS',
     name: 'Анализ рынка и конкурентов',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'MANAGING_PROJECT_METHODOLOGIES',
     name: 'Методологии управления проектами',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
-  { id: 'TECH_EXPERTISE', name: 'Техническая экспертность', skillType: 'HARD' },
+  {
+    id: 'TECH_EXPERTISE',
+    name: 'Техническая экспертность',
+    skillType: 'HARD'
+  },
 
-  { id: 'PRIORITISING_TASKS', name: 'Приоритизация задач', skillType: 'HARD' },
+  {
+    id: 'PRIORITISING_TASKS',
+    name: 'Приоритизация задач',
+    skillType: 'HARD'
+  },
 
   {
     id: 'TASK_FOMULATION',
     name: 'Постановка и декомпозиция задач',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
-  { id: 'DOCS_MNGMNT', name: 'Ведение документооборота', skillType: 'HARD' },
+  {
+    id: 'DOCS_MNGMNT',
+    name: 'Ведение документооборота',
+    skillType: 'HARD'
+  },
 
   {
     id: 'CREATING_DOCS',
     name: 'Создание ТЗ и документаций',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
   { id: 'RISK_MANAGEMENT', name: 'Риск-менеджмент', skillType: 'HARD' },
@@ -399,15 +431,19 @@ export const objCompetence = [
   {
     id: 'DEADLINES_CONTROL',
     name: 'Контроль сроков и качества',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
-  { id: 'MOBILE_DEVELOPMENT', name: 'Мобильная разработка', skillType: 'HARD' },
+  {
+    id: 'MOBILE_DEVELOPMENT',
+    name: 'Мобильная разработка',
+    skillType: 'HARD'
+  },
 
   {
     id: 'SYSTEM_MATERIAL',
     name: 'Систематизация материала',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
   { id: 'PRESENTATIONS', name: 'Презентации', skillType: 'HARD' },
@@ -415,7 +451,7 @@ export const objCompetence = [
   {
     id: 'ESTIMATING_WORKBANDWIDTH',
     name: 'Оценка трудоемкости',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
 
   { id: 'TASK_FORM', name: 'Постановка задач', skillType: 'HARD' },
@@ -426,41 +462,45 @@ export const objCompetence = [
   {
     id: 'ARCHITECTURE_IS',
     name: 'Проектирование и архитектура ИС',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'IT_ARCHITECTURE',
     name: 'ИТ архитектура предприятия',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
-  { id: 'OPTIMIZATION_METHODS', name: 'Методы оптимизации', skillType: 'HARD' },
+  {
+    id: 'OPTIMIZATION_METHODS',
+    name: 'Методы оптимизации',
+    skillType: 'HARD'
+  },
 
   { id: 'BI', name: 'BI', skillType: 'HARD' },
   {
     id: 'WORK_WITH_REQUIREMENTS',
     name: 'Работа с требованиями',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'WORK_WITH_DOCUMENTS',
     name: 'Работа с документами',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'NOTATIONS',
     name: 'Нотации - методологии - инструменты',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'STANDARTS_AND_KNOWLEDGE',
     name: 'Стандарты и своды знаний',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
   { id: 'TECHNIQUES', name: 'Техники', skillType: 'HARD' },
   {
     id: 'FACILITATION_OF_MEETINGS',
     name: 'Фасилитация встреч',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
   { id: 'NEGOTIATIONS', name: 'Переговоры', skillType: 'SOFT' },
   { id: 'TESTING', name: 'Тестирование', skillType: 'HARD' },
@@ -471,12 +511,12 @@ export const objCompetence = [
   {
     id: 'REST_INTEGRATION_OUT',
     name: 'Интеграция REST — сторонних сервисов',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   {
     id: 'REST_INTEGRATION_SELF',
     name: 'Интеграция REST — собственных сервисов',
-    skillType: 'HARD',
+    skillType: 'HARD'
   },
   { id: 'ABILITY_TO_LISTEN', name: 'Умение слушать', skillType: 'SOFT' },
   { id: 'GRADE', name: 'Оценка', skillType: 'SOFT' },
@@ -485,43 +525,63 @@ export const objCompetence = [
   { id: 'COLOR', name: 'Цвет', skillType: 'HARD' },
   { id: 'UI', name: 'UI', skillType: 'HARD' },
   { id: 'UI_ANALYTICS', name: 'UX и Аналитика', skillType: 'HARD' },
-  { id: 'SYSTEMATIC_THINKING', name: 'Системное мышление', skillType: 'SOFT' },
+  {
+    id: 'SYSTEMATIC_THINKING',
+    name: 'Системное мышление',
+    skillType: 'SOFT'
+  },
   {
     id: 'COMMUNICATION_COLLOBARATION',
     name: 'Коммуникация и коллаборация',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
-  { id: 'TEAM_MANAGEMENT', name: 'Управление командой', skillType: 'HARD' },
+  {
+    id: 'TEAM_MANAGEMENT',
+    name: 'Управление командой',
+    skillType: 'HARD'
+  },
   { id: 'PRODUCT_SKILLS', name: 'Продуктовые навыки', skillType: 'HARD' },
   { id: 'MOBILE_APPS', name: 'Мобильные приложения', skillType: 'HARD' },
   {
     id: 'ADAPTIVENESS',
     name: 'Адаптивность и стрессоустойчивость',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
   { id: 'ENGLISH', name: 'Английский язык', skillType: 'HARD' },
   {
     id: 'ANALYTIC_THINKING',
     name: 'Аналитическое мышление',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
   { id: 'DELEGATING', name: 'Делегирование', skillType: 'SOFT' },
   {
     id: 'CLIENT_ORIENTED',
     name: 'Клиентоориентированность',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
-  { id: 'CREATIVE_THINKING', name: 'Креативное мышление', skillType: 'SOFT' },
-  { id: 'CRITICAL_THINKING', name: 'Критическое мышление', skillType: 'SOFT' },
+  {
+    id: 'CREATIVE_THINKING',
+    name: 'Креативное мышление',
+    skillType: 'SOFT'
+  },
+  {
+    id: 'CRITICAL_THINKING',
+    name: 'Критическое мышление',
+    skillType: 'SOFT'
+  },
   { id: 'LEADERSHIP', name: 'Лидерство', skillType: 'SOFT' },
-  { id: 'PROJECT_MANAGING', name: 'Управление проектами', skillType: 'HARD' },
+  {
+    id: 'PROJECT_MANAGING',
+    name: 'Управление проектами',
+    skillType: 'HARD'
+  },
   { id: 'GOAL_DRIVENESS', name: 'Целеустремленность', skillType: 'SOFT' },
   {
     id: 'EMOTIONAL_INTELLEGENCE',
     name: 'Эмоциональный интеллект',
-    skillType: 'SOFT',
+    skillType: 'SOFT'
   },
-  { id: 'EMPATHY', name: 'Эмпатия', skillType: 'SOFT' },
+  { id: 'EMPATHY', name: 'Эмпатия', skillType: 'SOFT' }
 ];
 
 export const getStatusColor = (status: string) => {
@@ -550,7 +610,10 @@ interface LibraryItem {
 }
 
 // Универсальная функция для получения русского значения по id из библиотеки
-export const getValueById = <T extends LibraryItem>(id: string, library: T[]): string => {
+export const getValueById = <T extends LibraryItem>(
+  id: string,
+  library: T[]
+): string => {
   const item = library.find((item) => item.id === id);
   return item ? item.name : id; // Если не найдено, вернуть исходное значение
 };

@@ -1,7 +1,8 @@
-import styles from './page404.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Button } from '@alfalab/core-components/button';
+
+import styles from './page404.module.scss';
 
 interface PageProps {
   error: string;
@@ -9,7 +10,12 @@ interface PageProps {
   paragraph: string;
   button: string;
 }
-export const Page404: React.FC<PageProps> = ({ error, title, paragraph, button }) => {
+export const Page404: React.FC<PageProps> = ({
+  error,
+  title,
+  paragraph,
+  button
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,7 +35,11 @@ export const Page404: React.FC<PageProps> = ({ error, title, paragraph, button }
         <div className={styles.wrapper}>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.paragraph}>{paragraph}</p>
-          <Button view="primary" size="s" className={styles.button} onClick={handleClick}>
+          <Button
+            view="primary"
+            size="s"
+            className={styles.button}
+            onClick={handleClick}>
             {button}
           </Button>
         </div>

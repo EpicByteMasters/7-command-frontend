@@ -1,4 +1,4 @@
-import IprStatusDoc from '../../type/ipr-status-name';
+import IprStatusDoc from '../type/ipr-status-name';
 
 export interface EmployeeGoalPlan {
   id: number;

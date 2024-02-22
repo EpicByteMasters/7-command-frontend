@@ -39,19 +39,17 @@ interface INewTask {
   courses: string;
   comment: string;
 }
-// interface IEducation {
-// 	id: number;
-// 	name: string;
-// 	specialty: string;
-// 	urlLink: string;
-// }
-
-// Не нужно, пример
-// алис к id | name | specialty | urlLink
-// type TCoursenOptionProp = keyof IEducationTypeDTO;
 
 interface IFilesForTask {
   [taskId: string]: File[];
 }
 
-export type { ITasksProps, IEducation, IFormData, ICoursesOption, IEducationTypeDTO, IFilesForTask, INewTask };
+export type {
+  ITasksProps,
+  IEducation,
+  IFormData,
+  ICoursesOption,
+  IEducationTypeDTO,
+  IFilesForTask,
+  INewTask
+};

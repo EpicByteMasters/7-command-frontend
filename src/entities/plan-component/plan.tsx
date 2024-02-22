@@ -1,7 +1,6 @@
-import styles from './plan.module.scss';
 
 import React, { useState } from 'react';
-import { useAppSelector } from '../../shared/hooks/redux';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Table } from '@alfalab/core-components/table';
@@ -9,8 +8,12 @@ import { Status } from '@alfalab/core-components/status';
 import { Button } from '@alfalab/core-components/button';
 import { CircularProgressBar } from '@alfalab/core-components/circular-progress-bar';
 
-import IprStatusDoc from '../../type/ipr-status-name';
-import { IIpr } from 'src/store/type/iprs-arr-data';
+import { IIpr } from 'src/shared/store/type/iprs-arr-data';
+
+import IprStatusDoc from '../../shared/type/ipr-status-name';
+import { useAppSelector } from '../../shared/hooks/redux';
+
+import styles from './plan.module.scss';
 
 export const Plan: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ export const Plan: React.FC = () => {
     // console.log('ID пользователя переданное из строчки таблицы', selectedUserId);
     try {
       navigate(`/service-iprs/ipr/${idIpr}`, {
-        state: { location, selectedUserId },
+        state: { location, selectedUserId }
       });
     } catch (error) {
       //console.error('Error during navigating:', error);
@@ -35,20 +38,20 @@ export const Plan: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case IprStatusDoc.Draft:
-        return 'purple';
-      case IprStatusDoc.Canceled:
-        return 'orange';
-      case IprStatusDoc.InProgress:
-        return 'blue';
-      case IprStatusDoc.NotCompleted:
-        return 'red';
-      case IprStatusDoc.Completed:
-        return 'green';
-      case IprStatusDoc.NoIpr:
-        return 'grey';
-      default:
-        return undefined;
+    case IprStatusDoc.Draft:
+      return 'purple';
+    case IprStatusDoc.Canceled:
+      return 'orange';
+    case IprStatusDoc.InProgress:
+      return 'blue';
+    case IprStatusDoc.NotCompleted:
+      return 'red';
+    case IprStatusDoc.Completed:
+      return 'green';
+    case IprStatusDoc.NoIpr:
+      return 'grey';
+    default:
+      return undefined;
     }
   };
 

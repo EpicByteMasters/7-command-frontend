@@ -64,11 +64,11 @@
 
 # Архив с кодом репозитория из main
 
-[Ссылка на архив с кодом репозитория из main ](https://disk.yandex.com/d/7HMUFkwJooC0aQ)
+[Ссылка на архив с кодом репозитория из main](https://disk.yandex.com/d/piisShH2oeiotQ)
 
 # Архив со скриншотами
 
-[Ссылка на архив со скриншотами](https://disk.yandex.com/d/7HMUFkwJooC0aQ)
+[Ссылка на архив со скриншотами]([https://disk.yandex.com/d/4WJ7-AvosFhitQ])
 
 # Вид приложения
 
