@@ -8,13 +8,7 @@
     "quotes": ["warn", "single"],
     "jsx-quotes": ["error", "prefer-double"],
     "max-len": ["warn", { "code": 87 }],
-    "prefer-const": [
-      "error",
-      {
-        "destructuring": "any",
-        "ignoreReadBeforeAssign": false
-      }
-    ],
+    "prefer-const": "off",
     "comma-dangle": [
       "error",
       {

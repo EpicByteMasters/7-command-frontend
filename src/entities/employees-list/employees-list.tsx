@@ -12,29 +12,28 @@ import { MoreMIcon } from '@alfalab/icons-glyph/MoreMIcon';
 
 import { async } from 'q';
 
-import { IEmployee } from 'src/shared/store/type/employees-list';
+import { IEmployee } from '@shared/store/type/employees-list';
 
-import { Modal } from '../modal/modal';
-import { getManagerIprsList } from '../../shared/store/reducers/managerIprSlice';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/redux';
 
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
+import { getManagerIprsList } from '@shared/store/reducers/managerIprSlice';
+
 import {
   selectCommonLibsIPRGoals,
   selectCommonLibsIPRStatus,
   selectCommonLibsPositions
-} from '../../shared/store/reducers/libSlice';
+} from '@shared/store/reducers/libSlice';
 
 import {
   formatDateString,
   getStatusColor,
   getValueById
-} from '../../shared/utils/constants';
+} from '@shared/utils/constants';
 
-import { TIprStatusType } from '../../shared/utils/types';
-import {
-  createIpr,
-  deleteIprById
-} from '../../shared/store/reducers/iprSlice';
+import { TIprStatusType } from '@shared/utils/types';
+import { createIpr, deleteIprById } from '@shared/store/reducers/iprSlice';
+
+import { Modal } from '../modal/modal';
 
 import styles from './employees-list.module.scss';
 
@@ -271,8 +270,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
             onPageChange={handlePageChange}
             hidePerPageSelect={true}
           />
-        }
-      >
+        }>
         <Table.THead>
           <Table.THeadCell>
             <div className={styles.sortBtn}>
@@ -339,29 +337,24 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                             flexDirection: 'row',
                             alignItems: 'center',
                             width: '300px'
-                          }}
-                        >
+                          }}>
                           <img
                             src={imageUrl}
                             style={{
                               width: '40px',
                               height: '40px'
                             }}
-                            alt="аватар"
-                          ></img>
+                            alt="аватар"></img>
                           <div
-                            style={{ marginLeft: '10px', width: '250px' }}
-                          >
+                            style={{ marginLeft: '10px', width: '250px' }}>
                             <Typography.Text
                               view="primary-small"
-                              tag="div"
-                            >
+                              tag="div">
                               {`${lastName} ${firstName} ${middleName}`}
                             </Typography.Text>
                             <Typography.Text
                               view="primary-small"
-                              color="secondary"
-                            >
+                              color="secondary">
                               {getValueById(positionId, positionsLib)}
                             </Typography.Text>
                           </div>
@@ -373,16 +366,14 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                         className={styles.tCell}
                         style={{
                           width: '200px'
-                        }}
-                      >
+                        }}>
                         {goalId ? getValueById(goalId, iprGoalsLib) : '—'}
                       </div>
                     </Table.TCell>
                     <Table.TCell>
                       <div
                         className={styles.tCell}
-                        style={{ textAlign: 'center', width: '75' }}
-                      >
+                        style={{ textAlign: 'center', width: '75' }}>
                         {dateOfEnd ? formatDateString(dateOfEnd) : '—'}
                       </div>
                     </Table.TCell>
@@ -398,8 +389,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                       ) : (
                         <div
                           style={{ textAlign: 'center' }}
-                          className={styles.tCell}
-                        >
+                          className={styles.tCell}>
                           —
                         </div>
                       )}
@@ -409,12 +399,10 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                         className={styles.tCell}
                         style={{
                           width: '110px'
-                        }}
-                      >
+                        }}>
                         <Status
                           view="soft"
-                          color={getStatusColor(statusId)}
-                        >
+                          color={getStatusColor(statusId)}>
                           {getValueById(statusId, iprStatusLib) ||
                             'отсутвует'}
                         </Status>
@@ -426,8 +414,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                           <Button
                             view="tertiary"
                             size="xxs"
-                            onClick={() => onClickToCreate(id)}
-                          >
+                            onClick={() => onClickToCreate(id)}>
                             Создать
                           </Button>
                         ) : (
@@ -436,8 +423,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                             size="xxs"
                             onClick={() =>
                               handleOpenButtonClick(iprId, id)
-                            }
-                          >
+                            }>
                             Открыть
                           </Button>
                         )}
@@ -448,23 +434,22 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                         <div className={styles.tBtnDot}>
                           <Button
                             view="ghost"
-                            onClick={() => handleMoreButtonClick(rowIndex)}
-                          >
+                            onClick={() =>
+                              handleMoreButtonClick(rowIndex)
+                            }>
                             <MoreMIcon style={{ fill: '#898889' }} />
                           </Button>
                         </div>
                         {activeRowIndex === rowIndex && (
                           <div
                             className={styles.popoverButtons}
-                            ref={popoverRef}
-                          >
+                            ref={popoverRef}>
                             {statusId === 'DRAFT' ? (
                               <Button
                                 className={styles.btnText}
                                 view="ghost"
                                 size="s"
-                                onClick={() => onClickToDelete(iprId)}
-                              >
+                                onClick={() => onClickToDelete(iprId)}>
                                 Удалить
                               </Button>
                             ) : statusId === 'IN_PROGRESS' ? (
@@ -487,8 +472,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
                                   `/service-iprs/myteam/history/${id}`
                                 );
                                 //TODO перейти на историю конкретного сотрудника
-                              }}
-                            >
+                              }}>
                               История
                             </Button>
                           </div>
@@ -512,8 +496,9 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
           paragraph={'Вы можете создать черновик и вернуться к нему позже'}
           confirmButtonLabel={'Создать'}
           cancelButtonLabel={'Отмена'}
-          onConfirm={() => handleCreate(Number(creatingIprUserId))}
-        ></Modal>
+          onConfirm={() =>
+            handleCreate(Number(creatingIprUserId))
+          }></Modal>
       ) : (
         ''
       )}
@@ -523,8 +508,7 @@ export const EmployeesList: React.FC<IEmployeesListProps> = ({
           paragraph={'Вы действительно хотите удалить план развития?'}
           confirmButtonLabel={'Удалить'}
           cancelButtonLabel={'Отмена'}
-          onConfirm={() => handleDelete(Number(deletingItemId))}
-        ></Modal>
+          onConfirm={() => handleDelete(Number(deletingItemId))}></Modal>
       ) : (
         ''
       )}

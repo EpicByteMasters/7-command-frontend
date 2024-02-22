@@ -11,12 +11,13 @@ import { Space } from '@alfalab/core-components/space';
 
 import { IEmployee } from 'src/shared/store/type/employees-list';
 
-import { useAppSelector } from '../../shared/hooks/redux';
+import { useAppSelector } from '@shared/hooks/redux';
+
 import {
   selectCommonLibsIPRGoals,
   selectCommonLibsIPRStatus,
   selectCommonLibsPositions
-} from '../../shared/store/reducers/libSlice';
+} from '@shared/store/reducers/libSlice';
 
 //import avatar from '../../images/avatars/avatar_mentor1.png';
 
@@ -24,7 +25,7 @@ import {
   // formatDateString,
   getStatusColor,
   getValueById
-} from '../../shared/utils/constants';
+} from '@shared/utils/constants';
 
 import styles from './mentor-list.module.scss';
 

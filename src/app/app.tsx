@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { Routing } from '../pages/routing';
+import { Routing } from '@pages/routing';
 
 import {
   fetchCommonLibs,
